@@ -108,7 +108,7 @@ if _TURSO_URL:
             'NAME': _TURSO_URL,
             'AUTH_TOKEN': _TURSO_TOKEN,
             'OPTIONS': {
-                'timeout': 30,
+                'timeout': 60,
             },
         }
     }

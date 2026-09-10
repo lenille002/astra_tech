@@ -164,28 +164,11 @@ class Produit(models.Model):
 # ============================================================
 
 class Client(models.Model):
-
-    reference = models.CharField(
-        max_length=100,
-        unique=True,
-        blank=True,
-        null=True
-    )
-
-    nom = models.CharField(
-        max_length=255
-    )
-
-    telephone = models.CharField(
-        max_length=50,
-        blank=True
-    )
-
-    email = models.EmailField(
-        blank=True,
-        null=True
-    )
-
+    reference = models.CharField(max_length=100, unique=True, blank=True, null=True)
+    nom = models.CharField(max_length=255)
+    prenom = models.CharField(max_length=255, blank=True, null=True) # <-- AJOUTEZ CETTE LIGNE
+    telephone = models.CharField(max_length=50, blank=True)
+    email = models.EmailField(blank=True, null=True)
     date_naissance = models.DateField(
         blank=True,
         null=True

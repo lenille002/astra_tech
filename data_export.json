@@ -1,0 +1,3625 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2026-08-03T11:16:59.668Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "1",
+    "object_repr": "ordinateur portable",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2026-08-03T11:17:39.060Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "1",
+    "object_repr": "Ordinateur Portable HP 450 G9 - 120000 FCFA",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2026-08-03T15:22:37.076Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "2",
+    "object_repr": "ASUS TUF Gaming A15 - 105000 FCFA",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2026-08-03T15:23:57.484Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "3",
+    "object_repr": "HP Pavilion 15 - 120000 FCFA",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2026-08-03T15:24:44.025Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "2",
+    "object_repr": "Ordinateurs de bureau",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2026-08-03T15:25:57.098Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "4",
+    "object_repr": "Unité Centrale Dell OptiPlex 7090 - 90000 FCFA",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2026-08-04T08:04:51.381Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "4",
+    "object_repr": "Unité Centrale Dell OptiPlex 7090 - 90000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2026-08-04T08:04:55.880Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "3",
+    "object_repr": "HP Pavilion 15 - 120000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2026-08-04T08:05:01.278Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "2",
+    "object_repr": "ASUS TUF Gaming A15 - 105000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2026-08-04T08:05:06.763Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "1",
+    "object_repr": "Ordinateur Portable HP 450 G9 - 120000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2026-08-05T11:19:36.687Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "3",
+    "object_repr": "HP Pavilion 15 - 120000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Seuil alerte\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2026-08-05T11:24:56.850Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "4",
+    "object_repr": "Unité Centrale Dell OptiPlex 7090 - 90000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Seuil alerte\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2026-08-05T11:27:04.862Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "1",
+    "object_repr": "Ordinateur Portable HP 450 G9 - 120000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Stock\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2026-08-05T11:52:32.921Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "3",
+    "object_repr": "HP Pavilion 15 - 120000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Stock\", \"Seuil alerte\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2026-08-05T11:52:55.305Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "4",
+    "object_repr": "Unité Centrale Dell OptiPlex 7090 - 90000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Stock\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2026-08-05T11:58:08.985Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "4",
+    "object_repr": "Unité Centrale Dell OptiPlex 7090 - 90000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Stock\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2026-08-05T14:55:18.174Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "6",
+    "object_repr": "Ordinateur Portable HP 450 G9 - 90000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2026-08-05T14:55:33.413Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "6",
+    "object_repr": "Ordinateur Portable HP 450 G9 - 90000.00 FCFA",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Reference\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2026-08-12T09:37:50.478Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "3",
+    "object_repr": "Merveille laure (CLI-20260804081258036779) - Actif",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2026-08-12T10:17:11.012Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "3",
+    "object_repr": "Merveille laure (CLI-20260804081258036779) - Inactif",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2026-08-12T10:45:43.642Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "11",
+    "object_repr": "megne laure merveille (CLI-20260804160514927492) - Actif",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2026-08-17T14:48:30.008Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "18",
+    "object_repr": "METHUM Edwige laure (CLI-20260812122006482479) - Actif",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Total depense\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2026-08-17T14:48:49.018Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "17",
+    "object_repr": "Feuné (CLI-20260812110942190302) - Actif",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Total depense\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2026-08-17T14:49:37.600Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "6",
+    "object_repr": "fodjo (CLI-20260804092317354237) - Inactif",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2026-08-17T14:49:45.268Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "19",
+    "object_repr": "moreldev237 (CLI-0019) - Inactif",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2026-08-17T14:49:51.686Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "18",
+    "object_repr": "METHUM Edwige laure (CLI-20260812122006482479) - Inactif",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2026-08-17T14:49:52.316Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "18",
+    "object_repr": "METHUM Edwige laure (CLI-20260812122006482479) - Inactif",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2026-08-17T14:49:59.612Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "17",
+    "object_repr": "Feuné (CLI-20260812110942190302) - Inactif",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2026-08-17T14:50:06.929Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "16",
+    "object_repr": "Réné (CLI-20260807135416074832) - Inactif",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2026-08-17T14:51:41.825Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "37",
+    "object_repr": "Vente VNT-20260817144640",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Statut\", \"Est archive\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2026-08-17T14:52:02.237Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "37",
+    "object_repr": "Vente VNT-20260817144640",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Est archive\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2026-08-17T14:52:25.271Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "17",
+    "object_repr": "Feuné (CLI-20260812110942190302) - Actif",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2026-08-17T14:54:07.360Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "100",
+    "object_repr": "Connexion Client : Feuné - Non lu",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 34,
+  "fields": {
+    "action_time": "2026-08-18T10:19:29.726Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "116",
+    "object_repr": "Connexion Client : lenille djuije - Non lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 35,
+  "fields": {
+    "action_time": "2026-08-18T10:19:29.726Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "115",
+    "object_repr": "Connexion Client : lenille djuije - Non lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 36,
+  "fields": {
+    "action_time": "2026-08-19T10:55:33.500Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "147",
+    "object_repr": "Alerte Stock Faible - Non lu",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Lu\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 37,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "164",
+    "object_repr": "Connexion Client : kenfack - Non lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 38,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "163",
+    "object_repr": "Connexion Client : fotso jean - Non lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 39,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "162",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 40,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "161",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 41,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "160",
+    "object_repr": "Connexion Client : kenfack - Non lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 42,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "159",
+    "object_repr": "Connexion Client : lenille djuije - Non lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 43,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "158",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 44,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "157",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 45,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "156",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 46,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "155",
+    "object_repr": "Connexion Client : lenille djuije - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 47,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "154",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 48,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "153",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 49,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "152",
+    "object_repr": "Connexion Client : Feuné - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 50,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "151",
+    "object_repr": "Connexion Client : Feuné - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 51,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "150",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 52,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "149",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 53,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.813Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "148",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 54,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.814Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "147",
+    "object_repr": "Alerte Stock Faible - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 55,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.814Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "146",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 56,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.814Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "145",
+    "object_repr": "Connexion Client : kenfack - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 57,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.814Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "139",
+    "object_repr": "Connexion Client : Feuné - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 58,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.814Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "134",
+    "object_repr": "Connexion Client : fotso jean - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 59,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.814Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "133",
+    "object_repr": "Connexion Client : lenille djuije - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 60,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.814Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "132",
+    "object_repr": "Connexion Client : Feuné - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 61,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.814Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "131",
+    "object_repr": "Connexion Client : fotso jean - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 62,
+  "fields": {
+    "action_time": "2026-08-19T14:48:59.814Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "130",
+    "object_repr": "Sécurité : Réinitialisation de mot de passe - Lu",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 63,
+  "fields": {
+    "action_time": "2026-08-19T16:13:13.533Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "1",
+    "object_repr": "lenille",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 64,
+  "fields": {
+    "action_time": "2026-09-03T08:37:03.148Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "10",
+    "object_repr": "edwigelaure@gmail.com",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"password\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 65,
+  "fields": {
+    "action_time": "2026-09-03T08:37:40.693Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "10",
+    "object_repr": "edwigelaure@gmail.com",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Superuser status\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 66,
+  "fields": {
+    "action_time": "2026-09-03T08:38:21.276Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "10",
+    "object_repr": "edwigelaure@gmail.com",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 67,
+  "fields": {
+    "action_time": "2026-09-03T08:38:46.697Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "1",
+    "object_repr": "lenille",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 68,
+  "fields": {
+    "action_time": "2026-09-03T10:21:51.341Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "5",
+    "object_repr": "baheldaniel@gmail.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 69,
+  "fields": {
+    "action_time": "2026-09-03T10:21:51.341Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "6",
+    "object_repr": "baheldanielkevin@gmail.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 70,
+  "fields": {
+    "action_time": "2026-09-03T10:21:51.341Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "11",
+    "object_repr": "djomo merveille",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 71,
+  "fields": {
+    "action_time": "2026-09-03T10:21:51.341Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "10",
+    "object_repr": "edwigelaure@gmail.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 72,
+  "fields": {
+    "action_time": "2026-09-03T10:21:51.341Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "2",
+    "object_repr": "jordan kamga",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 73,
+  "fields": {
+    "action_time": "2026-09-03T10:21:51.341Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "9",
+    "object_repr": "lenilledjuije@gmail.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 74,
+  "fields": {
+    "action_time": "2026-09-03T10:21:51.341Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "4",
+    "object_repr": "moreldev237@gmail.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 75,
+  "fields": {
+    "action_time": "2026-09-03T10:21:51.341Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "8",
+    "object_repr": "princejared48@gmail.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 76,
+  "fields": {
+    "action_time": "2026-09-03T10:21:51.341Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "3",
+    "object_repr": "rene djiomegni",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 77,
+  "fields": {
+    "action_time": "2026-09-03T10:21:51.341Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "7",
+    "object_repr": "tchouandemdastinekecelle@gmail.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 78,
+  "fields": {
+    "action_time": "2026-09-03T10:39:35.783Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "29",
+    "object_repr": "kkkkkk (CLI-0029) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 79,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "41",
+    "object_repr": "NNNBHYUN (CLI-0041) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 80,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "40",
+    "object_repr": "NNNN (CLI-0040) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 81,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "39",
+    "object_repr": "NNNN (CLI-0039) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 82,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "38",
+    "object_repr": "VVVV (CLI-0038) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 83,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "37",
+    "object_repr": "BBBB (CLI-0037) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 84,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "36",
+    "object_repr": "SSSS (CLI-0036) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 85,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "35",
+    "object_repr": "RRRRR (CLI-0035) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 86,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "34",
+    "object_repr": "1111 (CLI-0034) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 87,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "33",
+    "object_repr": "QQQQQ (CLI-0033) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 88,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "32",
+    "object_repr": "111111 (CLI-0032) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 89,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "31",
+    "object_repr": "AAAAAAAAAAAAA (CLI-0031) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 90,
+  "fields": {
+    "action_time": "2026-09-03T11:52:44.303Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "30",
+    "object_repr": "kkkkkk (CLI-0029) - Actif",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 91,
+  "fields": {
+    "action_time": "2026-09-03T12:21:29.299Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "1",
+    "object_repr": "lenille",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 92,
+  "fields": {
+    "action_time": "2026-09-03T13:16:30.726Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "15",
+    "object_repr": "APP-0001",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$CSOVSmfhetpZso1dcLU91J$99tBRwiRjOltxSCwSyyR8ihi/M47eRSbOGzMCgezHyQ=",
+    "last_login": "2026-09-03T16:32:04.247Z",
+    "is_superuser": true,
+    "username": "lenille",
+    "first_name": "lenille",
+    "last_name": "felicite",
+    "email": "lenilledjuije@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-08-03T09:23:00Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "20a8094k3e196ugguxsbcy854gt2xrx1",
+  "fields": {
+    "session_data": ".eJxVj0EOgjAQRe8ya9K0llbK0r1nINOZUVDSJlBWxrsbEBLdTf5_eT_zgg6X0nfLLFM3MLRgoPrNItJT0lrwA9M9K8qpTENUK6L2dlbXzDJedvZP0OPcQwvkzjoG1N5Y52ripraMooluQeta27NvgmdnNQchRkceMbqTeLYBrW2gAsopCRWBtkyLVLDppzzKqh8HSWWFtuO7b9yB7ulh2D417v0BqqdU5w:1wuA6o:LtLbOzvMyKjRc7ZlCnhQvv91O6xJzEdgZs83xhnNo2A",
+    "expire_date": "2026-08-26T14:39:10.304Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "3bh7r25umhzbsv0tbukylebzgw2yljkn",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP_iuYpc3KRNR3beUDm2oQWUSG06If6OKjHAene6F0y813naN1unRWGEFppfllgelg-hd8634qTkui7JHYn72s1ditrz_G3_BjNvM4wgvscUGUNL3neiQ0fKhiLXiNgh9WGIQT2hRhNlL4E5-ZMFpchEAzQgJWeTajDWdbf3B3-1PYI:1wrIK7:tRsnIDrqRhKjGMMmtVdMeEAwKzVYUyCgndTDEcZK7_M",
+    "expire_date": "2026-08-18T16:49:03.321Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "5gquv0gy34jleohypvbhdbc9gigc575c",
+  "fields": {
+    "session_data": ".eJxVj0EKgzAQRe8ya5FGY2Ky7L5nkElmUm0lgRhXpXcvWoV2N_z_eJ95wYBrGYd14TxMBBYkVL-ZQ__kuBX0wHhPtU-x5MnVG1If7VLfEvF8Pdg_wYjLCBYaFYJRqIxHCnQhbEkSaSMCKtGjRqEcK4Vedga7RrYqONZSOyMddthDBT7FyL4w2JJXrmDX5zQzWPDzxLFs0H5894U50SM9Dfunwrw_OolV9w:1wxRiA:PRDj3j9zmZi853s9pQXV3YgVS4ZYT-VtPW4dImXclXU",
+    "expire_date": "2026-09-04T16:03:18.543Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "6e5wkuzu6nhcvp7008k4njus5v4rltio",
+  "fields": {
+    "session_data": ".eJxVj0sOwjAMRO_idVSlpAlNl-w5Q-XahhaqRMpnhbg7KhQJtjNvnuwHjFjLPNYsaVwYBmhB_WYT0l3CVvANwzU2FENJy9RsSLO3uTlHlvW0s3-CGfMMA5A96smjdq2xtiPuO8Momujite60ObreO7ZGsxditOQQJ3sQx8ajMT0ooBiCUBEYSqqi4K1PcZVNvy4SCii4xJrCkrPUNH4H78eM2qHPba39avb0D27t8wWq0V9j:1wxSRW:t8d0bR_XYxQw1iE_6r-glJ_c1szOHmg1ozp45UD2_qI",
+    "expire_date": "2026-09-04T16:50:10.714Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "8eooaympd7n5hhxqjxmg013fatlw9qej",
+  "fields": {
+    "session_data": "e30:1x22kS:-DvYi_7XUrri72yZF-HuASzz2vwSD0lCg22AAxer6uk",
+    "expire_date": "2026-09-17T08:24:40.225Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "8eve05syv7uaorfhz0xka7iwugfpth4d",
+  "fields": {
+    "session_data": ".eJxVj0EOgjAQRe8ya0KKpaVl6d4zNNOZUVBsEygr490NBBPd_vfykv-CgGsZwrrIHEaGHhqofreI9JC0Ab5juuWacirzGOtNqQ-61JfMMp0P9y8w4DJAD2Q6FT0q22hjWmLXakZRRFevVKt0Z523bLRiL8RoyCJGcxLL2qPWDiqgnJJQEejLvEoFe37Ok0APyM8xbc40Sirhq-6XGvf-AGNOTLU:1wypFP:se9H7kPutFNTG4BttZndVy3WGFTI-3oA5GKhqLDB_Yo",
+    "expire_date": "2026-09-08T11:23:19.712Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "8wkni825ucr4kjg5c1cs16u0yv0se2ic",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQRe8ya0KKpYWydO8ZmmFmlCq2SWlXxrsbDBu2_733P1BLWMOGRWr2gWHSDdRNss9pFZgA-R0iNEApRqEiMJVcpQGPtSz-b-4VdHDaZqSXxB3wE-MjtZRiyWFud6U96NbeEst6PdzTwYLbAhOQGdTsUNlOG9MTj71mFEV0d0r1Sg92dJaNVuyEGA1ZxNlcxLJ2qPUI3x_iiksN:1x2U8E:rtEaBd6LYUYqR3_rH8lIWzu2oPQc7jY6ju9sujEUGhM",
+    "expire_date": "2026-09-18T13:39:02.398Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "c397y9dyfilpjigzbuf1pihu66kncw1c",
+  "fields": {
+    "session_data": "e30:1wxKQG:isYtiZ_sKV7ahcSE8G4v_mdTEzYQOCz7Ud3U__dP8KU",
+    "expire_date": "2026-09-04T08:16:21.000Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "d9ww36c8nw1tq35qsxat5xn45r7hsiiv",
+  "fields": {
+    "session_data": "e30:1wxKYf:4AkQhlNeOAyCVugQPIH71S6k2QrRbGWeSDLBEUm_S-M",
+    "expire_date": "2026-09-04T08:25:01.762Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ekd1bqymotf0753ij8ye3c12nvi98ars",
+  "fields": {
+    "session_data": "e30:1x22K9:IgolKYKbwgFijlp7u6umJcx9mKV3sGaQBljboF3wrf8",
+    "expire_date": "2026-09-17T07:57:29.440Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "g4j3qxattu6nc7a199wkvzm413taw204",
+  "fields": {
+    "session_data": "eyJjbGllbnRfY29ubmVjdGVfaWQiOjE4fQ:1x1rwm:1_RMqUfgGfz-Cp7c9_1J3nEj6fgwqgxddlchoi6RaeY",
+    "expire_date": "2026-09-16T20:52:40.428Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "gkp77dqs1w573x22fsxuq1ju2w0tneag",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBa-Cto4s_xOnpOcM0dpek0BkS45TIe6OglJA-2bevGDCvc3TvlGdlggjKOh-N4_hSfkA8YH5XlgoudXFs0NhJ93YrURar6f7F5hxm4832eSNliKRtM5Yi73hwmklBkKlyTvpg6M-KselJ6WH6FArkQznSgoOHYSSM4VGMLa6UwfffC0rwQhhXSi3C4a2JHh_AFzvRis:1wsKsD:6kwwU7xWtZeBe0lTH2BC1SrKVNuUYeDgWC8j17kc37w",
+    "expire_date": "2026-08-21T13:44:33.756Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ktuxi0or8zq2t6ja4i43mvn023j9pi3u",
+  "fields": {
+    "session_data": ".eJxVjcsOwiAQRf9l1k1DpdDSpXu_gQwzo60PaICujP9uNJro9p6Tc-_gcauz34pkvzBM0EHzuwWki8QX4DPGU2opxZqX0L6U9kNLe0gs1_3H_QvMWGaYgMyggkNlO21MTzz2mlEU0dEp1Ss92NFZNlqxE2I0ZBGD2Yll7VDrERqgFKNQFZhq3qSBjOuaci0-S5Hqkepy_LL3dU5XgQmQb0uExxO8608W:1wu5Th:MteZkCi-QNaMpi-yKv_E4J8G8DT9P51gSwYx1cboYXs",
+    "expire_date": "2026-08-26T09:42:29.125Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "q0d76m4wy28x96sytmb49ug8ax4q1j1v",
+  "fields": {
+    "session_data": "e30:1wxOQ8:kAeMN9KI2hPi1-uefPi7AiV-nFDdYT76wQnSU4A95d0",
+    "expire_date": "2026-09-04T12:32:28.894Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "tklwaoe0yloieqku9b4egyqix4rcaenn",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQAP-yZ9IUSwvt0btvINvdVVBsk1JOxr8bDAe9zkzmBSNudRq3Vco4MwRoofllEekhaRd8x3TLinKqZY5qT9RhV3XJLMv5aP8GE64TBCDb6-hRu9ZY2xEPnWEUTXT1Wnfa9G7wjq3R7IUYLTnEaE_i2Hg0ZoAGKKckVAVCLZs08N2XvAgEQH7OCd4fktlESQ:1wxRbs:N1jpuJk5QrBcImQiS3xKdKnbfw1SHugKVmrVt6AoqkI",
+    "expire_date": "2026-09-04T15:56:48.259Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "txg5flumh20xpddvmok26gqtpbo872it",
+  "fields": {
+    "session_data": "e30:1wxKPa:0vFwxkt_wAPCT4nw_Cu6WVrk6hwjBHc5wrLouLgIcYg",
+    "expire_date": "2026-09-04T08:15:38.471Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "uvhcb8kqsn3wt00z1bxcl5zznss8nprj",
+  "fields": {
+    "session_data": ".eJxVj0kKwzAUQ-_y1yZ4yuAsu-8ZjIfvJm2wwcOq9O4lIYV0KelJoDdo0-qiW8GsVw8zCCBXzxr3wrgH_mniI3UuxZpX2-1Id6aluyeP2-1k_wYWU5a9jUOwveQsIB9UPwxm7ClTUrAJjZBoFbdO4eiFotyikJNXRgoWekoFZxQIuBQjuoow19yQwDGf04YwQ0gtx7UUbBnIVelf63gnP19jZFDH:1wxPjy:NqKe7R1-rlMcP5-YbXPFTpAKFoODGHXfWZftIgg57TM",
+    "expire_date": "2026-09-04T13:57:02.840Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "vtc0ml3ryvwwucyw0q3fxpqzf47qcv55",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQAP-yZ9IUSwvt0btvINvdVVBsk1JOxr8bDAe9zkzmBSNudRq3Vco4MwRoofllEekhaRd8x3TLinKqZY5qT9RhV3XJLMv5aP8GE64TBCDb6-hRu9ZY2xEPnWEUTXT1Wnfa9G7wjq3R7IUYLTnEaE_i2Hg0ZoAGKKckVAVCLZs08N2XvAgEQH7OCd4fktlESQ:1wuA8y:tVvJiGHKiQGPOmKhIY9u_KkICjeadsInUvUaRS_dRvw",
+    "expire_date": "2026-08-26T14:41:24.824Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "xp76unf79nq1eoito2ylprr85tyz1udv",
+  "fields": {
+    "session_data": "e30:1x1odR:ta4VLQgHrjVAJ5CcQWeK2bA6ECZbBTwkVOCc34XJLmE",
+    "expire_date": "2026-09-16T17:20:29.468Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "y30ifwmwo4km3te4jo24hercaltgg7il",
+  "fields": {
+    "session_data": ".eJxVjEEOgjAQAP-yZ9IUSwvt0btvINvdVVBsk1JOxr8bDAe9zkzmBSNudRq3Vco4MwRoofllEekhaRd8x3TLinKqZY5qT9RhV3XJLMv5aP8GE64TBCDb6-hRu9ZY2xEPnWEUTXT1Wnfa9G7wjq3R7IUYLTnEaE_i2Hg0ZoAGKKckVAVCLZs08N2XvAgEQH7OCd4fktlESQ:1x1rwN:A6cB25xT9ZdHmdXJHEAcVZPmDbo4rJb1do-Tr381FAI",
+    "expire_date": "2026-09-16T20:52:15.626Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "zss1hd33a1qs37578tf7cs5zycrdg6to",
+  "fields": {
+    "session_data": ".eJxVjEsOwiAUAO_y1g0Baj-wdO8ZGt4HW20goXRlvLup6UK3M5N5wRT2Ok_7JmVaGDwYA80vxEBPSYfhR0j3rCinWhZUR6JOu6lbZlmvZ_s3mMM2gwenA7tII6OxjtBY6YbO2Ij9wC7QiLbFlkksX2zstUMaYqd1axgjCbfQAOWUhKqAr2WXBr77klcBD7Qukiq8P1XoRgw:1x1ogj:VIzI_DAMXlbmutBRs8xqpr3pBJapRJ5VJvDsbDZZ0wE",
+    "expire_date": "2026-09-16T17:23:53.513Z"
+  }
+},
+{
+  "model": "astra.categorie",
+  "pk": 1,
+  "fields": {
+    "nom": "ordinateur portable"
+  }
+},
+{
+  "model": "astra.categorie",
+  "pk": 2,
+  "fields": {
+    "nom": "Ordinateurs de bureau"
+  }
+},
+{
+  "model": "astra.produit",
+  "pk": 1,
+  "fields": {
+    "nom": "Ordinateur Portable HP 450 G9",
+    "categorie": 1,
+    "processeur": "Intel Core i5-1235U",
+    "ram": "16 Go DDR4",
+    "stockage_disque": "SSD 512 Go",
+    "taille_ecran": "15.6 pouces",
+    "prix_achat": "90000.00",
+    "prix_vente": "120000.00",
+    "stock": 7,
+    "seuil_alerte": 5,
+    "reference": "PROD-0001",
+    "image": "",
+    "is_active": true,
+    "date_creation": "2026-08-03T11:17:39.050Z"
+  }
+},
+{
+  "model": "astra.produit",
+  "pk": 2,
+  "fields": {
+    "nom": "ASUS TUF Gaming A15",
+    "categorie": 1,
+    "processeur": "Intel Core i5-1235U",
+    "ram": "8 Go",
+    "stockage_disque": "SSD 512 Go",
+    "taille_ecran": "15.6 pouces",
+    "prix_achat": "85000.00",
+    "prix_vente": "105000.00",
+    "stock": 7,
+    "seuil_alerte": 5,
+    "reference": "PROD-0002",
+    "image": "",
+    "is_active": true,
+    "date_creation": "2026-08-03T15:22:37.059Z"
+  }
+},
+{
+  "model": "astra.produit",
+  "pk": 3,
+  "fields": {
+    "nom": "HP Pavilion 15",
+    "categorie": 1,
+    "processeur": "Intel Core i5-1235U",
+    "ram": "16 Go DDR4",
+    "stockage_disque": "SSD 512 Go",
+    "taille_ecran": "15.6 pouces 144Hz",
+    "prix_achat": "95000.00",
+    "prix_vente": "120000.00",
+    "stock": 11,
+    "seuil_alerte": 4,
+    "reference": "PROD-0003",
+    "image": "",
+    "is_active": true,
+    "date_creation": "2026-08-03T15:23:57.348Z"
+  }
+},
+{
+  "model": "astra.produit",
+  "pk": 4,
+  "fields": {
+    "nom": "Unité Centrale Dell OptiPlex 7090",
+    "categorie": 2,
+    "processeur": "Intel Core i5-1235U",
+    "ram": "16 Go DDR4",
+    "stockage_disque": "SSD 512 Go",
+    "taille_ecran": "15.6 pouces",
+    "prix_achat": "70000.00",
+    "prix_vente": "9000000.00",
+    "stock": 5,
+    "seuil_alerte": 3,
+    "reference": "PROD-0004",
+    "image": "",
+    "is_active": true,
+    "date_creation": "2026-08-03T15:25:56.972Z"
+  }
+},
+{
+  "model": "astra.produit",
+  "pk": 5,
+  "fields": {
+    "nom": "Unité Centrale Dell OptiPlex 7095",
+    "categorie": null,
+    "processeur": null,
+    "ram": null,
+    "stockage_disque": null,
+    "taille_ecran": null,
+    "prix_achat": "80000.00",
+    "prix_vente": "110000.00",
+    "stock": 10,
+    "seuil_alerte": 5,
+    "reference": "PROD-0005",
+    "image": "",
+    "is_active": true,
+    "date_creation": "2026-08-05T12:26:06.876Z"
+  }
+},
+{
+  "model": "astra.produit",
+  "pk": 6,
+  "fields": {
+    "nom": "Ordinateur Portable HP 450 G9",
+    "categorie": 1,
+    "processeur": null,
+    "ram": null,
+    "stockage_disque": null,
+    "taille_ecran": null,
+    "prix_achat": "60000.00",
+    "prix_vente": "90000.00",
+    "stock": 0,
+    "seuil_alerte": 5,
+    "reference": "PROD-0007",
+    "image": "",
+    "is_active": true,
+    "date_creation": "2026-08-05T12:35:44.837Z"
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 1,
+  "fields": {
+    "reference": "CLI-0002",
+    "nom": "dolie",
+    "telephone": "+237 650990234",
+    "email": "doli@gmail.com",
+    "date_naissance": null,
+    "adresse": "Douala",
+    "mot_de_passe": "pbkdf2_sha256$1200000$0xRweg5SuxEmXgKa13b6sS$/UTd2NOJwX1O/Vbj6VSwTCq+Q4DOXxjqbfJpKCaxEfw=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 2,
+  "fields": {
+    "reference": "CLI-20260804081227367290",
+    "nom": "LAURE ANGE",
+    "telephone": "+237 660179256",
+    "email": "Laureange@gmail.com",
+    "date_naissance": null,
+    "adresse": "EBOLOWA",
+    "mot_de_passe": "pbkdf2_sha256$1200000$HhJfO1ChsB8PG4pyQzxeeq$NBhzQhFG3ToNFXujoJQLof4vO0Lbr7lbFEc0JKPjznw=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 3,
+  "fields": {
+    "reference": "CLI-20260804081258036779",
+    "nom": "Merveille laure",
+    "telephone": "+237 644279910",
+    "email": "Merveillelaure@gmail.com",
+    "date_naissance": null,
+    "adresse": "Yaoundé",
+    "mot_de_passe": "pbkdf2_sha256$1200000$A0aMKHF90z0TNRB44MFfQn$8zFANGcWzOeDjd4VbP09vsAzwC+BsIGD/ZwnurTWyjw=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 4,
+  "fields": {
+    "reference": "CLI-20260804083201239211",
+    "nom": "fotso jean",
+    "telephone": "+237 695102672",
+    "email": "fotsojean@gmail.com",
+    "date_naissance": null,
+    "adresse": "Yaoundé",
+    "mot_de_passe": "pbkdf2_sha256$1200000$t3Mm17Yxp0u1n3EsV5FP7q$oM5zZIjQmAQCrr63T4yXMICRjxLYJ7ncotohTW+Z1Ys=",
+    "date_inscription": "2026-08-18",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 5,
+  "fields": {
+    "reference": "CLI-20260804083658994697",
+    "nom": "Demgne merveille",
+    "telephone": "",
+    "email": "",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "pbkdf2_sha256$1200000$Rg58xhjpB0ysSp3UFQVSFa$sJkACjZ2irwTH77pZy83e/6l0BEZrHSRdezs6ZiSIrU=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 6,
+  "fields": {
+    "reference": "CLI-20260804092317354237",
+    "nom": "fodjo",
+    "telephone": "+237 659445509",
+    "email": "fodjo@gmail.com",
+    "date_naissance": null,
+    "adresse": "Douala",
+    "mot_de_passe": "pbkdf2_sha256$1200000$xjuIY42zUr2bQkHgKIxooJ$Dsef3kiEK9fOrPxV4fFlhDQeBh7uZv+QBcqUxX0bMrY=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 7,
+  "fields": {
+    "reference": "CLI-20260804094241799112",
+    "nom": "gael fossi",
+    "telephone": "+237 677264541",
+    "email": "fossi@gmail.com",
+    "date_naissance": null,
+    "adresse": "Douala",
+    "mot_de_passe": "pbkdf2_sha256$1200000$tIYf7T4rpLi5eS6OvUVBFp$lC5i+s6RYfjMXpnbRPiH8VwukwBXKa5uL+sXL4Z7Qu8=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 8,
+  "fields": {
+    "reference": "CLI-20260804151947466780",
+    "nom": "Jordan Talla",
+    "telephone": "+237 651190231",
+    "email": "jordantalla@gmail.com",
+    "date_naissance": null,
+    "adresse": "Douala",
+    "mot_de_passe": "pbkdf2_sha256$1200000$I7HCS7nNikTNHiNgue2wSp$4zcY32AigA4AImfUt9is5p3cl+BaBO9mJZcV9OY/Yt4=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 9,
+  "fields": {
+    "reference": "CLI-20260804153733396358",
+    "nom": "LAURE",
+    "telephone": "+237 655990231",
+    "email": "Laure@gmail.com",
+    "date_naissance": null,
+    "adresse": "Douala",
+    "mot_de_passe": "pbkdf2_sha256$1200000$svarwnvo0BWNlVq4Nu8DB2$Kjpcn2XOnE7KDQYoCFFMaUiesAzb5rldCkJ8ymti2U4=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 10,
+  "fields": {
+    "reference": "CLI-20260804155625651490",
+    "nom": "kamga jordan",
+    "telephone": "+237 650990234",
+    "email": "kamga@gmail.com",
+    "date_naissance": null,
+    "adresse": "Douala",
+    "mot_de_passe": "pbkdf2_sha256$1200000$M2Ap0SaTTW809VCeZW9zfc$xXuUa71e7xXMgADewbS5vGeV9UZve1XUKO8cqxus6Ro=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 11,
+  "fields": {
+    "reference": "CLI-20260804160514927492",
+    "nom": "megne laure merveille",
+    "telephone": "+237 65441223456",
+    "email": "megnelauremerveille@gmail.com",
+    "date_naissance": null,
+    "adresse": "Yaoundé",
+    "mot_de_passe": "pbkdf2_sha256$1200000$6KDMnd39NuRatI5CCtprWd$UgmQm2gqGG86bxAvZ2AqI6kkHqOGZZ6QnL16DH5rpRg=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 12,
+  "fields": {
+    "reference": "CLI-20260805105517108542",
+    "nom": "megne laure",
+    "telephone": "+237 65091223456",
+    "email": "megnelaure@gmail.com",
+    "date_naissance": null,
+    "adresse": "Yaoundé",
+    "mot_de_passe": "pbkdf2_sha256$1200000$T2eIADLjBJsTZLzi9myPBi$X89MSYWBWQnGUkXAK6Z/XjzhIK8yWSx2WtXOVkUbQc8=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 13,
+  "fields": {
+    "reference": "CLI-20260805115702284742",
+    "nom": "kamga lionel",
+    "telephone": "+237 650990200",
+    "email": "kamgalionel@gmail.com",
+    "date_naissance": null,
+    "adresse": "Yaoundé",
+    "mot_de_passe": "pbkdf2_sha256$1200000$rociKlmhhFHu2Xm0IauOXe$VjV2fkMJ7jBryA3xLHwUBFwaSHZo2x0Avvd2oSRHfU0=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 14,
+  "fields": {
+    "reference": "CLI-20260805152937319476",
+    "nom": "Morel",
+    "telephone": "",
+    "email": "",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "pbkdf2_sha256$1200000$P90bZQZLne7EXtiShT2ADI$EncAvttdivWDPiclIvOoXr/5Pl73Y7GUrs4qWr2nD7g=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 15,
+  "fields": {
+    "reference": "CLI-20260807081644617374",
+    "nom": "lenille djuije",
+    "telephone": "+237 650796356",
+    "email": "lenilledjuije@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "CLI-ZDK7-2H0J",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 16,
+  "fields": {
+    "reference": "CLI-20260807135416074832",
+    "nom": "Réné",
+    "telephone": "683626823",
+    "email": "renedjiomegni@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "CLI-7LUB-4E6B",
+    "date_inscription": "2026-01-01",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 17,
+  "fields": {
+    "reference": "CLI-20260812110942190302",
+    "nom": "Feuné",
+    "telephone": "+237 650796344",
+    "email": "feune@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "pbkdf2_sha256$1200000$oGCwhs8Q3n4KiQV83dXYTe$yHLbt6ojkh3sGlffTjuOcoTyEVN+0hPZl0Hu3xnsPIM=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "120000.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 18,
+  "fields": {
+    "reference": "CLI-20260812122006482479",
+    "nom": "METHUM Edwige laure",
+    "telephone": "675717437",
+    "email": "edwigelaure@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "pbkdf2_sha256$1200000$x1OAQAGAM0miRXV0ZRrtFE$xM2juwE/ohLUYkeTI4cDbZhF1Gs2OcG7ECSYob6hmz4=",
+    "date_inscription": "2026-01-01",
+    "total_depense": "240000.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 19,
+  "fields": {
+    "reference": "CLI-0019",
+    "nom": "moreldev237",
+    "telephone": "",
+    "email": "moreldev237@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "CLI-ZMGM-S1KF",
+    "date_inscription": "2026-08-18",
+    "total_depense": "0.00",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 20,
+  "fields": {
+    "reference": "CLI-20260818123745747520",
+    "nom": "kenfack",
+    "telephone": "+237 695100101",
+    "email": "kenfack@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "pbkdf2_sha256$1200000$hR4ItZlvXTEHoWY9pxHpxt$pM8v8eT77mQuCogSiO/xD5Lw5LV1oR6fo7Hhxuq9k9E=",
+    "date_inscription": "2026-08-18",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 21,
+  "fields": {
+    "reference": "CLI-0021",
+    "nom": "tchouandemdastinekecelle",
+    "telephone": "",
+    "email": "tchouandemdastinekecelle@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "CLI-6A3K-U0E2",
+    "date_inscription": "2026-08-21",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 22,
+  "fields": {
+    "reference": "CLI-0022",
+    "nom": "mokam",
+    "telephone": "7777777777",
+    "email": "laure@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "laure237",
+    "date_inscription": "2026-09-03",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 23,
+  "fields": {
+    "reference": "CLI-0023",
+    "nom": "mokam",
+    "telephone": "444444",
+    "email": "ange@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "angemokan237",
+    "date_inscription": "2026-09-03",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 24,
+  "fields": {
+    "reference": "CLI-0024",
+    "nom": "mokam",
+    "telephone": "00000000",
+    "email": null,
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "angemokan237",
+    "date_inscription": "2026-09-03",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 25,
+  "fields": {
+    "reference": "CLI-0025",
+    "nom": "lenille",
+    "telephone": "+237 650796356",
+    "email": "lenillefelicite@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "12345678",
+    "date_inscription": "2026-09-03",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 26,
+  "fields": {
+    "reference": "CLI-0026",
+    "nom": "lenille",
+    "telephone": "00000000",
+    "email": null,
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "lenille",
+    "date_inscription": "2026-09-03",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 27,
+  "fields": {
+    "reference": "CLI-0027",
+    "nom": "kakeu",
+    "telephone": "00000000",
+    "email": null,
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "12345678",
+    "date_inscription": "2026-09-03",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 28,
+  "fields": {
+    "reference": "CLI-0028",
+    "nom": "KAKEU",
+    "telephone": "00000000",
+    "email": null,
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "lenille",
+    "date_inscription": "2026-09-03",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 42,
+  "fields": {
+    "reference": "CLI-0029",
+    "nom": "konga",
+    "telephone": "+237 6555443121",
+    "email": "kongamorel@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "kongamorel",
+    "date_inscription": "2026-09-03",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.client",
+  "pk": 43,
+  "fields": {
+    "reference": "CLI-0043",
+    "nom": "moussa",
+    "telephone": "+237 655544311",
+    "email": "moussajean@gmail.com",
+    "date_naissance": null,
+    "adresse": "",
+    "mot_de_passe": "moussajean",
+    "date_inscription": "2026-09-03",
+    "total_depense": "0.00",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.vente",
+  "pk": 37,
+  "fields": {
+    "reference": "VNT-20260817144640",
+    "client": 17,
+    "date_vente": "2026-08-17T14:46:40Z",
+    "montant_total": "240000.00",
+    "mode_paiement": "especes",
+    "statut": "en_attente",
+    "est_archive": false
+  }
+},
+{
+  "model": "astra.vente",
+  "pk": 38,
+  "fields": {
+    "reference": "VNT-20260817154755",
+    "client": 15,
+    "date_vente": "2026-08-17T15:47:55.640Z",
+    "montant_total": "110000.00",
+    "mode_paiement": "especes",
+    "statut": "Confirmée & Payée",
+    "est_archive": false
+  }
+},
+{
+  "model": "astra.vente",
+  "pk": 39,
+  "fields": {
+    "reference": "VNT-20260818105514",
+    "client": 4,
+    "date_vente": "2026-08-18T10:55:14.369Z",
+    "montant_total": "120000.00",
+    "mode_paiement": "mobile_money",
+    "statut": "Confirmée & Payée",
+    "est_archive": false
+  }
+},
+{
+  "model": "astra.vente",
+  "pk": 40,
+  "fields": {
+    "reference": "VNT-20260818113831",
+    "client": 4,
+    "date_vente": "2026-08-18T11:38:31.155Z",
+    "montant_total": "120000.00",
+    "mode_paiement": "especes",
+    "statut": "Confirmée & Payée",
+    "est_archive": false
+  }
+},
+{
+  "model": "astra.vente",
+  "pk": 41,
+  "fields": {
+    "reference": "VNT-20260818123002",
+    "client": 4,
+    "date_vente": "2026-08-18T12:30:02.904Z",
+    "montant_total": "120000.00",
+    "mode_paiement": "especes",
+    "statut": "Confirmée & Payée",
+    "est_archive": false
+  }
+},
+{
+  "model": "astra.vente",
+  "pk": 42,
+  "fields": {
+    "reference": "VNT-20260818123746",
+    "client": 20,
+    "date_vente": "2026-08-18T12:37:46.629Z",
+    "montant_total": "110000.00",
+    "mode_paiement": "carte",
+    "statut": "Confirmée & Payée",
+    "est_archive": false
+  }
+},
+{
+  "model": "astra.vente",
+  "pk": 43,
+  "fields": {
+    "reference": "VNT-20260819105630",
+    "client": 20,
+    "date_vente": "2026-08-19T10:56:30.813Z",
+    "montant_total": "110000.00",
+    "mode_paiement": "especes",
+    "statut": "Confirmée & Payée",
+    "est_archive": false
+  }
+},
+{
+  "model": "astra.vente",
+  "pk": 44,
+  "fields": {
+    "reference": "VNT-20260819110451",
+    "client": 4,
+    "date_vente": "2026-08-19T11:04:51.803Z",
+    "montant_total": "120000.00",
+    "mode_paiement": "mobile_money",
+    "statut": "Confirmée & Payée",
+    "est_archive": false
+  }
+},
+{
+  "model": "astra.lignevente",
+  "pk": 36,
+  "fields": {
+    "vente": 37,
+    "produit": 1,
+    "quantite": 2,
+    "prix_unitaire": "120000.00"
+  }
+},
+{
+  "model": "astra.lignevente",
+  "pk": 37,
+  "fields": {
+    "vente": 38,
+    "produit": 5,
+    "quantite": 1,
+    "prix_unitaire": "110000.00"
+  }
+},
+{
+  "model": "astra.lignevente",
+  "pk": 38,
+  "fields": {
+    "vente": 39,
+    "produit": 3,
+    "quantite": 1,
+    "prix_unitaire": "120000.00"
+  }
+},
+{
+  "model": "astra.lignevente",
+  "pk": 39,
+  "fields": {
+    "vente": 40,
+    "produit": 1,
+    "quantite": 1,
+    "prix_unitaire": "120000.00"
+  }
+},
+{
+  "model": "astra.lignevente",
+  "pk": 40,
+  "fields": {
+    "vente": 41,
+    "produit": 1,
+    "quantite": 1,
+    "prix_unitaire": "120000.00"
+  }
+},
+{
+  "model": "astra.lignevente",
+  "pk": 41,
+  "fields": {
+    "vente": 42,
+    "produit": 5,
+    "quantite": 1,
+    "prix_unitaire": "110000.00"
+  }
+},
+{
+  "model": "astra.lignevente",
+  "pk": 42,
+  "fields": {
+    "vente": 43,
+    "produit": 5,
+    "quantite": 1,
+    "prix_unitaire": "110000.00"
+  }
+},
+{
+  "model": "astra.lignevente",
+  "pk": 43,
+  "fields": {
+    "vente": 44,
+    "produit": 3,
+    "quantite": 1,
+    "prix_unitaire": "120000.00"
+  }
+},
+{
+  "model": "astra.fournisseur",
+  "pk": 1,
+  "fields": {
+    "nom": "Madjou marie",
+    "contact": "LENILL",
+    "telephone": "+237 677064542",
+    "email": "madjou@gmail.com",
+    "mot_de_passe": "1234",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.fournisseur",
+  "pk": 2,
+  "fields": {
+    "nom": "KAKEU FRANCK",
+    "contact": "KAKEU",
+    "telephone": "681772345",
+    "email": "kakeufranck@gmail.com",
+    "mot_de_passe": "1234",
+    "is_active": false
+  }
+},
+{
+  "model": "astra.fournisseur",
+  "pk": 3,
+  "fields": {
+    "nom": "lenille djuije",
+    "contact": "felicite",
+    "telephone": "650796356",
+    "email": "lenilledjuije@gmail.com",
+    "mot_de_passe": "FRN-97O5-BF4L",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.fournisseur",
+  "pk": 4,
+  "fields": {
+    "nom": "ASTRA_TECH SARL",
+    "contact": "rene djiomegni",
+    "telephone": "+237 677064542",
+    "email": "renedjiomegni@gmail.com",
+    "mot_de_passe": "1234",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.fournisseur",
+  "pk": 5,
+  "fields": {
+    "nom": "lenille djuije",
+    "contact": "\tfelicite\t",
+    "telephone": "\t650796356\t",
+    "email": "lenilledjuije@gmail.com",
+    "mot_de_passe": "1234",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.fournisseur",
+  "pk": 6,
+  "fields": {
+    "nom": "METHUM",
+    "contact": "",
+    "telephone": "",
+    "email": "edwigelaure@gmail.com",
+    "mot_de_passe": "1234",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.fournisseur",
+  "pk": 7,
+  "fields": {
+    "nom": "fodjo",
+    "contact": "",
+    "telephone": "",
+    "email": "fodjo@gmail.com",
+    "mot_de_passe": "1234",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.approvisionnement",
+  "pk": 15,
+  "fields": {
+    "reference": "APP-0001",
+    "fournisseur": 1,
+    "date_creation": "2026-08-17T14:55:27.959Z",
+    "montant_total": "20000.00",
+    "statut": "livree",
+    "is_active": true
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 1,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 5,
+    "date": "2026-08-03T11:18:22.462Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 2,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 2,
+    "date": "2026-08-03T12:50:53.050Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 3,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-03T15:07:07.487Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 4,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-03T15:16:22.376Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 5,
+  "fields": {
+    "produit": 4,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-03T15:34:28.973Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 6,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 4,
+    "date": "2026-08-03T15:44:35.601Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 7,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 4,
+    "date": "2026-08-03T15:45:22.433Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 8,
+  "fields": {
+    "produit": 2,
+    "type_mouvement": "sortie",
+    "quantite": 3,
+    "date": "2026-08-04T08:12:27.394Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 9,
+  "fields": {
+    "produit": 3,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-04T08:12:58.069Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 10,
+  "fields": {
+    "produit": 4,
+    "type_mouvement": "sortie",
+    "quantite": 3,
+    "date": "2026-08-04T08:32:01.275Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 11,
+  "fields": {
+    "produit": 2,
+    "type_mouvement": "sortie",
+    "quantite": 3,
+    "date": "2026-08-04T08:36:59.072Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 12,
+  "fields": {
+    "produit": 4,
+    "type_mouvement": "sortie",
+    "quantite": 2,
+    "date": "2026-08-04T09:23:17.387Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 13,
+  "fields": {
+    "produit": 2,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-04T09:42:41.834Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 14,
+  "fields": {
+    "produit": 2,
+    "type_mouvement": "sortie",
+    "quantite": 3,
+    "date": "2026-08-04T15:19:47.506Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 15,
+  "fields": {
+    "produit": 2,
+    "type_mouvement": "sortie",
+    "quantite": 3,
+    "date": "2026-08-04T15:37:33.425Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 16,
+  "fields": {
+    "produit": 3,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-04T15:56:25.678Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 17,
+  "fields": {
+    "produit": 3,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-04T16:05:14.957Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 18,
+  "fields": {
+    "produit": 3,
+    "type_mouvement": "sortie",
+    "quantite": 2,
+    "date": "2026-08-05T10:55:17.144Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 19,
+  "fields": {
+    "produit": 3,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-05T11:02:36.349Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 20,
+  "fields": {
+    "produit": 3,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-05T11:25:19.053Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 21,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-05T11:42:03.210Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 22,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-05T11:57:02.322Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 23,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-05T12:11:45.854Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 24,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-05T15:29:37.351Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 25,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-07T08:16:44.662Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 26,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-07T13:54:16.337Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 27,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-10T15:45:32.785Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 28,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-10T15:58:58.082Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 29,
+  "fields": {
+    "produit": 5,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-12T08:38:16.423Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 30,
+  "fields": {
+    "produit": 5,
+    "type_mouvement": "sortie",
+    "quantite": 5,
+    "date": "2026-08-12T11:09:42.886Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 31,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-12T11:34:16.945Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 32,
+  "fields": {
+    "produit": 5,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-12T11:50:10.263Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 33,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-12T12:20:07.390Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 34,
+  "fields": {
+    "produit": 3,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-12T12:30:24.463Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 35,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 2,
+    "date": "2026-08-17T09:05:57.103Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 36,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 2,
+    "date": "2026-08-17T14:46:40.986Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 37,
+  "fields": {
+    "produit": 5,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-17T15:47:55.653Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 38,
+  "fields": {
+    "produit": 3,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-18T10:55:14.372Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 39,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-18T11:38:31.181Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 40,
+  "fields": {
+    "produit": 1,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-18T12:30:02.941Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 41,
+  "fields": {
+    "produit": 5,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-18T12:37:46.632Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 42,
+  "fields": {
+    "produit": 5,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-19T10:56:30.832Z"
+  }
+},
+{
+  "model": "astra.mouvementstock",
+  "pk": 43,
+  "fields": {
+    "produit": 3,
+    "type_mouvement": "sortie",
+    "quantite": 1,
+    "date": "2026-08-19T11:04:51.851Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 1,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-R2QY-VUB7",
+    "role": "admin",
+    "date_creation": "2026-08-04T16:47:32.348Z",
+    "date_expiration": "2026-08-05T16:47:32.348Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 2,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-ZFKE-UGN7",
+    "role": "admin",
+    "date_creation": "2026-08-05T13:48:59.281Z",
+    "date_expiration": "2026-08-06T13:48:59.279Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 3,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-5NPE-38RF",
+    "role": "Prospect / Nouveau",
+    "date_creation": "2026-08-07T08:12:53.970Z",
+    "date_expiration": "2026-08-08T08:12:53.966Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 4,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-VOJM-GMPG",
+    "role": "caissier",
+    "date_creation": "2026-08-07T12:47:12.731Z",
+    "date_expiration": "2026-08-08T12:47:12.729Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 5,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-KML8-07I2",
+    "role": "Prospect / Nouveau",
+    "date_creation": "2026-08-07T12:54:28.588Z",
+    "date_expiration": "2026-08-08T12:54:28.587Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 6,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-3QIM-G5Y0",
+    "role": "Client Actif",
+    "date_creation": "2026-08-07T13:42:34.830Z",
+    "date_expiration": "2026-08-08T13:42:34.827Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 7,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-BJDO-JX0D",
+    "role": "client actif",
+    "date_creation": "2026-08-10T08:35:37.696Z",
+    "date_expiration": "2026-08-11T08:35:37.696Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 8,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-4OHR-DNSQ",
+    "role": "client actif",
+    "date_creation": "2026-08-10T08:44:25.804Z",
+    "date_expiration": "2026-08-11T08:44:25.803Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 9,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-S4Q0-S2CI",
+    "role": "client actif",
+    "date_creation": "2026-08-10T08:51:16.444Z",
+    "date_expiration": "2026-08-11T08:51:16.444Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 10,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-Q4BV-G77P",
+    "role": "fournisseur",
+    "date_creation": "2026-08-10T08:56:39.326Z",
+    "date_expiration": "2026-08-11T08:56:39.325Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 11,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-5GKC-G3SI",
+    "role": "client",
+    "date_creation": "2026-08-10T09:06:23.780Z",
+    "date_expiration": "2026-08-11T09:06:23.780Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 12,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-EMIL-XYOZ",
+    "role": "client",
+    "date_creation": "2026-08-10T09:13:24.034Z",
+    "date_expiration": "2026-08-11T09:13:24.033Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 13,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-OANV-1BE8",
+    "role": "client",
+    "date_creation": "2026-08-10T09:22:35.817Z",
+    "date_expiration": "2026-08-11T09:22:35.816Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 14,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-S8AH-7YQU",
+    "role": "client",
+    "date_creation": "2026-08-10T11:06:53.854Z",
+    "date_expiration": "2026-08-11T11:06:53.853Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 15,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-N0DK-E1CQ",
+    "role": "client",
+    "date_creation": "2026-08-10T11:18:14.360Z",
+    "date_expiration": "2026-08-11T11:18:14.358Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 16,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-HB6M-MA1K",
+    "role": "client",
+    "date_creation": "2026-08-10T12:04:07.522Z",
+    "date_expiration": "2026-08-11T12:04:07.520Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 17,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-TSPG-BL94",
+    "role": "admin",
+    "date_creation": "2026-08-10T12:05:46.685Z",
+    "date_expiration": "2026-08-11T12:05:46.684Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 18,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-XHLZ-BU8D",
+    "role": "fournisseur",
+    "date_creation": "2026-08-10T12:06:07.457Z",
+    "date_expiration": "2026-08-11T12:06:07.456Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 19,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-G8E8-86TK",
+    "role": "client",
+    "date_creation": "2026-08-10T13:12:31.501Z",
+    "date_expiration": "2026-08-11T13:12:31.500Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 20,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-G4CL-GIO7",
+    "role": "client",
+    "date_creation": "2026-08-10T15:40:42.363Z",
+    "date_expiration": "2026-08-11T15:40:42.361Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 21,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-BMEF-JH5T",
+    "role": "client",
+    "date_creation": "2026-08-10T16:16:05.350Z",
+    "date_expiration": "2026-08-11T16:16:05.349Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 22,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-XD1R-8E18",
+    "role": "client",
+    "date_creation": "2026-08-10T16:18:37.774Z",
+    "date_expiration": "2026-08-11T16:18:37.773Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 23,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-5U0G-G38N",
+    "role": "client",
+    "date_creation": "2026-08-12T14:33:00.877Z",
+    "date_expiration": "2026-08-13T14:33:00.877Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 24,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-FIZ4-ZAP2",
+    "role": "client",
+    "date_creation": "2026-08-12T14:34:53.439Z",
+    "date_expiration": "2026-08-13T14:34:53.438Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 25,
+  "fields": {
+    "email": "moreldev237@gmail.com",
+    "valeur_token": "ASTRA-PQFJ-F9Z8",
+    "role": "client",
+    "date_creation": "2026-08-12T14:55:55.400Z",
+    "date_expiration": "2026-08-13T14:55:55.399Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 26,
+  "fields": {
+    "email": "baheldaniel@gmail.com",
+    "valeur_token": "ASTRA-F9P0-FODA",
+    "role": "caissier",
+    "date_creation": "2026-08-19T13:33:33.770Z",
+    "date_expiration": "2026-08-20T13:33:33.770Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 27,
+  "fields": {
+    "email": "baheldanielkevin@gmail.com",
+    "valeur_token": "ASTRA-Y7NY-00DY",
+    "role": "gestionnaire_stock",
+    "date_creation": "2026-08-19T13:37:09.849Z",
+    "date_expiration": "2026-08-20T13:37:09.848Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 28,
+  "fields": {
+    "email": "baheldanielkevin@gmail.com",
+    "valeur_token": "ASTRA-PD2D-G3O4",
+    "role": "caissier",
+    "date_creation": "2026-08-19T13:44:58.181Z",
+    "date_expiration": "2026-08-20T13:44:58.181Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 29,
+  "fields": {
+    "email": "baheldanielkevin@gmail.com",
+    "valeur_token": "ASTRA-JLFT-218P",
+    "role": "gestionnaire_stock",
+    "date_creation": "2026-08-19T14:01:35.257Z",
+    "date_expiration": "2026-08-20T14:01:35.256Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 30,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-KWJF-JC0H",
+    "role": "fournisseur",
+    "date_creation": "2026-08-21T08:13:56.614Z",
+    "date_expiration": "2026-08-22T08:13:56.613Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 31,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-K50Z-W8JV",
+    "role": "fournisseur",
+    "date_creation": "2026-08-21T13:46:11.911Z",
+    "date_expiration": "2026-08-22T13:46:11.909Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 32,
+  "fields": {
+    "email": "renedjiomegni@gmail.com",
+    "valeur_token": "ASTRA-5737-BBBD",
+    "role": "fournisseur",
+    "date_creation": "2026-08-21T13:53:35.041Z",
+    "date_expiration": "2026-08-22T13:53:35.041Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 33,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-9M2S-WKN0",
+    "role": "fournisseur",
+    "date_creation": "2026-08-21T14:10:01.642Z",
+    "date_expiration": "2026-08-22T14:10:01.642Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 34,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-6XSV-LQ3P",
+    "role": "fournisseur",
+    "date_creation": "2026-08-21T14:34:28.763Z",
+    "date_expiration": "2026-08-22T14:34:28.762Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 35,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-7HT7-7V30",
+    "role": "fournisseur",
+    "date_creation": "2026-08-21T15:06:09.151Z",
+    "date_expiration": "2026-08-22T15:06:09.150Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 36,
+  "fields": {
+    "email": "moreldev237@gmail.com",
+    "valeur_token": "ASTRA-FQ9N-F22G",
+    "role": "client",
+    "date_creation": "2026-08-21T15:07:13.785Z",
+    "date_expiration": "2026-08-22T15:07:13.784Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 37,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-API5-CY7J",
+    "role": "client",
+    "date_creation": "2026-08-21T15:07:24.631Z",
+    "date_expiration": "2026-08-22T15:07:24.630Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 38,
+  "fields": {
+    "email": "tchouandemdastinekecelle@gmail.com",
+    "valeur_token": "ASTRA-A72P-38G7",
+    "role": "gestionnaire_stock",
+    "date_creation": "2026-08-21T15:21:39.730Z",
+    "date_expiration": "2026-08-22T15:21:39.729Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 39,
+  "fields": {
+    "email": "baheldaniel@gmail.com",
+    "valeur_token": "ASTRA-5COJ-I71U",
+    "role": "gestionnaire_stock",
+    "date_creation": "2026-08-21T15:33:26.610Z",
+    "date_expiration": "2026-08-22T15:33:26.609Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 40,
+  "fields": {
+    "email": "tchouandemdastinekecelle@gmail.com",
+    "valeur_token": "ASTRA-KRLB-DVC3",
+    "role": "gestionnaire_stock",
+    "date_creation": "2026-08-21T15:34:17.815Z",
+    "date_expiration": "2026-08-22T15:34:17.814Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 41,
+  "fields": {
+    "email": "tchouandemdastinekecelle@gmail.com",
+    "valeur_token": "ASTRA-D3NJ-812H",
+    "role": "client",
+    "date_creation": "2026-08-21T15:35:27.332Z",
+    "date_expiration": "2026-08-22T15:35:27.331Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 42,
+  "fields": {
+    "email": "tchouandemdastinekecelle@gmail.com",
+    "valeur_token": "ASTRA-VTZT-PC5P",
+    "role": "gestionnaire_stock",
+    "date_creation": "2026-08-21T15:39:36.416Z",
+    "date_expiration": "2026-08-22T15:39:36.415Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 43,
+  "fields": {
+    "email": "tchouandemdastinekecelle@gmail.com",
+    "valeur_token": "ASTRA-PHDU-3XNN",
+    "role": "gestionnaire_stock",
+    "date_creation": "2026-08-21T15:52:43.614Z",
+    "date_expiration": "2026-08-22T15:52:43.614Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 44,
+  "fields": {
+    "email": "princejared48@gmail.com",
+    "valeur_token": "ASTRA-9WRU-43VP",
+    "role": "caissier",
+    "date_creation": "2026-08-21T15:54:31.491Z",
+    "date_expiration": "2026-08-22T15:54:31.490Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 45,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-D3025358",
+    "role": "client",
+    "date_creation": "2026-08-24T08:30:44.186Z",
+    "date_expiration": "2026-08-24T09:00:44.183Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 46,
+  "fields": {
+    "email": "edwigelaure@gmail.com",
+    "valeur_token": "ASTRA-31217F86",
+    "role": "approvisionneur",
+    "date_creation": "2026-08-24T11:11:02.788Z",
+    "date_expiration": "2026-08-24T11:41:02.781Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 47,
+  "fields": {
+    "email": "edwigelaure@gmail.com",
+    "valeur_token": "ASTRA-C36E8980",
+    "role": "approvisionneur",
+    "date_creation": "2026-08-25T07:57:23.173Z",
+    "date_expiration": "2026-08-25T08:27:23.159Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 48,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-DCD7590C",
+    "role": "client",
+    "date_creation": "2026-08-25T08:09:29.894Z",
+    "date_expiration": "2026-08-25T08:39:29.862Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 49,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-52D2219B",
+    "role": "approvisionneur",
+    "date_creation": "2026-08-25T11:23:47.619Z",
+    "date_expiration": "2026-08-25T11:53:47.612Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 50,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-47A6578C",
+    "role": "approvisionneur",
+    "date_creation": "2026-08-25T11:31:33.309Z",
+    "date_expiration": "2026-08-25T12:01:33.297Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 51,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-8608FA85",
+    "role": "approvisionneur",
+    "date_creation": "2026-08-25T11:46:01.137Z",
+    "date_expiration": "2026-08-25T12:16:01.136Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 52,
+  "fields": {
+    "email": "lenilledjuije@gmail.com",
+    "valeur_token": "ASTRA-EBB64372",
+    "role": "approvisionneur",
+    "date_creation": "2026-08-25T11:46:06.589Z",
+    "date_expiration": "2026-08-25T12:16:06.586Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 53,
+  "fields": {
+    "email": "fodjo@gmail.com",
+    "valeur_token": "ASTRA-4DD21688",
+    "role": "approvisionneur",
+    "date_creation": "2026-09-02T16:01:59.670Z",
+    "date_expiration": "2026-09-02T16:31:59.658Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 54,
+  "fields": {
+    "email": "fodjo@gmail.com",
+    "valeur_token": "ASTRA-98828C8C",
+    "role": "approvisionneur",
+    "date_creation": "2026-09-02T16:15:31.609Z",
+    "date_expiration": "2026-09-02T16:45:31.606Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 55,
+  "fields": {
+    "email": "fodjo@gmail.com",
+    "valeur_token": "ASTRA-FAAAE34D",
+    "role": "approvisionneur",
+    "date_creation": "2026-09-02T16:15:53.017Z",
+    "date_expiration": "2026-09-02T16:45:53.008Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 56,
+  "fields": {
+    "email": "fodjo@gmail.com",
+    "valeur_token": "ASTRA-8CD48E22",
+    "role": "approvisionneur",
+    "date_creation": "2026-09-02T16:16:28.509Z",
+    "date_expiration": "2026-09-02T16:46:28.505Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 57,
+  "fields": {
+    "email": "fodjo@gmail.com",
+    "valeur_token": "ASTRA-2C8AA3FE",
+    "role": "approvisionneur",
+    "date_creation": "2026-09-02T16:26:02.425Z",
+    "date_expiration": "2026-09-02T16:56:02.421Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 58,
+  "fields": {
+    "email": "fodjo@gmail.com",
+    "valeur_token": "ASTRA-948041FD",
+    "role": "approvisionneur",
+    "date_creation": "2026-09-02T16:26:15.086Z",
+    "date_expiration": "2026-09-02T16:56:15.078Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 59,
+  "fields": {
+    "email": "fodjo@gmail.com",
+    "valeur_token": "ASTRA-069B9D28",
+    "role": "approvisionneur",
+    "date_creation": "2026-09-02T16:27:12.864Z",
+    "date_expiration": "2026-09-02T16:57:12.860Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 60,
+  "fields": {
+    "email": "fodjo@gmail.com",
+    "valeur_token": "ASTRA-30C0F3C6",
+    "role": "approvisionneur",
+    "date_creation": "2026-09-02T16:28:34.226Z",
+    "date_expiration": "2026-09-02T16:58:34.222Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 61,
+  "fields": {
+    "email": "fodjo@gmail.com",
+    "valeur_token": "ASTRA-32CE3666",
+    "role": "approvisionneur",
+    "date_creation": "2026-09-02T16:30:51.646Z",
+    "date_expiration": "2026-09-02T17:00:51.643Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 62,
+  "fields": {
+    "email": "fodjo@gmail.com",
+    "valeur_token": "ASTRA-F6E3DEAF",
+    "role": "approvisionneur",
+    "date_creation": "2026-09-02T16:31:23.379Z",
+    "date_expiration": "2026-09-02T17:01:23.374Z"
+  }
+},
+{
+  "model": "astra.token",
+  "pk": 63,
+  "fields": {
+    "email": "fodjo@gmail.com",
+    "valeur_token": "ASTRA-963A3CA7",
+    "role": "approvisionneur",
+    "date_creation": "2026-09-02T16:34:02.962Z",
+    "date_expiration": "2026-09-02T17:04:02.957Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 165,
+  "fields": {
+    "titre": "Sécurité : Changement de mot de passe",
+    "message": "Le client kenfack a modifié son mot de passe avec succès.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-08-19T14:49:38.259Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 166,
+  "fields": {
+    "titre": "Connexion Client : kenfack",
+    "message": "Le client kenfack vient de se connecter à son espace client le 19/08/2026 à 15:00.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-08-19T15:00:14.585Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 167,
+  "fields": {
+    "titre": "Connexion Client : lenille djuije",
+    "message": "Le client lenille djuije vient de se connecter à son espace client le 19/08/2026 à 16:18.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-08-19T16:18:50.396Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 168,
+  "fields": {
+    "titre": "Approvisionnement : KAKEU FRANCK",
+    "message": "Un e-mail a été envoyé à kakeufranck@gmail.com. Message : bonjours Monsieur nous confirmons votre approvisionnement chez ASTRA_TECH \r\n\r\nMe...",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-08-21T13:41:11.201Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 169,
+  "fields": {
+    "titre": "Approvisionnement : KAKEU FRANCK",
+    "message": "Un e-mail a été envoyé à kakeufranck@gmail.com. Message : bonjours Monsieur nous confirmons votre approvisionnement chez ASTRA_TECH \r\n\r\nMe...",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-08-21T13:42:25.534Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 170,
+  "fields": {
+    "titre": "Approvisionnement : lenille djuije",
+    "message": "Un e-mail a été envoyé à lenilledjuije@gmail.com. Message : bonjours Monsieur nous confirmons votre approvisionnement chez ASTRA_TECH \r\n\r\nMe...",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-08-21T13:43:28.220Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 171,
+  "fields": {
+    "titre": "Connexion Client : METHUM Edwige laure",
+    "message": "Le client METHUM Edwige laure vient de se connecter à son espace client le 02/09/2026 à 20:44.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-09-02T20:44:21.154Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 172,
+  "fields": {
+    "titre": "Connexion Client : mokam",
+    "message": "Le client mokam vient de se connecter à son espace client le 03/09/2026 à 08:56.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-09-03T08:56:11.115Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 173,
+  "fields": {
+    "titre": "Connexion Client : mokam",
+    "message": "Le client mokam vient de se connecter à son espace client le 03/09/2026 à 09:14.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-09-03T09:14:50.845Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 174,
+  "fields": {
+    "titre": "Connexion Client : mokam",
+    "message": "Le client mokam vient de se connecter à son espace client le 03/09/2026 à 09:35.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-09-03T09:35:24.539Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 175,
+  "fields": {
+    "titre": "Connexion Client : mokam",
+    "message": "Le client mokam vient de se connecter à son espace client le 03/09/2026 à 09:45.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-09-03T09:45:58.771Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 176,
+  "fields": {
+    "titre": "Connexion Client : mokam",
+    "message": "Le client mokam vient de se connecter à son espace client le 03/09/2026 à 09:55.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-09-03T09:55:03.757Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 177,
+  "fields": {
+    "titre": "Connexion Client : lenille",
+    "message": "Le client lenille vient de se connecter à son espace client le 03/09/2026 à 10:13.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-09-03T10:13:23.810Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 178,
+  "fields": {
+    "titre": "Connexion Client : moreldev237",
+    "message": "Le client moreldev237 vient de se connecter à son espace client le 03/09/2026 à 10:23.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-09-03T10:23:41.639Z"
+  }
+},
+{
+  "model": "astra.notificationplateforme",
+  "pk": 179,
+  "fields": {
+    "titre": "Connexion Client : konga",
+    "message": "Le client konga vient de se connecter à son espace client le 03/09/2026 à 12:06.",
+    "categorie": "clients",
+    "lu": false,
+    "date_creation": "2026-09-03T12:06:07.217Z"
+  }
+},
+{
+  "model": "astra.parametreglobal",
+  "pk": 1,
+  "fields": {
+    "nom_boutique": "ASTRA TECH",
+    "verrou_commercial": true,
+    "verrou_admin": true,
+    "seuil_stock": 5,
+    "taux_tva": "19.25"
+  }
+},
+{
+  "model": "astra.notification",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "titre": "Bienvenue",
+    "message": "Ceci est un test de notification sur Astra Tech.",
+    "lue": true,
+    "date_creation": "2026-08-19T13:41:50.691Z",
+    "url": null
+  }
+},
+{
+  "model": "astra.utilisateur",
+  "pk": 1,
+  "fields": {
+    "nom": "djuissi",
+    "prenom": "laura",
+    "email": "djuissilaure@gmail.com",
+    "telephone": "444444",
+    "role": "fournisseur",
+    "password": "pbkdf2_sha256$1200000$mP1JlWaqtIjsBeoi8Yz4jj$i1IZt7KOT42I706DeFpMwCM9DvagDaGDt/yw0BSaNus="
+  }
+},
+{
+  "model": "astra.utilisateur",
+  "pk": 2,
+  "fields": {
+    "nom": "matip",
+    "prenom": "armel",
+    "email": "matiparmel@gmail.com",
+    "telephone": "123456345",
+    "role": "client",
+    "password": "pbkdf2_sha256$1200000$pwYJxOaObXJBVphWwXmNjT$qB9kiJCH6PCTrgeEe3mdAje8K7EXIPpsQr6wq7bekSg="
+  }
+},
+{
+  "model": "astra.utilisateur",
+  "pk": 3,
+  "fields": {
+    "nom": "guemenie",
+    "prenom": "vinyl",
+    "email": "vinyl@gmail.com",
+    "telephone": "+237 688901123",
+    "role": "approvisionnement",
+    "password": "pbkdf2_sha256$1200000$OjxK6ZEFQrRIeypH1qoCRQ$lKGgbFpHjDFepb4D0w9W3n8wZ/g7LG0duCgFvev6y/4="
+  }
+}
+]

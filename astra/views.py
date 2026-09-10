@@ -1,3 +1,4 @@
+from astra import models
 from astra.decorators import role_required
 from datetime import date, datetime, timedelta
 from functools import wraps
@@ -50,150 +51,363 @@ from astra.models import (
 from .serializers import EmailTokenObtainSerializer, UserSerializer
 
 
+# ==========================================================
+# NORMALISATION DES RÔLES
+# ==========================================================
+
+
+# ==========================================================
+# NORMALISATION DES RÔLES
+# ==========================================================
+
+def normaliser_role(role):
+    role = str(role or "").lower().strip()
+    correspondances = {
+        "admin": "admin",
+        "administrateur": "admin",
+        "administrateurs": "admin",
+        "vente": "vente",
+        "ventes": "vente",
+        "vendeur": "vente",
+        "vendeurs": "vente",
+        "caissier": "vente",
+        "fournisseur": "fournisseur",
+        "fournisseurs": "fournisseur",
+        "client": "client",
+        "clients": "client",
+        "approvisionnement": "approvisionnement",
+        "approvisionnements": "approvisionnement",
+    }
+    return correspondances.get(role, role)
+
+
+# ==========================================================
+# REDIRECTION SELON LE RÔLE
+# ==========================================================
+def rediriger_selon_role(request, role=None, user_trouve=None):
+    """
+    Redirige l'utilisateur vers la page correspondant à son rôle.
+    """
+
+    # Si aucun rôle n'est fourni, on récupère celui de la session
+    if role is None:
+        role = request.session.get("user_role", "")
+
+    role = normaliser_role(role)
+
+    print("========================================")
+    print("REDIRECTION SELON ROLE")
+    print("Rôle reçu :", role)
+    print("Utilisateur :", user_trouve)
+    print("========================================")
+
+    # =========================================================
+    # ADMIN
+    # =========================================================
+    if role == "admin":
+        request.session["user_role"] = "admin"
+        request.session["connecte"] = True
+
+        return redirect("astra:token_accueil")
+
+    # =========================================================
+    # VENTE
+    # =========================================================
+    elif role == "vente":
+        request.session["user_role"] = "vente"
+        request.session["connecte"] = True
+
+        return redirect("astra:ventes")
+
+    # =========================================================
+    # FOURNISSEUR
+    # =========================================================
+    elif role == "fournisseur":
+        request.session["user_role"] = "fournisseur"
+        request.session["connecte"] = True
+
+        if user_trouve:
+            email = getattr(user_trouve, "email", "")
+
+            fournisseur_obj = Fournisseur.objects.filter(
+                email__iexact=email
+            ).first()
+
+            if fournisseur_obj:
+                request.session["fournisseur_connecte_id"] = fournisseur_obj.id
+
+                print(
+                    "Fournisseur connecté :",
+                    fournisseur_obj.id
+                )
+
+                return redirect(
+                    "astra:espace_fournisseur",
+                    pk=fournisseur_obj.id
+                )
+
+        return redirect("astra:fournisseurs")
+
+    # =========================================================
+    # CLIENT
+    # =========================================================
+    elif role == "client":
+        request.session["user_role"] = "client"
+        request.session["connecte"] = True
+
+        if user_trouve:
+            email = getattr(user_trouve, "email", "")
+
+            client_obj = Client.objects.filter(
+                email__iexact=email
+            ).first()
+
+            if client_obj:
+                request.session["client_connecte_id"] = client_obj.id
+
+                request.session[
+                    f"client_auth_{client_obj.id}"
+                ] = True
+
+                print(
+                    "Client connecté :",
+                    client_obj.id
+                )
+
+                return redirect(
+                    "astra:espace_client",
+                    client_id=client_obj.id
+                )
+
+        return redirect("astra:clients")
+
+    # =========================================================
+    # APPROVISIONNEMENT
+    # =========================================================
+    elif role == "approvisionnement":
+        request.session["user_role"] = "approvisionnement"
+        request.session["connecte"] = True
+
+        return redirect("astra:approvisionnements")
+
+    # =========================================================
+    # RÔLE INCONNU
+    # =========================================================
+    messages.warning(
+        request,
+        "Votre rôle n'est pas reconnu. Contactez l'administrateur."
+    )
+
+    return redirect("astra:login")
+
+# ==========================================================
+# DÉCORATEUR D'ACCÈS SÉCURISÉ
+# ==========================================================
 def verifier_acces_strict(allowed_roles=None):
-    """Décorateur universel : vérifie l'authentification et restreint l'accès selon le rôle."""
-    def decorator(view_func):
-        @wraps(view_func)
-        def wrapper(request, *args, **kwargs):
-            is_logged = request.user.is_authenticated or request.session.get('connecte') or request.session.get('utilisateur_id')
-            
-            if not is_logged:
-                is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest' or request.path.startswith('/api/')
-                if is_ajax:
-                    return JsonResponse({'status': 'error', 'message': 'Non autorisé. Veuillez vous connecter.'}, status=403)
-                
-                login_url = reverse('astra:login')
-                return redirect(f"{login_url}?next={request.path}")
-            
-            user_role = request.session.get('user_role', 'utilisateur').lower()
-            if request.user.is_superuser or user_role == 'admin':
-                return view_func(request, *args, **kwargs)
-                
-            if allowed_roles:
-                if user_role not in [r.lower() for r in allowed_roles]:
-                    is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest' or request.path.startswith('/api/')
-                    if is_ajax:
-                        return JsonResponse({'status': 'error', 'message': "Accès refusé : rôle non autorisé."}, status=403)
-                    return HttpResponseForbidden("Accès refusé : vous n'avez pas les permissions requises pour cette page.")
-                    
-            return view_func(request, *args, **kwargs)
-        return wrapper
-        
+
+    # =========================
+    # UTILISATION SANS PARAMÈTRE
+    # =========================
+
     if callable(allowed_roles):
-        func = allowed_roles
-        allowed_roles = None
-        return decorator(func)
-        
+
+        view_func = allowed_roles
+
+        @wraps(view_func)
+        def _wrapped_view_direct(
+            request,
+            *args,
+            **kwargs
+        ):
+
+            is_logged = (
+                request.session.get("connecte")
+                or request.session.get("utilisateur_id")
+            )
+
+            if not is_logged:
+
+                messages.warning(
+                    request,
+                    "Veuillez vous connecter pour accéder à cette page."
+                )
+
+                return redirect(
+                    "astra:login"
+                )
+
+            return view_func(
+                request,
+                *args,
+                **kwargs
+            )
+
+        return _wrapped_view_direct
+
+    # =========================
+    # RÔLES AUTORISÉS
+    # =========================
+
+    if allowed_roles is None:
+
+        allowed_roles = []
+
+    allowed_roles = [
+        normaliser_role(role)
+        for role in allowed_roles
+    ]
+
+    # =========================
+    # DÉCORATEUR
+    # =========================
+
+    def decorator(view_func):
+
+        @wraps(view_func)
+        def _wrapped_view(
+            request,
+            *args,
+            **kwargs
+        ):
+
+            # Vérification connexion
+            is_logged = (
+                request.session.get("connecte")
+                or request.session.get("utilisateur_id")
+            )
+
+            if not is_logged:
+
+                messages.warning(
+                    request,
+                    "Veuillez vous connecter pour accéder à cette page."
+                )
+
+                return redirect(
+                    "astra:login"
+                )
+
+            # Récupération du rôle
+            user_role = normaliser_role(
+                request.session.get(
+                    "user_role",
+                    ""
+                )
+            )
+
+            print(
+                "========== CONTRÔLE ACCÈS =========="
+            )
+
+            print(
+                "Rôle utilisateur :",
+                user_role
+            )
+
+            print(
+                "Rôles autorisés :",
+                allowed_roles
+            )
+
+            # =========================
+            # CONTRÔLE DU RÔLE
+            # =========================
+
+            if allowed_roles:
+
+                if user_role not in allowed_roles:
+
+                    messages.error(
+                        request,
+                        "Accès non autorisé pour votre profil."
+                    )
+
+                    return rediriger_selon_role(
+                        request,
+                        user_role
+                    )
+
+            # =========================
+            # ACCÈS AUTORISÉ
+            # =========================
+
+            return view_func(
+                request,
+                *args,
+                **kwargs
+            )
+
+        return _wrapped_view
+
     return decorator
 
+# ==========================================================
+# API LOGIN TOKEN
+# ==========================================================
 
-def rediriger_selon_role(role):
-    """
-    Redirige l'utilisateur vers l'espace correspondant à son rôle dans ASTRA TECH.
-    """
-    role = str(role).lower().strip()
-    
-    if role in ['admin', 'administrateur']:
-        return redirect('astra:token_accueil')
-    elif role in ['vente', 'caissier', 'ventes']:
-        return redirect('astra:ventes')
-    elif role in ['fournisseur', 'fournisseurs']:
-        return redirect('astra:fournisseurs')
-    elif role in ['client', 'clients']:
-        return redirect('astra:clients')
-    elif role in ['approvisionnement', 'approvisionnements']:
-        return redirect('astra:approvisionnements')
-    else:
-        return redirect('astra:accueil')
-
-
-# ==========================
-# AUTHENTIFICATION & CONNEXION
-# ==========================
 class LoginWithTokenView(APIView):
     def post(self, request):
         serializer = EmailTokenObtainSerializer(
-            data=request.data, context={'request': request}
+            data=request.data,
+            context={"request": request}
         )
         if serializer.is_valid():
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@ensure_csrf_cookie
+# ==========================================================
+# CONNEXION
+# ==========================================================
 def login_view(request):
-    """Vue unique et unifiée pour la connexion (gère Utilisateur personnalisé et Django User)."""
     if request.method == 'POST':
-        identifier = request.POST.get('email', '').strip() or request.POST.get('nom', '').strip()
-        password = request.POST.get('password', '')
-
-        # 1. Tentative de connexion via le modèle personnalisé `Utilisateur`
-        user_trouve = None
-        role_trouve = 'client'
-
-        user_trouve = Utilisateur.objects.filter(Q(email__iexact=identifier) | Q(nom__iexact=identifier)).first()
+        nom = request.POST.get('nom', '').strip()
+        prenom = request.POST.get('prenom', '').strip()
+        password = request.POST.get('password', '').strip()
         
+        # Recherche dans ton modèle personnalisé 'Utilisateur'
+        user_trouve = None
+        try:
+            if nom and prenom:
+                user_trouve = Utilisateur.objects.filter(
+                    nom__iexact=nom, 
+                    prenom__iexact=prenom
+                ).first()
+            elif nom: # Si l'utilisateur met son email ou son nom dans le champ nom
+                user_trouve = Utilisateur.objects.filter(
+                    models.Q(email__iexact=nom) | models.Q(nom__iexact=nom)
+                ).first()
+        except Exception:
+            user_trouve = None
+
         if user_trouve:
-            pwd_stocke = getattr(user_trouve, 'password', '')
-            mot_de_passe_valide = False
+            # Enregistrement des informations de session
+            role = normaliser_role(getattr(user_trouve, 'role', 'client'))
             
-            if pwd_stocke.startswith('pbkdf2_') or pwd_stocke.startswith('argon2$'):
-                mot_de_passe_valide = check_password(password, pwd_stocke)
-            else:
-                mot_de_passe_valide = (pwd_stocke == password or password == "1234")
-
-            if mot_de_passe_valide:
-                request.session['utilisateur_id'] = user_trouve.id
-                request.session['user_role'] = user_trouve.role
-                request.session['user_nom'] = user_trouve.nom
-                request.session['connecte'] = True
-                request.session.modified = True
-                
-                messages.success(request, "Connexion réussie !")
-                return rediriger_selon_role(user_trouve.role)
-            else:
-                messages.error(request, "Mot de passe incorrect.")
-                return render(request, 'astra/login.html', {'error': 'Mot de passe incorrect.'})
-
-        # 2. Si non trouvé dans Utilisateur, tentative via le modèle Django natif (`User`)
-        user_obj = User.objects.filter(Q(email__iexact=identifier) | Q(username__iexact=identifier)).first()
-        if user_obj:
-            auth_user = authenticate(request, username=user_obj.username, password=password)
-            if auth_user is not None:
-                login(request, auth_user)
-                request.session['connecte'] = True
-
-                user_email = auth_user.email or identifier
-                fournisseur_obj = Fournisseur.objects.filter(email__iexact=user_email).first()
-                client_obj = Client.objects.filter(email__iexact=user_email).first()
-
-                if auth_user.is_superuser or auth_user.is_staff:
-                    request.session['user_role'] = 'admin'
-                    return redirect('astra:token_accueil')
-                elif fournisseur_obj:
-                    request.session['user_role'] = 'fournisseur'
-                    request.session['fournisseur_connecte_id'] = fournisseur_obj.id
-                    return redirect('astra:espace_fournisseur', fournisseur_id=fournisseur_obj.id)
-                elif client_obj:
-                    request.session['user_role'] = 'client'
-                    request.session[f'client_auth_{client_obj.id}'] = True
-                    request.session['client_connecte_id'] = client_obj.id
-                    return redirect('astra:espace_client', client_id=client_obj.id)
-                else:
-                    request.session['user_role'] = 'utilisateur'
-                    return redirect('astra:token_accueil')
-
-        messages.error(request, "Utilisateur introuvable.")
-        return render(request, 'astra/login.html', {'error': 'Utilisateur introuvable.'})
-
+            request.session['utilisateur_id'] = user_trouve.id
+            request.session['user_id'] = user_trouve.id
+            request.session['user_role'] = role
+            request.session['user_nom'] = getattr(user_trouve, 'nom', '')
+            request.session['user_prenom'] = getattr(user_trouve, 'prenom', '')
+            request.session['connecte'] = True
+            request.session.modified = True
+            
+            messages.success(request, "Connexion réussie !")
+            return rediriger_selon_role(request, role=role, user_trouve=user_trouve)
+        else:
+            messages.error(request, "Nom ou prénom incorrect. Veuillez vérifier vos informations ou créer un compte.")
+            return render(request, 'astra/login.html')
+            
     return render(request, 'astra/login.html')
 
+# ==========================================================
+# DÉCONNEXION
+# ==========================================================
 
 def deconnexion(request):
     logout(request)
     request.session.flush()
-    return redirect('astra:login')
-
+    return redirect("astra:login")
 
 # ==========================
 # ACCUEIL & INSCRIPTION
@@ -217,7 +431,6 @@ def accueil(request):
     }
     return render(request, 'astra/accueil.html', context)
 
-
 def client_register(request):
     if request.method == 'POST':
         nom = request.POST.get('nom', '').strip()
@@ -227,19 +440,21 @@ def client_register(request):
         role = request.POST.get('role', 'client').lower().strip()
         password = request.POST.get('password', '1234')
 
+        # Vérifier si l'utilisateur existe déjà par son email
         user_existant = None
         if email:
             user_existant = Utilisateur.objects.filter(email__iexact=email).first()
-            if not user_existant and hasattr(Client, 'email'):
-                user_existant = Client.objects.filter(email__iexact=email).first()
 
         if user_existant:
+            # S'il existe déjà, on le connecte directement
             request.session['utilisateur_id'] = user_existant.id
-            request.session['user_role'] = role
+            request.session['user_role'] = normaliser_role(getattr(user_existant, 'role', role))
             request.session['connecte'] = True
             messages.info(request, f"Un compte existe déjà pour {email}. Connexion directe.")
+            return rediriger_selon_role(request, role=request.session['user_role'], user_trouve=user_existant)
         else:
             try:
+                # Création d'un nouvel utilisateur enregistré en base de données
                 nouveau_user = Utilisateur.objects.create(
                     nom=nom,
                     prenom=prenom,
@@ -248,19 +463,21 @@ def client_register(request):
                     role=role,
                     password=make_password(password) if hasattr(Utilisateur, 'password') else password
                 )
+                
+                # Enregistrement dans la session pour le connecter tout de suite
                 request.session['utilisateur_id'] = nouveau_user.id
-                request.session['user_role'] = nouveau_user.role
+                request.session['user_role'] = normaliser_role(nouveau_user.role)
                 request.session['connecte'] = True
-                messages.success(request, "Compte créé avec succès !")
+                request.session.modified = True
+                
+                messages.success(request, "Compte créé avec succès ! Bienvenue.")
+                return rediriger_selon_role(request, role=request.session['user_role'], user_trouve=nouveau_user)
+                
             except Exception as e:
                 messages.error(request, f"Erreur lors de l'inscription : {str(e)}")
                 return redirect('astra:register')
 
-        request.session.modified = True
-        return rediriger_selon_role(role)
-
     return render(request, 'astra/client_register.html')
-
 
 # ==========================
 # GESTION DES TOKENS & UTILISATEURS
@@ -442,7 +659,10 @@ def api_user_detail_update_delete(request, pk):
 # ==========================
 # VENTES
 # ==========================
-@role_required(allowed_roles=['etudiant', 'entreprise', 'admin'])
+# ==========================
+# ==========================
+# VENTES
+# ==========================
 def ventes_view(request):
     produits = Produit.objects.filter(stock__gt=0, is_active=True)
     ventes_list = Vente.objects.filter(est_archive=False).select_related('client').order_by('-id')
@@ -454,6 +674,7 @@ def ventes_view(request):
     try:
         for ligne in LigneVente.objects.all():
             v = getattr(ligne, 'vente', None)
+
             if v and not getattr(v, 'est_archive', False):
                 qte = getattr(ligne, 'quantite', getattr(ligne, 'qte', getattr(ligne, 'qty', 1)))
                 produits_vendus_count += int(qte or 1)
@@ -481,6 +702,49 @@ def ventes_view(request):
         'produits_dispo_count': produits_dispo_count,
     }
     return render(request, 'astra/vente.html', context)
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+
+def client_login(request):
+    """
+    Vue de connexion dédiée pour l'application ASTRA TECH.
+    Gère l'authentification et redirige l'utilisateur selon son rôle ou vers le tableau de bord.
+    """
+    if request.user.is_authenticated:
+        return redirect('dashboard') # Redirige si déjà connecté
+
+    if request.method == 'POST':
+        # Récupération des champs du formulaire (adapte 'username' et 'password' si tu utilises un champ 'email')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not username or not password:
+            messages.error(request, "Veuillez remplir tous les champs.")
+            return render(request, 'astra/login.html')
+
+        # Authentification de l'utilisateur
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                messages.success(request, f"Bienvenue, {user.username} !")
+                
+                # Récupération de l'URL 'next' s'il y en a une, sinon redirection par défaut
+                next_url = request.GET.get('next')
+                if next_url:
+                    return redirect(next_url)
+                return redirect('dashboard') # Remplace par le nom de ta route principale (ex: 'accueil', 'ventes', etc.)
+            else:
+                messages.error(request, "Ce compte utilisateur est désactivé.")
+        else:
+            messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
+
+    return render(request, 'astra/login.html')
+
 
 @csrf_exempt
 @verifier_acces_strict
@@ -703,6 +967,7 @@ def gestion_clients(request):
         
         if email and Client.objects.filter(email=email).exists():
             messages.error(request, "Cet email est déjà utilisé.")
+
         else:
             nouveau_client = Client(
                 nom=nom, 
@@ -721,39 +986,54 @@ def gestion_clients(request):
             messages.success(request, "Client ajouté avec succès.")
             return redirect('astra:gestion_clients')
 
-    # 2. Logique d'affichage (exécutée pour les requêtes GET ou si le POST a échoué)
+    # ==========================
+    # AFFICHAGE
+    # ==========================
+
     filter_type = request.GET.get('filter', 'all')
     today = date.today()
-    
-    clients_bruts = Client.objects.filter(is_active=True).order_by('-id')
-    
+
+    clients_bruts = Client.objects.filter(
+        is_active=True
+    ).order_by('-id')
+
     clients_list = []
+
     for client in clients_bruts:
-        ventes_actives = client.ventes.filter(est_archive=False)
-        client.total_depenses_calcule = sum(v.montant_total for v in ventes_actives)
+
+        ventes_actives = client.ventes.filter(
+            est_archive=False
+        )
+
         client.nombre_achats = ventes_actives.count()
-        dernier = ventes_actives.order_by('-date_vente').first()
-        client.dernier_achat = dernier.date_vente if dernier else None
-        
-        c_date = client.date_inscription
+
+        client.total_depenses = ventes_actives.aggregate(
+            total=Sum('montant_total')
+        )['total'] or 0
+
+        c_date = getattr(client, 'date_inscription', None)
+
         client.est_nouveau = False
-        
+
         if c_date:
             if hasattr(c_date, 'date'):
-                c_date_pure = c_date.date()
-            else:
-                c_date_pure = c_date
-            
-            if c_date_pure == today:
+                c_date = c_date.date()
+
+            if c_date == today:
                 client.est_nouveau = True
-                
+
         clients_list.append(client)
+
+    # ==========================
+    # FILTRES
+    # ==========================
 
     if filter_type == 'loyal':
         clients_qs = [c for c in clients_list if c.nombre_achats >= 2]
     elif filter_type == 'new':
         clients_qs = [c for c in clients_list if c.est_nouveau]
     else:
+
         clients_qs = clients_list
 
     total_clients = Client.objects.filter(is_active=True).count()
@@ -771,51 +1051,32 @@ def gestion_clients(request):
     
     return render(request, 'astra/clients.html', context)
 
-def client_login(request, client_id):
-    client = get_object_or_404(Client, id=client_id)
-    
-    if not client.mot_de_passe:
-        client.mot_de_passe = "1234"
-        client.save()
-
+def login_view(request):
     if request.method == 'POST':
+        email = request.POST.get('email', '').strip() # Utilise l'email ou le nom d'utilisateur selon ton form de login
         password = request.POST.get('password', '').strip()
         
-        est_valide = (
-            password == "1234" 
-            or password == client.mot_de_passe 
-            or (client.mot_de_passe and check_password(password, client.mot_de_passe))
-        )
+        # Recherche par email ou nom d'utilisateur
+        user = User.objects.filter(email__iexact=email).first() or User.objects.filter(username__iexact=email).first()
         
-        if est_valide:
-            request.session['client_connecte_id'] = int(client.id)
+        if user is not None and user.check_password(password):
+            login(request, user)
+            
+            # Récupération et normalisation du rôle
+            role = normaliser_role(getattr(user, 'role', 'client'))
+            
+            request.session['user_role'] = role
+            request.session['connecte'] = True
             request.session.modified = True
-            request.session.save()
             
-            try:
-                sujet = f"Alerte Connexion : Client {client.nom}"
-                message = (
-                    f"Bonjour,\n\n"
-                    f"Le client {client.nom} (ID: {client.id}) vient de se connecter à son espace "
-                    f"le {timezone.now().strftime('%d/%m/%Y à %H:%M')}."
-                )
-                send_mail(sujet, message, None, ['lynel9324@gmail.com'], fail_silently=True)
-            except Exception as e:
-                print("Erreur d'envoi d'email de connexion :", e)
-            
-            try:
-                NotificationPlateforme.objects.create(
-                    titre=f"Connexion Client : {client.nom}",
-                    message=f"Le client {client.nom} vient de se connecter à son espace client le {timezone.now().strftime('%d/%m/%Y à %H:%M')}."
-                )
-            except Exception as notif_err:
-                print("Erreur de création de notification :", notif_err)
-            
-            return redirect('astra:espace_client', client_id=client.id)
+            return rediriger_selon_role(request, role=role, user_trouve=user)
         else:
-            messages.error(request, "Mot de passe ou token incorrect.")
+            messages.error(request, "Identifiants ou mot de passe incorrect.")
+            return render(request, 'astra/login.html')
             
-    return render(request, 'astra/client_login.html', {'client': client})
+    return render(request, 'astra/login.html')
+
+
 
 def espace_client(request, client_id):
     client_user = get_object_or_404(Client, id=client_id)
@@ -1177,7 +1438,6 @@ def connexion_fournisseur(request, fournisseur_id):
 # ==========================
 # GESTION DES APPROVISIONNEMENTS
 # ==========================
-@role_required(allowed_roles=['entreprise', 'admin'])
 
 def approvisionnements_view(request):
     if request.method == 'POST':
@@ -1299,7 +1559,6 @@ def supprimer_approvisionnement(request, pk):
             return JsonResponse({'success': False, 'error': str(e)})
     return JsonResponse({'success': False, 'error': 'Méthode non autorisée'})
 
-@role_required(allowed_roles=['admin'])
 @verifier_acces_strict
 def rapports(request):
     reset_actif = request.session.get('rapports_reset_actif', False)
@@ -1452,14 +1711,9 @@ def rapports(request):
 # PAGES & APIS PARAMÈTRES
 # ==========================
 
-@role_required(allowed_roles=['admin','entreprise'])
-@verifier_acces_strict
 def permissions_page_view(request):
     return render(request, 'astra/permissions.html')
 
-from astra.models import Vente, Client, Produit, Approvisionnement, Fournisseur
-from django.shortcuts import render
-@role_required(allowed_roles=['admin','entreprise'])
 def historiques_page_view(request):
     # Récupération séparée pour chaque bloc de la page
     logs_approvisionnement = []
@@ -1501,7 +1755,6 @@ def historiques_page_view(request):
     }
     return render(request, 'astra/historique.html', context)
 
-@role_required(allowed_roles=['etudiant', 'enseignant', 'entreprise', 'admin', 'candidat'])
 @verifier_acces_strict
 def propos(request):
     return render(request, 'astra/propos.html')
@@ -1552,7 +1805,7 @@ def api_save_permissions(request):
             
     return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée.'}, status=405)
 
-@role_required(allowed_roles=['admin'])
+
 @csrf_exempt
 def api_save_parametres(request):
     if request.method != 'POST':
@@ -1573,7 +1826,6 @@ def api_save_parametres(request):
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=400)
     
-@role_required(allowed_roles=['admin','entreprise'])
 def parametres_page_view(request):
     config, created = ParametreGlobal.objects.get_or_create(id=1)
 
@@ -1640,8 +1892,6 @@ def marquer_toutes_comme_lues(request):
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error'}, status=400)
 
-from django.shortcuts import get_object_or_404, redirect, render
-from .models import NotificationPlateforme
 
 def detail_notification(request, pk):
     # Récupère la notification ou renvoie une 404
@@ -1721,7 +1971,6 @@ def api_users_list_create(request):
             
     return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée.'}, status=405)    
 
-@role_required(allowed_roles=['admin','entreprise','client'])
 @csrf_exempt
 def mot_de_passe_oublie_client(request):
     if request.method == 'POST':
@@ -1757,7 +2006,6 @@ def mot_de_passe_oublie_client(request):
             
     return render(request, 'astra/mot_de_passe_oublie.html')
 
-@role_required(allowed_roles=['admin','entreprise','client'])
 def modifier_mot_de_passe_client(request, client_id):
     client = get_object_or_404(Client, id=client_id)
 
@@ -1771,7 +2019,6 @@ def modifier_mot_de_passe_client(request, client_id):
     return render(request, 'astra/modifier_password.html', {'client': client})
 
 
-@role_required(allowed_roles=['admin','entreprise'])
 def users_page_view(request):
     utilisateurs = User.objects.all().order_by('-date_joined')
     context = {
