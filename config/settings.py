@@ -151,6 +151,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 #
 # avec l'URL Turso dans NAME.
 # ==================================================
+# ==================================================
+# DATABASE
+# ==================================================
 
 USE_TURSO = (
     os.getenv("USE_TURSO", "False").lower() == "true"
@@ -167,56 +170,30 @@ TURSO_AUTH_TOKEN = os.getenv(
 ).strip()
 
 if USE_TURSO and TURSO_DATABASE_URL:
-
     # ==================================================
-    # PRODUCTION : TURSO / LIBSQL
+    # PRODUCTION : TURSO
     # ==================================================
-
-    # L'URL Turso peut commencer par libsql://
-    # Le backend django-libsql utilise l'URL complète
-    # avec le token dans la query string.
-
-    turso_url = TURSO_DATABASE_URL
-
-    if turso_url.startswith("libsql://"):
-        database_url = turso_url
-    elif turso_url.startswith("https://"):
-        database_url = turso_url
-    else:
-        database_url = turso_url
-
-    # Ajouter le token à l'URL si nécessaire.
-    if TURSO_AUTH_TOKEN:
-
-        separator = "&" if "?" in database_url else "?"
-
-        if "authToken=" not in database_url:
-            database_url = (
-                f"{database_url}"
-                f"{separator}"
-                f"authToken={TURSO_AUTH_TOKEN}"
-            )
-
     DATABASES = {
         "default": {
-            "ENGINE": "libsql.db.backends.sqlite3",
-            "NAME": database_url,
+            "ENGINE": "django_libsql",
+            "NAME": TURSO_DATABASE_URL,
+            "AUTH_TOKEN": TURSO_AUTH_TOKEN,
+            "OPTIONS": {
+                "timeout": 60,
+            },
         }
     }
 
 else:
-
     # ==================================================
     # LOCAL : SQLITE
     # ==================================================
-
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-
 # ==================================================
 # PASSWORD VALIDATION
 # ==================================================
