@@ -1033,13 +1033,22 @@ def accueil(request):
 
 def client_register(request):
 
+    # ==================================================
+    # REQUÊTE POST : CRÉATION DU COMPTE
+    # ==================================================
+
     if request.method == "POST":
+
+        # ==================================================
+        # RÉCUPÉRATION DES DONNÉES DU FORMULAIRE
+        # ==================================================
 
         nom = request.POST.get("nom", "").strip()
         prenom = request.POST.get("prenom", "").strip()
         email = request.POST.get("email", "").strip()
         telephone = request.POST.get("telephone", "").strip()
         role = request.POST.get("role", "client").strip().lower()
+
         password = request.POST.get("password", "")
         password_confirmation = request.POST.get(
             "password_confirmation",
@@ -1047,72 +1056,106 @@ def client_register(request):
         )
 
         # ==================================================
-        # VALIDATION DES CHAMPS
+        # NORMALISATION DU RÔLE
+        # ==================================================
+
+        if role not in ["client", "clients", "fournisseur", "fournisseurs"]:
+            role = "client"
+
+        # ==================================================
+        # VALIDATION DES CHAMPS OBLIGATOIRES
         # ==================================================
 
         if not nom or not prenom or not email or not password:
+
             messages.error(
                 request,
                 "Veuillez remplir tous les champs obligatoires."
             )
-            return render(request, "astra/login.html")
+
+            return render(
+                request,
+                "astra/login.html"
+            )
 
         # ==================================================
-        # VÉRIFICATION DES MOTS DE PASSE
+        # VÉRIFICATION DU MOT DE PASSE
         # ==================================================
 
         if password != password_confirmation:
+
             messages.error(
                 request,
                 "Les mots de passe ne correspondent pas."
             )
-            return render(request, "astra/login.html")
+
+            return render(
+                request,
+                "astra/login.html"
+            )
 
         # ==================================================
         # VÉRIFICATION DU MOT DE PASSE VIDE
         # ==================================================
 
         if not password.strip():
+
             messages.error(
                 request,
                 "Veuillez saisir un mot de passe."
             )
-            return render(request, "astra/login.html")
+
+            return render(
+                request,
+                "astra/login.html"
+            )
 
         # ==================================================
         # VÉRIFICATION DU NOM + PRÉNOM
         # ==================================================
 
-        if Utilisateur.objects.filter(
+        utilisateur_existant = Utilisateur.objects.filter(
             nom__iexact=nom,
             prenom__iexact=prenom
-        ).exists():
+        ).first()
+
+        if utilisateur_existant:
 
             messages.error(
                 request,
                 "Cet utilisateur existe déjà."
             )
-            return render(request, "astra/login.html")
+
+            return render(
+                request,
+                "astra/login.html"
+            )
 
         # ==================================================
         # VÉRIFICATION DE L'EMAIL
         # ==================================================
 
-        if email and Utilisateur.objects.filter(
-            email__iexact=email
-        ).exists():
+        if email:
 
-            messages.error(
-                request,
-                "Cette adresse email est déjà utilisée."
-            )
-            return render(request, "astra/login.html")
+            utilisateur_email_existant = Utilisateur.objects.filter(
+                email__iexact=email
+            ).first()
+
+            if utilisateur_email_existant:
+
+                messages.error(
+                    request,
+                    "Cette adresse email est déjà utilisée."
+                )
+
+                return render(
+                    request,
+                    "astra/login.html"
+                )
 
         # ==================================================
         # TRANSACTION
         # ==================================================
-        # L'utilisateur et son profil Client seront créés
-        # ensemble.
 
         try:
 
@@ -1131,33 +1174,63 @@ def client_register(request):
                     is_active=True,
                 )
 
-                # IMPORTANT :
-                # On utilise le mot de passe réellement saisi
-                # par l'utilisateur.
+                # ==================================================
+                # HASHAGE DU MOT DE PASSE
+                # ==================================================
 
                 utilisateur.set_password(password)
+
+                # ==================================================
+                # SAUVEGARDE DE L'UTILISATEUR
+                # ==================================================
 
                 utilisateur.save()
 
                 # ==================================================
-                # CRÉATION AUTOMATIQUE DU CLIENT
+                # VÉRIFICATION DU HASHAGE
+                # ==================================================
+
+                mot_de_passe_correct = utilisateur.check_password(
+                    password
+                )
+
+                if not mot_de_passe_correct:
+
+                    raise ValueError(
+                        "Erreur lors de la vérification du mot de passe."
+                    )
+
+                # ==================================================
+                # CRÉATION AUTOMATIQUE DU PROFIL CLIENT
                 # ==================================================
 
                 if role in ["client", "clients"]:
 
-                    # Vérifier qu'un client avec cet email
-                    # n'existe pas déjà.
+                    # --------------------------------------------------
+                    # RECHERCHE D'UN CLIENT EXISTANT AVEC CET EMAIL
+                    # --------------------------------------------------
 
                     client_existant = Client.objects.filter(
                         email__iexact=email
                     ).first()
 
+                    # --------------------------------------------------
+                    # SI LE CLIENT EXISTE DÉJÀ
+                    # --------------------------------------------------
+
                     if client_existant:
 
-                        print("=" * 60)
+                        print("=" * 70)
                         print("⚠️ PROFIL CLIENT DÉJÀ EXISTANT")
-                        print("Client :", client_existant)
-                        print("=" * 60)
+                        print("ID Client :", client_existant.id)
+                        print("Nom :", client_existant.nom)
+                        print("Prénom :", client_existant.prenom)
+                        print("Email :", client_existant.email)
+                        print("=" * 70)
+
+                    # --------------------------------------------------
+                    # SINON : CRÉATION DU CLIENT
+                    # --------------------------------------------------
 
                     else:
 
@@ -1169,24 +1242,20 @@ def client_register(request):
                             is_active=True,
                         )
 
-                        print("=" * 60)
+                        print("=" * 70)
                         print("✅ PROFIL CLIENT CRÉÉ")
                         print("ID Client :", client.id)
                         print("Nom :", client.nom)
                         print("Prénom :", client.prenom)
                         print("Email :", client.email)
                         print("Téléphone :", client.telephone)
-                        print("=" * 60)
+                        print("=" * 70)
 
                 # ==================================================
-                # VÉRIFICATION DU MOT DE PASSE
+                # LOGS DE CONFIRMATION
                 # ==================================================
 
-                mot_de_passe_correct = utilisateur.check_password(
-                    password
-                )
-
-                print("=" * 60)
+                print("=" * 70)
                 print("✅ NOUVEL UTILISATEUR CRÉÉ")
                 print("ID :", utilisateur.id)
                 print("Nom :", utilisateur.nom)
@@ -1198,19 +1267,10 @@ def client_register(request):
                     "Mot de passe correctement hashé :",
                     mot_de_passe_correct
                 )
-                print("=" * 60)
-
-                # ==================================================
-                # SÉCURITÉ
-                # ==================================================
-
-                if not mot_de_passe_correct:
-                    raise ValueError(
-                        "Erreur lors du hashage du mot de passe."
-                    )
+                print("=" * 70)
 
             # ==================================================
-            # SUCCÈS
+            # SUCCÈS DE LA TRANSACTION
             # ==================================================
 
             messages.success(
@@ -1220,16 +1280,29 @@ def client_register(request):
 
             return redirect("astra:login")
 
+        # ==================================================
+        # ERREUR LORS DE LA CRÉATION
+        # ==================================================
+
         except Exception as e:
 
-            print("=" * 60)
+            import traceback
+
+            print("=" * 80)
             print("❌ ERREUR LORS DE LA CRÉATION DU COMPTE")
-            print("Erreur :", str(e))
-            print("=" * 60)
+            print("TYPE D'ERREUR :", type(e).__name__)
+            print("MESSAGE :", str(e))
+            print("TRACEBACK COMPLET :")
+            traceback.print_exc()
+            print("=" * 80)
+
+            # --------------------------------------------------
+            # MESSAGE UTILISATEUR
+            # --------------------------------------------------
 
             messages.error(
                 request,
-                "Une erreur est survenue lors de la création du compte."
+                f"Erreur lors de la création du compte : {str(e)}"
             )
 
             return render(
@@ -1245,6 +1318,8 @@ def client_register(request):
         request,
         "astra/login.html"
     )
+
+
 # ==========================
 # GESTION DES TOKENS & UTILISATEURS
 # ==========================
