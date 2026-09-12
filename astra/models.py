@@ -1,8 +1,7 @@
-
 from datetime import timedelta
 import secrets
 
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Max
@@ -10,7 +9,7 @@ from django.utils import timezone
 
 
 # ============================================================
-# PROFIL UTILISATEUR
+# PROFIL UTILISATEUR DJANGO
 # ============================================================
 
 class UserProfile(models.Model):
@@ -144,6 +143,7 @@ class Produit(models.Model):
     def save(self, *args, **kwargs):
 
         if not self.reference:
+
             dernier = Produit.objects.order_by("-id").first()
 
             if dernier:
@@ -164,11 +164,34 @@ class Produit(models.Model):
 # ============================================================
 
 class Client(models.Model):
-    reference = models.CharField(max_length=100, unique=True, blank=True, null=True)
-    nom = models.CharField(max_length=255)
-    prenom = models.CharField(max_length=255, blank=True, null=True) # <-- AJOUTEZ CETTE LIGNE
-    telephone = models.CharField(max_length=50, blank=True)
-    email = models.EmailField(blank=True, null=True)
+
+    reference = models.CharField(
+        max_length=100,
+        unique=True,
+        blank=True,
+        null=True
+    )
+
+    nom = models.CharField(
+        max_length=255
+    )
+
+    prenom = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True
+    )
+
+    telephone = models.CharField(
+        max_length=50,
+        blank=True
+    )
+
+    email = models.EmailField(
+        blank=True,
+        null=True
+    )
+
     date_naissance = models.DateField(
         blank=True,
         null=True
@@ -202,11 +225,11 @@ class Client(models.Model):
 
     def save(self, *args, **kwargs):
 
-        # Mot de passe par défaut
+        # Mot de passe par défaut uniquement
+        # si aucun mot de passe n'a été fourni.
         if not self.mot_de_passe:
             self.mot_de_passe = make_password("1234")
 
-        # Génération automatique de la référence
         if not self.reference:
 
             max_id = Client.objects.aggregate(
@@ -648,12 +671,19 @@ class Notification(models.Model):
 # ============================================================
 # UTILISATEUR ACCES
 # ============================================================
+# Ancien système de gestion des tokens.
+# Conservé pour ne pas casser les anciennes fonctionnalités.
 
 class UtilisateurAcces(models.Model):
 
     ROLE_CHOICES = [
         ("client", "Client"),
         ("fournisseur", "Fournisseur"),
+        ("stocks", "Gestionnaire de stock"),
+        ("approvisionnement", "Approvisionnement"),
+        ("rapports", "Rapports"),
+        ("vente", "Vente"),
+        ("admin", "Administrateur"),
     ]
 
     nom = models.CharField(
@@ -674,7 +704,7 @@ class UtilisateurAcces(models.Model):
     )
 
     role = models.CharField(
-        max_length=20,
+        max_length=50,
         choices=ROLE_CHOICES
     )
 
@@ -731,25 +761,38 @@ class UtilisateurAcces(models.Model):
 
         return True
 
+    def __str__(self):
+        return f"{self.prenom} {self.nom} - {self.role}"
+
 
 # ============================================================
-# UTILISATEUR
+# UTILISATEUR PRINCIPAL ASTRA TECH
 # ============================================================
-
+#
+# IMPORTANT :
+# Tous les nouveaux comptes créés depuis le formulaire
+# d'inscription doivent être enregistrés dans cette table.
+#
+# Connexion :
+#       Nom + Prénom + Mot de passe
+#
+# Le mot de passe est stocké sous forme de HASH.
+# ============================================================
 class Utilisateur(models.Model):
 
-    nom = models.CharField(
-        max_length=150
-    )
+    ROLE_CHOICES = [
+        ("client", "Client"),
+        ("fournisseur", "Fournisseur"),
+        ("stocks", "Gestionnaire de stock"),
+        ("approvisionnement", "Approvisionnement"),
+        ("rapports", "Rapports"),
+        ("vente", "Vente"),
+        ("admin", "Administrateur"),
+    ]
 
-    prenom = models.CharField(
-        max_length=150
-    )
-
-    email = models.EmailField(
-        unique=True
-    )
-
+    nom = models.CharField(max_length=150)
+    prenom = models.CharField(max_length=150)
+    email = models.EmailField(unique=True)
     telephone = models.CharField(
         max_length=50,
         blank=True,
@@ -758,13 +801,26 @@ class Utilisateur(models.Model):
 
     role = models.CharField(
         max_length=50,
+        choices=ROLE_CHOICES,
         default="client"
     )
 
-    password = models.CharField(
-        max_length=255
+    password = models.CharField(max_length=255)
+
+    is_active = models.BooleanField(default=True)
+
+    date_inscription = models.DateTimeField(
+        auto_now_add=True
     )
+
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+
+    def check_password(self, raw_password):
+        return check_password(
+            raw_password,
+            self.password
+        )
 
     def __str__(self):
         return f"{self.prenom} {self.nom} - {self.role}"
-

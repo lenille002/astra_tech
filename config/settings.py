@@ -96,31 +96,50 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # ==================================================
 # DATABASE
 # ==================================================
+# ==================================================
+# DATABASE
+# ==================================================
 
-_TURSO_URL = os.getenv('TURSO_DATABASE_URL')
-_TURSO_TOKEN = os.getenv('TURSO_AUTH_TOKEN')
+# En local :
+#   USE_TURSO=False
+#
+# Sur Vercel :
+#   USE_TURSO=True
 
-if _TURSO_URL:
-    # Production (Vercel Turso/libSQL)
+USE_TURSO = os.getenv("USE_TURSO", "False").lower() == "true"
+
+_TURSO_URL = os.getenv("TURSO_DATABASE_URL")
+_TURSO_TOKEN = os.getenv("TURSO_AUTH_TOKEN")
+
+if USE_TURSO and _TURSO_URL:
+
+    # ==================================================
+    # PRODUCTION : TURSO / LIBSQL
+    # ==================================================
+
     DATABASES = {
-        'default': {
-            'ENGINE': 'django_libsql',
-            'NAME': _TURSO_URL,
-            'AUTH_TOKEN': _TURSO_TOKEN,
-            'OPTIONS': {
-                'timeout': 60,
+        "default": {
+            "ENGINE": "django_libsql",
+            "NAME": _TURSO_URL,
+            "AUTH_TOKEN": _TURSO_TOKEN,
+            "OPTIONS": {
+                "timeout": 60,
             },
         }
     }
+
 else:
-    # Développement local : SQLite
+
+    # ==================================================
+    # DÉVELOPPEMENT LOCAL : SQLITE
+    # ==================================================
+
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-
 # ==================================================
 # PASSWORD VALIDATION
 # ==================================================

@@ -232,45 +232,116 @@ Astra Tech - Gestion des Fournisseurs
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. Ouverture modale Ajout
+
+        // =========================================================
+        // 1. OUVERTURE DE LA MODALE AJOUT FOURNISSEUR
+        // =========================================================
+
         const addBtn = document.getElementById('addSupplierBtn');
         const supplierModal = document.getElementById('supplierModal');
+
         if (addBtn && supplierModal) {
             addBtn.addEventListener('click', () => {
-                document.getElementById('supplierModalTitle').innerText = "Nouveau Fournisseur";
-                document.getElementById('supplierForm').reset();
-                document.getElementById('supplier_id').value = '';
+
+                const title = document.getElementById('supplierModalTitle');
+                const form = document.getElementById('supplierForm');
+                const supplierId = document.getElementById('supplier_id');
+
+                if (title) {
+                    title.innerText = "Nouveau Fournisseur";
+                }
+
+                if (form) {
+                    form.reset();
+                }
+
+                if (supplierId) {
+                    supplierId.value = '';
+                }
+
                 supplierModal.classList.remove('hidden');
             });
         }
 
-        // 2. Écouteurs pour les boutons Modifier
+
+        // =========================================================
+        // 2. MODIFICATION D'UN FOURNISSEUR
+        // =========================================================
+
         document.querySelectorAll('.edit-btn').forEach(btn => {
+
             btn.addEventListener('click', () => {
-                document.getElementById('supplierModalTitle').innerText = "Modifier le Fournisseur";
-                document.getElementById('supplier_id').value = btn.dataset.id;
-                document.getElementById('nom').value = btn.dataset.nom;
-                document.getElementById('contact').value = btn.dataset.contact;
-                document.getElementById('telephone').value = btn.dataset.telephone;
-                document.getElementById('email').value = btn.dataset.email;
-                document.getElementById('supplierModal').classList.remove('hidden');
+
+                const title = document.getElementById('supplierModalTitle');
+                const supplierId = document.getElementById('supplier_id');
+                const nom = document.getElementById('nom');
+                const contact = document.getElementById('contact');
+                const telephone = document.getElementById('telephone');
+                const email = document.getElementById('email');
+                const modal = document.getElementById('supplierModal');
+
+                if (title) {
+                    title.innerText = "Modifier le Fournisseur";
+                }
+
+                if (supplierId) {
+                    supplierId.value = btn.dataset.id || '';
+                }
+
+                if (nom) {
+                    nom.value = btn.dataset.nom || '';
+                }
+
+                if (contact) {
+                    contact.value = btn.dataset.contact || '';
+                }
+
+                if (telephone) {
+                    telephone.value = btn.dataset.telephone || '';
+                }
+
+                if (email) {
+                    email.value = btn.dataset.email || '';
+                }
+
+                if (modal) {
+                    modal.classList.remove('hidden');
+                }
             });
+
         });
 
-        // 3. Interception AJAX du formulaire d'e-mail pour éviter l'affichage du JSON brut
+
+        // =========================================================
+        // 3. ENVOI D'E-MAIL EN AJAX
+        // =========================================================
+
         const formEmail = document.getElementById('formEmailFournisseur');
+
         if (formEmail) {
-            formEmail.addEventListener('submit', async function(e) {
+
+            formEmail.addEventListener('submit', async function (e) {
+
                 e.preventDefault();
+
                 const submitBtn = document.getElementById('submitEmailBtn');
+
+                if (!submitBtn) {
+                    return;
+                }
+
                 const originalText = submitBtn.innerHTML;
-                
-                // Effet de chargement sur le bouton
+
+                // Désactiver le bouton pendant l'envoi
                 submitBtn.disabled = true;
-                submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Envoi en cours...`;
+
+                submitBtn.innerHTML =
+                    '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
 
                 try {
+
                     const formData = new FormData(formEmail);
+
                     const response = await fetch(formEmail.action, {
                         method: 'POST',
                         body: formData,
@@ -279,79 +350,241 @@ Astra Tech - Gestion des Fournisseurs
                         }
                     });
 
+                    // Vérifier que la réponse est bien du JSON
+                    const contentType = response.headers.get('content-type') || '';
+
+                    if (!contentType.includes('application/json')) {
+                        throw new Error('Réponse serveur invalide.');
+                    }
+
                     const data = await response.json();
+
+                    // Fermer la modale
                     fermerModalEmail();
+
+                    // Réinitialiser le formulaire
                     formEmail.reset();
 
                     if (response.ok && data.status === 'success') {
-                        showToast(data.message, 'success');
+
+                        showToast(
+                            data.message || 'E-mail envoyé avec succès.',
+                            'success'
+                        );
+
                     } else {
-                        showToast(data.message || 'Une erreur est survenue lors de l\'envoi.', 'error');
+
+                        showToast(
+                            data.message || 'Une erreur est survenue lors de l\'envoi.',
+                            'error'
+                        );
                     }
+
                 } catch (error) {
+
+                    console.error('Erreur AJAX e-mail :', error);
+
                     fermerModalEmail();
-                    showToast('Erreur de connexion au serveur.', 'error');
+
+                    showToast(
+                        'Impossible de contacter le serveur.',
+                        'error'
+                    );
+
                 } finally {
+
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
                 }
+
             });
         }
+
     });
 
-    // Système de Toast de Notification élégant
+
+    // =============================================================
+    // 4. SYSTÈME DE NOTIFICATION TOAST
+    // =============================================================
+
     function showToast(message, type = 'success') {
+
         const toast = document.getElementById('toastNotification');
         const content = document.getElementById('toastContent');
         const icon = document.getElementById('toastIcon');
         const text = document.getElementById('toastMessage');
 
+        if (!toast || !content || !icon || !text) {
+            return;
+        }
+
         text.innerText = message;
-        
+
         if (type === 'success') {
-            content.className = "flex items-center gap-3 p-4 rounded-xl shadow-xl border bg-green-50 text-green-800 border-green-200";
-            icon.className = "fas fa-check-circle text-green-600 text-lg";
+
+            content.className =
+                'flex items-center gap-3 p-4 rounded-xl shadow-xl border ' +
+                'bg-green-50 text-green-800 border-green-200';
+
+            icon.className =
+                'fas fa-check-circle text-green-600 text-lg';
+
         } else {
-            content.className = "flex items-center gap-3 p-4 rounded-xl shadow-xl border bg-red-50 text-red-800 border-red-200";
-            icon.className = "fas fa-exclamation-circle text-red-600 text-lg";
+
+            content.className =
+                'flex items-center gap-3 p-4 rounded-xl shadow-xl border ' +
+                'bg-red-50 text-red-800 border-red-200';
+
+            icon.className =
+                'fas fa-exclamation-circle text-red-600 text-lg';
         }
 
         // Afficher
-        toast.classList.remove('translate-y-[-150%]', 'opacity-0');
-        toast.classList.add('translate-y-0', 'opacity-100');
+        toast.classList.remove(
+            'translate-y-[-150%]',
+            'opacity-0'
+        );
+
+        toast.classList.add(
+            'translate-y-0',
+            'opacity-100'
+        );
 
         // Masquer après 4 secondes
         setTimeout(() => {
-            toast.classList.remove('translate-y-0', 'opacity-100');
-            toast.classList.add('translate-y-[-150%]', 'opacity-0');
+
+            toast.classList.remove(
+                'translate-y-0',
+                'opacity-100'
+            );
+
+            toast.classList.add(
+                'translate-y-[-150%]',
+                'opacity-0'
+            );
+
         }, 4000);
     }
 
-    // Fermetures modales formulaire
+
+    // =============================================================
+    // 5. FERMER LA MODALE AJOUT / MODIFICATION
+    // =============================================================
+
     function fermerModalFournisseur() {
-        document.getElementById('supplierModal').classList.add('hidden');
+
+        const modal = document.getElementById('supplierModal');
+
+        if (modal) {
+            modal.classList.add('hidden');
+        }
     }
 
-    // Gestion de la modale Connexion Espace Activités
-    function ouvrirModalConnexionFournisseur(id, nom) {
-        document.getElementById('nomFournisseurConnexion').innerText = nom;
-        const form = document.getElementById('formConnexionFournisseur');
-        form.action = `/fournisseur/${id}/connexion/`; 
-        document.getElementById('modalConnexionFournisseur').classList.remove('hidden');
+
+    // =============================================================
+    // 6. OUVRIR LA MODALE DE CONNEXION FOURNISSEUR
+    // =============================================================
+
+    function ouvrirModalConnexionFournisseur(id, nom, urlAction) {
+
+        const nomElement =
+            document.getElementById('nomFournisseurConnexion');
+
+        const form =
+            document.getElementById('formConnexionFournisseur');
+
+        const modal =
+            document.getElementById('modalConnexionFournisseur');
+
+
+        if (nomElement) {
+            nomElement.innerText = nom;
+        }
+
+        if (form) {
+
+            // URL générée directement par Django
+            form.action = urlAction;
+        }
+
+        if (modal) {
+            modal.classList.remove('hidden');
+        }
     }
+
+
+    // =============================================================
+    // 7. FERMER LA MODALE DE CONNEXION FOURNISSEUR
+    // =============================================================
+
     function fermerModalConnexionFournisseur() {
-        document.getElementById('modalConnexionFournisseur').classList.add('hidden');
+
+        const modal =
+            document.getElementById('modalConnexionFournisseur');
+
+        const form =
+            document.getElementById('formConnexionFournisseur');
+
+        if (form) {
+            form.reset();
+        }
+
+        if (modal) {
+            modal.classList.add('hidden');
+        }
     }
 
-    // Gestion de la modale d'e-mail
+
+    // =============================================================
+    // 8. OUVRIR LA MODALE D'ENVOI D'E-MAIL
+    // =============================================================
+
     function ouvrirModalEmail(id, nom, email, urlAction) {
-        document.getElementById('emailDestinataireNom').innerText = nom + (email ? ` (${email})` : ' (Pas d\'email)');
-        const form = document.getElementById('formEmailFournisseur');
-        form.action = urlAction;
-        document.getElementById('modalEmail').classList.remove('hidden');
+
+        const nomElement =
+            document.getElementById('emailDestinataireNom');
+
+        const form =
+            document.getElementById('formEmailFournisseur');
+
+        const modal =
+            document.getElementById('modalEmail');
+
+
+        if (nomElement) {
+
+            nomElement.innerText =
+                nom + (
+                    email
+                        ? ` (${email})`
+                        : ' (Pas d\'email)'
+                );
+        }
+
+        if (form) {
+            form.action = urlAction;
+        }
+
+        if (modal) {
+            modal.classList.remove('hidden');
+        }
     }
+
+
+    // =============================================================
+    // 9. FERMER LA MODALE E-MAIL
+    // =============================================================
+
     function fermerModalEmail() {
-        document.getElementById('modalEmail').classList.add('hidden');
+
+        const modal =
+            document.getElementById('modalEmail');
+
+        if (modal) {
+            modal.classList.add('hidden');
+        }
     }
+
 </script>
+
 {% endblock %}
