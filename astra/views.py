@@ -130,6 +130,7 @@ ROLES_AUTORISES = {
     "client": [
         "clients",
         "ventes",
+        "propos",
     ],
 
     # Fournisseur
@@ -138,29 +139,22 @@ ROLES_AUTORISES = {
         "approvisionnement",
     ],
 
-    # Gestionnaire des stocks
-    "stocks": [
-        "stocks",
-    ],
-
     # Approvisionnement
     "approvisionnement": [
         "approvisionnement",
         "fournisseurs",
-        "stocks",
     ],
 
-    # Rapports
+    # Stocks et rapports : administrateur uniquement
+    "stocks": [
+    ],
     "rapports": [
-        "rapports",
     ],
 
-    # Vente
+    # Rôles historiques conservés pour les sessions existantes
     "vente": [
         "ventes",
         "clients",
-        "stocks",
-        "rapports",
     ],
 
     # Administrateur
@@ -171,6 +165,7 @@ ROLES_AUTORISES = {
         "approvisionnement",
         "stocks",
         "rapports",
+        "propos",
     ],
 }
 
@@ -1018,6 +1013,15 @@ def deconnexion(request):
 # ==========================
 # ACCUEIL & INSCRIPTION
 # ==========================
+@verifier_acces_strict(
+    allowed_roles=[
+        "admin",
+        "client",
+        "fournisseur",
+        "approvisionnement",
+        "vente",
+    ]
+)
 def accueil(request):
     aujourd_hui = timezone.now().date()
     debut_mois = aujourd_hui.replace(day=1)
@@ -1511,6 +1515,7 @@ def api_user_detail_update_delete(request, pk):
 # ==========================
 # VENTES
 # ==========================
+@verifier_acces_strict(allowed_roles=["admin", "client"])
 def ventes_view(request):
     produits = Produit.objects.filter(stock__gt=0, is_active=True)
     ventes_list = Vente.objects.filter(est_archive=False).select_related('client').order_by('-id')
@@ -1803,7 +1808,7 @@ def modifier_vente(request, vente_id):
 
     return JsonResponse({'success': False, 'error': 'Méthode non autorisée.'}, status=405)
 
-@verifier_role(['client']) # ou le rôle approprié
+@verifier_acces_strict(allowed_roles=["admin", "client"])
 def gestion_clients(request):
     # 1. Gestion de l’ajout d’un client en POST
     if request.method == 'POST':
@@ -2079,7 +2084,7 @@ def reset_page_rapports(request):
 # ==========================
 # STOCKS & PRODUITS
 # ==========================
-@verifier_role(["client", "vendeur"])
+@verifier_acces_strict(allowed_roles=["admin"])
 def stock_view(request):
     produits = Produit.objects.filter(is_active=True).select_related('categorie')
     categories = Categorie.objects.all()
@@ -2099,7 +2104,7 @@ def stock_view(request):
     }
     return render(request, 'astra/stock.html', context)
 
-@verifier_role(["client", "vendeur"])
+@verifier_acces_strict(allowed_roles=["admin"])
 def liste_stocks(request):
     categories = Categorie.objects.prefetch_related('produit_set').all()
     produits = Produit.objects.all()
@@ -2187,7 +2192,7 @@ def supprimer_produit(request, product_id):
 # ==========================
 # FOURNISSEURS & ESPACE FOURNISSEUR DÉDIÉ
 # ==========================
-@verifier_acces_strict
+@verifier_acces_strict(allowed_roles=["admin", "fournisseur", "approvisionnement"])
 def fournisseurs(request):
     """
     Gestion de la liste des fournisseurs :
@@ -2712,6 +2717,7 @@ def connexion_fournisseur(request, fournisseur_id):
 # GESTION DES APPROVISIONNEMENTS
 # ==========================
 
+@verifier_acces_strict(allowed_roles=["admin", "fournisseur", "approvisionnement"])
 def approvisionnements_view(request):
     if request.method == 'POST':
         fournisseur_id = request.POST.get('fournisseur')
@@ -2832,7 +2838,7 @@ def supprimer_approvisionnement(request, pk):
             return JsonResponse({'success': False, 'error': str(e)})
     return JsonResponse({'success': False, 'error': 'Méthode non autorisée'})
 
-@verifier_acces_strict
+@verifier_acces_strict(allowed_roles=["admin"])
 def rapports(request):
     reset_actif = request.session.get('rapports_reset_actif', False)
 
@@ -3028,7 +3034,7 @@ def historiques_page_view(request):
     }
     return render(request, 'astra/historique.html', context)
 
-@verifier_acces_strict
+@verifier_acces_strict(allowed_roles=["admin", "client"])
 def propos(request):
     return render(request, 'astra/propos.html')
 
