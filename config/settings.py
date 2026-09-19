@@ -9,6 +9,7 @@ from pathlib import Path
 import os
 
 from dotenv import load_dotenv
+from django.core.exceptions import ImproperlyConfigured
 
 # ==================================================
 # CHARGEMENT DU .env
@@ -159,6 +160,8 @@ USE_TURSO = (
     os.getenv("USE_TURSO", "False").lower() == "true"
 )
 
+IS_VERCEL = bool(os.getenv("VERCEL"))
+
 TURSO_DATABASE_URL = os.getenv(
     "TURSO_DATABASE_URL",
     ""
@@ -169,7 +172,19 @@ TURSO_AUTH_TOKEN = os.getenv(
     ""
 ).strip()
 
-if USE_TURSO and TURSO_DATABASE_URL:
+if IS_VERCEL and not TURSO_DATABASE_URL:
+    raise ImproperlyConfigured(
+        "TURSO_DATABASE_URL doit être configurée dans les variables "
+        "d'environnement Vercel. SQLite local n'est pas inscriptible sur Vercel."
+    )
+
+if IS_VERCEL and not TURSO_AUTH_TOKEN:
+    raise ImproperlyConfigured(
+        "TURSO_AUTH_TOKEN doit être configurée dans les variables "
+        "d'environnement Vercel."
+    )
+
+if (IS_VERCEL or USE_TURSO) and TURSO_DATABASE_URL:
     # ==================================================
     # PRODUCTION : TURSO
     # ==================================================
