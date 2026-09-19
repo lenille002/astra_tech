@@ -172,16 +172,15 @@ TURSO_AUTH_TOKEN = os.getenv(
     ""
 ).strip()
 
-if IS_VERCEL and not TURSO_DATABASE_URL:
-    raise ImproperlyConfigured(
-        "TURSO_DATABASE_URL doit être configurée dans les variables "
-        "d'environnement Vercel. SQLite local n'est pas inscriptible sur Vercel."
-    )
+TURSO_CONFIGURATION_IS_PLACEHOLDER = (
+    "..." in TURSO_DATABASE_URL
+    or TURSO_AUTH_TOKEN in {"", "..."}
+)
 
-if IS_VERCEL and not TURSO_AUTH_TOKEN:
+if (IS_VERCEL or USE_TURSO) and TURSO_CONFIGURATION_IS_PLACEHOLDER:
     raise ImproperlyConfigured(
-        "TURSO_AUTH_TOKEN doit être configurée dans les variables "
-        "d'environnement Vercel."
+        "Les variables TURSO_DATABASE_URL et TURSO_AUTH_TOKEN doivent "
+        "contenir les vraies valeurs Turso, pas des valeurs d'exemple."
     )
 
 if (IS_VERCEL or USE_TURSO) and TURSO_DATABASE_URL:
