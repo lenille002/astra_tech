@@ -15,7 +15,7 @@ from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction
 from django.db.models import Count, F, FloatField, Max, Q, Sum
-from django.db.models.functions import Coalesce, TruncMonth, TruncYear
+from django.db.models.functions import Coalesce, Lower, Trim, TruncMonth, TruncYear
 from django.http import (
     HttpResponse,
     HttpResponseForbidden,
@@ -764,10 +764,14 @@ def login_view(request):
     # RECHERCHE DE L'UTILISATEUR
     # ==========================================================
 
-    utilisateur = Utilisateur.objects.filter(
-        Q(nom__iexact=nom, prenom__iexact=prenom)
-        | Q(nom__iexact=prenom, prenom__iexact=nom)
-        | Q(email__iexact=nom)
+    utilisateur = Utilisateur.objects.annotate(
+        nom_normalise=Lower(Trim("nom")),
+        prenom_normalise=Lower(Trim("prenom")),
+        email_normalise=Lower(Trim("email")),
+    ).filter(
+        Q(nom_normalise=nom.lower(), prenom_normalise=prenom.lower())
+        | Q(nom_normalise=prenom.lower(), prenom_normalise=nom.lower())
+        | Q(email_normalise=nom.lower())
     ).first()
 
     print("Utilisateur trouvé :", utilisateur)
@@ -1046,7 +1050,7 @@ def client_register(request):
 
         nom = request.POST.get("nom", "").strip()
         prenom = request.POST.get("prenom", "").strip()
-        email = request.POST.get("email", "").strip()
+        email = request.POST.get("email", "").strip().lower()
         telephone = request.POST.get("telephone", "").strip()
         role = request.POST.get("role", "client").strip().lower()
 
@@ -1913,15 +1917,19 @@ def login_view(request):
     print("Password reçu :", "*" * len(password))
 
     # Vérification des champs
-    if not nom or not prenom or not password:
+    if not nom or not password:
         messages.error(request, "Veuillez remplir tous les champs.")
         return render(request, "astra/login.html")
 
     # Recherche dans NOTRE table Utilisateur
-    utilisateur = Utilisateur.objects.filter(
-        Q(nom__iexact=nom, prenom__iexact=prenom)
-        | Q(nom__iexact=prenom, prenom__iexact=nom)
-        | Q(email__iexact=nom)
+    utilisateur = Utilisateur.objects.annotate(
+        nom_normalise=Lower(Trim("nom")),
+        prenom_normalise=Lower(Trim("prenom")),
+        email_normalise=Lower(Trim("email")),
+    ).filter(
+        Q(nom_normalise=nom.lower(), prenom_normalise=prenom.lower())
+        | Q(nom_normalise=prenom.lower(), prenom_normalise=nom.lower())
+        | Q(email_normalise=nom.lower())
     ).first()
 
     print("Utilisateur trouvé :", utilisateur)
