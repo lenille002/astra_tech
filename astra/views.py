@@ -741,8 +741,8 @@ def login_view(request):
     # RÉCUPÉRATION DES CHAMPS
     # ==========================================================
 
-    nom = request.POST.get("nom", "").strip()
-    prenom = request.POST.get("prenom", "").strip()
+    nom = " ".join(request.POST.get("nom", "").split())
+    prenom = " ".join(request.POST.get("prenom", "").split())
     password = request.POST.get("password", "")
 
     print("Nom reçu      :", repr(nom))
@@ -765,8 +765,9 @@ def login_view(request):
     # ==========================================================
 
     utilisateur = Utilisateur.objects.filter(
-        nom__iexact=nom,
-        prenom__iexact=prenom
+        Q(nom__iexact=nom, prenom__iexact=prenom)
+        | Q(nom__iexact=prenom, prenom__iexact=nom)
+        | Q(email__iexact=nom)
     ).first()
 
     print("Utilisateur trouvé :", utilisateur)
@@ -1903,8 +1904,8 @@ def login_view(request):
         return render(request, "astra/login.html")
 
     # Récupération des champs du formulaire
-    nom = request.POST.get("nom", "").strip()
-    prenom = request.POST.get("prenom", "").strip()
+    nom = " ".join(request.POST.get("nom", "").split())
+    prenom = " ".join(request.POST.get("prenom", "").split())
     password = request.POST.get("password", "")
 
     print("Nom reçu      :", repr(nom))
@@ -1918,8 +1919,9 @@ def login_view(request):
 
     # Recherche dans NOTRE table Utilisateur
     utilisateur = Utilisateur.objects.filter(
-        nom__iexact=nom,
-        prenom__iexact=prenom
+        Q(nom__iexact=nom, prenom__iexact=prenom)
+        | Q(nom__iexact=prenom, prenom__iexact=nom)
+        | Q(email__iexact=nom)
     ).first()
 
     print("Utilisateur trouvé :", utilisateur)
