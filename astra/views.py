@@ -741,11 +741,13 @@ def login_view(request):
     # RÉCUPÉRATION DES CHAMPS
     # ==========================================================
 
-    nom = " ".join(request.POST.get("nom", "").split())
+    identifiant = " ".join(
+        request.POST.get("identifiant", request.POST.get("nom", "")).split()
+    )
     prenom = " ".join(request.POST.get("prenom", "").split())
     password = request.POST.get("password", "")
 
-    print("Nom reçu      :", repr(nom))
+    print("Identifiant reçu :", repr(identifiant))
     print("Prénom reçu   :", repr(prenom))
     print("Password reçu :", "*" * len(password))
 
@@ -753,7 +755,7 @@ def login_view(request):
     # VÉRIFICATION DES CHAMPS
     # ==========================================================
 
-    if not nom or not prenom or not password:
+    if not identifiant or not password:
         messages.error(
             request,
             "Veuillez remplir tous les champs."
@@ -769,9 +771,9 @@ def login_view(request):
         prenom_normalise=Lower(Trim("prenom")),
         email_normalise=Lower(Trim("email")),
     ).filter(
-        Q(nom_normalise=nom.lower(), prenom_normalise=prenom.lower())
-        | Q(nom_normalise=prenom.lower(), prenom_normalise=nom.lower())
-        | Q(email_normalise=nom.lower())
+        Q(nom_normalise=identifiant.lower(), prenom_normalise=prenom.lower())
+        | Q(nom_normalise=prenom.lower(), prenom_normalise=identifiant.lower())
+        | Q(email_normalise=identifiant.lower())
     ).first()
 
     print("Utilisateur trouvé :", utilisateur)
@@ -1908,16 +1910,18 @@ def login_view(request):
         return render(request, "astra/login.html")
 
     # Récupération des champs du formulaire
-    nom = " ".join(request.POST.get("nom", "").split())
+    identifiant = " ".join(
+        request.POST.get("identifiant", request.POST.get("nom", "")).split()
+    )
     prenom = " ".join(request.POST.get("prenom", "").split())
     password = request.POST.get("password", "")
 
-    print("Nom reçu      :", repr(nom))
+    print("Identifiant reçu :", repr(identifiant))
     print("Prénom reçu   :", repr(prenom))
     print("Password reçu :", "*" * len(password))
 
     # Vérification des champs
-    if not nom or not password:
+    if not identifiant or not password:
         messages.error(request, "Veuillez remplir tous les champs.")
         return render(request, "astra/login.html")
 
@@ -1927,9 +1931,9 @@ def login_view(request):
         prenom_normalise=Lower(Trim("prenom")),
         email_normalise=Lower(Trim("email")),
     ).filter(
-        Q(nom_normalise=nom.lower(), prenom_normalise=prenom.lower())
-        | Q(nom_normalise=prenom.lower(), prenom_normalise=nom.lower())
-        | Q(email_normalise=nom.lower())
+        Q(nom_normalise=identifiant.lower(), prenom_normalise=prenom.lower())
+        | Q(nom_normalise=prenom.lower(), prenom_normalise=identifiant.lower())
+        | Q(email_normalise=identifiant.lower())
     ).first()
 
     print("Utilisateur trouvé :", utilisateur)
@@ -1937,10 +1941,7 @@ def login_view(request):
     # Utilisateur inexistant
     if utilisateur is None:
         print("❌ Aucun utilisateur trouvé")
-        messages.error(
-            request,
-            "Identifiants ou mot de passe incorrect."
-        )
+        messages.error(request, "Aucun compte ne correspond à cet identifiant.")
         return render(request, "astra/login.html")
 
     print("ID utilisateur :", utilisateur.id)
@@ -1962,10 +1963,7 @@ def login_view(request):
 
     if not password_correct:
         print("❌ Mot de passe incorrect")
-        messages.error(
-            request,
-            "Identifiants ou mot de passe incorrect."
-        )
+        messages.error(request, "Le mot de passe est incorrect.")
         return render(request, "astra/login.html")
 
     # ==========================================================
