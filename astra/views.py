@@ -1107,6 +1107,11 @@ def accueil(request):
     return render(request, 'astra/accueil.html', context)
 
 
+@verifier_acces_strict(allowed_roles=["admin"])
+def connexion_admin_page(request):
+    return render(request, "astra/connexion.html")
+
+
 def client_register(request):
 
     # ==================================================

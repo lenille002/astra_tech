@@ -11,6 +11,11 @@ urlpatterns = [
 
      path("", views.login_view, name="login"),
     path("connexion/", views.login_view, name="connexion"),
+    path(
+        "connexion-admin/",
+        views.connexion_admin_page,
+        name="connexion_admin"
+    ),
 
    path("accueil/", views.accueil, name="accueil"),
     path("logout/", views.deconnexion, name="logout"),
