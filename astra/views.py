@@ -448,6 +448,9 @@ def verifier_acces_strict(view_func=None, allowed_roles=None):
                     "Vous n'avez pas l'autorisation d'accéder à cette page."
                 )
 
+                if allowed_roles is not None and roles_autorises == ["admin"]:
+                    return redirect("astra:login")
+
                 return rediriger_selon_role(request, role)
 
             # ==================================================
@@ -1342,9 +1345,9 @@ def client_register(request):
 # ==========================
 # GESTION DES TOKENS & UTILISATEURS
 # ==========================
-@verifier_acces_strict(allowed_roles=['admin', 'fournisseur', 'approvisionneur', 'client'])
+@verifier_acces_strict(allowed_roles=['admin'])
 def token_accueil(request):
-    registered_users = User.objects.all().order_by('username')
+    registered_users = Utilisateur.objects.all().order_by('nom', 'prenom')
     context = {
         'registered_users': registered_users,
     }
@@ -1446,7 +1449,12 @@ def get_emails_clients_fournisseurs_api(request):
 
 @verifier_acces_strict(allowed_roles=['admin'])
 def users_page_view(request):
-    return render(request, 'astra/page_utilisateurs.html')
+    utilisateurs = Utilisateur.objects.all().order_by('-date_inscription')
+    context = {
+        'utilisateurs': utilisateurs,
+        'roles': Utilisateur.ROLE_CHOICES,
+    }
+    return render(request, 'astra/page_utilisateurs.html', context)
 
 
 @csrf_exempt
@@ -3004,6 +3012,7 @@ def rapports(request):
 # PAGES & APIS PARAMÈTRES
 # ==========================
 
+@verifier_acces_strict(allowed_roles=["admin"])
 def permissions_page_view(request):
     return render(request, 'astra/permissions.html')
 
@@ -3054,6 +3063,7 @@ def propos(request):
 
 
 @csrf_exempt
+@verifier_acces_strict(allowed_roles=["admin"])
 def api_save_permissions(request):
     if request.method == 'POST':
         try:
@@ -3100,6 +3110,7 @@ def api_save_permissions(request):
 
 
 @csrf_exempt
+@verifier_acces_strict(allowed_roles=["admin"])
 def api_save_parametres(request):
     if request.method != 'POST':
         return JsonResponse({'success': False, 'error': 'Méthode non autorisée.'}, status=405)
@@ -3119,6 +3130,7 @@ def api_save_parametres(request):
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=400)
     
+@verifier_acces_strict(allowed_roles=["admin"])
 def parametres_page_view(request):
     config, created = ParametreGlobal.objects.get_or_create(id=1)
 
@@ -3226,43 +3238,58 @@ def notifications_header(request):
     }
 
 @csrf_exempt
+@verifier_acces_strict(allowed_roles=["admin"])
 def api_users_list_create(request):
-    if request.method == 'GET':
-        # Permet de lister les utilisateurs si le JS en a besoin
-        utilisateurs = list(User.objects.values('id', 'first_name', 'last_name', 'email', 'is_active'))
-        return JsonResponse({'status': 'success', 'users': utilisateurs})
+    if request.method == "GET":
+        utilisateurs = list(Utilisateur.objects.values(
+            "id", "nom", "prenom", "email", "role", "is_active",
+            "date_inscription"
+        ))
+        return JsonResponse({"status": "success", "users": utilisateurs})
 
-    if request.method == 'POST':
+    if request.method == "POST":
         try:
             data = json.loads(request.body)
-            
-            prenom = data.get('prenom', '').strip()
-            nom = data.get('nom', '').strip()
-            email = data.get('email', '').strip()
-            password = data.get('mot_de_passe', 'Passer123!')
-            
-            if not nom or not email:
-                return JsonResponse({'status': 'error', 'message': 'Nom et email requis.'}, status=400)
+            nom = data.get("nom", data.get("last_name", "")).strip()
+            prenom = data.get("prenom", data.get("first_name", "")).strip()
+            email = data.get("email", "").strip().lower()
+            password = data.get("mot_de_passe", data.get("password", ""))
+            role = normaliser_role(data.get("role", "client"))
 
-            if User.objects.filter(email=email).exists():
-                return JsonResponse({'status': 'error', 'message': 'Un utilisateur avec cet email existe déjà.'}, status=400)
+            roles_valides = dict(Utilisateur.ROLE_CHOICES)
+            if not nom or not prenom or not email or not password:
+                return JsonResponse(
+                    {"status": "error", "message": "Nom, prénom, email et mot de passe sont requis."},
+                    status=400
+                )
+            if role not in roles_valides:
+                return JsonResponse(
+                    {"status": "error", "message": "Rôle utilisateur invalide."},
+                    status=400
+                )
+            if Utilisateur.objects.filter(email__iexact=email).exists():
+                return JsonResponse(
+                    {"status": "error", "message": "Cette adresse email est déjà utilisée."},
+                    status=400
+                )
 
-            User.objects.create_user(
-                username=email, 
-                email=email, 
-                password=password, 
-                first_name=prenom, 
-                last_name=nom
+            utilisateur = Utilisateur(
+                nom=nom,
+                prenom=prenom,
+                email=email,
+                role=role,
+                is_active=True,
             )
-            
+            utilisateur.set_password(password)
+            utilisateur.save()
             return JsonResponse({
-                'status': 'success', 
-                'message': 'Utilisateur / Client enregistré avec succès dans la base de données !'
+                "status": "success",
+                "message": "Utilisateur enregistré avec son rôle dans la base ASTRA."
             })
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-            
-    return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée.'}, status=405)    
+        except (json.JSONDecodeError, AttributeError) as error:
+            return JsonResponse({"status": "error", "message": str(error)}, status=400)
+
+    return JsonResponse({"status": "error", "message": "Méthode non autorisée."}, status=405)
 
 @csrf_exempt
 def mot_de_passe_oublie_client(request):
@@ -3311,6 +3338,7 @@ def modifier_mot_de_passe_client(request, client_id):
     # Mettez à jour le nom du template ici :
     return render(request, 'astra/modifier_password.html', {'client': client})
 
+@verifier_acces_strict(allowed_roles=["admin"])
 def users_page_view(request):
     print(f"--- Nouvelle requête sur la page utilisateurs : {request.method} ---") # DEBUG
     
@@ -3322,7 +3350,7 @@ def users_page_view(request):
         nom = request.POST.get('last_name', '').strip()
         email = request.POST.get('email', '').strip()
         password = request.POST.get('password', '').strip()
-        role = request.POST.get('role', 'client')
+        role = normaliser_role(request.POST.get('role', 'client'))
 
         if not email or not password:
             messages.error(request, "L'email et le mot de passe sont obligatoires.")
@@ -3330,34 +3358,25 @@ def users_page_view(request):
             return redirect('astra:page_utilisateurs')
 
         # Vérification si l'utilisateur existe déjà
-        if User.objects.filter(username=email).exists() or User.objects.filter(email=email).exists():
+        if Utilisateur.objects.filter(email__iexact=email).exists():
             messages.error(request, "Un utilisateur avec cet email existe déjà.")
             print(f"Erreur : L'utilisateur {email} existe déjà.") # DEBUG
             return redirect('astra:page_utilisateurs')
 
         try:
-            # Création de l'utilisateur
-            user = User.objects.create_user(
-                username=email,
-                email=email,
-                password=password,
-                first_name=prenom,
-                last_name=nom
-            )
+            if role not in dict(Utilisateur.ROLE_CHOICES):
+                messages.error(request, "Le rôle sélectionné est invalide.")
+                return redirect('astra:page_utilisateurs')
 
-            # Attribution des rôles
-            if role == 'admin':
-                user.is_superuser = True
-                user.is_staff = True
-            elif role == 'staff':
-                user.is_superuser = False
-                user.is_staff = True
-            else:
-                user.is_superuser = False
-                user.is_staff = False
-            
-            user.save()
-            print(f"SUCCÈS : Utilisateur {email} créé et sauvegardé dans la BD !") # DEBUG
+            utilisateur = Utilisateur(
+                nom=nom,
+                prenom=prenom,
+                email=email,
+                role=role,
+                is_active=True,
+            )
+            utilisateur.set_password(password)
+            utilisateur.save()
             messages.success(request, "Utilisateur enregistré avec succès !")
             
         except Exception as e:
@@ -3367,9 +3386,10 @@ def users_page_view(request):
         return redirect('astra:page_utilisateurs')
 
     # Lecture de la base de données
-    utilisateurs = User.objects.all().order_by('-date_joined')
+    utilisateurs = Utilisateur.objects.all().order_by('-date_inscription')
     context = {
-        'utilisateurs': utilisateurs
+        'utilisateurs': utilisateurs,
+        'roles': Utilisateur.ROLE_CHOICES,
     }
     return render(request, 'astra/page_utilisateurs.html', context)
 

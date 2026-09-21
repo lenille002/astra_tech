@@ -535,7 +535,7 @@
                         <select id="recipientEmail" required>
                             <option value="" disabled selected>Sélectionner un utilisateur enregistré</option>
                             {% for u in registered_users %}
-                                <option value="{{ u.email }}">{{ u.username }} ({{ u.email }})</option>
+                                <option value="{{ u.email }}">{{ u.prenom }} {{ u.nom }} ({{ u.email }})</option>
                             {% empty %}
                                 <option value="" disabled>Aucun utilisateur trouvé</option>
                             {% endfor %}

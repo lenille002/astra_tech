@@ -121,9 +121,9 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Rôle</label>
                     <select name="role" class="w-full px-4 py-2 rounded-lg border dark:bg-slate-700 dark:border-slate-600 dark:text-white">
-                        <option value="client">Utilisateur / Client</option>
-                        <option value="staff">Staff / Gestionnaire</option>
-                        <option value="admin">Super Administrateur</option>
+                        {% for value, label in roles %}
+                            <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="md:col-span-2 flex justify-end gap-3 mt-4">
@@ -148,18 +148,14 @@
                     {% for u in utilisateurs %}
                     <tr>
                         <td class="py-4 px-4 font-semibold text-gray-800 dark:text-gray-200">
-                            {{ u.last_name }} {{ u.first_name|default:u.username }}
+                            {{ u.nom }} {{ u.prenom }}
                         </td>
-                        <td class="py-4 px-4 text-gray-600 dark:text-gray-300">{{ u.email|default:u.username }}</td>
-                        <td class="py-4 px-4 text-gray-500 dark:text-gray-400">{{ u.date_joined|date:"d/m/Y H:i" }}</td>
+                        <td class="py-4 px-4 text-gray-600 dark:text-gray-300">{{ u.email }}</td>
+                        <td class="py-4 px-4 text-gray-500 dark:text-gray-400">{{ u.date_inscription|date:"d/m/Y H:i" }}</td>
                         <td class="py-4 px-4">
-                            {% if u.is_superuser %}
-                                <span class="px-3 py-1 bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400 rounded-full text-xs font-bold">Super Administrateur</span>
-                            {% elif u.is_staff %}
-                                <span class="px-3 py-1 bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 rounded-full text-xs font-bold">Staff / Gestionnaire</span>
-                            {% else %}
-                                <span class="px-3 py-1 bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 rounded-full text-xs font-bold">Utilisateur / Client</span>
-                            {% endif %}
+                            <span class="px-3 py-1 bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 rounded-full text-xs font-bold">
+                                {{ u.get_role_display }}
+                            </span>
                         </td>
                     </tr>
                     {% empty %}
