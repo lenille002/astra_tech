@@ -364,12 +364,17 @@ def verifier_acces_strict(view_func=None, allowed_roles=None):
             # RÉCUPÉRATION DU RÔLE
             # ==================================================
 
-            role = request.session.get(
-                "user_role",
-                ""
+            role = normaliser_role(
+                request.session.get("user_role", "")
             )
 
-            role = (role or "").strip().lower()
+            # L'administrateur peut consulter toutes les pages protégées.
+            if role == "admin" or getattr(request.user, "is_superuser", False):
+                 return view(
+                    request,
+                    *args,
+                    **kwargs
+                )
 
             print("\n" + "=" * 60)
             print("🔐 VÉRIFICATION DES ACCÈS")
@@ -407,13 +412,14 @@ def verifier_acces_strict(view_func=None, allowed_roles=None):
 
                     "rapport",
                     "rapports",
+                    "stocks",
                 ]
 
             else:
 
                 # Normalisation des rôles fournis au décorateur
                 roles_autorises = [
-                    str(r).strip().lower()
+                    normaliser_role(r)
                     for r in allowed_roles
                 ]
 
@@ -442,7 +448,7 @@ def verifier_acces_strict(view_func=None, allowed_roles=None):
                     "Vous n'avez pas l'autorisation d'accéder à cette page."
                 )
 
-                return redirect("astra:accueil")
+                return rediriger_selon_role(request, role)
 
             # ==================================================
             # ACCÈS AUTORISÉ
@@ -1020,6 +1026,8 @@ def deconnexion(request):
         "fournisseur",
         "approvisionnement",
         "vente",
+        "stocks",
+        "rapports",
     ]
 )
 def accueil(request):
@@ -1515,7 +1523,7 @@ def api_user_detail_update_delete(request, pk):
 # ==========================
 # VENTES
 # ==========================
-@verifier_acces_strict(allowed_roles=["admin", "client"])
+@verifier_acces_strict(allowed_roles=["admin", "client", "vente"])
 def ventes_view(request):
     produits = Produit.objects.filter(stock__gt=0, is_active=True)
     ventes_list = Vente.objects.filter(est_archive=False).select_related('client').order_by('-id')
@@ -1808,7 +1816,7 @@ def modifier_vente(request, vente_id):
 
     return JsonResponse({'success': False, 'error': 'Méthode non autorisée.'}, status=405)
 
-@verifier_acces_strict(allowed_roles=["admin", "client"])
+@verifier_acces_strict(allowed_roles=["admin", "client", "vente"])
 def gestion_clients(request):
     # 1. Gestion de l’ajout d’un client en POST
     if request.method == 'POST':
@@ -1987,7 +1995,7 @@ def login_view(request):
     request.session.modified = True
 
     # Normalisation du rôle
-    role = (utilisateur.role or "").strip().lower()
+    role = normaliser_role(utilisateur.role)
 
     print("Rôle normalisé :", repr(role))
 
@@ -1995,20 +2003,26 @@ def login_view(request):
     # REDIRECTION SELON LE RÔLE
     # ==========================================================
 
-    if role in ["admin", "administrateur", "administrateurs"]:
+    if role == "admin":
         return redirect("astra:token_accueil")
 
-    elif role in ["client", "clients"]:
-        return redirect("astra:accueil")
-
-    elif role in ["fournisseur", "fournisseurs"]:
-        return redirect("astra:fournisseur_dashboard")
-
-    elif role in ["vente", "vendeur", "vendeurs", "caissier"]:
+    elif role == "client":
         return redirect("astra:ventes")
 
-    elif role in ["approvisionnement", "approvisionnements"]:
+    elif role == "fournisseur":
+        return redirect("astra:fournisseurs")
+
+    elif role == "vente":
+        return redirect("astra:ventes")
+
+    elif role == "approvisionnement":
         return redirect("astra:approvisionnement")
+
+    elif role == "stocks":
+        return redirect("astra:stocks")
+
+    elif role == "rapports":
+        return redirect("astra:rapports")
 
     else:
         messages.warning(
@@ -2074,7 +2088,7 @@ def modifier_client(request, client_id):
         client.save()
     return redirect('astra:gestion_clients')
 
-@verifier_acces_strict
+@verifier_acces_strict(allowed_roles=["admin", "rapports"])
 def reset_page_rapports(request):
     if request.method == 'POST':
         request.session['rapports_reset_actif'] = True
@@ -2084,7 +2098,7 @@ def reset_page_rapports(request):
 # ==========================
 # STOCKS & PRODUITS
 # ==========================
-@verifier_acces_strict(allowed_roles=["admin"])
+@verifier_acces_strict(allowed_roles=["admin", "stocks"])
 def stock_view(request):
     produits = Produit.objects.filter(is_active=True).select_related('categorie')
     categories = Categorie.objects.all()
@@ -2104,7 +2118,7 @@ def stock_view(request):
     }
     return render(request, 'astra/stock.html', context)
 
-@verifier_acces_strict(allowed_roles=["admin"])
+@verifier_acces_strict(allowed_roles=["admin", "stocks"])
 def liste_stocks(request):
     categories = Categorie.objects.prefetch_related('produit_set').all()
     produits = Produit.objects.all()
@@ -2838,7 +2852,7 @@ def supprimer_approvisionnement(request, pk):
             return JsonResponse({'success': False, 'error': str(e)})
     return JsonResponse({'success': False, 'error': 'Méthode non autorisée'})
 
-@verifier_acces_strict(allowed_roles=["admin"])
+@verifier_acces_strict(allowed_roles=["admin", "rapports"])
 def rapports(request):
     reset_actif = request.session.get('rapports_reset_actif', False)
 
@@ -3034,7 +3048,7 @@ def historiques_page_view(request):
     }
     return render(request, 'astra/historique.html', context)
 
-@verifier_acces_strict(allowed_roles=["admin", "client"])
+@verifier_acces_strict(allowed_roles=None)
 def propos(request):
     return render(request, 'astra/propos.html')
 
