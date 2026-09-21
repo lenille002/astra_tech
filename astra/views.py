@@ -1977,6 +1977,41 @@ def login_view(request):
         messages.error(request, "Veuillez remplir tous les champs.")
         return render(request, "astra/login.html")
 
+    # Priorité aux comptes Django autorisés, notamment les superutilisateurs
+    # créés avec createsuperuser sur Vercel.
+    compte_django = authenticate(
+        request,
+        username=identifiant,
+        password=password,
+    )
+
+    if compte_django is None:
+        compte_django = User.objects.filter(
+            email__iexact=identifiant
+        ).first()
+
+        if compte_django is not None:
+            compte_django = authenticate(
+                request,
+                username=compte_django.get_username(),
+                password=password,
+            )
+
+    if (
+        compte_django is not None
+        and compte_django.is_active
+        and (compte_django.is_superuser or compte_django.is_staff)
+    ):
+        login(request, compte_django)
+        request.session["user_id"] = compte_django.id
+        request.session["user_role"] = "admin"
+        request.session["user_nom"] = compte_django.last_name or compte_django.username
+        request.session["user_prenom"] = compte_django.first_name or ""
+        request.session["connecte"] = True
+        request.session.modified = True
+        print("✅ AUTHENTIFICATION DJANGO ADMIN RÉUSSIE")
+        return redirect("astra:token_accueil")
+
     # Recherche dans NOTRE table Utilisateur
     utilisateur = Utilisateur.objects.annotate(
         nom_normalise=Lower(Trim("nom")),
@@ -1992,9 +2027,51 @@ def login_view(request):
 
     # Utilisateur inexistant
     if utilisateur is None:
-        print("❌ Aucun utilisateur trouvé")
-        messages.error(request, "Aucun compte ne correspond à cet identifiant.")
-        return render(request, "astra/login.html")
+        # Les comptes créés avec createsuperuser sont dans auth.User,
+        # et non dans la table métier Utilisateur.
+        compte_django = authenticate(
+            request,
+            username=identifiant,
+            password=password,
+        )
+
+        if compte_django is None:
+            compte_django = User.objects.filter(
+                email__iexact=identifiant
+            ).first()
+
+            if compte_django is not None:
+                compte_django = authenticate(
+                    request,
+                    username=compte_django.get_username(),
+                    password=password,
+                )
+
+        if compte_django is None or not compte_django.is_active:
+            print("❌ Aucun compte ASTRA ou Django trouvé")
+            messages.error(
+                request,
+                "Aucun compte ne correspond à cet identifiant."
+            )
+            return render(request, "astra/login.html")
+
+        if not compte_django.is_superuser and not compte_django.is_staff:
+            messages.error(
+                request,
+                "Ce compte Django n'est pas autorisé à accéder à ASTRA."
+            )
+            return render(request, "astra/login.html")
+
+        login(request, compte_django)
+        request.session["user_id"] = compte_django.id
+        request.session["user_role"] = "admin"
+        request.session["user_nom"] = compte_django.last_name or compte_django.username
+        request.session["user_prenom"] = compte_django.first_name or ""
+        request.session["connecte"] = True
+        request.session.modified = True
+
+        print("✅ AUTHENTIFICATION DJANGO ADMIN RÉUSSIE")
+        return redirect("astra:token_accueil")
 
     print("ID utilisateur :", utilisateur.id)
     print("Rôle           :", utilisateur.role)
