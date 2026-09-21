@@ -1,6 +1,7 @@
 from datetime import date, datetime, timedelta
 from functools import wraps
 import json
+import os
 import secrets
 import string
 
@@ -119,6 +120,34 @@ def normaliser_role(role):
         role,
         role
     )
+
+
+def creer_admin_initial_si_necessaire():
+    """Crée le premier administrateur depuis les variables d'environnement."""
+
+    if Utilisateur.objects.filter(role="admin").exists():
+        return
+
+    email = os.getenv("ASTRA_ADMIN_EMAIL", "").strip().lower()
+    nom = os.getenv("ASTRA_ADMIN_NOM", "").strip()
+    prenom = os.getenv("ASTRA_ADMIN_PRENOM", "").strip()
+    password = os.getenv("ASTRA_ADMIN_PASSWORD", "")
+
+    if not all([email, nom, prenom, password]):
+        return
+
+    if Utilisateur.objects.filter(email__iexact=email).exists():
+        return
+
+    administrateur = Utilisateur(
+        nom=nom,
+        prenom=prenom,
+        email=email,
+        role="admin",
+        is_active=True,
+    )
+    administrateur.set_password(password)
+    administrateur.save()
 
 # ==========================================================
 # PAGES ACCESSIBLES SELON LE RÔLE
@@ -737,6 +766,8 @@ def login_view(request):
     print("METHOD :", request.method)
     print("PATH   :", request.path)
     print("=" * 80)
+
+    creer_admin_initial_si_necessaire()
 
     if request.method != "POST":
         return render(request, "astra/login.html")
@@ -3192,10 +3223,17 @@ def api_users_list_create(request):
 
 
 def marquer_toutes_comme_lues(request):
-    if request.method == 'POST' and request.user.is_authenticated:
-        Notification.objects.filter(user=request.user, lue=False).update(lue=True)
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'error'}, status=400)
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée.'}, status=405)
+
+    notifications_marquees = NotificationPlateforme.objects.filter(
+        lu=False
+    ).update(lu=True)
+
+    return JsonResponse({
+        'status': 'success',
+        'marquees': notifications_marquees,
+    })
 
 
 def detail_notification(request, pk):

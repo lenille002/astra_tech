@@ -164,9 +164,9 @@ USE_TURSO = (
 IS_VERCEL = bool(os.getenv("VERCEL"))
 
 POSTGRES_DATABASE_URL = (
-    os.getenv("DATABASE_URL")
+    os.getenv("POSTGRES_URL_NON_POOLING")
+    or os.getenv("DATABASE_URL")
     or os.getenv("POSTGRES_URL")
-    or os.getenv("POSTGRES_URL_NON_POOLING")
     or ""
 ).strip()
 
