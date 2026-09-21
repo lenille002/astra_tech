@@ -3124,6 +3124,7 @@ def rapports(request):
 def permissions_page_view(request):
     return render(request, 'astra/permissions.html')
 
+@verifier_acces_strict(allowed_roles=["admin"])
 def historiques_page_view(request):
     # Récupération séparée pour chaque bloc de la page
     logs_approvisionnement = []
