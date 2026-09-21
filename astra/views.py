@@ -760,6 +760,7 @@ class LoginWithTokenView(APIView):
 
 # ==========================================================
 # CONNEXION
+@ensure_csrf_cookie
 def login_view(request):
     print("\n" + "=" * 80)
     print("🔥 LOGIN_VIEW APPELÉE")
@@ -1951,6 +1952,7 @@ def gestion_clients(request):
     
     return render(request, 'astra/clients.html', context)
 
+@ensure_csrf_cookie
 def login_view(request):
     print("\n" + "=" * 80)
     print("🔥 LOGIN_VIEW APPELÉE")

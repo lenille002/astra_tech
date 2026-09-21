@@ -52,6 +52,18 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.serveo.net",
 ]
 
+CSRF_EXTRA_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "")
+CSRF_TRUSTED_ORIGINS.extend(
+    origin.strip()
+    for origin in CSRF_EXTRA_ORIGINS.split(",")
+    if origin.strip()
+)
+
+# Vercel termine TLS avant de transmettre la requête à Django.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+CSRF_COOKIE_SECURE = bool(os.getenv("VERCEL"))
+SESSION_COOKIE_SECURE = bool(os.getenv("VERCEL"))
+
 # ==================================================
 # APPLICATIONS
 # ==================================================
