@@ -2034,7 +2034,7 @@ def login_view(request):
         request.session["connecte"] = True
         request.session.modified = True
         print("✅ AUTHENTIFICATION DJANGO ADMIN RÉUSSIE")
-        return redirect("astra:token_accueil")
+        return redirect("astra:accueil")
 
     # Recherche dans NOTRE table Utilisateur
     utilisateur = Utilisateur.objects.annotate(
@@ -2095,7 +2095,7 @@ def login_view(request):
         request.session.modified = True
 
         print("✅ AUTHENTIFICATION DJANGO ADMIN RÉUSSIE")
-        return redirect("astra:token_accueil")
+        return redirect("astra:accueil")
 
     print("ID utilisateur :", utilisateur.id)
     print("Rôle           :", utilisateur.role)
@@ -2144,7 +2144,7 @@ def login_view(request):
     # ==========================================================
 
     if role == "admin":
-        return redirect("astra:token_accueil")
+        return redirect("astra:accueil")
 
     elif role == "client":
         return redirect("astra:ventes")
