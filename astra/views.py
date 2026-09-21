@@ -377,7 +377,29 @@ def verifier_acces_strict(view_func=None, allowed_roles=None):
         def wrapper(request, *args, **kwargs):
 
             # ==================================================
-            # VÉRIFICATION DE LA CONNEXION
+            # ADMIN DJANGO
+            # ==================================================
+
+            compte_admin_django = (
+                request.user.is_authenticated
+                and request.user.is_active
+                and (
+                    request.user.is_superuser
+                    or request.user.is_staff
+                )
+            )
+
+            # Un administrateur Django reste autorisé même si la session
+            # métier ASTRA n'a pas encore été restaurée après une redirection.
+            if compte_admin_django:
+                return view(
+                    request,
+                    *args,
+                    **kwargs
+                )
+
+            # ==================================================
+            # VÉRIFICATION DE LA CONNEXION ASTRA
             # ==================================================
 
             if not request.session.get("connecte", False):
@@ -397,8 +419,8 @@ def verifier_acces_strict(view_func=None, allowed_roles=None):
                 request.session.get("user_role", "")
             )
 
-            # L'administrateur peut consulter toutes les pages protégées.
-            if role == "admin" or getattr(request.user, "is_superuser", False):
+            # L'administrateur ASTRA peut consulter toutes les pages protégées.
+            if role == "admin":
                  return view(
                     request,
                     *args,
