@@ -1,0 +1,509 @@
+/* Mobile-first foundation shared by every Astra Tech layout. */
+html,
+body {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+body {
+    max-width: 100vw;
+}
+
+.app-header {
+    min-height: auto;
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.logo-container img {
+    width: 112px;
+}
+
+.nav-menu {
+    order: 3;
+    flex: 1 0 100%;
+    justify-content: flex-start;
+    gap: 6px;
+    margin: 0;
+    padding: 10px 12px;
+    overflow-x: auto;
+    flex-direction: row;
+    -webkit-overflow-scrolling: touch;
+}
+
+.nav-item,
+.nav-menu li,
+.nav-menu li a,
+.nav-menu a.back-link {
+    flex: 0 0 auto;
+}
+
+.nav-item,
+.nav-menu li a,
+.nav-menu a.back-link {
+    white-space: nowrap;
+}
+
+.main-content,
+.content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    padding: 12px 8px !important;
+}
+
+.sidebar {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-height: auto !important;
+    max-height: none !important;
+}
+
+.sidebar-brand {
+    padding: 16px;
+}
+
+.sidebar-footer {
+    padding: 10px 12px 14px;
+}
+
+.module-card {
+    height: auto;
+    min-height: 300px;
+}
+
+table {
+    min-width: 620px;
+}
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+    max-width: 100%;
+}
+
+.table-responsive,
+.overflow-x-auto {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+    body {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .app-header {
+        min-height: auto;
+        padding: 10px 14px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .logo-container img {
+        width: 112px;
+    }
+
+    .nav-menu {
+        order: 3;
+        flex: 1 0 100%;
+        justify-content: flex-start;
+        gap: 4px;
+        margin: 0;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-item {
+        flex: 0 0 auto;
+        font-size: 13px;
+        padding: 7px 9px;
+        white-space: nowrap;
+    }
+
+    .user-menu {
+        gap: 6px;
+    }
+
+    .btn-retour {
+        padding: 7px 12px;
+        white-space: nowrap;
+    }
+
+    .app-main {
+        padding: 14px 10px;
+    }
+
+    .stock-container,
+    .card-stock {
+        padding: 14px;
+    }
+
+    .search-zone {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .search-zone input,
+    .search-zone select,
+    .search-zone button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .stock-title h1 {
+        font-size: clamp(22px, 7vw, 28px);
+    }
+
+    .main-content,
+    .content {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        padding: 18px 12px !important;
+    }
+
+    .sidebar {
+        position: relative !important;
+        inset: auto !important;
+        width: 100% !important;
+        min-height: auto !important;
+        max-height: none !important;
+    }
+
+    .sidebar-brand {
+        padding: 16px;
+    }
+
+    .nav-menu {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 10px 12px;
+        gap: 6px;
+    }
+
+    .nav-menu li,
+    .nav-menu li a,
+    .nav-menu a.back-link {
+        flex: 0 0 auto;
+    }
+
+    .nav-menu li a,
+    .nav-menu a.back-link {
+        padding: 10px 12px;
+        white-space: nowrap;
+    }
+
+    .sidebar-footer {
+        padding: 10px 12px 14px;
+    }
+
+    .module-card {
+        height: auto;
+        min-height: 300px;
+    }
+
+    table {
+        min-width: 620px;
+    }
+
+    .modal-content {
+        width: calc(100% - 24px) !important;
+        max-width: 100% !important;
+        margin: 12px;
+        padding: 20px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-main {
+        padding: 10px 6px;
+    }
+
+    .stock-container,
+    .card-stock {
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .stock-title,
+    .header,
+    .card-header {
+        align-items: stretch;
+    }
+
+    .stock-btn,
+    .tab-btn,
+    .btn-retour {
+        min-height: 42px;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar-title {
+        font-size: 17px;
+    }
+
+    .main-content,
+    .content {
+        padding: 12px 8px !important;
+    }
+}
+
+/* Page-specific mobile corrections for templates using inline or utility CSS. */
+@media (max-width: 768px) {
+    .app-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        padding: 10px !important;
+    }
+
+    .app-header .logo-container {
+        justify-content: center !important;
+    }
+
+    .app-header .nav-menu {
+        display: flex !important;
+        width: 100% !important;
+        flex: 0 1 auto !important;
+        justify-content: flex-start !important;
+        margin: 0 !important;
+        padding: 6px 0 !important;
+        overflow-x: auto !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .app-header .user-menu {
+        width: 100% !important;
+        justify-content: flex-end !important;
+        flex-wrap: wrap !important;
+    }
+
+    .notification-container #notificationDropdown,
+    #notificationDropdown {
+        right: 0 !important;
+        left: auto !important;
+        width: min(340px, calc(100vw - 16px)) !important;
+        max-width: calc(100vw - 16px) !important;
+    }
+
+    .max-w-7xl,
+    .ef-container,
+    .astra-dashboard,
+    .page-vente,
+    .stock-container,
+    .main-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .ef-container,
+    .astra-dashboard,
+    .page-vente {
+        padding-top: 16px !important;
+        padding-bottom: 16px !important;
+    }
+
+    .ef-header,
+    .table-header,
+    .astra-top-actions {
+        align-items: stretch !important;
+        flex-direction: column !important;
+    }
+
+    .ef-header>*,
+    .table-header>*,
+    .astra-top-actions>* {
+        width: 100% !important;
+    }
+
+    .ef-btn,
+    .btn-astra-orange,
+    .actions button,
+    .actions a,
+    .search-filter-container {
+        width: 100% !important;
+        max-width: none !important;
+        justify-content: center !important;
+    }
+
+    .ef-info-box,
+    .ef-card,
+    .card,
+    .card-stock,
+    .table-box {
+        min-width: 0 !important;
+        padding: 16px !important;
+    }
+
+    .ef-table-wrapper,
+    .astra-table-container,
+    .table-responsive,
+    .overflow-x-auto {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+    }
+
+    .ef-table,
+    .astra-table,
+    .table-responsive table,
+    .overflow-x-auto table {
+        min-width: 620px !important;
+    }
+
+    .ef-table th,
+    .ef-table td,
+    .astra-table th,
+    .astra-table td {
+        padding: 10px 12px !important;
+    }
+
+    .form-row-inline,
+    .form-grid-2,
+    .modal-actions {
+        width: 100% !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .form-row-inline>*,
+    .form-grid-2>*,
+    .modal-actions>* {
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    .modal-overlay,
+    .modal {
+        padding: 10px !important;
+        align-items: flex-start !important;
+        overflow-y: auto !important;
+    }
+
+    .modal-content,
+    .modal-content.modal-sm {
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: calc(100vh - 20px) !important;
+        margin: 0 !important;
+        padding: 16px !important;
+    }
+
+    .search-zone,
+    .astra-filters-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .astra-search-bar-wrapper,
+    .astra-search-input,
+    .search-zone input,
+    .search-zone select {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+
+    .toast,
+    #toastNotification {
+        left: 8px !important;
+        right: 8px !important;
+        width: auto !important;
+        max-width: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .ef-container,
+    .astra-dashboard,
+    .page-vente,
+    .stock-container,
+    .main-container {
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+    }
+
+    .app-header .nav-item {
+        font-size: 12px !important;
+        padding: 7px 8px !important;
+    }
+
+    .ef-header h1,
+    .astra-dashboard h1,
+    .stock-title h1,
+    .page-vente h1 {
+        font-size: clamp(20px, 7vw, 28px) !important;
+        line-height: 1.2 !important;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (min-width: 769px) {
+    .app-header {
+        min-height: 80px;
+        padding: 10px 35px;
+        flex-wrap: nowrap;
+    }
+
+    .logo-container img {
+        width: 140px;
+    }
+
+    .app-header .nav-menu {
+        order: initial;
+        flex: 1;
+        justify-content: center;
+        margin: 0 20px;
+        padding: 0;
+        overflow: visible;
+    }
+
+    .main-content,
+    .content {
+        width: auto !important;
+        max-width: calc(100% - var(--sidebar-width, 0px)) !important;
+        margin-left: var(--sidebar-width, 0px) !important;
+        padding: 40px !important;
+    }
+
+    .sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        right: auto !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: var(--sidebar-width, 280px) !important;
+    }
+
+    .sidebar .nav-menu {
+        flex-direction: column;
+        flex: 1;
+        margin: 0;
+        padding: 24px 16px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}
