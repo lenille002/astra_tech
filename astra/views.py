@@ -1109,18 +1109,18 @@ def accueil(request):
 
 def connexion_admin_page(request):
     if request.method == "POST":
-        identifiant = request.POST.get("identifiant", "").strip()
+
+        email = request.POST.get("Email", "").strip()
         password = request.POST.get("password", "")
 
-        # Recherche de l'utilisateur
+        # Recherche de l'utilisateur avec son email
         utilisateur = Utilisateur.objects.filter(
-            identifiant=identifiant
+            email__iexact=email
         ).first()
 
-        # Vérification des identifiants
         if utilisateur and check_password(password, utilisateur.password):
 
-            # Vérification du rôle
+            # Vérifier que l'utilisateur est bien administrateur
             if utilisateur.role == "admin":
 
                 # Création de la session
@@ -1131,18 +1131,18 @@ def connexion_admin_page(request):
                 request.session["user_prenom"] = utilisateur.prenom
                 request.session["connecte"] = True
 
-                # Redirection vers la page Token
+                # Redirection vers la page de gestion des tokens
                 return redirect("astra:token_accueil")
 
             messages.error(
                 request,
-                "Cet utilisateur n'a pas les droits administrateur."
+                "Cet utilisateur n'est pas administrateur."
             )
 
         else:
             messages.error(
                 request,
-                "Identifiant ou mot de passe incorrect."
+                "Email ou mot de passe incorrect."
             )
 
     return render(request, "astra/connexion.html")
