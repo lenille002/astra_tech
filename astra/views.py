@@ -1107,41 +1107,80 @@ def accueil(request):
     }
     return render(request, 'astra/accueil.html', context)
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import check_password
+from .models import Utilisateur
+
+
 def connexion_admin_page(request):
+
     if request.method == "POST":
 
-        email = request.POST.get("Email", "").strip()
+        email = request.POST.get("email", "").strip()
         password = request.POST.get("password", "")
 
+        # Vérification des champs
+        if not email or not password:
+            return render(
+                request,
+                "astra/connexion.html",
+                {
+                    "erreur": "Veuillez remplir tous les champs."
+                }
+            )
+
+        # Recherche de l'utilisateur par email
         utilisateur = Utilisateur.objects.filter(
             email__iexact=email
         ).first()
 
-        if utilisateur and check_password(password, utilisateur.password):
-
-            if utilisateur.role == "admin":
-
-                request.session["utilisateur_id"] = utilisateur.id
-                request.session["user_id"] = utilisateur.id
-                request.session["user_role"] = utilisateur.role
-                request.session["user_nom"] = utilisateur.nom
-                request.session["user_prenom"] = utilisateur.prenom
-                request.session["connecte"] = True
-
-                return redirect("astra:token_accueil")
-
-            messages.error(
+        if not utilisateur:
+            return render(
                 request,
-                "Cet utilisateur n'est pas administrateur."
+                "astra/connexion.html",
+                {
+                    "erreur": "Email ou mot de passe incorrect."
+                }
             )
 
-        else:
-            messages.error(
+        # Vérification du mot de passe
+        if not check_password(password, utilisateur.password):
+            return render(
                 request,
-                "Email ou mot de passe incorrect."
+                "astra/connexion.html",
+                {
+                    "erreur": "Email ou mot de passe incorrect."
+                }
             )
 
-    return render(request, "astra/connexion.html")
+        # Vérification du rôle
+        if str(utilisateur.role).strip().lower() != "admin":
+            return render(
+                request,
+                "astra/connexion.html",
+                {
+                    "erreur": "Cet accès est réservé aux administrateurs."
+                }
+            )
+
+        # Création de la session
+        request.session["utilisateur_id"] = utilisateur.id
+        request.session["user_id"] = utilisateur.id
+        request.session["user_role"] = utilisateur.role
+        request.session["user_nom"] = utilisateur.nom
+        request.session["user_prenom"] = utilisateur.prenom
+        request.session["connecte"] = True
+
+        request.session.modified = True
+
+        # Redirection vers la page des tokens
+        return redirect("astra:token_accueil")
+
+    # Affichage de la page de connexion
+    return render(
+        request,
+        "astra/connexion.html"
+    )
 
 
 def client_register(request):
