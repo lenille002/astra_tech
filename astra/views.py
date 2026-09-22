@@ -1113,17 +1113,14 @@ def connexion_admin_page(request):
         email = request.POST.get("Email", "").strip()
         password = request.POST.get("password", "")
 
-        # Recherche de l'utilisateur avec son email
         utilisateur = Utilisateur.objects.filter(
             email__iexact=email
         ).first()
 
         if utilisateur and check_password(password, utilisateur.password):
 
-            # Vérifier que l'utilisateur est bien administrateur
             if utilisateur.role == "admin":
 
-                # Création de la session
                 request.session["utilisateur_id"] = utilisateur.id
                 request.session["user_id"] = utilisateur.id
                 request.session["user_role"] = utilisateur.role
@@ -1131,7 +1128,6 @@ def connexion_admin_page(request):
                 request.session["user_prenom"] = utilisateur.prenom
                 request.session["connecte"] = True
 
-                # Redirection vers la page de gestion des tokens
                 return redirect("astra:token_accueil")
 
             messages.error(
