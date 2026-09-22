@@ -1,1497 +1,799 @@
 {% load static %}
+
 <!DOCTYPE html>
+
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-    <title>ASTRA TECH - Liste des Utilisateurs</title>
 
-    <!-- =====================================================
-         DARK MODE
-         ===================================================== -->
-    <script>
-        (function () {
-            const savedDarkMode = localStorage.getItem('astra_dark_mode');
+<title>ASTRA TECH - Connexion</title>
 
-            if (savedDarkMode === 'true') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        })();
-    </script>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <!-- =====================================================
-         TAILWIND
-         ===================================================== -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<style>
+    /* =========================================================
+       WIDGET INSCRIPTION
+    ========================================================= */
 
-    <script>
-        tailwind.config = {
-            darkMode: 'class'
-        };
-    </script>
+    .astra-registration-widget {
+        position: fixed;
+        right: 30px;
+        bottom: 30px;
+        z-index: 9999;
+    }
 
-    <!-- =====================================================
-         FONT AWESOME
-         ===================================================== -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    >
+    .registration-promo {
+        position: absolute;
+        right: 0;
+        bottom: 90px;
+        width: 310px;
+        padding: 17px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        border-radius: 20px;
+        background: linear-gradient(
+            135deg,
+            rgba(26, 35, 126, 0.98),
+            rgba(13, 19, 70, 0.98)
+        );
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.30),
+            0 0 40px rgba(255, 111, 0, 0.18);
+        backdrop-filter: blur(15px);
+        animation: promoAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
 
-    <style>
+    .registration-promo::after {
+        content: "";
+        position: absolute;
+        right: 22px;
+        bottom: -8px;
+        width: 17px;
+        height: 17px;
+        background: #151d69;
+        transform: rotate(45deg);
+    }
 
-        /* =====================================================
-           VARIABLES
-           ===================================================== */
+    .promo-glow {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: #ff6f00;
+        filter: blur(50px);
+        opacity: 0.25;
+        left: -30px;
+        top: -35px;
+        pointer-events: none;
+    }
 
-        :root {
-            --tech-dark-blue: #004E8C;
-            --tech-orange: #f97316;
-            --tech-orange-dark: #ea580c;
+    .promo-icon {
+        position: relative;
+        width: 45px;
+        height: 45px;
+        min-width: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #ff6f00, #ff9800);
+        box-shadow: 0 8px 25px rgba(255, 111, 0, 0.4);
+        animation: iconBounce 2s ease-in-out infinite;
+    }
 
-            --tech-light-gray: #f8fafc;
-            --tech-card-bg: #ffffff;
-            --tech-dark-gray: #333333;
-            --tech-border: #E0E0E0;
+    .promo-icon i {
+        font-size: 19px;
+    }
 
-            --sidebar-width: 280px;
+    .promo-content {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        position: relative;
+        z-index: 2;
+    }
 
-            --radius-lg: 16px;
-            --radius-md: 10px;
+    .promo-small {
+        font-size: 9px;
+        letter-spacing: 1.2px;
+        color: rgba(255, 255, 255, 0.65);
+    }
+
+    .promo-title {
+        font-size: 15px;
+        color: white;
+        white-space: nowrap;
+    }
+
+    .promo-subtitle {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.72);
+    }
+
+    .promo-close {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+        width: 22px;
+        height: 22px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.10);
+        color: rgba(255, 255, 255, 0.75);
+        cursor: pointer;
+        font-size: 10px;
+    }
+
+    .promo-close:hover {
+        background: rgba(255, 255, 255, 0.22);
+        color: white;
+    }
+
+    /* =========================================================
+       BOUTON FLOTTANT
+    ========================================================= */
+
+    .astra-chat-button {
+        position: relative;
+        width: 68px;
+        height: 68px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        background: linear-gradient(135deg, #1a237e, #283593);
+        box-shadow:
+            0 15px 40px rgba(26, 35, 126, 0.40),
+            0 0 0 4px rgba(255, 255, 255, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        transition: transform 0.3s ease;
+    }
+
+    .astra-chat-button:hover {
+        transform: scale(1.08);
+    }
+
+    .chat-button-inner {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #ff6f00, #ff9800);
+        color: white;
+        font-size: 20px;
+        box-shadow: 0 5px 18px rgba(255, 111, 0, 0.4);
+        animation: buttonFloat 2.5s ease-in-out infinite;
+    }
+
+    .chat-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 111, 0, 0.55);
+        pointer-events: none;
+    }
+
+    .ring-one {
+        inset: -7px;
+        animation: ringPulse 2s infinite;
+    }
+
+    .ring-two {
+        inset: -14px;
+        border-color: rgba(26, 35, 126, 0.25);
+        animation: ringPulse 2s 0.5s infinite;
+    }
+
+    .chat-notification {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #ff3d00;
+        color: white;
+        font-size: 11px;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid white;
+        animation: notificationPulse 1.5s infinite;
+    }
+
+    /* =========================================================
+       MODAL
+    ========================================================= */
+
+    .astra-register-overlay {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: rgba(4, 7, 25, 0.72);
+        backdrop-filter: blur(10px);
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 0.35s ease,
+            visibility 0.35s ease;
+        z-index: 20000;
+    }
+
+    .astra-register-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .astra-register-modal {
+        width: 100%;
+        max-width: 520px;
+        max-height: 92vh;
+        overflow-y: auto;
+        border-radius: 26px;
+        background: white;
+        box-shadow: 0 30px 100px rgba(0, 0, 0, 0.45);
+        transform: translateY(35px) scale(0.92);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .astra-register-overlay.active .astra-register-modal {
+        transform: translateY(0) scale(1);
+    }
+
+    /* =========================================================
+       HEADER MODAL
+    ========================================================= */
+
+    .register-header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 22px;
+        color: white;
+        background: linear-gradient(135deg, #1a237e, #283593);
+        border-radius: 26px 26px 0 0;
+        overflow: hidden;
+    }
+
+    .register-header::before {
+        content: "";
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: rgba(255, 111, 0, 0.16);
+        right: -70px;
+        top: -100px;
+    }
+
+    .register-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .register-brand-icon {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+        background: linear-gradient(135deg, #ff6f00, #ff9800);
+        box-shadow: 0 7px 20px rgba(255, 111, 0, 0.35);
+    }
+
+    .register-brand span {
+        display: block;
+        font-size: 17px;
+        font-weight: 900;
+        letter-spacing: 0.5px;
+    }
+
+    .register-brand small {
+        display: block;
+        margin-top: 3px;
+        color: rgba(255, 255, 255, 0.65);
+    }
+
+    .register-close {
+        position: relative;
+        z-index: 3;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        color: white;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    .register-close:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: rotate(90deg);
+    }
+
+    /* =========================================================
+       CORPS MODAL
+    ========================================================= */
+
+    .register-body {
+        padding: 25px;
+    }
+
+    .register-welcome {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    .welcome-orbit {
+        position: relative;
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 12px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        background: linear-gradient(135deg, #1a237e, #283593);
+        box-shadow: 0 12px 35px rgba(26, 35, 126, 0.28);
+    }
+
+    .welcome-orbit::before {
+        content: "";
+        position: absolute;
+        inset: -7px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 111, 0, 0.35);
+        animation: orbitRotate 4s linear infinite;
+    }
+
+    .welcome-orbit i {
+        font-size: 29px;
+    }
+
+    .orbit-dot {
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #ff6f00;
+        top: -5px;
+        right: 13px;
+        box-shadow: 0 0 15px #ff6f00;
+    }
+
+    .register-welcome h2 {
+        margin: 0 0 7px;
+        color: #1a237e;
+        font-size: 21px;
+    }
+
+    .register-welcome p {
+        margin: 0;
+        color: #777;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    /* =========================================================
+       CHAMPS
+    ========================================================= */
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .register-field {
+        margin-bottom: 15px;
+    }
+
+    .register-field label {
+        display: block;
+        margin-bottom: 7px;
+        color: #1a237e;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .register-field label i {
+        margin-right: 5px;
+        color: #ff6f00;
+    }
+
+    .register-field input,
+    .register-field select {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 13px 14px;
+        border: 1px solid #e2e2e2;
+        border-radius: 12px;
+        outline: none;
+        font-size: 13px;
+        transition: 0.25s;
+        background: #fafafa;
+    }
+
+    .register-field input:focus,
+    .register-field select:focus {
+        background: white;
+        border-color: #ff6f00;
+        box-shadow: 0 0 0 3px rgba(255, 111, 0, 0.10);
+    }
+
+    .password-wrapper {
+        position: relative;
+    }
+
+    .password-wrapper input {
+        padding-right: 45px;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: transparent;
+        color: #777;
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .toggle-password:hover {
+        color: #ff6f00;
+        background: rgba(255, 111, 0, 0.08);
+    }
+
+    .password-help {
+        margin-top: 6px;
+        font-size: 10px;
+        color: #888;
+    }
+
+    /* =========================================================
+       BOUTON
+    ========================================================= */
+
+    .create-account-button {
+        width: 100%;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        border: none;
+        border-radius: 13px;
+        background: linear-gradient(135deg, #ff6f00, #f45100);
+        color: white;
+        font-size: 14px;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(255, 111, 0, 0.25);
+        transition: 0.3s;
+    }
+
+    .create-account-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(255, 111, 0, 0.35);
+    }
+
+    .create-account-button i {
+        transition: 0.3s;
+    }
+
+    .create-account-button:hover i {
+        transform: translateX(5px);
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    .register-footer {
+        padding: 13px;
+        text-align: center;
+        color: #888;
+        background: #f7f7f9;
+        border-radius: 0 0 26px 26px;
+        font-size: 10px;
+    }
+
+    .register-footer i {
+        color: #1a237e;
+        margin-right: 5px;
+    }
+
+    /* =========================================================
+       ANIMATIONS
+    ========================================================= */
+
+    @keyframes promoAppear {
+        from {
+            opacity: 0;
+            transform: translateY(20px) scale(0.85);
         }
 
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
 
-        /* =====================================================
-           RESET / BASE
-           ===================================================== */
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
+    @keyframes iconBounce {
+        0%, 100% {
+            transform: translateY(0) rotate(0);
         }
 
-        html {
-            width: 100%;
-            overflow-x: hidden;
+        50% {
+            transform: translateY(-5px) rotate(5deg);
+        }
+    }
+
+    @keyframes buttonFloat {
+        0%, 100% {
+            transform: translateY(0);
         }
 
-        body {
-            width: 100%;
-            min-height: 100vh;
+        50% {
+            transform: translateY(-4px);
+        }
+    }
 
-            margin: 0;
-
-            font-family: 'Inter', sans-serif;
-
-            background-color: var(--tech-light-gray);
-            color: var(--tech-dark-gray);
-
-            overflow-x: hidden;
+    @keyframes ringPulse {
+        0% {
+            transform: scale(0.8);
+            opacity: 1;
         }
 
+        100% {
+            transform: scale(1.25);
+            opacity: 0;
+        }
+    }
 
-        /* =====================================================
-           DARK MODE
-           ===================================================== */
-
-        html.dark body {
-            background-color: #0f172a !important;
-            color: #f1f5f9 !important;
+    @keyframes notificationPulse {
+        0%, 100% {
+            transform: scale(1);
         }
 
-        html.dark .card {
-            background-color: #1e293b !important;
-            border-color: #334155 !important;
-            color: #f1f5f9 !important;
+        50% {
+            transform: scale(1.18);
+        }
+    }
+
+    @keyframes orbitRotate {
+        from {
+            transform: rotate(0deg);
         }
 
-        html.dark th,
-        html.dark td {
-            border-color: #334155 !important;
-            color: #f1f5f9 !important;
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 600px) {
+
+        .astra-registration-widget {
+            right: 18px;
+            bottom: 18px;
         }
 
-
-        /* =====================================================
-           SIDEBAR — MOBILE
-           ===================================================== */
-
-        .sidebar {
-            width: 100%;
-            min-height: auto;
-
-            background: linear-gradient(
-                180deg,
-                var(--tech-dark-blue) 0%,
-                #003366 100%
-            );
-
-            color: #ffffff;
-
-            display: flex;
-            flex-direction: column;
-
-            position: relative;
-
-            z-index: 100;
-        }
-
-
-        /* =====================================================
-           LOGO / BRAND
-           ===================================================== */
-
-        .sidebar-brand {
-            width: 100%;
-
-            padding: 16px 14px;
-
-            display: flex;
-            align-items: center;
-
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .sidebar-logo {
-            width: 34px;
-            height: 34px;
-
-            flex-shrink: 0;
-
-            background: #ffffff;
-
-            border-radius: 7px;
-
-            transform: rotate(45deg);
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            margin-right: 13px;
-        }
-
-        .sidebar-logo-inner {
-            width: 24px;
-            height: 24px;
-
-            border: 2px solid var(--tech-orange);
-
-            border-radius: 5px;
-
-            transform: rotate(-45deg);
-        }
-
-        .sidebar-title {
-            font-weight: bold;
-            font-size: 18px;
-
-            color: #ffffff !important;
-
-            white-space: nowrap;
-        }
-
-        .sidebar-title span {
-            color: var(--tech-orange);
-        }
-
-
-        /* =====================================================
-           MENU
-           ===================================================== */
-
-        .nav-menu {
-            width: 100%;
-
-            list-style: none;
-
-            padding: 10px 10px;
-
-            margin: 0;
-
-            display: flex;
-
-            flex-direction: row;
-
-            gap: 6px;
-
-            overflow-x: auto;
-            overflow-y: hidden;
-
-            scrollbar-width: none;
-        }
-
-        .nav-menu::-webkit-scrollbar {
+        .registration-promo {
             display: none;
         }
 
-        .nav-menu li {
-            flex: 0 0 auto;
+        .registration-promo {
+            width: 270px;
+            right: -2px;
         }
 
-        .nav-menu li a {
-            min-height: 42px;
-
-            display: flex;
-            align-items: center;
-
-            padding: 10px 13px;
-
-            color: rgba(255, 255, 255, 0.8);
-
-            text-decoration: none;
-
-            font-weight: 500;
-            font-size: 12px;
-
-            border-radius: var(--radius-md);
-
-            transition:
-                background-color 0.25s ease,
-                color 0.25s ease;
-
-            white-space: nowrap;
-        }
-
-        .nav-menu li a i {
-            margin-right: 7px;
-
-            width: 17px;
-
-            text-align: center;
-        }
-
-        .nav-menu li a:hover,
-        .nav-menu li a.active {
-            color: #ffffff;
-
-            background-color: rgba(255, 255, 255, 0.12);
-        }
-
-        .nav-menu li a.active {
-            border-left: 3px solid var(--tech-orange);
-
-            font-weight: 600;
-        }
-
-
-        /* =====================================================
-           ACTIONS BAS DE SIDEBAR
-           ===================================================== */
-
-        .sidebar-bottom-actions {
-            width: 100%;
-
-            margin-top: auto;
-
-            padding: 12px 16px 20px;
-
-            display: flex;
-            flex-direction: column;
-
-            gap: 8px;
-
-            border-top: 1px solid rgba(255, 255, 255, 0.10);
-        }
-
-
-        /* =====================================================
-           BOUTONS RETOUR / DÉCONNEXION
-           ===================================================== */
-
-        .sidebar-action {
-            width: 100%;
-
-            min-height: 46px;
-
-            display: flex;
-            align-items: center;
-
-            padding: 12px 18px;
-
-            border-radius: 10px;
-
-            color: rgba(255, 255, 255, 0.85);
-
-            text-decoration: none;
-
-            font-size: 14px;
-            font-weight: 500;
-
-            transition:
-                background-color 0.25s ease,
-                color 0.25s ease,
-                transform 0.2s ease;
-        }
-
-        .sidebar-action i {
-            width: 22px;
-
-            margin-right: 14px;
-
-            text-align: center;
-
-            font-size: 16px;
-        }
-
-
-        /* =====================================================
-           BOUTON RETOUR
-           ===================================================== */
-
-        .back-link {
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .back-link:hover {
-            background: rgba(255, 255, 255, 0.14);
-
-            color: #ffffff;
-
-            transform: translateX(3px);
-        }
-
-
-        /* =====================================================
-           BOUTON DÉCONNEXION
-           ===================================================== */
-
-        .logout-link {
-            background: rgba(249, 115, 22, 0.12);
-
-            color: #ffffff;
-        }
-
-        .logout-link i {
-            color: var(--tech-orange);
-        }
-
-        .logout-link:hover {
-            background: var(--tech-orange);
-
-            color: #ffffff;
-
-            transform: translateX(3px);
-        }
-
-        .logout-link:hover i {
-            color: #ffffff;
-        }
-
-
-        /* =====================================================
-           EFFET AU CLIC
-           ===================================================== */
-
-        .sidebar-action:active {
-            transform: scale(0.98);
-        }
-
-
-        /* =====================================================
-           CONTENU PRINCIPAL
-           ===================================================== */
-
-        .main-content {
-            width: 100%;
-            max-width: 100%;
-
-            margin-left: 0;
-
-            padding: 18px 12px;
-
-            box-sizing: border-box;
-        }
-
-
-        /* =====================================================
-           HEADER
-           ===================================================== */
-
-        .page-header {
-            width: 100%;
-
-            display: flex;
-            flex-direction: column;
-
-            align-items: stretch;
-
-            gap: 16px;
-
-            margin-bottom: 24px;
-        }
-
-        .page-header-text {
-            min-width: 0;
-        }
-
-        .page-title {
-            margin: 0;
-
-            font-size: 1.55rem;
-            line-height: 1.25;
-
-            font-weight: 700;
-
-            display: flex;
-            align-items: flex-start;
-
-            gap: 10px;
-        }
-
-        .page-title i {
-            color: var(--tech-orange);
-
-            flex-shrink: 0;
-
-            margin-top: 3px;
-        }
-
-        .page-description {
-            margin-top: 7px;
-
-            font-size: 0.78rem;
-            line-height: 1.5;
-
-            color: #6b7280;
-        }
-
-
-        /* =====================================================
-           BOUTON AJOUTER
-           ===================================================== */
-
-        .add-user-button {
-            width: 100%;
-
-            min-height: 46px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            gap: 8px;
-
-            padding: 11px 16px;
-
-            border: none;
-
-            border-radius: 12px;
-
-            background: var(--tech-orange);
-            color: white;
-
-            font-size: 0.85rem;
-            font-weight: 600;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 4px 8px rgba(0, 0, 0, 0.12);
-
-            transition:
-                background-color 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .add-user-button:hover {
-            background: var(--tech-orange-dark);
-        }
-
-        .add-user-button:active {
-            transform: scale(0.98);
-        }
-
-
-        /* =====================================================
-           MESSAGES DJANGO
-           ===================================================== */
-
-        .django-messages {
-            width: 100%;
-
-            margin-bottom: 20px;
-
-            display: flex;
-            flex-direction: column;
-
-            gap: 8px;
-        }
-
-        .django-message {
-            width: 100%;
-
-            padding: 12px 14px;
-
-            border-radius: 12px;
-
-            color: white;
-
-            font-size: 0.82rem;
-            line-height: 1.45;
-
-            overflow-wrap: anywhere;
-        }
-
-
-        /* =====================================================
-           CARD
-           ===================================================== */
-
-        .card {
-            width: 100%;
-
-            background-color: var(--tech-card-bg);
-
-            border-radius: var(--radius-lg);
-
-            box-shadow:
-                0 4px 6px -1px rgba(0, 0, 0, 0.05);
-
-            border: 1px solid var(--tech-border);
-
-            box-sizing: border-box;
-        }
-
-
-        /* =====================================================
-           MODALE / FORMULAIRE
-           ===================================================== */
-
-        .user-modal {
-            width: 100%;
-
-            margin-bottom: 20px;
-
-            padding: 18px;
-
-            border: 2px solid rgba(249, 115, 22, 0.3);
-
-            overflow: hidden;
-        }
-
-        .user-modal-title {
-            margin: 0 0 18px;
-
-            font-size: 1.05rem;
-
-            line-height: 1.35;
-
-            font-weight: 700;
-        }
-
-        .user-form {
-            width: 100%;
-
-            display: grid;
-
+        .form-row {
             grid-template-columns: 1fr;
-
-            gap: 14px;
+            gap: 0;
         }
 
-        .form-group {
-            width: 100%;
-
-            min-width: 0;
+        .astra-register-overlay {
+            padding: 10px;
         }
 
-        .form-label {
-            display: block;
-
-            margin-bottom: 5px;
-
-            font-size: 0.78rem;
-
-            font-weight: 500;
+        .astra-register-modal {
+            max-height: 95vh;
+            border-radius: 20px;
         }
 
-        .form-control,
-        .form-select {
-            width: 100%;
-
-            min-height: 45px;
-
-            padding: 10px 12px;
-
-            border: 1px solid #d1d5db;
-
-            border-radius: 9px;
-
-            background: white;
-
-            font-size: 0.85rem;
-
-            outline: none;
-
-            box-sizing: border-box;
-
-            transition:
-                border-color 0.2s ease,
-                box-shadow 0.2s ease;
+        .register-header {
+            border-radius: 20px 20px 0 0;
         }
 
-        .form-control:focus,
-        .form-select:focus {
-            border-color: var(--tech-orange);
-
-            box-shadow:
-                0 0 0 3px rgba(249, 115, 22, 0.12);
+        .register-footer {
+            border-radius: 0 0 20px 20px;
         }
+    }
+</style>
 
 
-        /* =====================================================
-           DARK MODE FORM
-           ===================================================== */
-
-        html.dark .form-control,
-        html.dark .form-select {
-            background: #334155 !important;
-
-            border-color: #475569 !important;
-
-            color: #ffffff !important;
-        }
-
-
-        /* =====================================================
-           ACTIONS FORMULAIRE
-           ===================================================== */
-
-        .form-actions {
-            width: 100%;
-
-            display: flex;
-            flex-direction: column;
-
-            gap: 9px;
-
-            margin-top: 4px;
-        }
-
-        .form-action-button {
-            width: 100%;
-
-            min-height: 44px;
-
-            padding: 10px 16px;
-
-            border: none;
-
-            border-radius: 9px;
-
-            font-size: 0.82rem;
-
-            font-weight: 600;
-
-            cursor: pointer;
-        }
-
-        .cancel-button {
-            background: #d1d5db;
-
-            color: #1f2937;
-        }
-
-        .save-button {
-            background: var(--tech-orange);
-
-            color: white;
-
-            box-shadow:
-                0 3px 6px rgba(0, 0, 0, 0.12);
-        }
-
-        .save-button:hover {
-            background: var(--tech-orange-dark);
-        }
-
-        html.dark .cancel-button {
-            background: #475569;
-
-            color: white;
-        }
-
-
-        /* =====================================================
-           TABLEAU — MOBILE
-           ===================================================== */
-
-        .users-card {
-            width: 100%;
-
-            padding: 12px;
-
-            overflow-x: auto;
-            overflow-y: hidden;
-
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .users-table-wrapper {
-            width: 100%;
-
-            overflow-x: auto;
-
-            scrollbar-width: thin;
-        }
-
-        .users-table {
-            width: 100%;
-
-            min-width: 650px;
-
-            text-align: left;
-
-            border-collapse: collapse;
-
-            font-size: 0.75rem;
-        }
-
-        .users-table th,
-        .users-table td {
-            white-space: nowrap;
-        }
-
-        .users-table th {
-            padding: 11px 10px;
-
-            font-size: 0.72rem;
-
-            font-weight: 600;
-        }
-
-        .users-table td {
-            padding: 13px 10px;
-
-            line-height: 1.4;
-        }
-
-        .users-table tbody tr {
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .role-badge {
-            display: inline-flex;
-            align-items: center;
-
-            padding: 5px 9px;
-
-            background: #dbeafe;
-
-            color: #2563eb;
-
-            border-radius: 999px;
-
-            font-size: 0.68rem;
-
-            font-weight: 700;
-
-            white-space: nowrap;
-        }
-
-        html.dark .role-badge {
-            background: rgba(30, 58, 138, 0.3);
-
-            color: #60a5fa;
-        }
-
-
-        /* =====================================================
-           TRÈS PETITS ÉCRANS
-           ===================================================== */
-
-        @media (max-width: 359px) {
-
-            .sidebar-brand {
-                padding: 13px 12px;
-            }
-
-            .sidebar-logo {
-                width: 30px;
-                height: 30px;
-
-                margin-right: 11px;
-            }
-
-            .sidebar-logo-inner {
-                width: 21px;
-                height: 21px;
-            }
-
-            .sidebar-title {
-                font-size: 16px;
-            }
-
-            .nav-menu {
-                padding: 8px;
-            }
-
-            .nav-menu li a {
-                padding: 9px 11px;
-
-                font-size: 11px;
-            }
-
-            .sidebar-bottom-actions {
-                padding: 7px 8px 10px;
-            }
-
-            .sidebar-action {
-                min-height: 40px;
-
-                padding: 8px 10px;
-
-                font-size: 11px;
-            }
-
-            .sidebar-action i {
-                margin-right: 6px;
-
-                font-size: 13px;
-            }
-
-            .main-content {
-                padding: 15px 10px;
-            }
-
-            .page-title {
-                font-size: 1.35rem;
-            }
-
-            .page-description {
-                font-size: 0.74rem;
-            }
-
-            .user-modal {
-                padding: 15px;
-            }
-
-            .users-card {
-                padding: 9px;
-            }
-        }
-
-
-        /* =====================================================
-           PETITS MOBILES → TABLETTE
-           ===================================================== */
-
-        @media (min-width: 576px) {
-
-            .sidebar-brand {
-                padding: 18px 20px;
-            }
-
-            .sidebar-logo {
-                width: 38px;
-                height: 38px;
-            }
-
-            .sidebar-logo-inner {
-                width: 26px;
-                height: 26px;
-            }
-
-            .sidebar-title {
-                font-size: 19px;
-            }
-
-            .nav-menu {
-                padding: 10px 14px;
-            }
-
-            .nav-menu li a {
-                padding: 11px 15px;
-
-                font-size: 13px;
-            }
-
-            .sidebar-bottom-actions {
-                padding: 10px 14px 14px;
-            }
-
-            .sidebar-action {
-                min-height: 44px;
-
-                padding: 10px 15px;
-
-                font-size: 13px;
-            }
-
-            .main-content {
-                padding: 25px 20px;
-            }
-
-            .page-title {
-                font-size: 1.8rem;
-            }
-
-            .page-description {
-                font-size: 0.85rem;
-            }
-
-            .user-modal {
-                padding: 22px;
-            }
-
-            .users-card {
-                padding: 16px;
-            }
-
-            .users-table {
-                min-width: 700px;
-            }
-        }
-
-
-        /* =====================================================
-           TABLETTE
-           ===================================================== */
-
-        @media (min-width: 768px) {
-
-            .page-header {
-                flex-direction: row;
-
-                align-items: center;
-
-                justify-content: space-between;
-
-                gap: 20px;
-
-                margin-bottom: 30px;
-            }
-
-            .page-header-text {
-                flex: 1;
-            }
-
-            .add-user-button {
-                width: auto;
-
-                flex-shrink: 0;
-
-                min-width: 210px;
-            }
-
-            .user-form {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-
-                gap: 16px;
-            }
-
-            .form-actions {
-                grid-column: 1 / -1;
-
-                flex-direction: row;
-
-                justify-content: flex-end;
-
-                width: auto;
-            }
-
-            .form-action-button {
-                width: auto;
-            }
-
-            .users-table {
-                min-width: 760px;
-
-                font-size: 0.8rem;
-            }
-        }
-
-
-        /* =====================================================
-           DESKTOP
-           ===================================================== */
-
-        @media (min-width: 992px) {
-
-            body {
-                display: flex;
-
-                min-height: 100vh;
-            }
-
-            .sidebar {
-                width: var(--sidebar-width);
-
-                min-height: 100vh;
-
-                position: fixed;
-
-                top: 0;
-                bottom: 0;
-                left: 0;
-
-                display: flex;
-
-                flex-direction: column;
-            }
-
-            .sidebar-brand {
-                padding: 30px 24px;
-            }
-
-            .sidebar-logo {
-                width: 40px;
-                height: 40px;
-
-                margin-right: 15px;
-            }
-
-            .sidebar-logo-inner {
-                width: 28px;
-                height: 28px;
-            }
-
-            .sidebar-title {
-                font-size: 20px;
-            }
-
-            .nav-menu {
-                padding: 24px 16px;
-
-                flex: 1;
-
-                flex-direction: column;
-
-                gap: 6px;
-
-                overflow: visible;
-            }
-
-            .nav-menu li {
-                width: 100%;
-            }
-
-            .nav-menu li a {
-                width: 100%;
-
-                padding: 14px 18px;
-
-                font-size: 14px;
-            }
-
-            .nav-menu li a i {
-                margin-right: 14px;
-
-                width: 22px;
-            }
-
-            .nav-menu li a.active {
-                border-left-width: 4px;
-            }
-
-
-            /* ACTIONS BAS DE SIDEBAR */
-
-            .sidebar-bottom-actions {
-                padding: 14px 16px 22px;
-
-                gap: 8px;
-
-                border-top:
-                    1px solid rgba(255, 255, 255, 0.10);
-            }
-
-            .sidebar-action {
-                min-height: 46px;
-
-                padding: 12px 18px;
-
-                font-size: 14px;
-            }
-
-            .sidebar-action i {
-                width: 22px;
-
-                margin-right: 14px;
-
-                font-size: 16px;
-            }
-
-
-            /* CONTENU */
-
-            .main-content {
-                width: auto;
-
-                max-width:
-                    calc(100% - var(--sidebar-width));
-
-                margin-left: var(--sidebar-width);
-
-                flex: 1;
-
-                padding: 40px;
-            }
-
-            .page-title {
-                font-size: 1.875rem;
-            }
-
-            .page-description {
-                font-size: 0.875rem;
-            }
-
-            .user-modal {
-                padding: 24px;
-            }
-
-            .users-card {
-                padding: 24px;
-            }
-
-            .users-table {
-                width: 100%;
-
-                min-width: 0;
-
-                font-size: 0.875rem;
-            }
-
-            .users-table th {
-                padding: 12px 16px;
-            }
-
-            .users-table td {
-                padding: 16px;
-            }
-        }
-
-
-        /* =====================================================
-           GRAND DESKTOP
-           ===================================================== */
-
-        @media (min-width: 1200px) {
-
-            .main-content {
-                padding: 40px 45px;
-            }
-
-            .page-header {
-                margin-bottom: 32px;
-            }
-        }
-
-
-        /* =====================================================
-           ACCESSIBILITÉ
-           ===================================================== */
-
-        button:focus-visible,
-        a:focus-visible,
-        input:focus-visible,
-        select:focus-visible {
-            outline: 2px solid var(--tech-orange);
-
-            outline-offset: 2px;
-        }
-
-
-        /* =====================================================
-           RÉDUCTION DES ANIMATIONS
-           ===================================================== */
-
-        @media (prefers-reduced-motion: reduce) {
-
-            *,
-            *::before,
-            *::after {
-                scroll-behavior: auto !important;
-
-                transition: none !important;
-            }
-        }
-
-    </style>
 </head>
-
 
 <body>
 
-    <!-- =====================================================
-         SIDEBAR
-         ===================================================== -->
+<div class="container">
 
-    <aside class="sidebar">
+    <div class="auth-section">
 
-        <!-- =================================================
-             BRAND
-             ================================================= -->
+        <div class="auth-content">
 
-        <div class="sidebar-brand">
+            <!-- =====================================================
+                 LOGO
+            ====================================================== -->
 
-            <div class="sidebar-logo">
-                <div class="sidebar-logo-inner"></div>
-            </div>
+            <div class="logo">
 
-            <div class="sidebar-title">
-                ASTRA <span>TECH</span>
-            </div>
+                <div class="logo-shape">
+                    <div class="logo-inner"></div>
+                </div>
 
-        </div>
-
-
-        <!-- =================================================
-             MENU PRINCIPAL
-             ================================================= -->
-
-        <ul class="nav-menu">
-
-            <li>
-                <a href="{% url 'astra:token_accueil' %}">
-                    <i class="fas fa-key"></i>
-                    Gestion des Tokens
-                </a>
-            </li>
-
-            <li>
-                <a
-                    href="{% url 'astra:page_utilisateurs' %}"
-                    class="active"
-                >
-                    <i class="fas fa-users"></i>
-                    Utilisateurs
-                </a>
-            </li>
-
-            <li>
-                <a href="{% url 'astra:permissions_page' %}">
-                    <i class="fas fa-shield-alt"></i>
-                    Permissions
-                </a>
-            </li>
-
-            <li>
-                <a href="{% url 'astra:historiques_page' %}">
-                    <i class="fas fa-history"></i>
-                    Historique
-                </a>
-            </li>
-
-            <li>
-                <a href="{% url 'astra:parametres_page' %}">
-                    <i class="fas fa-cog"></i>
-                    Paramètres
-                </a>
-            </li>
-
-        </ul>
-
-
-        <!-- =================================================
-             ACTIONS BAS DE SIDEBAR
-             ================================================= -->
-
-        <div class="sidebar-bottom-actions">
-
-            <!-- RETOUR -->
-
-            <a
-                href="#"
-                onclick="history.back(); return false;"
-                class="sidebar-action back-link"
-            >
-                <i class="fas fa-arrow-left"></i>
-
-                <span>
-                    Retour
-                </span>
-            </a>
-
-
-            <!-- DÉCONNEXION -->
-
-            <a
-                href="{% url 'astra:login' %}"
-                class="sidebar-action logout-link"
-                id="loginBtn"
-            >
-                <i class="fas fa-sign-out-alt"></i>
-
-                <span>
-                    Déconnexion
-                </span>
-            </a>
-
-        </div>
-
-    </aside>
-
-
-    <!-- =====================================================
-         CONTENU PRINCIPAL
-         ===================================================== -->
-
-    <main class="main-content">
-
-
-        <!-- =================================================
-             HEADER
-             ================================================= -->
-
-        <header class="page-header">
-
-            <div class="page-header-text">
-
-                <h1 class="page-title">
-
-                    <i class="fas fa-users"></i>
-
-                    <span>
-                        Gestion des Utilisateurs
-                    </span>
-
-                </h1>
-
-                <p class="page-description">
-                    Lisez et enregistrez de nouveaux comptes directement
-                    dans la base de données.
-                </p>
+                <div class="logo-text">
+                    <div class="astra">ASTRA</div>
+                    <div class="tech">TECH</div>
+                </div>
 
             </div>
 
+            <h1 class="auth-title">Connexion</h1>
 
-            <!-- BOUTON AJOUTER -->
-
-            <button
-                type="button"
-                onclick="toggleModal()"
-                class="add-user-button"
-            >
-
-                <i class="fas fa-user-plus"></i>
-
-                <span>
-                    Ajouter un utilisateur
-                </span>
-
-            </button>
-
-        </header>
+            <p class="auth-subtitle">
+                Entrez vos informations pour accéder à votre compte
+            </p>
 
 
-        <!-- =================================================
-             MESSAGES DJANGO
-             ================================================= -->
+            <!-- =====================================================
+                 ERREUR DJANGO
+            ====================================================== -->
 
-        {% if messages %}
+            {% if error %}
+            <div class="error-message">
 
-            <div class="django-messages">
+                <i class="fas fa-circle-exclamation"></i>
+
+                {{ error }}
+
+            </div>
+            {% endif %}
+
+
+            <!-- =====================================================
+                 MESSAGES DJANGO
+            ====================================================== -->
+
+            {% if messages %}
 
                 {% for message in messages %}
 
-                    <div
-                        class="django-message
+                    <div class="
                         {% if message.tags == 'error' %}
-                            bg-red-500
+                            error-message
+                        {% elif message.tags == 'warning' %}
+                            error-message
                         {% else %}
-                            bg-green-500
+                            success-message
                         {% endif %}
-                        shadow-md"
-                    >
+                    ">
+
+                        <i class="
+                            {% if message.tags == 'error' or message.tags == 'warning' %}
+                                fas fa-circle-exclamation
+                            {% else %}
+                                fas fa-circle-check
+                            {% endif %}
+                        "></i>
+
                         {{ message }}
+
                     </div>
 
                 {% endfor %}
 
-            </div>
-
-        {% endif %}
+            {% endif %}
 
 
-        <!-- =================================================
-             MODALE / FORMULAIRE
-             ================================================= -->
+            <!-- =====================================================
+                 FORMULAIRE DE CONNEXION
+            ====================================================== -->
 
-        <div
-            id="userModal"
-            class="hidden card user-modal"
-        >
-
-            <h3 class="user-modal-title text-gray-800 dark:text-white">
-                Enregistrer un nouvel utilisateur
-            </h3>
-
-
-            <form
-                method="POST"
-                action=""
-                class="user-form"
-            >
+            <form method="POST"
+                  action="{% url 'astra:login' %}"
+                  autocomplete="on">
 
                 {% csrf_token %}
 
-
-                <!-- PRÉNOM -->
-
-                <div class="form-group">
-
-                    <label
-                        class="form-label text-gray-600 dark:text-gray-300"
-                    >
-                        Prénom
-                    </label>
-
-                    <input
-                        type="text"
-                        name="first_name"
-                        class="form-control"
-                        required
-                    >
-
-                </div>
+                {% if next %}
+                <input type="hidden"
+                       name="next"
+                       value="{{ next }}">
+                {% endif %}
 
 
                 <!-- NOM -->
 
                 <div class="form-group">
 
-                    <label
-                        class="form-label text-gray-600 dark:text-gray-300"
-                    >
-                        Nom
+                    <label for="loginIdentifiant">
+                        Nom ou adresse email
                     </label>
 
-                    <input
-                        type="text"
-                        name="last_name"
-                        class="form-control"
-                        required
-                    >
+                    <div class="input-with-icon">
+
+                        <i class="fas fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="loginIdentifiant"
+                            name="identifiant"
+                            placeholder="Votre nom ou votre email"
+                            autocomplete="family-name"
+                            autocapitalize="words"
+                            required
+                        >
+
+                    </div>
 
                 </div>
 
 
-                <!-- EMAIL -->
+                <!-- PRÉNOM -->
 
                 <div class="form-group">
 
-                    <label
-                        class="form-label text-gray-600 dark:text-gray-300"
-                    >
-                        Email / Identifiant
+                    <label for="loginPrenom">
+                        Prénom (si vous utilisez votre nom)
                     </label>
 
-                    <input
-                        type="email"
-                        name="email"
-                        class="form-control"
-                        required
-                    >
+                    <div class="input-with-icon">
+
+                        <i class="fas fa-user"></i>
+
+                        <input
+                            type="text"
+                            id="loginPrenom"
+                            name="prenom"
+                            placeholder="Votre prénom"
+                            autocomplete="given-name"
+                            autocapitalize="words"
+                        >
+
+                    </div>
 
                 </div>
 
@@ -1500,17 +802,339 @@
 
                 <div class="form-group">
 
-                    <label
-                        class="form-label text-gray-600 dark:text-gray-300"
-                    >
+                    <label for="loginPassword">
                         Mot de passe
                     </label>
 
+                    <div class="input-with-icon password-wrapper">
+
+                        <i class="fas fa-lock"></i>
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="loginPassword"
+                            placeholder="Votre mot de passe"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            id="toggleLoginPassword"
+                            aria-label="Afficher le mot de passe"
+                        >
+                            <i class="fas fa-eye"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOUTON CONNEXION -->
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+
+                    <i class="fas fa-lock-open"></i>
+
+                    Connexion
+
+                </button>
+
+            </form>
+
+
+            <!-- =====================================================
+                 INFORMATION
+            ====================================================== -->
+
+            <div class="token-info">
+
+                <p>
+
+                    <i class="fas fa-info-circle"></i>
+
+                    Connectez-vous avec votre nom et votre prénom,
+                    ou avec votre adresse email et votre mot de passe.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     WIDGET INSCRIPTION
+============================================================= -->
+
+<div class="astra-registration-widget">
+
+    <div
+        class="registration-promo"
+        id="registrationPromo"
+    >
+
+        <div class="promo-glow"></div>
+
+        <div class="promo-icon">
+            <i class="fas fa-sparkles"></i>
+        </div>
+
+        <div class="promo-content">
+
+            <span class="promo-small">
+                NOUVEAU SUR ASTRA TECH ?
+            </span>
+
+            <strong class="promo-title">
+                ✨ Créez votre compte !
+            </strong>
+
+            <span class="promo-subtitle">
+                Accès rapide au système
+            </span>
+
+        </div>
+
+        <button
+            type="button"
+            class="promo-close"
+            id="closePromo"
+            aria-label="Fermer"
+        >
+
+            <i class="fas fa-times"></i>
+
+        </button>
+
+    </div>
+
+
+    <button
+        type="button"
+        class="astra-chat-button"
+        id="openRegistration"
+        aria-label="Ouvrir l'inscription"
+    >
+
+        <span class="chat-ring ring-one"></span>
+
+        <span class="chat-ring ring-two"></span>
+
+        <span class="chat-button-inner">
+
+            <i class="fas fa-user-plus"></i>
+
+        </span>
+
+        <span class="chat-notification">
+            1
+        </span>
+
+    </button>
+
+</div>
+
+
+<!-- =============================================================
+     MODAL INSCRIPTION
+============================================================= -->
+
+<div
+    class="astra-register-overlay"
+    id="registrationModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="astra-register-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="registrationTitle"
+    >
+
+        <!-- HEADER -->
+
+        <div class="register-header">
+
+            <div class="register-brand">
+
+                <div class="register-brand-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        ASTRA TECH
+                    </span>
+
+                    <small>
+                        Création de compte
+                    </small>
+
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="register-close"
+                id="closeRegistration"
+                aria-label="Fermer"
+            >
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- CORPS -->
+
+        <div class="register-body">
+
+            <div class="register-welcome">
+
+                <div class="welcome-orbit">
+
+                    <div class="orbit-dot"></div>
+
+                    <i class="fas fa-user-astronaut"></i>
+
+                </div>
+
+                <h2 id="registrationTitle">
+                    Bienvenue sur ASTRA TECH
+                </h2>
+
+                <p>
+                    Remplissez le formulaire ci-dessous
+                    pour créer votre compte.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 FORMULAIRE INSCRIPTION
+            ================================================== -->
+
+            <form
+                method="POST"
+                action="{% url 'astra:client_register' %}"
+                class="registration-form"
+                autocomplete="on"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- NOM + PRÉNOM -->
+
+                <div class="form-row">
+
+                    <div class="register-field">
+
+                        <label for="registerNom">
+
+                            <i class="fas fa-user"></i>
+
+                            Nom
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="registerNom"
+                            name="nom"
+                            placeholder="Votre nom"
+                            autocomplete="family-name"
+                            autocapitalize="words"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="register-field">
+
+                        <label for="registerPrenom">
+
+                            <i class="fas fa-user"></i>
+
+                            Prénom
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="registerPrenom"
+                            name="prenom"
+                            placeholder="Votre prénom"
+                            autocomplete="given-name"
+                            autocapitalize="words"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="register-field">
+
+                    <label for="registerEmail">
+
+                        <i class="fas fa-envelope"></i>
+
+                        Adresse email
+
+                    </label>
+
                     <input
-                        type="password"
-                        name="password"
-                        class="form-control"
+                        type="email"
+                        id="registerEmail"
+                        name="email"
+                        placeholder="exemple@gmail.com"
+                        autocomplete="email"
                         required
+                    >
+
+                </div>
+
+
+                <!-- TÉLÉPHONE -->
+
+                <div class="register-field">
+
+                    <label for="registerTelephone">
+
+                        <i class="fas fa-phone"></i>
+
+                        Téléphone
+
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="registerTelephone"
+                        name="telephone"
+                        placeholder="Votre numéro"
+                        autocomplete="tel"
                     >
 
                 </div>
@@ -1518,201 +1142,421 @@
 
                 <!-- RÔLE -->
 
-                <div class="form-group">
+                <div class="register-field">
 
-                    <label
-                        class="form-label text-gray-600 dark:text-gray-300"
-                    >
+                    <label for="registerRole">
+
+                        <i class="fas fa-user-tag"></i>
+
                         Rôle
+
                     </label>
 
                     <select
                         name="role"
-                        class="form-select"
+                        id="registerRole"
+                        required
                     >
 
-                        {% for value, label in roles %}
+                        <option value="client">
+                            Client
+                        </option>
 
-                            <option value="{{ value }}">
-                                {{ label }}
-                            </option>
+                        <option value="stocks">
+                            Gestionnaire de stock
+                        </option>
 
-                        {% endfor %}
+                        <option value="rapports">
+                            Rapports
+                        </option>
+
+                        <option value="fournisseur">
+                            Fournisseur
+                        </option>
+
+                        <option value="approvisionnement">
+                            Approvisionnement
+                        </option>
+
+                        <option value="vente">
+                            Vente
+                        </option>
 
                     </select>
 
                 </div>
 
 
-                <!-- ACTIONS FORMULAIRE -->
+                <!-- MOT DE PASSE -->
 
-                <div class="form-actions">
+                <div class="register-field">
 
-                    <button
-                        type="button"
-                        onclick="toggleModal()"
-                        class="form-action-button cancel-button"
-                    >
-                        Annuler
-                    </button>
+                    <label for="registerPassword">
 
-                    <button
-                        type="submit"
-                        class="form-action-button save-button"
-                    >
-                        Enregistrer
-                    </button>
+                        <i class="fas fa-lock"></i>
+
+                        Mot de passe
+
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="registerPassword"
+                            placeholder="Minimum 8 caractères"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            id="toggleRegisterPassword"
+                            aria-label="Afficher le mot de passe"
+                        >
+
+                            <i class="fas fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                    <div class="password-help">
+                        Minimum 8 caractères.
+                    </div>
 
                 </div>
+
+
+                <!-- CONFIRMATION MOT DE PASSE -->
+
+                <div class="register-field">
+
+                    <label for="registerPasswordConfirmation">
+
+                        <i class="fas fa-lock"></i>
+
+                        Confirmation du mot de passe
+
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            name="password_confirmation"
+                            id="registerPasswordConfirmation"
+                            placeholder="Confirmez votre mot de passe"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            id="toggleRegisterPasswordConfirmation"
+                            aria-label="Afficher la confirmation du mot de passe"
+                        >
+
+                            <i class="fas fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CRÉATION -->
+
+                <button
+                    type="submit"
+                    class="create-account-button"
+                >
+
+                    <span>
+                        Créer mon compte
+                    </span>
+
+                    <i class="fas fa-arrow-right"></i>
+
+                </button>
 
             </form>
 
         </div>
 
 
-        <!-- =================================================
-             TABLEAU DES UTILISATEURS
-             ================================================= -->
+        <!-- FOOTER -->
 
-        <div class="card users-card">
+        <div class="register-footer">
 
-            <div class="users-table-wrapper">
+            <i class="fas fa-shield-halved"></i>
 
-                <table class="users-table">
-
-                    <thead>
-
-                        <tr class="
-                            border-b
-                            border-gray-200
-                            dark:border-slate-700
-                            text-gray-500
-                            dark:text-gray-400
-                        ">
-
-                            <th>
-                                Nom &amp; Prénom
-                            </th>
-
-                            <th>
-                                Email / Identifiant
-                            </th>
-
-                            <th>
-                                Date d'inscription
-                            </th>
-
-                            <th>
-                                Statut / Rôle
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody class="
-                        divide-y
-                        divide-gray-100
-                        dark:divide-slate-800
-                    ">
-
-                        {% for u in utilisateurs %}
-
-                            <tr>
-
-                                <td class="
-                                    font-semibold
-                                    text-gray-800
-                                    dark:text-gray-200
-                                ">
-
-                                    {{ u.nom }} {{ u.prenom }}
-
-                                </td>
-
-
-                                <td class="
-                                    text-gray-600
-                                    dark:text-gray-300
-                                ">
-
-                                    {{ u.email }}
-
-                                </td>
-
-
-                                <td class="
-                                    text-gray-500
-                                    dark:text-gray-400
-                                ">
-
-                                    {{ u.date_inscription|date:"d/m/Y H:i" }}
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="role-badge">
-
-                                        {{ u.get_role_display }}
-
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-                        {% empty %}
-
-                            <tr>
-
-                                <td
-                                    colspan="4"
-                                    class="
-                                        py-8
-                                        text-center
-                                        text-gray-500
-                                        dark:text-gray-400
-                                    "
-                                >
-                                    Aucun utilisateur trouvé dans la base de données.
-                                </td>
-
-                            </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-            </div>
+            Système sécurisé ASTRA TECH
 
         </div>
 
-    </main>
+    </div>
+
+</div>
 
 
-    <!-- =====================================================
-         JAVASCRIPT
-         ===================================================== -->
+<!-- =============================================================
+     JAVASCRIPT
+============================================================= -->
 
-    <script>
+<script>
 
-        function toggleModal() {
+    document.addEventListener("DOMContentLoaded", function () {
 
-            const modal = document.getElementById('userModal');
+        /* =====================================================
+           ÉLÉMENTS
+        ====================================================== */
+
+        const modal =
+            document.getElementById("registrationModal");
+
+        const openBtn =
+            document.getElementById("openRegistration");
+
+        const closeBtn =
+            document.getElementById("closeRegistration");
+
+        const promo =
+            document.getElementById("registrationPromo");
+
+        const closePromo =
+            document.getElementById("closePromo");
+
+
+        /* =====================================================
+           OUVRIR LE MODAL
+        ====================================================== */
+
+        if (openBtn && modal) {
+
+            openBtn.addEventListener("click", function () {
+
+                modal.classList.add("active");
+
+                modal.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+                if (promo) {
+                    promo.style.display = "none";
+                }
+
+                document.body.style.overflow = "hidden";
+
+            });
+
+        }
+
+
+        /* =====================================================
+           FERMER LE MODAL
+        ====================================================== */
+
+        function closeModal() {
 
             if (!modal) {
                 return;
             }
 
-            modal.classList.toggle('hidden');
+            modal.classList.remove("active");
+
+            modal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+            document.body.style.overflow = "";
+
         }
 
-    </script>
+
+        if (closeBtn) {
+
+            closeBtn.addEventListener(
+                "click",
+                closeModal
+            );
+
+        }
+
+
+        /* =====================================================
+           FERMETURE EN CLIQUANT À L'EXTÉRIEUR
+        ====================================================== */
+
+        if (modal) {
+
+            modal.addEventListener(
+                "click",
+                function (event) {
+
+                    if (event.target === modal) {
+                        closeModal();
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           FERMETURE AVEC ÉCHAP
+        ====================================================== */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape" &&
+                    modal &&
+                    modal.classList.contains("active")
+                ) {
+
+                    closeModal();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           FERMER LA PROMOTION
+        ====================================================== */
+
+        if (closePromo && promo) {
+
+            closePromo.addEventListener(
+                "click",
+                function () {
+
+                    promo.style.display = "none";
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           AFFICHER / CACHER MOT DE PASSE
+        ====================================================== */
+
+        function setupPasswordToggle(
+            toggleId,
+            inputId
+        ) {
+
+            const toggleBtn =
+                document.getElementById(toggleId);
+
+            const inputField =
+                document.getElementById(inputId);
+
+            if (!toggleBtn || !inputField) {
+                return;
+            }
+
+            toggleBtn.addEventListener(
+                "click",
+                function () {
+
+                    const isPassword =
+                        inputField.type === "password";
+
+                    inputField.type =
+                        isPassword ? "text" : "password";
+
+                    toggleBtn.innerHTML =
+                        isPassword
+                            ? '<i class="fas fa-eye-slash"></i>'
+                            : '<i class="fas fa-eye"></i>';
+
+                }
+            );
+
+        }
+
+
+        setupPasswordToggle(
+            "toggleLoginPassword",
+            "loginPassword"
+        );
+
+        setupPasswordToggle(
+            "toggleRegisterPassword",
+            "registerPassword"
+        );
+
+        setupPasswordToggle(
+            "toggleRegisterPasswordConfirmation",
+            "registerPasswordConfirmation"
+        );
+
+
+        /* =====================================================
+           VÉRIFICATION CÔTÉ NAVIGATEUR
+           DES DEUX MOTS DE PASSE
+        ====================================================== */
+
+        const registrationForm =
+            document.querySelector(".registration-form");
+
+        if (registrationForm) {
+
+            registrationForm.addEventListener(
+                "submit",
+                function (event) {
+
+                    const password =
+                        document.getElementById(
+                            "registerPassword"
+                        );
+
+                    const confirmation =
+                        document.getElementById(
+                            "registerPasswordConfirmation"
+                        );
+
+                    if (
+                        password &&
+                        confirmation &&
+                        password.value !== confirmation.value
+                    ) {
+
+                        event.preventDefault();
+
+                        alert(
+                            "Les deux mots de passe ne correspondent pas."
+                        );
+
+                        confirmation.focus();
+
+                    }
+
+                }
+            );
+
+        }
+
+    });
+
+</script>
+
 
 </body>
 
