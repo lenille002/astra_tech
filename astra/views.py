@@ -1107,9 +1107,44 @@ def accueil(request):
     }
     return render(request, 'astra/accueil.html', context)
 
-
-@verifier_acces_strict(allowed_roles=["admin"])
 def connexion_admin_page(request):
+    if request.method == "POST":
+        identifiant = request.POST.get("identifiant", "").strip()
+        password = request.POST.get("password", "")
+
+        # Recherche de l'utilisateur
+        utilisateur = Utilisateur.objects.filter(
+            identifiant=identifiant
+        ).first()
+
+        # Vérification des identifiants
+        if utilisateur and check_password(password, utilisateur.password):
+
+            # Vérification du rôle
+            if utilisateur.role == "admin":
+
+                # Création de la session
+                request.session["utilisateur_id"] = utilisateur.id
+                request.session["user_id"] = utilisateur.id
+                request.session["user_role"] = utilisateur.role
+                request.session["user_nom"] = utilisateur.nom
+                request.session["user_prenom"] = utilisateur.prenom
+                request.session["connecte"] = True
+
+                # Redirection vers la page Token
+                return redirect("astra:token_accueil")
+
+            messages.error(
+                request,
+                "Cet utilisateur n'a pas les droits administrateur."
+            )
+
+        else:
+            messages.error(
+                request,
+                "Identifiant ou mot de passe incorrect."
+            )
+
     return render(request, "astra/connexion.html")
 
 
