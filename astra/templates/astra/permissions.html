@@ -1,321 +1,2427 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-    <title>ASTRA TECH - Matrice de Sécurité & Permissions</title>
-    
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- CSS RESPONSIVE : UN SEUL CHARGEMENT -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/responsive.css' %}"
+    >
+
+    <title>
+        ASTRA TECH - Matrice de Sécurité & Permissions
+    </title>
+
+
+    <!-- =====================================================
+         INITIALISATION MODE NUIT
+         ===================================================== -->
+
     <script>
-        (function() {
-            if (localStorage.getItem('astra_dark_mode') === 'true') {
-                document.documentElement.classList.add('dark');
+        (function () {
+
+            if (
+                localStorage.getItem("astra_dark_mode")
+                === "true"
+            ) {
+
+                document.documentElement
+                    .classList.add("dark");
+
             }
+
         })();
     </script>
 
+
+    <!-- =====================================================
+         TAILWIND
+         ===================================================== -->
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
-        tailwind.config = { darkMode: 'class' }
+
+        tailwind.config = {
+            darkMode: "class"
+        };
+
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
+
+    <!-- =====================================================
+         FONT AWESOME
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
+
+        @import url(
+            'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
+        );
+
+
+        /* =====================================================
+           VARIABLES
+           ===================================================== */
+
         :root {
+
             --tech-dark-blue: #004E8C;
             --tech-sidebar-bg: #003366;
             --tech-orange: #FF8C00;
+
+            --sidebar-width: 280px;
+
         }
+
+
+        /* =====================================================
+           RESET GLOBAL — MOBILE FIRST
+           ===================================================== */
+
+        *,
+        *::before,
+        *::after {
+
+            box-sizing: border-box;
+
+        }
+
+
+        html,
+        body {
+
+            width: 100%;
+            max-width: 100%;
+
+            margin: 0;
+            padding: 0;
+
+            overflow-x: hidden;
+
+        }
+
 
         body {
+
             font-family: 'Inter', sans-serif;
+
             background-color: #f8fafc;
+
             color: #1e293b;
-            display: flex;
+
             min-height: 100vh;
-            margin: 0;
+
+            /*
+             * IMPORTANT :
+             * Sur mobile, le body ne doit PAS être flex
+             * avec une sidebar de 280px.
+             */
+
+            display: block;
+
             overflow-x: hidden;
+
         }
 
-      
-        html.dark .card-custom { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
 
+        /* =====================================================
+           MODE NUIT GLOBAL
+           ===================================================== */
 
-        /* --- MODE NUIT GLOBAL --- */
         html.dark body {
+
             background-color: #0f172a !important;
+
             color: #f1f5f9 !important;
+
         }
-        html.dark .card {
+
+
+        html.dark .card,
+        html.dark .card-custom {
+
             background-color: #1e293b !important;
+
             border-color: #334155 !important;
+
             color: #f1f5f9 !important;
+
         }
-        html.dark h1, html.dark h2, html.dark h3, html.dark label, html.dark span, html.dark div {
+
+
+        html.dark h1,
+        html.dark h2,
+        html.dark h3,
+        html.dark label,
+        html.dark span,
+        html.dark div {
+
             color: inherit;
+
         }
-        html.dark input, html.dark select {
+
+
+        html.dark input,
+        html.dark select {
+
             background-color: #0f172a !important;
+
             border-color: #334155 !important;
+
             color: #ffffff !important;
+
         }
+
+
         html.dark .role-card {
+
             background-color: #1e293b;
+
             border-color: #334155;
+
         }
+
+
         html.dark .role-card.border-orange-500 {
+
             border-color: #f97316 !important;
-            background-color: rgba(249, 115, 22, 0.1) !important;
+
+            background-color:
+                rgba(249, 115, 22, 0.1) !important;
+
         }
- 
-        /* SIDEBAR CORRIGÉE AVEC LES BONNES COULEURS D'ORIGINE */
+
+
+        /* =====================================================
+           SIDEBAR — MOBILE FIRST
+           ===================================================== */
+
         .sidebar {
-            width: 280px;
-            background: linear-gradient(180deg, var(--tech-dark-blue) 0%, var(--tech-sidebar-bg) 100%);
+
+            position: relative;
+
+            top: auto;
+            left: auto;
+            right: auto;
+            bottom: auto;
+
+            width: 100%;
+            max-width: 100%;
+
+            height: auto;
+            min-height: 0;
+
+            margin: 0;
+            padding: 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--tech-dark-blue) 0%,
+                    var(--tech-sidebar-bg) 100%
+                );
+
             color: #fff;
+
             display: flex;
+
             flex-direction: column;
-            position: fixed;
-            top: 0; bottom: 0; left: 0;
+
+            overflow: hidden;
+
             z-index: 100;
-            box-shadow: 4px 0 25px rgba(0, 0, 0, 0.08);
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
+
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.10);
+
+            border-right: none;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.05);
+
         }
+
+
+        /* =====================================================
+           BRAND — MOBILE
+           ===================================================== */
 
         .sidebar-brand {
-            padding: 30px 24px;
+
+            width: 100%;
+
+            min-height: 58px;
+
+            padding: 12px 14px;
+
             display: flex;
+
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+            flex-shrink: 0;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.10);
+
         }
+
 
         .sidebar-logo {
-            width: 40px; height: 40px; background: #ffffff; border-radius: 8px;
-            transform: rotate(45deg); display: flex; justify-content: center; align-items: center;
-            margin-right: 15px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+            width: 34px;
+            height: 34px;
+
+            flex-shrink: 0;
+
+            background: #ffffff;
+
+            border-radius: 7px;
+
+            transform: rotate(45deg);
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            margin-right: 13px;
+
+            box-shadow:
+                0 4px 10px rgba(0, 0, 0, 0.15);
+
         }
+
 
         .sidebar-logo-inner {
-            width: 28px; height: 28px; border: 2px solid var(--tech-orange);
-            border-radius: 5px; transform: rotate(-45deg);
+
+            width: 24px;
+            height: 24px;
+
+            border:
+                2px solid var(--tech-orange);
+
+            border-radius: 5px;
+
+            transform: rotate(-45deg);
+
         }
 
-        .sidebar-title { font-weight: bold; font-size: 20px; letter-spacing: 1px; color: #ffffff; }
-        .sidebar-title span { color: var(--tech-orange); }
 
-        .main-content {
-            margin-left: 280px;
-            flex: 1;
-            padding: 3rem;
-            max-width: calc(100% - 280px);
-            box-sizing: border-box;
+        .sidebar-title {
+
+            font-weight: bold;
+
+            font-size: 18px;
+
+            letter-spacing: 1px;
+
+            color: #ffffff !important;
+
+            white-space: nowrap;
+
         }
+
+
+        .sidebar-title span {
+
+            color: var(--tech-orange);
+
+        }
+
+
+        /* =====================================================
+           MENU — MOBILE
+           ===================================================== */
 
         .nav-menu {
-            list-style: none; padding: 24px 16px; margin: 0; flex: 1;
-            display: flex; flex-direction: column; gap: 6px; overflow-y: auto;
+
+            width: 100%;
+
+            height: auto;
+
+            min-height: 54px;
+
+            list-style: none;
+
+            padding: 7px 10px;
+
+            margin: 0;
+
+            display: flex;
+
+            flex-direction: row;
+
+            align-items: center;
+
+            gap: 6px;
+
+            flex: none;
+
+            overflow-x: auto;
+
+            overflow-y: hidden;
+
+            scrollbar-width: none;
+
+            -webkit-overflow-scrolling: touch;
+
         }
+
+
+        .nav-menu::-webkit-scrollbar {
+
+            display: none;
+
+        }
+
 
         .nav-link {
-            display: flex; align-items: center; padding: 14px 18px;
-            color: rgba(255, 255, 255, 0.8); text-decoration: none; font-weight: 500; font-size: 14px;
-            border-radius: 10px; transition: all 0.25s ease;
+
+            min-height: 40px;
+
+            flex: 0 0 auto;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 10px 13px;
+
+            color:
+                rgba(255, 255, 255, 0.80);
+
+            text-decoration: none;
+
+            font-weight: 500;
+
+            font-size: 12px;
+
+            border-radius: 10px;
+
+            white-space: nowrap;
+
+            transition:
+                background-color 0.25s ease,
+                color 0.25s ease;
+
         }
-        .nav-link i { margin-right: 14px; font-size: 16px; width: 22px; text-align: center; }
-        .nav-link:hover { color: #ffffff; background-color: rgba(255, 255, 255, 0.08); }
-        .nav-link.active { color: #ffffff; background-color: rgba(255, 255, 255, 0.12); border-left: 4px solid var(--tech-orange); font-weight: 600; }
-        
+
+
+        .nav-link i {
+
+            margin-right: 7px;
+
+            font-size: 14px;
+
+            width: 18px;
+
+            flex-shrink: 0;
+
+            text-align: center;
+
+        }
+
+
+        .nav-link:hover {
+
+            color: #ffffff;
+
+            background-color:
+                rgba(255, 255, 255, 0.08);
+
+        }
+
+
+        .nav-link.active {
+
+            color: #ffffff;
+
+            background-color:
+                rgba(255, 255, 255, 0.12);
+
+            border-left:
+                3px solid var(--tech-orange);
+
+            font-weight: 600;
+
+        }
+
+
         .nav-link.back-link {
-            margin-top: auto;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            margin-top: 0;
+
+            background-color:
+                rgba(255, 255, 255, 0.05);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.10);
+
         }
+
+
+        /* =====================================================
+           FOOTER SIDEBAR — MOBILE
+           ===================================================== */
 
         .sidebar-footer {
-            padding: 20px 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+            width: 100%;
+
+            padding: 10px 12px;
+
+            border-top:
+                1px solid rgba(255, 255, 255, 0.10);
+
         }
+
 
         .btn-logout {
+
             width: 100%;
-            background-color: rgba(255, 77, 77, 0.15);
+
+            min-height: 42px;
+
+            background-color:
+                rgba(255, 77, 77, 0.15);
+
             color: #ff8080;
-            border: 1px solid rgba(255, 77, 77, 0.3);
-            padding: 12px;
+
+            border:
+                1px solid rgba(255, 77, 77, 0.30);
+
+            padding: 10px 12px;
+
             border-radius: 10px;
+
             cursor: pointer;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
-            gap: 10px;
+
+            gap: 9px;
+
             font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s ease;
+
+            font-size: 13px;
+
+            transition:
+                background-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
+
             text-decoration: none;
+
         }
+
+
         .btn-logout:hover {
+
             background-color: #ff4d4d;
+
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
+
             border-color: #ff4d4d;
+
+            box-shadow:
+                0 4px 12px rgba(255, 77, 77, 0.30);
+
         }
+
+
+        /* =====================================================
+           CONTENU PRINCIPAL — MOBILE FIRST
+           ===================================================== */
+
+        .main-content {
+
+            position: relative;
+
+            width: 100%;
+
+            max-width: 100%;
+
+            min-width: 0;
+
+            margin: 0 !important;
+
+            padding:
+                18px 12px 30px !important;
+
+            display: block;
+
+            box-sizing: border-box;
+
+            overflow-x: hidden;
+
+        }
+
+
+        .main-content > * {
+
+            width: 100%;
+
+            max-width: 100%;
+
+            min-width: 0;
+
+            box-sizing: border-box;
+
+        }
+
+
+        /* =====================================================
+           EN-TÊTE
+           ===================================================== */
+
+        .main-content > .flex {
+
+            width: 100%;
+
+            min-width: 0;
+
+            margin-bottom: 22px !important;
+
+        }
+
+
+        .main-content h1 {
+
+            width: 100%;
+
+            font-size: 1.35rem !important;
+
+            line-height: 1.3;
+
+            overflow-wrap: anywhere;
+
+        }
+
+
+        .main-content h1,
+        .main-content h1 * {
+
+            min-width: 0;
+
+        }
+
+
+        .main-content h1 + p {
+
+            width: 100%;
+
+            line-height: 1.5;
+
+            overflow-wrap: anywhere;
+
+        }
+
+
+        /* =====================================================
+           NOTIFICATION
+           ===================================================== */
+
+        #alert-box {
+
+            width: 100%;
+
+            max-width: 100%;
+
+            overflow-wrap: anywhere;
+
+            word-break: break-word;
+
+        }
+
+
+        /* =====================================================
+           CARTE MATRICE
+           ===================================================== */
+
+        .card-custom {
+
+            width: 100%;
+
+            max-width: 100%;
+
+            min-width: 0;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+        }
+
+
+        /* =====================================================
+           EN-TÊTE DE CARTE
+           ===================================================== */
+
+        .card-custom > div:first-child {
+
+            padding:
+                18px !important;
+
+        }
+
+
+        .card-custom h2 {
+
+            font-size: 1rem;
+
+            line-height: 1.4;
+
+            overflow-wrap: anywhere;
+
+        }
+
+
+        .card-custom h2 + p {
+
+            line-height: 1.5;
+
+            overflow-wrap: anywhere;
+
+        }
+
+
+        /* =====================================================
+           TABLEAU — SCROLL HORIZONTAL MOBILE
+           ===================================================== */
+
+        .card-custom .overflow-x-auto {
+
+            width: 100%;
+
+            max-width: 100%;
+
+            overflow-x: auto;
+
+            overflow-y: hidden;
+
+            -webkit-overflow-scrolling: touch;
+
+            scrollbar-width: thin;
+
+        }
+
+
+        .card-custom table {
+
+            width: 100%;
+
+            min-width: 760px;
+
+            table-layout: auto;
+
+        }
+
+
+        .card-custom th,
+        .card-custom td {
+
+            white-space: normal;
+
+        }
+
+
+        .card-custom th {
+
+            min-width: 130px;
+
+            font-size: 10px;
+
+        }
+
+
+        .card-custom th:first-child {
+
+            min-width: 260px;
+
+        }
+
+
+        .card-custom td {
+
+            min-width: 110px;
+
+            vertical-align: middle;
+
+        }
+
+
+        .card-custom td:first-child {
+
+            min-width: 260px;
+
+        }
+
+
+        .card-custom td input[type="checkbox"] {
+
+            width: 20px !important;
+
+            min-width: 20px;
+
+            height: 20px;
+
+            min-height: 20px;
+
+            cursor: pointer;
+
+        }
+
+
+        /* =====================================================
+           TEXTE DES LIGNES DU TABLEAU
+           ===================================================== */
+
+        .card-custom td:first-child {
+
+            line-height: 1.45;
+
+            overflow-wrap: anywhere;
+
+            word-break: normal;
+
+        }
+
+
+        /* =====================================================
+           PIED DE LA CARTE
+           ===================================================== */
+
+        .card-custom form > div:last-child {
+
+            width: 100%;
+
+            padding:
+                16px !important;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: stretch;
+
+            justify-content: flex-start;
+
+            gap: 14px;
+
+        }
+
+
+        .card-custom form > div:last-child p {
+
+            width: 100%;
+
+            margin: 0;
+
+            line-height: 1.5;
+
+            overflow-wrap: anywhere;
+
+        }
+
+
+        #btn-save {
+
+            width: 100% !important;
+
+            min-height: 48px;
+
+            padding:
+                12px 16px !important;
+
+            justify-content: center;
+
+            text-align: center;
+
+            white-space: normal;
+
+            line-height: 1.35;
+
+        }
+
+
+        #btn-save:disabled {
+
+            opacity: 0.70;
+
+            cursor: not-allowed;
+
+        }
+
+
+        /* =====================================================
+           PETITS ÉCRANS
+           ===================================================== */
+
+        @media (max-width: 359px) {
+
+            .sidebar-brand {
+
+                min-height: 54px;
+
+                padding:
+                    10px 12px;
+
+            }
+
+
+            .sidebar-logo {
+
+                width: 30px;
+                height: 30px;
+
+                margin-right: 11px;
+
+            }
+
+
+            .sidebar-logo-inner {
+
+                width: 21px;
+                height: 21px;
+
+            }
+
+
+            .sidebar-title {
+
+                font-size: 16px;
+
+            }
+
+
+            .nav-menu {
+
+                min-height: 50px;
+
+                padding:
+                    6px 8px;
+
+            }
+
+
+            .nav-link {
+
+                min-height: 38px;
+
+                padding:
+                    9px 10px;
+
+                font-size: 11px;
+
+            }
+
+
+            .nav-link i {
+
+                width: 16px;
+
+                margin-right: 6px;
+
+                font-size: 12px;
+
+            }
+
+
+            .main-content {
+
+                padding:
+                    15px 10px 25px !important;
+
+            }
+
+
+            .main-content h1 {
+
+                font-size:
+                    1.22rem !important;
+
+            }
+
+
+            .card-custom > div:first-child {
+
+                padding:
+                    14px !important;
+
+            }
+
+
+            .card-custom form > div:last-child {
+
+                padding:
+                    14px !important;
+
+            }
+
+
+            .card-custom table {
+
+                min-width: 720px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE LARGE / PETITE TABLETTE
+           ===================================================== */
+
+        @media (min-width: 576px) {
+
+            .sidebar-brand {
+
+                min-height: 62px;
+
+                padding:
+                    14px 20px;
+
+            }
+
+
+            .sidebar-logo {
+
+                width: 38px;
+                height: 38px;
+
+            }
+
+
+            .sidebar-logo-inner {
+
+                width: 26px;
+                height: 26px;
+
+            }
+
+
+            .sidebar-title {
+
+                font-size: 19px;
+
+            }
+
+
+            .nav-menu {
+
+                min-height: 56px;
+
+                padding:
+                    8px 14px;
+
+            }
+
+
+            .nav-link {
+
+                padding:
+                    11px 14px;
+
+                font-size: 13px;
+
+            }
+
+
+            .sidebar-footer {
+
+                padding:
+                    12px 16px;
+
+            }
+
+
+            .main-content {
+
+                padding:
+                    25px 20px 35px !important;
+
+            }
+
+
+            .main-content h1 {
+
+                font-size:
+                    1.6rem !important;
+
+            }
+
+
+            .card-custom > div:first-child {
+
+                padding:
+                    22px !important;
+
+            }
+
+
+            .card-custom form > div:last-child {
+
+                padding:
+                    18px !important;
+
+            }
+
+
+            #btn-save {
+
+                width: auto !important;
+
+                min-width: 220px;
+
+            }
+
+
+            .card-custom form > div:last-child {
+
+                flex-direction: row;
+
+                align-items: center;
+
+                justify-content: space-between;
+
+            }
+
+
+            .card-custom form > div:last-child p {
+
+                width: auto;
+
+                flex: 1;
+
+                min-width: 0;
+
+                padding-right: 16px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           TABLETTE
+           ===================================================== */
+
+        @media (min-width: 768px) {
+
+            .main-content {
+
+                padding:
+                    30px 24px 40px !important;
+
+            }
+
+
+            .main-content > .flex {
+
+                margin-bottom:
+                    28px !important;
+
+            }
+
+
+            .main-content h1 {
+
+                font-size:
+                    1.75rem !important;
+
+            }
+
+
+            .card-custom > div:first-child {
+
+                padding:
+                    24px !important;
+
+            }
+
+
+            .card-custom form > div:last-child {
+
+                padding:
+                    20px 24px !important;
+
+            }
+
+
+            .card-custom table {
+
+                min-width: 850px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           DESKTOP — RETOUR SIDEBAR FIXE
+           ===================================================== */
+
+        @media (min-width: 992px) {
+
+            body {
+
+                display: flex;
+
+                min-height: 100vh;
+
+                overflow-x: hidden;
+
+            }
+
+
+            /* -------------------------------------------------
+               SIDEBAR DESKTOP
+               ------------------------------------------------- */
+
+            .sidebar {
+
+                position: fixed;
+
+                top: 0;
+                left: 0;
+                bottom: 0;
+
+                width:
+                    var(--sidebar-width);
+
+                height: 100vh;
+
+                min-height: 100vh;
+
+                display: flex;
+
+                flex-direction: column;
+
+                overflow: visible;
+
+                box-shadow:
+                    4px 0 25px rgba(0, 0, 0, 0.08);
+
+                border-right:
+                    1px solid rgba(255, 255, 255, 0.05);
+
+                border-bottom: none;
+
+            }
+
+
+            .sidebar-brand {
+
+                min-height: auto;
+
+                padding:
+                    30px 24px;
+
+            }
+
+
+            .sidebar-logo {
+
+                width: 40px;
+                height: 40px;
+
+                margin-right: 15px;
+
+            }
+
+
+            .sidebar-logo-inner {
+
+                width: 28px;
+                height: 28px;
+
+            }
+
+
+            .sidebar-title {
+
+                font-size: 20px;
+
+            }
+
+
+            /* -------------------------------------------------
+               MENU DESKTOP
+               ------------------------------------------------- */
+
+            .nav-menu {
+
+                height: auto;
+
+                min-height: 0;
+
+                padding:
+                    24px 16px;
+
+                margin: 0;
+
+                flex: 1;
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 6px;
+
+                overflow-y: auto;
+
+                overflow-x: hidden;
+
+                scrollbar-width: thin;
+
+            }
+
+
+            .nav-link {
+
+                width: 100%;
+
+                min-height: auto;
+
+                flex: none;
+
+                padding:
+                    14px 18px;
+
+                font-size: 14px;
+
+                white-space: normal;
+
+            }
+
+
+            .nav-link i {
+
+                margin-right: 14px;
+
+                font-size: 16px;
+
+                width: 22px;
+
+            }
+
+
+            .nav-link.active {
+
+                border-left-width: 4px;
+
+            }
+
+
+            .nav-link.back-link {
+
+                margin-top: auto;
+
+            }
+
+
+            /* -------------------------------------------------
+               FOOTER DESKTOP
+               ------------------------------------------------- */
+
+            .sidebar-footer {
+
+                padding:
+                    20px 24px;
+
+            }
+
+
+            .btn-logout {
+
+                min-height: auto;
+
+                padding:
+                    12px;
+
+                font-size: 14px;
+
+            }
+
+
+            /* -------------------------------------------------
+               CONTENU DESKTOP
+               ------------------------------------------------- */
+
+            .main-content {
+
+                width: auto;
+
+                max-width:
+                    calc(100% - var(--sidebar-width));
+
+                min-width: 0;
+
+                margin-left:
+                    var(--sidebar-width) !important;
+
+                padding:
+                    40px !important;
+
+                flex: 1;
+
+                overflow-x: hidden;
+
+            }
+
+
+            .main-content h1 {
+
+                font-size:
+                    1.875rem !important;
+
+            }
+
+
+            .card-custom {
+
+                border-radius:
+                    16px;
+
+            }
+
+
+            .card-custom > div:first-child {
+
+                padding:
+                    24px !important;
+
+            }
+
+
+            .card-custom form > div:last-child {
+
+                padding:
+                    20px 24px !important;
+
+            }
+
+
+            .card-custom table {
+
+                width: 100%;
+
+                min-width: 0;
+
+            }
+
+
+            .card-custom th,
+            .card-custom td {
+
+                white-space: normal;
+
+            }
+
+
+            .card-custom th:first-child,
+            .card-custom td:first-child {
+
+                min-width: 0;
+
+            }
+
+
+            .card-custom td input[type="checkbox"] {
+
+                width: 16px !important;
+
+                min-width: 16px;
+
+                height: 16px;
+
+                min-height: 16px;
+
+            }
+
+
+            #btn-save {
+
+                width: auto !important;
+
+                min-width: 0;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           GRAND DESKTOP
+           ===================================================== */
+
+        @media (min-width: 1200px) {
+
+            .main-content {
+
+                padding:
+                    40px 45px !important;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           FOCUS ACCESSIBILITÉ
+           ===================================================== */
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+
+            outline:
+                2px solid var(--tech-orange);
+
+            outline-offset: 2px;
+
+        }
+
+
+        /* =====================================================
+           RÉDUCTION DES ANIMATIONS
+           ===================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                scroll-behavior: auto !important;
+
+                transition: none !important;
+
+                animation: none !important;
+
+            }
+
+        }
+
     </style>
+
 </head>
+
+
 <body>
 
-    <!-- SIDEBAR -->
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
     <aside class="sidebar">
+
+
         <div class="sidebar-brand">
-            <div class="sidebar-logo"><div class="sidebar-logo-inner"></div></div>
-            <div class="sidebar-title">ASTRA <span>TECH</span></div>
+
+            <div class="sidebar-logo">
+
+                <div class="sidebar-logo-inner"></div>
+
+            </div>
+
+
+            <div class="sidebar-title">
+
+                ASTRA <span>TECH</span>
+
+            </div>
+
         </div>
+
+
         <nav class="nav-menu">
-            <a href="{% url 'astra:token_accueil' %}" class="nav-link"><i class="fas fa-key"></i> Gestion des Tokens</a>
-            <a href="{% url 'astra:page_utilisateurs' %}" class="nav-link"><i class="fas fa-users"></i> Utilisateurs</a>
-            <a href="{% url 'astra:permissions_page' %}" class="nav-link active"><i class="fas fa-shield-alt"></i> Permissions</a>
-            <a href="{% url 'astra:historiques_page' %}" class="nav-link"><i class="fas fa-history"></i> Historique</a>
-            <a href="{% url 'astra:parametres_page' %}" class="nav-link"><i class="fas fa-cog"></i> Paramètres</a>
-            
-            <a href="#" onclick="history.back(); return false;" class="nav-link back-link">
-                <i class="fas fa-arrow-left text-white"></i>
-                <span>Retour</span>
+
+
+            <a
+                href="{% url 'astra:token_accueil' %}"
+                class="nav-link"
+            >
+
+                <i class="fas fa-key"></i>
+
+                Gestion des Tokens
+
             </a>
+
+
+            <a
+                href="{% url 'astra:page_utilisateurs' %}"
+                class="nav-link"
+            >
+
+                <i class="fas fa-users"></i>
+
+                Utilisateurs
+
+            </a>
+
+
+            <a
+                href="{% url 'astra:permissions_page' %}"
+                class="nav-link active"
+            >
+
+                <i class="fas fa-shield-alt"></i>
+
+                Permissions
+
+            </a>
+
+
+            <a
+                href="{% url 'astra:historiques_page' %}"
+                class="nav-link"
+            >
+
+                <i class="fas fa-history"></i>
+
+                Historique
+
+            </a>
+
+
+            <a
+                href="{% url 'astra:parametres_page' %}"
+                class="nav-link"
+            >
+
+                <i class="fas fa-cog"></i>
+
+                Paramètres
+
+            </a>
+
+
+            <a
+                href="#"
+                onclick="history.back(); return false;"
+                class="nav-link back-link"
+            >
+
+                <i class="fas fa-arrow-left text-white"></i>
+
+                <span>
+                    Retour
+                </span>
+
+            </a>
+
+
         </nav>
 
+
         <div class="sidebar-footer">
-            <a href="{% url 'astra:login' %}" class="btn-logout" id="loginBtn">
-                <i class="fas fa-sign-out-alt"></i> Déconnexion
+
+            <a
+                href="{% url 'astra:login' %}"
+                class="btn-logout"
+                id="loginBtn"
+            >
+
+                <i class="fas fa-sign-out-alt"></i>
+
+                Déconnexion
+
             </a>
+
         </div>
+
     </aside>
 
-    <!-- CONTENU PRINCIPAL -->
+
+    <!-- =====================================================
+         CONTENU PRINCIPAL
+         ===================================================== -->
+
     <main class="main-content">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-            <div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Matrice des Rôles & Sécurité</h1>
-                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Contrôlez les autorisations d'accès aux modules de gestion de matériel informatique.</p>
+
+
+        <!-- =================================================
+             EN-TÊTE
+             ================================================= -->
+
+        <div
+            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8"
+        >
+
+            <div class="min-w-0">
+
+                <h1
+                    class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white"
+                >
+
+                    Matrice des Rôles & Sécurité
+
+                </h1>
+
+
+                <p
+                    class="text-slate-500 dark:text-slate-400 text-sm mt-1"
+                >
+
+                    Contrôlez les autorisations d'accès aux modules
+                    de gestion de matériel informatique.
+
+                </p>
+
             </div>
-          
+
         </div>
 
-        <!-- ZONE DE NOTIFICATION -->
-        <div id="alert-box" class="hidden mb-6 p-4 rounded-xl text-sm font-medium transition-all shadow-sm"></div>
 
-        <!-- CARTE DE LA MATRICE -->
-        <div class="card-custom bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40">
-                <h2 class="font-bold text-slate-800 dark:text-white text-base">Attribution des Permissions par Groupe</h2>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Enregistrez vos choix pour valider les droits d'accès directement dans le backend.</p>
+        <!-- =================================================
+             NOTIFICATION
+             ================================================= -->
+
+        <div
+            id="alert-box"
+            class="hidden mb-6 p-4 rounded-xl text-sm font-medium transition-all shadow-sm"
+        ></div>
+
+
+        <!-- =================================================
+             CARTE MATRICE
+             ================================================= -->
+
+        <div
+            class="card-custom bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+        >
+
+
+            <!-- EN-TÊTE -->
+
+            <div
+                class="p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40"
+            >
+
+                <h2
+                    class="font-bold text-slate-800 dark:text-white text-base"
+                >
+
+                    Attribution des Permissions par Groupe
+
+                </h2>
+
+
+                <p
+                    class="text-xs text-slate-500 dark:text-slate-400 mt-0.5"
+                >
+
+                    Enregistrez vos choix pour valider les droits
+                    d'accès directement dans le backend.
+
+                </p>
+
             </div>
 
-            <form id="real-permissions-form" onsubmit="saveRealPermissions(event)">
+
+            <!-- FORMULAIRE -->
+
+            <form
+                id="real-permissions-form"
+                onsubmit="saveRealPermissions(event)"
+            >
+
                 {% csrf_token %}
+
+
+                <!-- =================================================
+                     TABLEAU
+                     ================================================= -->
+
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+
+                    <table
+                        class="w-full text-left border-collapse"
+                    >
+
                         <thead>
-                            <tr class="bg-slate-50 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                                <th class="py-4 px-6">Fonctionnalité / Module Technique</th>
-                                <th class="py-4 px-6 text-center">Administrateur</th>
-                                <th class="py-4 px-6 text-center">Gestionnaire Stock</th>
-                                <th class="py-4 px-6 text-center">Commercial / Vendeur</th>
-                                <th class="py-4 px-6 text-center">Caissier(ère)</th>
+
+                            <tr
+                                class="bg-slate-50 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider"
+                            >
+
+                                <th class="py-4 px-6">
+
+                                    Fonctionnalité /
+                                    Module Technique
+
+                                </th>
+
+
+                                <th class="py-4 px-6 text-center">
+
+                                    Administrateur
+
+                                </th>
+
+
+                                <th class="py-4 px-6 text-center">
+
+                                    Gestionnaire Stock
+
+                                </th>
+
+
+                                <th class="py-4 px-6 text-center">
+
+                                    Commercial / Vendeur
+
+                                </th>
+
+
+                                <th class="py-4 px-6 text-center">
+
+                                    Caissier(ère)
+
+                                </th>
+
                             </tr>
+
                         </thead>
-                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
-                            <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition">
-                                <td class="py-4 px-6 font-medium text-slate-700 dark:text-slate-200">
-                                    <div class="font-bold text-xs text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-1">Module Ventes & Facturation</div>
-                                    Valider une transaction ou émettre un devis matériel (PC, Composants)
+
+
+                        <tbody
+                            class="divide-y divide-slate-100 dark:divide-slate-800 text-sm"
+                        >
+
+
+                            <!-- VENTES -->
+
+                            <tr
+                                class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition"
+                            >
+
+                                <td
+                                    class="py-4 px-6 font-medium text-slate-700 dark:text-slate-200"
+                                >
+
+                                    <div
+                                        class="font-bold text-xs text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-1"
+                                    >
+
+                                        Module Ventes &
+                                        Facturation
+
+                                    </div>
+
+                                    Valider une transaction ou émettre
+                                    un devis matériel (PC, Composants)
+
                                 </td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="admin_vente" checked class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="stock_vente" class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="vendeur_vente" checked class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="caissier_vente" checked class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
-                            </tr>
-                            <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition">
-                                <td class="py-4 px-6 font-medium text-slate-700 dark:text-slate-200">
-                                    <div class="font-bold text-xs text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-1">Module Stock & Entrepôt</div>
-                                    Ajouter, modifier ou supprimer des équipements informatiques en stock
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="admin_vente"
+                                        checked
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
                                 </td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="admin_stock" checked class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="stock_stock" checked class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="vendeur_stock" class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="caissier_stock" class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
-                            </tr>
-                            <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition">
-                                <td class="py-4 px-6 font-medium text-slate-700 dark:text-slate-200">
-                                    <div class="font-bold text-xs text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-1">Administration & Sécurité</div>
-                                    Générer des jetons d'accès API et modifier les paramètres système
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="stock_vente"
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
                                 </td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="admin_tokens" checked class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="stock_tokens" class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="vendeur_tokens" class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
-                                <td class="py-4 px-6 text-center"><input type="checkbox" name="caissier_tokens" class="w-4 h-4 accent-orange-500 rounded cursor-pointer"></td>
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="vendeur_vente"
+                                        checked
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
+                                </td>
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="caissier_vente"
+                                        checked
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
+                                </td>
+
                             </tr>
+
+
+                            <!-- STOCK -->
+
+                            <tr
+                                class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition"
+                            >
+
+                                <td
+                                    class="py-4 px-6 font-medium text-slate-700 dark:text-slate-200"
+                                >
+
+                                    <div
+                                        class="font-bold text-xs text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-1"
+                                    >
+
+                                        Module Stock &
+                                        Entrepôt
+
+                                    </div>
+
+                                    Ajouter, modifier ou supprimer
+                                    des équipements informatiques
+                                    en stock
+
+                                </td>
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="admin_stock"
+                                        checked
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
+                                </td>
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="stock_stock"
+                                        checked
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
+                                </td>
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="vendeur_stock"
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
+                                </td>
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="caissier_stock"
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- ADMINISTRATION -->
+
+                            <tr
+                                class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition"
+                            >
+
+                                <td
+                                    class="py-4 px-6 font-medium text-slate-700 dark:text-slate-200"
+                                >
+
+                                    <div
+                                        class="font-bold text-xs text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-1"
+                                    >
+
+                                        Administration &
+                                        Sécurité
+
+                                    </div>
+
+                                    Générer des jetons d'accès API
+                                    et modifier les paramètres système
+
+                                </td>
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="admin_tokens"
+                                        checked
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
+                                </td>
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="stock_tokens"
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
+                                </td>
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="vendeur_tokens"
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
+                                </td>
+
+
+                                <td class="py-4 px-6 text-center">
+
+                                    <input
+                                        type="checkbox"
+                                        name="caissier_tokens"
+                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                    >
+
+                                </td>
+
+                            </tr>
+
+
                         </tbody>
+
                     </table>
+
                 </div>
 
-                <div class="p-6 bg-slate-50/50 dark:bg-slate-900/40 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                    <p class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                        <i class="fas fa-server text-blue-500"></i> Communication active avec la base de données de l'application.
+
+                <!-- =================================================
+                     PIED
+                     ================================================= -->
+
+                <div
+                    class="p-6 bg-slate-50/50 dark:bg-slate-900/40 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center"
+                >
+
+                    <p
+                        class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5"
+                    >
+
+                        <i class="fas fa-server text-blue-500"></i>
+
+                        Communication active avec la base de données
+                        de l'application.
+
                     </p>
-                    <button type="submit" id="btn-save" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2.5 rounded-xl text-sm transition shadow-sm flex items-center gap-2 cursor-pointer">
-                        <i class="fas fa-save text-xs"></i> Enregistrer les permissions
+
+
+                    <button
+                        type="submit"
+                        id="btn-save"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2.5 rounded-xl text-sm transition shadow-sm flex items-center gap-2 cursor-pointer"
+                    >
+
+                        <i class="fas fa-save text-xs"></i>
+
+                        Enregistrer les permissions
+
                     </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </main>
 
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
     <script>
-        function showNotification(message, isSuccess = true) {
-            const box = document.getElementById('alert-box');
-            box.className = `mb-6 p-4 rounded-xl text-sm font-medium transition-all shadow-sm ${isSuccess ? 'bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800' : 'bg-red-50 text-red-800 border border-red-200 dark:bg-red-950/50 dark:text-red-300 dark:border-red-800'}`;
-            box.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i> ${message}`;
-            box.classList.remove('hidden');
-            setTimeout(() => box.classList.add('hidden'), 4000);
+
+        /* =====================================================
+           NOTIFICATION
+           ===================================================== */
+
+        function showNotification(
+            message,
+            isSuccess = true
+        ) {
+
+            const box =
+                document.getElementById(
+                    "alert-box"
+                );
+
+
+            if (!box) {
+                return;
+            }
+
+
+            box.className =
+                `
+                mb-6
+                p-4
+                rounded-xl
+                text-sm
+                font-medium
+                transition-all
+                shadow-sm
+                ${
+                    isSuccess
+                        ?
+                        "bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800"
+                        :
+                        "bg-red-50 text-red-800 border border-red-200 dark:bg-red-950/50 dark:text-red-300 dark:border-red-800"
+                }
+                `;
+
+
+            box.innerHTML =
+                `
+                <i
+                    class="fas ${
+                        isSuccess
+                            ?
+                            "fa-check-circle"
+                            :
+                            "fa-exclamation-circle"
+                    } mr-2"
+                ></i>
+
+                ${message}
+                `;
+
+
+            box.classList.remove(
+                "hidden"
+            );
+
+
+            setTimeout(
+                () => {
+
+                    box.classList.add(
+                        "hidden"
+                    );
+
+                },
+                4000
+            );
+
         }
+
+
+        /* =====================================================
+           SAUVEGARDE DES PERMISSIONS
+           ===================================================== */
 
         function saveRealPermissions(event) {
+
             event.preventDefault();
-            const btn = document.getElementById('btn-save');
+
+
+            const btn =
+                document.getElementById(
+                    "btn-save"
+                );
+
+
+            if (!btn) {
+                return;
+            }
+
+
             btn.disabled = true;
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin text-xs"></i> Enregistrement en cours...`;
+
+
+            btn.innerHTML =
+                `
+                <i class="fas fa-spinner fa-spin text-xs"></i>
+
+                Enregistrement en cours...
+                `;
+
 
             const dataObj = {};
-            document.querySelectorAll('#real-permissions-form input[type="checkbox"]').forEach(cb => {
-                dataObj[cb.name] = cb.checked;
-            });
 
-            fetch("{% url 'astra:permissions_page' %}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify(dataObj)
-            })
-            .then(res => res.json())
-            .then(resData => {
-                btn.disabled = false;
-                btn.innerHTML = `<i class="fas fa-save text-xs"></i> Enregistrer les permissions`;
-                if(resData.status === 'success') {
-                    showNotification(resData.message, true);
-                } else {
-                    showNotification("Erreur lors de l'enregistrement des droits.", false);
+
+            document
+                .querySelectorAll(
+                    "#real-permissions-form input[type='checkbox']"
+                )
+                .forEach(
+                    cb => {
+
+                        dataObj[cb.name] =
+                            cb.checked;
+
+                    }
+                );
+
+
+            /*
+             * On récupère le token CSRF
+             * directement depuis le formulaire.
+             */
+
+            const csrfInput =
+                document.querySelector(
+                    "#real-permissions-form input[name='csrfmiddlewaretoken']"
+                );
+
+
+            const csrfToken =
+                csrfInput
+                    ? csrfInput.value
+                    : "";
+
+
+            fetch(
+                "{% url 'astra:permissions_page' %}",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "X-CSRFToken":
+                            csrfToken,
+
+                        "X-Requested-With":
+                            "XMLHttpRequest"
+
+                    },
+
+                    credentials:
+                        "same-origin",
+
+                    body:
+                        JSON.stringify(
+                            dataObj
+                        )
+
                 }
-            })
-            .catch(err => {
-                btn.disabled = false;
-                btn.innerHTML = `<i class="fas fa-save text-xs"></i> Enregistrer les permissions`;
-                showNotification("Erreur de communication avec le serveur Django.", false);
-            });
+            )
+
+            .then(
+                async response => {
+
+                    /*
+                     * Évite l'erreur
+                     * "Unexpected token <"
+                     * lorsqu'une page HTML est renvoyée
+                     * par Django.
+                     */
+
+                    const contentType =
+                        response.headers.get(
+                            "content-type"
+                        ) || "";
+
+
+                    if (
+                        contentType.includes(
+                            "application/json"
+                        )
+                    ) {
+
+                        const json =
+                            await response.json();
+
+
+                        return {
+                            ok:
+                                response.ok,
+
+                            data:
+                                json
+                        };
+
+                    }
+
+
+                    const text =
+                        await response.text();
+
+
+                    throw new Error(
+                        `Réponse serveur inattendue (${response.status}).`
+                    );
+
+                }
+            )
+
+            .then(
+                result => {
+
+                    btn.disabled = false;
+
+
+                    btn.innerHTML =
+                        `
+                        <i class="fas fa-save text-xs"></i>
+
+                        Enregistrer les permissions
+                        `;
+
+
+                    const resData =
+                        result.data;
+
+
+                    if (
+                        result.ok &&
+                        resData.status === "success"
+                    ) {
+
+                        showNotification(
+                            resData.message ||
+                            "Les permissions ont été enregistrées avec succès.",
+                            true
+                        );
+
+                    } else {
+
+                        showNotification(
+                            resData.message ||
+                            resData.error ||
+                            "Erreur lors de l'enregistrement des droits.",
+                            false
+                        );
+
+                    }
+
+                }
+            )
+
+            .catch(
+                error => {
+
+                    console.error(
+                        "Erreur permissions :",
+                        error
+                    );
+
+
+                    btn.disabled = false;
+
+
+                    btn.innerHTML =
+                        `
+                        <i class="fas fa-save text-xs"></i>
+
+                        Enregistrer les permissions
+                        `;
+
+
+                    showNotification(
+                        error.message ||
+                        "Erreur de communication avec le serveur Django.",
+                        false
+                    );
+
+                }
+            );
+
         }
+
+
+        /* =====================================================
+           DÉCONNEXION
+           ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                const loginBtn =
+                    document.getElementById(
+                        "loginBtn"
+                    );
+
+
+                if (loginBtn) {
+
+                    loginBtn.addEventListener(
+                        "click",
+                        event => {
+
+                            const confirmed =
+                                confirm(
+                                    "Voulez-vous vraiment vous déconnecter ?"
+                                );
+
+
+                            if (!confirmed) {
+
+                                event.preventDefault();
+
+                            }
+
+                        }
+                    );
+
+                }
+
+            }
+        );
+
     </script>
+
+
 </body>
 </html>

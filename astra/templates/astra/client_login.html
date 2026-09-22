@@ -1,123 +1,1202 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Astra Tech - Connexion Espace Client{% endblock %}
+{% block title %}
+Astra Tech - Connexion Espace Client
+{% endblock %}
 
 {% block css %}
+
 <style>
-    body, .app-layout, .app-main {
+
+    /* =========================================================
+       FOND GLOBAL
+    ========================================================= */
+
+    body,
+    .app-layout,
+    .app-main {
         background-color: #030712 !important;
     }
 
+
+    /* =========================================================
+       ANIMATIONS
+    ========================================================= */
+
     @keyframes floatOrb1 {
-        0%, 100% { transform: translate(0px, 0px) scale(1); }
-        50% { transform: translate(35px, -45px) scale(1.1); }
+
+        0%,
+        100% {
+            transform: translate(0px, 0px) scale(1);
+        }
+
+        50% {
+            transform: translate(35px, -45px) scale(1.1);
+        }
     }
+
 
     @keyframes floatOrb2 {
-        0%, 100% { transform: translate(0px, 0px) scale(1); }
-        50% { transform: translate(-45px, 35px) scale(1.15); }
+
+        0%,
+        100% {
+            transform: translate(0px, 0px) scale(1);
+        }
+
+        50% {
+            transform: translate(-45px, 35px) scale(1.15);
+        }
     }
+
 
     @keyframes pulseGlow {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 0.75; }
+
+        0%,
+        100% {
+            opacity: 0.4;
+        }
+
+        50% {
+            opacity: 0.75;
+        }
     }
+
 
     .orb-1 {
-        animation: floatOrb1 9s ease-in-out infinite, pulseGlow 4s ease-in-out infinite;
+        animation:
+            floatOrb1 9s ease-in-out infinite,
+            pulseGlow 4s ease-in-out infinite;
     }
+
 
     .orb-2 {
-        animation: floatOrb2 11s ease-in-out infinite, pulseGlow 5s ease-in-out infinite;
+        animation:
+            floatOrb2 11s ease-in-out infinite,
+            pulseGlow 5s ease-in-out infinite;
     }
 
+
+    /* =========================================================
+       GRILLE TECHNOLOGIQUE
+    ========================================================= */
+
     .tech-grid {
-        background-image: radial-gradient(rgba(249, 115, 22, 0.12) 1px, transparent 1px);
+        background-image:
+            radial-gradient(
+                rgba(249, 115, 22, 0.12) 1px,
+                transparent 1px
+            );
+
         background-size: 32px 32px;
     }
 
+
+    /* =========================================================
+       CHAMP DE CONNEXION
+    ========================================================= */
+
     .astra-login-input:focus {
         border-color: #f97316 !important;
+
         background-color: #ffffff !important;
-        box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15) !important;
+
+        box-shadow:
+            0 0 0 4px rgba(249, 115, 22, 0.15) !important;
     }
+
+
+    /* =========================================================
+       MOBILE FIRST
+       320px → 575px
+    ========================================================= */
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+
+    /* =========================================================
+       PAGE DE CONNEXION
+    ========================================================= */
+
+    .client-login-page {
+        width: 100% !important;
+        min-height: 85vh !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        padding: 16px !important;
+
+        position: relative;
+
+        overflow: hidden;
+
+        background:
+            radial-gradient(
+                circle at 50% 25%,
+                #1e1b4b 0%,
+                #090d16 75%
+            ) !important;
+    }
+
+
+    /* =========================================================
+       ORBES
+    ========================================================= */
+
+    .client-login-page .orb-1 {
+        width: 220px !important;
+        height: 220px !important;
+
+        top: 5% !important;
+        left: -15% !important;
+
+        filter: blur(75px) !important;
+    }
+
+
+    .client-login-page .orb-2 {
+        width: 250px !important;
+        height: 250px !important;
+
+        bottom: 0 !important;
+        right: -20% !important;
+
+        filter: blur(80px) !important;
+    }
+
+
+    /* =========================================================
+       CARTE DE CONNEXION
+    ========================================================= */
+
+    .client-login-page > div:last-child {
+        width: 100% !important;
+        max-width: 440px !important;
+
+        padding: 24px 18px !important;
+
+        border-radius: 22px !important;
+
+        position: relative;
+        z-index: 10;
+
+        overflow: hidden;
+    }
+
+
+    /* =========================================================
+       EN-TÊTE DE LA CARTE
+    ========================================================= */
+
+    .client-login-page > div:last-child > div:first-child {
+        width: 100% !important;
+
+        margin-bottom: 20px !important;
+    }
+
+
+    /* Icône */
+
+    .client-login-page > div:last-child > div:first-child > div {
+        width: 58px !important;
+        height: 58px !important;
+
+        border-radius: 18px !important;
+
+        margin-bottom: 12px !important;
+    }
+
+
+    .client-login-page > div:last-child > div:first-child > div i {
+        font-size: 22px !important;
+    }
+
+
+    /* Titre */
+
+    .client-login-page h2 {
+        max-width: 100%;
+
+        font-size: 21px !important;
+
+        line-height: 1.3 !important;
+
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+
+    /* Sous-titre */
+
+    .client-login-page h2 + p {
+        max-width: 100%;
+
+        font-size: 12px !important;
+
+        line-height: 1.6 !important;
+
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+
+    /* Nom du client */
+
+    .client-login-page h2 + p strong {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+
+    /* =========================================================
+       MESSAGES
+    ========================================================= */
+
+    .client-login-page form + div {
+        width: 100% !important;
+    }
+
+
+    .client-login-page form + div > div {
+        width: 100% !important;
+
+        gap: 8px !important;
+    }
+
+
+    .client-login-page form + div > div a {
+        max-width: 100%;
+
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+
+    /* =========================================================
+       FORMULAIRE
+    ========================================================= */
+
+    .client-login-page form {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+
+    .client-login-page form > div {
+        width: 100% !important;
+
+        margin-bottom: 18px !important;
+    }
+
+
+    .client-login-page label {
+        font-size: 10px !important;
+
+        line-height: 1.4;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+       CHAMP MOT DE PASSE
+    ========================================================= */
+
+    .client-login-page .astra-login-input {
+        width: 100% !important;
+
+        min-width: 0 !important;
+
+        min-height: 48px !important;
+
+        padding:
+            13px
+            14px
+            13px
+            43px !important;
+
+        font-size: 13px !important;
+    }
+
+
+    .client-login-page form > div > div {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+
+    .client-login-page form > div > div > span {
+        left: 14px !important;
+    }
+
+
+    /* =========================================================
+       BOUTON CONNEXION
+    ========================================================= */
+
+    .client-login-page form button[type="submit"] {
+        width: 100% !important;
+
+        min-height: 50px !important;
+
+        padding: 14px !important;
+
+        font-size: 11px !important;
+
+        line-height: 1.4 !important;
+
+        white-space: normal;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+       LIENS
+    ========================================================= */
+
+    .client-login-page form + div {
+        margin-top: 18px !important;
+
+        padding-top: 18px !important;
+    }
+
+
+    .client-login-page form + div > div {
+        display: flex !important;
+
+        flex-direction: column !important;
+
+        align-items: center !important;
+
+        justify-content: center !important;
+
+        gap: 10px !important;
+    }
+
+
+    .client-login-page form + div > div > span {
+        display: none;
+    }
+
+
+    .client-login-page form + div > div a {
+        display: inline-block;
+
+        width: 100%;
+
+        text-align: center;
+
+        font-size: 11px !important;
+
+        line-height: 1.5;
+    }
+
+
+    .client-login-page form + div > p {
+        font-size: 11px !important;
+
+        line-height: 1.6 !important;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+       TRÈS PETITS ÉCRANS
+       320px → 359px
+    ========================================================= */
+
+    @media (max-width: 359px) {
+
+        .client-login-page {
+            padding: 10px !important;
+        }
+
+
+        .client-login-page > div:last-child {
+            padding: 20px 14px !important;
+
+            border-radius: 20px !important;
+        }
+
+
+        .client-login-page > div:last-child > div:first-child > div {
+            width: 52px !important;
+            height: 52px !important;
+        }
+
+
+        .client-login-page > div:last-child > div:first-child > div i {
+            font-size: 20px !important;
+        }
+
+
+        .client-login-page h2 {
+            font-size: 19px !important;
+        }
+
+
+        .client-login-page h2 + p {
+            font-size: 11px !important;
+        }
+
+
+        .client-login-page .astra-login-input {
+            min-height: 46px !important;
+
+            font-size: 12px !important;
+        }
+
+
+        .client-login-page form button[type="submit"] {
+            min-height: 47px !important;
+
+            font-size: 10px !important;
+        }
+
+
+        .client-login-page .orb-1 {
+            width: 180px !important;
+            height: 180px !important;
+        }
+
+
+        .client-login-page .orb-2 {
+            width: 200px !important;
+            height: 200px !important;
+        }
+    }
+
+
+    /* =========================================================
+       GRAND TÉLÉPHONE
+       360px → 575px
+    ========================================================= */
+
+    @media (min-width: 360px) {
+
+        .client-login-page {
+            padding: 18px !important;
+        }
+
+
+        .client-login-page > div:last-child {
+            padding: 28px 20px !important;
+        }
+
+
+        .client-login-page h2 {
+            font-size: 22px !important;
+        }
+
+
+        .client-login-page h2 + p {
+            font-size: 12px !important;
+        }
+    }
+
+
+    /* =========================================================
+       TABLETTE
+       576px+
+    ========================================================= */
+
+    @media (min-width: 576px) {
+
+        .client-login-page {
+            padding: 24px !important;
+        }
+
+
+        .client-login-page > div:last-child {
+            max-width: 440px !important;
+
+            padding: 34px !important;
+
+            border-radius: 26px !important;
+        }
+
+
+        .client-login-page > div:last-child > div:first-child {
+            margin-bottom: 24px !important;
+        }
+
+
+        .client-login-page > div:last-child > div:first-child > div {
+            width: 65px !important;
+            height: 65px !important;
+
+            border-radius: 20px !important;
+        }
+
+
+        .client-login-page > div:last-child > div:first-child > div i {
+            font-size: 24px !important;
+        }
+
+
+        .client-login-page h2 {
+            font-size: 24px !important;
+        }
+
+
+        .client-login-page h2 + p {
+            font-size: 13px !important;
+        }
+
+
+        .client-login-page .astra-login-input {
+            min-height: 50px !important;
+
+            font-size: 14px !important;
+        }
+
+
+        .client-login-page form button[type="submit"] {
+            min-height: 52px !important;
+        }
+
+
+        .client-login-page form + div > div {
+            flex-direction: row !important;
+
+            gap: 15px !important;
+        }
+
+
+        .client-login-page form + div > div > span {
+            display: inline !important;
+        }
+
+
+        .client-login-page form + div > div a {
+            width: auto;
+
+            font-size: 12px !important;
+        }
+
+
+        .client-login-page form + div > p {
+            font-size: 13px !important;
+        }
+
+
+        .client-login-page .orb-1 {
+            width: 280px !important;
+            height: 280px !important;
+
+            left: 5% !important;
+
+            filter: blur(90px) !important;
+        }
+
+
+        .client-login-page .orb-2 {
+            width: 320px !important;
+            height: 320px !important;
+
+            right: 5% !important;
+
+            filter: blur(100px) !important;
+        }
+    }
+
+
+    /* =========================================================
+       TABLETTE LARGE
+       768px+
+    ========================================================= */
+
+    @media (min-width: 768px) {
+
+        .client-login-page {
+            padding: 30px !important;
+        }
+
+
+        .client-login-page > div:last-child {
+            padding: 38px !important;
+        }
+
+
+        .client-login-page h2 {
+            font-size: 25px !important;
+        }
+    }
+
+
+    /* =========================================================
+       DESKTOP
+       992px+
+    ========================================================= */
+
+    @media (min-width: 992px) {
+
+        .client-login-page {
+            padding: 40px !important;
+        }
+
+
+        .client-login-page > div:last-child {
+            max-width: 440px !important;
+
+            padding: 40px !important;
+
+            border-radius: 30px !important;
+        }
+
+
+        .client-login-page > div:last-child > div:first-child {
+            margin-bottom: 25px !important;
+        }
+
+
+        .client-login-page > div:last-child > div:first-child > div {
+            width: 70px !important;
+            height: 70px !important;
+
+            border-radius: 22px !important;
+
+            margin-bottom: 16px !important;
+        }
+
+
+        .client-login-page > div:last-child > div:first-child > div i {
+            font-size: 26px !important;
+        }
+
+
+        .client-login-page h2 {
+            font-size: 26px !important;
+        }
+
+
+        .client-login-page h2 + p {
+            font-size: 13px !important;
+        }
+
+
+        .client-login-page .astra-login-input {
+            min-height: auto !important;
+        }
+
+
+        .client-login-page form button[type="submit"] {
+            min-height: auto !important;
+        }
+    }
+
+
+    /* =========================================================
+       RÉDUCTION DES ANIMATIONS
+       Si l'utilisateur préfère réduire les mouvements
+    ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .orb-1,
+        .orb-2 {
+            animation: none !important;
+        }
+    }
+
 </style>
+
 {% endblock %}
 
 {% block content %}
-<div style="width: 100%; min-height: 85vh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; overflow: hidden; background: radial-gradient(circle at 50% 25%, #1e1b4b 0%, #090d16 75%);">
-    
-    <!-- Grille technologique en surimpression -->
-    <div class="tech-grid" style="position: absolute; inset: 0; opacity: 0.7; pointer-events: none;"></div>
 
-    <!-- Orbes lumineux captivants animés -->
-    <div class="orb-1" style="position: absolute; top: 10%; left: 15%; width: 340px; height: 340px; background: linear-gradient(135deg, #f97316, #ea580c); border-radius: 50%; filter: blur(95px); opacity: 0.35; pointer-events: none;"></div>
-    <div class="orb-2" style="position: absolute; bottom: 5%; right: 15%; width: 400px; height: 400px; background: linear-gradient(135deg, #4338ca, #3b82f6); border-radius: 50%; filter: blur(110px); opacity: 0.4; pointer-events: none;"></div>
+<div
+    class="client-login-page"
+    style="
+        width: 100%;
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+        background:
+            radial-gradient(
+                circle at 50% 25%,
+                #1e1b4b 0%,
+                #090d16 75%
+            );
+    "
+>
 
-    <!-- Carte principale style glassmorphisme élégant -->
-    <div style="width: 100%; max-width: 440px; background: rgba(255, 255, 255, 0.96) !important; backdrop-filter: blur(16px); border-radius: 30px; box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.4) inset; padding: 40px; position: relative; z-index: 10;">
-        
-        <!-- Icône d'en-tête -->
-        <div style="text-align: center; margin-bottom: 25px;">
-            <div style="display: inline-flex; align-items: center; justify-content: center; width: 70px; height: 70px; border-radius: 22px; background: linear-gradient(135deg, #f97316, #f59e0b); color: #ffffff; box-shadow: 0 15px 25px -5px rgba(249, 115, 22, 0.45); margin-bottom: 16px;">
-                <i class="fa-solid fa-lock" style="font-size: 26px; color: #ffffff !important;"></i>
-            </div>
-            <h2 style="font-size: 26px; font-weight: 900; color: #0f172a !important; margin: 0 0 8px 0; letter-spacing: -0.5px;">Espace Sécurisé</h2>
-            <p style="font-size: 13px; color: #475569 !important; margin: 0; line-height: 1.5;">
-                Entrez votre mot de passe pour accéder à l'espace de <strong style="color: #0f172a !important; font-weight: 700;">{{ client.nom }}</strong>.
-            </p>
+```
+<!-- =========================================================
+     GRILLE TECHNOLOGIQUE
+========================================================== -->
+
+<div
+    class="tech-grid"
+    style="
+        position: absolute;
+        inset: 0;
+        opacity: 0.7;
+        pointer-events: none;
+    ">
+</div>
+
+
+<!-- =========================================================
+     ORBE ORANGE
+========================================================== -->
+
+<div
+    class="orb-1"
+    style="
+        position: absolute;
+        top: 10%;
+        left: 15%;
+        width: 340px;
+        height: 340px;
+        background:
+            linear-gradient(
+                135deg,
+                #f97316,
+                #ea580c
+            );
+        border-radius: 50%;
+        filter: blur(95px);
+        opacity: 0.35;
+        pointer-events: none;
+    ">
+</div>
+
+
+<!-- =========================================================
+     ORBE BLEU
+========================================================== -->
+
+<div
+    class="orb-2"
+    style="
+        position: absolute;
+        bottom: 5%;
+        right: 15%;
+        width: 400px;
+        height: 400px;
+        background:
+            linear-gradient(
+                135deg,
+                #4338ca,
+                #3b82f6
+            );
+        border-radius: 50%;
+        filter: blur(110px);
+        opacity: 0.4;
+        pointer-events: none;
+    ">
+</div>
+
+
+<!-- =========================================================
+     CARTE PRINCIPALE
+========================================================== -->
+
+<div
+    style="
+        width: 100%;
+        max-width: 440px;
+        background: rgba(255, 255, 255, 0.96) !important;
+        backdrop-filter: blur(16px);
+        border-radius: 30px;
+        box-shadow:
+            0 30px 60px -15px rgba(0, 0, 0, 0.6),
+            0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+        padding: 40px;
+        position: relative;
+        z-index: 10;
+    "
+>
+
+
+    <!-- =====================================================
+         ICÔNE + TITRE
+    ====================================================== -->
+
+    <div
+        style="
+            text-align: center;
+            margin-bottom: 25px;
+        "
+    >
+
+        <div
+            style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 70px;
+                height: 70px;
+                border-radius: 22px;
+                background:
+                    linear-gradient(
+                        135deg,
+                        #f97316,
+                        #f59e0b
+                    );
+                color: #ffffff;
+                box-shadow:
+                    0 15px 25px -5px
+                    rgba(249, 115, 22, 0.45);
+                margin-bottom: 16px;
+            "
+        >
+
+            <i
+                class="fa-solid fa-lock"
+                style="
+                    font-size: 26px;
+                    color: #ffffff !important;
+                "
+            ></i>
+
         </div>
-        
-        <!-- Messages d'erreur ou de succès -->
-        {% if messages %}
-            <div style="margin-bottom: 20px;">
-                {% for message in messages %}
-                    <div style="padding: 12px 16px; background-color: {% if message.tags == 'error' %}#fef2f2{% else %}#f0fdf4{% endif %} !important; color: {% if message.tags == 'error' %}#991b1b{% else %}#166534{% endif %} !important; font-size: 12px; font-weight: 700; border-radius: 12px; border: 1px solid {% if message.tags == 'error' %}#fecaca{% else %}#bbf7d0{% endif %}; display: flex; align-items: center; gap: 10px;">
-                        <i class="fa-solid {% if message.tags == 'error' %}fa-circle-exclamation{% else %}fa-circle-check{% endif %}" style="color: {% if message.tags == 'error' %}#dc2626{% else %}#22c55e{% endif %} !important;"></i>
-                        <span>{{ message }}</span>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
 
-        <!-- Formulaire de Connexion -->
-        <form method="POST" action="{% url 'astra:client_login' client.id %}" style="margin: 0;">
-            {% csrf_token %}
-            
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: #475569 !important; margin-bottom: 8px;">Mot de passe privé</label>
-                <div style="position: relative;">
-                    <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #64748b; z-index: 2;">
-                        <i class="fa-solid fa-key"></i>
-                    </span>
-                    <input type="password" name="password" required placeholder="Votre mot de passe secret" class="astra-login-input" style="width: 100%; padding: 14px 16px 14px 45px; background-color: #f8fafc !important; border: 1.5px solid #cbd5e1 !important; border-radius: 14px; font-size: 14px; font-weight: 600; color: #0f172a !important; outline: none; box-sizing: border-box; transition: all 0.2s ease;">
-                </div>
-            </div>
 
-            <button type="submit" style="width: 100%; padding: 16px; background: linear-gradient(135deg, #f97316, #ea580c) !important; color: #ffffff !important; font-weight: 800; border-radius: 14px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border: none; cursor: pointer; box-shadow: 0 10px 20px -3px rgba(249, 115, 22, 0.4); transition: transform 0.2s, box-shadow 0.2s;">
-                Déverrouiller l'accès
-            </button>
-        </form>
+        <h2
+            style="
+                font-size: 26px;
+                font-weight: 900;
+                color: #0f172a !important;
+                margin: 0 0 8px 0;
+                letter-spacing: -0.5px;
+            "
+        >
+            Espace Sécurisé
+        </h2>
 
-        <!-- Liens d'assistance / Mot de passe oublié, Modification & Inscription -->
-        <div style="margin-top: 22px; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 20px;">
-            <div style="margin-bottom: 10px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-                <a href="{% url 'astra:mot_de_passe_oublie_client' %}" style="color: #4338ca !important; font-size: 12px; font-weight: 700; text-decoration: none;">
-                    🔒 Code secret oublié ?
-                </a>
-                <span style="color: #cbd5e1;">|</span>
-                <a href="{% url 'astra:modifier_mot_de_passe_client' client.id %}" style="color: #0f172a !important; font-size: 12px; font-weight: 700; text-decoration: none;">
-                    ⚙️ Modifier mon mot de passe
-                </a>
-            </div>
-            
-            <p style="font-size: 13px; color: #475569 !important; margin: 12px 0 0 0;">
-                Vous n'avez pas de compte ? 
-                <a href="{% url 'astra:client_register' %}" style="color: #f97316 !important; font-weight: 800; text-decoration: underline;">S'inscrire</a>
-            </p>
-        </div>
+
+        <p
+            style="
+                font-size: 13px;
+                color: #475569 !important;
+                margin: 0;
+                line-height: 1.5;
+            "
+        >
+            Entrez votre mot de passe pour accéder à l'espace de
+
+            <strong
+                style="
+                    color: #0f172a !important;
+                    font-weight: 700;
+                "
+            >
+                {{ client.nom }}
+            </strong>.
+
+        </p>
 
     </div>
+
+
+    <!-- =====================================================
+         MESSAGES
+    ====================================================== -->
+
+    {% if messages %}
+
+        <div style="margin-bottom: 20px;">
+
+            {% for message in messages %}
+
+                <div
+                    style="
+                        padding: 12px 16px;
+
+                        background-color:
+                            {% if message.tags == 'error' %}
+                                #fef2f2
+                            {% else %}
+                                #f0fdf4
+                            {% endif %}
+                        !important;
+
+                        color:
+                            {% if message.tags == 'error' %}
+                                #991b1b
+                            {% else %}
+                                #166534
+                            {% endif %}
+                        !important;
+
+                        font-size: 12px;
+                        font-weight: 700;
+
+                        border-radius: 12px;
+
+                        border: 1px solid
+                            {% if message.tags == 'error' %}
+                                #fecaca
+                            {% else %}
+                                #bbf7d0
+                            {% endif %};
+
+                        display: flex;
+                        align-items: flex-start;
+
+                        gap: 10px;
+
+                        overflow-wrap: anywhere;
+                        word-break: break-word;
+                    "
+                >
+
+                    <i
+                        class="fa-solid
+                            {% if message.tags == 'error' %}
+                                fa-circle-exclamation
+                            {% else %}
+                                fa-circle-check
+                            {% endif %}"
+                        style="
+                            color:
+                                {% if message.tags == 'error' %}
+                                    #dc2626
+                                {% else %}
+                                    #22c55e
+                                {% endif %}
+                            !important;
+
+                            flex-shrink: 0;
+                        "
+                    ></i>
+
+
+                    <span>
+                        {{ message }}
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         FORMULAIRE DE CONNEXION
+    ====================================================== -->
+
+    <form
+        method="POST"
+        action="{% url 'astra:client_login' client.id %}"
+        style="margin: 0;"
+    >
+
+        {% csrf_token %}
+
+
+        <div style="margin-bottom: 20px;">
+
+            <label
+                style="
+                    display: block;
+                    font-size: 11px;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    color: #475569 !important;
+                    margin-bottom: 8px;
+                "
+            >
+                Mot de passe privé
+            </label>
+
+
+            <div style="position: relative;">
+
+                <span
+                    style="
+                        position: absolute;
+                        left: 16px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        color: #64748b;
+                        z-index: 2;
+                    "
+                >
+
+                    <i class="fa-solid fa-key"></i>
+
+                </span>
+
+
+                <input
+                    type="password"
+                    name="password"
+                    required
+                    placeholder="Votre mot de passe secret"
+                    class="astra-login-input"
+
+                    style="
+                        width: 100%;
+                        padding: 14px 16px 14px 45px;
+                        background-color: #f8fafc !important;
+                        border: 1.5px solid #cbd5e1 !important;
+                        border-radius: 14px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: #0f172a !important;
+                        outline: none;
+                        box-sizing: border-box;
+                        transition:
+                            all 0.2s ease;
+                    "
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             BOUTON
+        ================================================== -->
+
+        <button
+            type="submit"
+
+            style="
+                width: 100%;
+                padding: 16px;
+                background:
+                    linear-gradient(
+                        135deg,
+                        #f97316,
+                        #ea580c
+                    ) !important;
+                color: #ffffff !important;
+                font-weight: 800;
+                border-radius: 14px;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                border: none;
+                cursor: pointer;
+                box-shadow:
+                    0 10px 20px -3px
+                    rgba(249, 115, 22, 0.4);
+                transition:
+                    transform 0.2s,
+                    box-shadow 0.2s;
+            "
+        >
+            Déverrouiller l'accès
+        </button>
+
+    </form>
+
+
+    <!-- =====================================================
+         LIENS D'ASSISTANCE
+    ====================================================== -->
+
+    <div
+        style="
+            margin-top: 22px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        "
+    >
+
+        <div
+            style="
+                margin-bottom: 10px;
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                flex-wrap: wrap;
+            "
+        >
+
+            <a
+                href="{% url 'astra:mot_de_passe_oublie_client' %}"
+                style="
+                    color: #4338ca !important;
+                    font-size: 12px;
+                    font-weight: 700;
+                    text-decoration: none;
+                "
+            >
+                🔒 Code secret oublié ?
+            </a>
+
+
+            <span style="color: #cbd5e1;">
+                |
+            </span>
+
+
+            <a
+                href="{% url 'astra:modifier_mot_de_passe_client' client.id %}"
+                style="
+                    color: #0f172a !important;
+                    font-size: 12px;
+                    font-weight: 700;
+                    text-decoration: none;
+                "
+            >
+                ⚙️ Modifier mon mot de passe
+            </a>
+
+        </div>
+
+
+        <p
+            style="
+                font-size: 13px;
+                color: #475569 !important;
+                margin: 12px 0 0 0;
+            "
+        >
+            Vous n'avez pas de compte ?
+
+            <a
+                href="{% url 'astra:client_register' %}"
+                style="
+                    color: #f97316 !important;
+                    font-weight: 800;
+                    text-decoration: underline;
+                "
+            >
+                S'inscrire
+            </a>
+
+        </p>
+
+    </div>
+
 </div>
+```
+
+</div>
+
 {% endblock %}

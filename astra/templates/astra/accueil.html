@@ -1,230 +1,1007 @@
 {% load static %}
+
 <!DOCTYPE html>
+
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-    <title>ASTRA TECH</title>
 
-    <!-- Script d'initialisation immédiate du mode nuit -->
-    <script>
-        if (localStorage.getItem('astra_dark_mode') === 'true') {
-            document.documentElement.classList.add('dark');
+
+<title>ASTRA TECH</title>
+
+<!-- CSS principal -->
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<!-- CSS responsive : chargé une seule fois -->
+<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- Initialisation immédiate du mode nuit -->
+<script>
+    if (localStorage.getItem('astra_dark_mode') === 'true') {
+        document.documentElement.classList.add('dark');
+    }
+</script>
+
+<!-- Styles du mode nuit + Mobile First -->
+<style>
+
+    /* =========================================================
+       MODE NUIT
+    ========================================================= */
+
+    html.dark body {
+        background-color: #0f172a;
+        color: #f1f5f9;
+    }
+
+    html.dark .app-section,
+    html.dark .card,
+    html.dark .stat-card,
+    html.dark .feature-card {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+        color: #f1f5f9 !important;
+    }
+
+    html.dark h1,
+    html.dark h3,
+    html.dark p,
+    html.dark .user-name,
+    html.dark .stat-value,
+    html.dark .feature-desc,
+    html.dark .card-title {
+        color: #f1f5f9 !important;
+    }
+
+    html.dark .welcome-subtitle {
+        color: #94a3b8 !important;
+    }
+
+
+    /* =========================================================
+       MOBILE FIRST
+       Téléphone : 320px → 575px
+    ========================================================= */
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    body {
+        min-width: 0;
+    }
+
+    /* Conteneur principal */
+    .container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    .app-section {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+
+    /* =========================================================
+       HEADER MOBILE
+    ========================================================= */
+
+    .header {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        padding: 18px 12px;
+    }
+
+    .logo {
+        max-width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .user-info {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-width: 0;
+    }
+
+    .user-details {
+        min-width: 0;
+        text-align: left;
+    }
+
+    .user-name,
+    .user-role {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .user-avatar {
+        flex-shrink: 0;
+    }
+
+    .logout-btn {
+        width: 100%;
+        max-width: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-align: center;
+    }
+
+
+    /* =========================================================
+       MESSAGE D'ACCUEIL
+    ========================================================= */
+
+    .welcome-message {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 10px;
+        text-align: center;
+    }
+
+    .welcome-title {
+        width: 100%;
+        margin: 0;
+        font-size: 1.5rem;
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .dynamic-shop-name {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .welcome-subtitle {
+        width: 100%;
+        margin: 10px auto 0;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+
+    /* =========================================================
+       STATISTIQUES
+    ========================================================= */
+
+    .stats-container {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin: 15px 0;
+    }
+
+    .stat-card {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        overflow: hidden;
+        padding: 20px 15px;
+    }
+
+    .stat-label {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .stat-value {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        font-size: clamp(1.4rem, 7vw, 2rem);
+    }
+
+
+    /* =========================================================
+       CARTE FONCTIONNALITÉS
+    ========================================================= */
+
+    .card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin-top: 20px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .card-title {
+        max-width: 100%;
+        font-size: 1.2rem;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+
+    /* =========================================================
+       FONCTIONNALITÉS
+    ========================================================= */
+
+    .features {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .feature-card {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .feature-title {
+        max-width: 100%;
+        font-size: 1.05rem;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .feature-desc {
+        max-width: 100%;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .feature-card ul {
+        max-width: 100%;
+        padding-left: 20px;
+        overflow-wrap: anywhere;
+    }
+
+    .feature-card li {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .feature-card a {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .feature-icon {
+        flex-shrink: 0;
+    }
+
+
+    /* =========================================================
+       TRÈS PETITS ÉCRANS
+       320px → 359px
+    ========================================================= */
+
+    @media (max-width: 359px) {
+
+        .container {
+            padding: 7px;
         }
-    </script>
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <!-- Styles indispensables pour activer le mode nuit avec votre structure -->
-    <style>
-        html.dark body {
-            background-color: #0f172a;
-            color: #f1f5f9;
+        .header {
+            padding: 15px 8px;
+            gap: 15px;
         }
 
-        html.dark .app-section,
-        html.dark .card,
-        html.dark .stat-card,
-        html.dark .feature-card {
-            background-color: #1e293b !important;
-            border-color: #334155 !important;
-            color: #f1f5f9 !important;
+        .welcome-message {
+            padding: 15px 5px;
         }
 
-        html.dark h1,
-        html.dark h3,
-        html.dark p,
-        html.dark .user-name,
-        html.dark .stat-value,
-        html.dark .feature-desc,
-        html.dark .card-title {
-            color: #f1f5f9 !important;
+        .welcome-title {
+            font-size: 1.3rem;
         }
 
-        html.dark .welcome-subtitle {
-            color: #94a3b8 !important;
+        .welcome-subtitle {
+            font-size: 0.88rem;
         }
-    </style>
+
+        .stats-container,
+        .features {
+            gap: 12px;
+        }
+
+        .stat-card {
+            padding: 16px 12px;
+        }
+
+        .feature-card {
+            padding: 16px 12px;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+        }
+    }
+
+
+    /* =========================================================
+       PETIT MOBILE / GRAND TÉLÉPHONE
+       360px → 575px
+    ========================================================= */
+
+    @media (min-width: 360px) {
+
+        .container {
+            padding: 12px;
+        }
+
+        .welcome-title {
+            font-size: 1.6rem;
+        }
+
+        .stats-container {
+            gap: 16px;
+        }
+
+        .features {
+            gap: 16px;
+        }
+    }
+
+
+    /* =========================================================
+       TABLETTE
+       À partir de 576px
+    ========================================================= */
+
+    @media (min-width: 576px) {
+
+        .container {
+            width: 100%;
+            max-width: 720px;
+            padding: 20px;
+        }
+
+        .header {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            width: auto;
+            justify-content: flex-start;
+        }
+
+        .logout-btn {
+            width: auto;
+            max-width: none;
+        }
+
+        .welcome-message {
+            padding: 25px 15px;
+        }
+
+        .welcome-title {
+            font-size: 1.8rem;
+        }
+
+        .welcome-subtitle {
+            font-size: 1rem;
+        }
+
+        .stats-container {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .features {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+    }
+
+
+    /* =========================================================
+       TABLETTE LARGE
+       À partir de 768px
+    ========================================================= */
+
+    @media (min-width: 768px) {
+
+        .container {
+            max-width: 960px;
+            padding: 25px;
+        }
+
+        .header {
+            flex-wrap: nowrap;
+        }
+
+        .welcome-message {
+            padding: 30px 20px;
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+        }
+
+        .stats-container {
+            gap: 20px;
+        }
+
+        .features {
+            gap: 20px;
+        }
+    }
+
+
+    /* =========================================================
+       DESKTOP
+       À partir de 992px
+    ========================================================= */
+
+    @media (min-width: 992px) {
+
+        .container {
+            max-width: 1200px;
+            padding: 30px;
+        }
+
+        .header {
+            flex-wrap: nowrap;
+            gap: 20px;
+        }
+
+        .welcome-title {
+            font-size: 2.2rem;
+        }
+
+        .stats-container {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .features {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+
+    /* =========================================================
+       GRAND ÉCRAN
+       À partir de 1200px
+    ========================================================= */
+
+    @media (min-width: 1200px) {
+
+        .container {
+            max-width: 1300px;
+        }
+
+        .welcome-title {
+            font-size: 2.4rem;
+        }
+    }
+
+</style>
+```
+
 </head>
 
 <body>
 
-    <div class="container">
-        <div class="app-section">
+```
+<div class="container">
 
-            <!-- HEADER -->
-            <div class="header">
-                <div class="logo">
-                    <div class="logo-shape">
-                        <div class="logo-inner"></div>
+    <div class="app-section">
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+        <div class="header">
+
+            <div class="logo">
+
+                <div class="logo-shape">
+                    <div class="logo-inner"></div>
+                </div>
+
+                <div class="logo-text">
+                    <div class="astra" style="color:#004E8C;">
+                        ASTRA
                     </div>
-                    <div class="logo-text">
-                        <div class="astra" style="color:#004E8C;">ASTRA</div>
-                        <div class="tech">TECH</div>
+
+                    <div class="tech">
+                        TECH
                     </div>
                 </div>
 
-                <div class="user-info">
-                    <img src="{% static 'image/image3.jpg' %}" alt="Photo Admin" class="user-avatar">
-                    <div class="user-details">
-                        <div class="user-name">Admin ASTRA</div>
-                        <div class="user-role">Administrateur</div>
-                    </div>
-                </div>
-
-                <a href="{% url 'astra:logout' %}" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
-                </a>
             </div>
 
-            <!-- MESSAGE ACCUEIL -->
-            <div class="welcome-message">
-                <h1 class="welcome-title">
-                    Bienvenue dans <span class="dynamic-shop-name">ASTRA TECH</span>
-                </h1>
-                <p class="welcome-subtitle">
-                    Plateforme sécurisée de gestion des ventes et des approvisionnements.
-                </p>
+
+            <div class="user-info">
+
+                <img
+                    src="{% static 'image/image3.jpg' %}"
+                    alt="Photo Admin"
+                    class="user-avatar"
+                >
+
+                <div class="user-details">
+
+                    <div class="user-name">
+                        Admin ASTRA
+                    </div>
+
+                    <div class="user-role">
+                        Administrateur
+                    </div>
+
+                </div>
+
             </div>
 
-            <!-- STATISTIQUES DYNAMIQUES -->
-            <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-label"><i class="fas fa-shopping-cart"></i> Ventes aujourd'hui</div>
-                    <div class="stat-value">{{ ventes_aujourd_hui }}</div>
-                    <div class="stat-label">Activité du jour</div>
+
+            <a href="{% url 'astra:logout' %}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                Déconnexion
+            </a>
+
+        </div>
+
+
+        <!-- =====================================================
+             MESSAGE D'ACCUEIL
+        ====================================================== -->
+        <div class="welcome-message">
+
+            <h1 class="welcome-title">
+                Bienvenue dans
+                <span class="dynamic-shop-name">
+                    ASTRA TECH
+                </span>
+            </h1>
+
+            <p class="welcome-subtitle">
+                Plateforme sécurisée de gestion des ventes et des approvisionnements.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================================
+             STATISTIQUES DYNAMIQUES
+        ====================================================== -->
+        <div class="stats-container">
+
+            <!-- VENTES -->
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    <i class="fas fa-shopping-cart"></i>
+                    Ventes aujourd'hui
                 </div>
 
-                <div class="stat-card orange">
-                    <div class="stat-label"><i class="fas fa-chart-line"></i> Chiffre d'affaires</div>
-                    <div class="stat-value">{{ chiffre_affaires|floatformat:0 }} FCFA</div>
-                    <div class="stat-label">Total cumulé</div>
+                <div class="stat-value">
+                    {{ ventes_aujourd_hui }}
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-label"><i class="fas fa-users"></i> Nouveaux clients</div>
-                    <div class="stat-value">{{ nouveaux_clients }}</div>
-                    <div class="stat-label">Ce mois-ci</div>
+                <div class="stat-label">
+                    Activité du jour
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-label"><i class="fas fa-box"></i> Produits en stock</div>
-                    <div class="stat-value">{{ produits_en_stock }}</div>
-                    <div class="stat-label">Unités disponibles</div>
-                </div>
             </div>
 
-            <!-- FONCTIONNALITÉS PRINCIPALES -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Fonctionnalités Principales</div>
+
+            <!-- CHIFFRE D'AFFAIRES -->
+            <div class="stat-card orange">
+
+                <div class="stat-label">
+                    <i class="fas fa-chart-line"></i>
+                    Chiffre d'affaires
                 </div>
 
-                <div class="features">
-
-                    <!-- VENTES -->
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-                        <h3 class="feature-title">Gestion des Ventes</h3>
-                        <p class="feature-desc">Gérez vos factures et suivez les transactions en temps réel.</p>
-                        <ul>
-                            <li><a href="{% url 'astra:accueil' %}">Accueil</a></li>
-                            <li><a href="{% url 'astra:ventes' %}">En savoir plus</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- RAPPORTS -->
-                    <div class="feature-card orange">
-                        <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
-                        <h3 class="feature-title">Rapports Avancés</h3>
-                        <p class="feature-desc">Analysez les ventes avec des rapports journaliers et mensuels.</p>
-                        <ul>
-                            <li><a href="{% url 'astra:accueil' %}">Accueil</a></li>
-                            <li><a href="{% url 'astra:rapports' %}">En savoir plus</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- APPROVISIONNEMENT -->
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-boxes"></i></div>
-                        <h3 class="feature-title">Gestion des Approvisionnements</h3>
-                        <p class="feature-desc">Suivez les entrées de stock et les réapprovisionnements.</p>
-                        <ul>
-                            <li><a href="{% url 'astra:accueil' %}">Accueil</a></li>
-                          <li><a href="{% url 'astra:approvisionnement' %}">En savoir plus</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- SECURITE -->
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-user-shield"></i></div>
-                        <h3 class="feature-title">Sécurité Renforcée</h3>
-                        <p class="feature-desc">Protégez vos données grâce à un système sécurisé.</p>
-                        <ul>
-                            <li><a href="{% url 'astra:accueil' %}">Accueil</a></li>
-                            {% if request.session.user_role == 'admin' or request.user.is_staff or request.user.is_superuser %}
-                                <li><a href="{% url 'astra:connexion_admin' %}">En savoir plus</a></li>
-                            {% endif %}
-                        </ul>
-                    </div>
-
-                    <!-- FOURNISSEURS -->
-                    <div class="feature-card orange">
-                        <div class="feature-icon"><i class="fas fa-truck-moving"></i></div>
-                        <h3 class="feature-title">Gestion des Fournisseurs</h3>
-                        <p class="feature-desc">Gérez vos fournisseurs et vos commandes.</p>
-                        <ul>
-                            <li><a href="{% url 'astra:accueil' %}">Accueil</a></li>
-                            <li><a href="{% url 'astra:fournisseurs' %}">En savoir plus</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- A PROPOS -->
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fas fa-info-circle"></i></div>
-                        <h3 class="feature-title">À propos de ASTRA TECH</h3>
-                        <p class="feature-desc">Découvrez notre plateforme de gestion informatique.</p>
-                        <ul>
-                            <li><a href="{% url 'astra:accueil' %}">Accueil</a></li>
-                            <li><a href="{% url 'astra:propos' %}">En savoir plus</a></li>
-                        </ul>
-                    </div>
-
+                <div class="stat-value">
+                    {{ chiffre_affaires|floatformat:0 }} FCFA
                 </div>
+
+                <div class="stat-label">
+                    Total cumulé
+                </div>
+
+            </div>
+
+
+            <!-- CLIENTS -->
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    <i class="fas fa-users"></i>
+                    Nouveaux clients
+                </div>
+
+                <div class="stat-value">
+                    {{ nouveaux_clients }}
+                </div>
+
+                <div class="stat-label">
+                    Ce mois-ci
+                </div>
+
+            </div>
+
+
+            <!-- STOCK -->
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    <i class="fas fa-box"></i>
+                    Produits en stock
+                </div>
+
+                <div class="stat-value">
+                    {{ produits_en_stock }}
+                </div>
+
+                <div class="stat-label">
+                    Unités disponibles
+                </div>
+
             </div>
 
         </div>
+
+
+        <!-- =====================================================
+             FONCTIONNALITÉS PRINCIPALES
+        ====================================================== -->
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="card-title">
+                    Fonctionnalités Principales
+                </div>
+
+            </div>
+
+
+            <div class="features">
+
+
+                <!-- =================================================
+                     VENTES
+                ================================================== -->
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+
+                    <h3 class="feature-title">
+                        Gestion des Ventes
+                    </h3>
+
+                    <p class="feature-desc">
+                        Gérez vos factures et suivez les transactions en temps réel.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <a href="{% url 'astra:accueil' %}">
+                                Accueil
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'astra:ventes' %}">
+                                En savoir plus
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- =================================================
+                     RAPPORTS
+                ================================================== -->
+                <div class="feature-card orange">
+
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+
+                    <h3 class="feature-title">
+                        Rapports Avancés
+                    </h3>
+
+                    <p class="feature-desc">
+                        Analysez les ventes avec des rapports journaliers et mensuels.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <a href="{% url 'astra:accueil' %}">
+                                Accueil
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'astra:rapports' %}">
+                                En savoir plus
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- =================================================
+                     APPROVISIONNEMENT
+                ================================================== -->
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+
+                    <h3 class="feature-title">
+                        Gestion des Approvisionnements
+                    </h3>
+
+                    <p class="feature-desc">
+                        Suivez les entrées de stock et les réapprovisionnements.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <a href="{% url 'astra:accueil' %}">
+                                Accueil
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'astra:approvisionnement' %}">
+                                En savoir plus
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- =================================================
+                     SECURITE
+                ================================================== -->
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+
+                    <h3 class="feature-title">
+                        Sécurité Renforcée
+                    </h3>
+
+                    <p class="feature-desc">
+                        Protégez vos données grâce à un système sécurisé.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <a href="{% url 'astra:accueil' %}">
+                                Accueil
+                            </a>
+                        </li>
+
+                        {% if request.session.user_role == 'admin' or request.user.is_staff or request.user.is_superuser %}
+
+                            <li>
+                                <a href="{% url 'astra:connexion_admin' %}">
+                                    En savoir plus
+                                </a>
+                            </li>
+
+                        {% endif %}
+
+                    </ul>
+
+                </div>
+
+
+                <!-- =================================================
+                     FOURNISSEURS
+                ================================================== -->
+                <div class="feature-card orange">
+
+                    <div class="feature-icon">
+                        <i class="fas fa-truck-moving"></i>
+                    </div>
+
+                    <h3 class="feature-title">
+                        Gestion des Fournisseurs
+                    </h3>
+
+                    <p class="feature-desc">
+                        Gérez vos fournisseurs et vos commandes.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <a href="{% url 'astra:accueil' %}">
+                                Accueil
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'astra:fournisseurs' %}">
+                                En savoir plus
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- =================================================
+                     A PROPOS
+                ================================================== -->
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+
+                    <h3 class="feature-title">
+                        À propos de ASTRA TECH
+                    </h3>
+
+                    <p class="feature-desc">
+                        Découvrez notre plateforme de gestion informatique.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <a href="{% url 'astra:accueil' %}">
+                                Accueil
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'astra:propos' %}">
+                                En savoir plus
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <!-- Script de synchronisation dynamique (Mode nuit & Nom de boutique) -->
-    <script>
-        window.addEventListener('storage', (event) => {
-            if (event.key === 'astra_dark_mode') {
-                if (event.newValue === 'true') {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-            }
-            if (event.key === 'astra_shop_name' && event.newValue) {
-                document.querySelectorAll('.dynamic-shop-name').forEach(el => {
-                    el.textContent = event.newValue;
-                });
-            }
-        });
+</div>
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const savedShopName = localStorage.getItem("astra_shop_name");
-            if (savedShopName) {
-                document.querySelectorAll('.dynamic-shop-name').forEach(el => {
-                    el.textContent = savedShopName;
-                });
+
+<!-- =============================================================
+     JAVASCRIPT
+============================================================= -->
+<script>
+
+    /* =========================================================
+       Synchronisation du mode nuit
+    ========================================================= */
+
+    window.addEventListener('storage', (event) => {
+
+        if (event.key === 'astra_dark_mode') {
+
+            if (event.newValue === 'true') {
+
+                document.documentElement.classList.add('dark');
+
+            } else {
+
+                document.documentElement.classList.remove('dark');
+
             }
-        });
-    </script>
+
+        }
+
+
+        /* =====================================================
+           Synchronisation du nom de la boutique
+        ====================================================== */
+
+        if (event.key === 'astra_shop_name' && event.newValue) {
+
+            document
+                .querySelectorAll('.dynamic-shop-name')
+                .forEach(el => {
+
+                    el.textContent = event.newValue;
+
+                });
+
+        }
+
+    });
+
+
+    /* =========================================================
+       Chargement initial du nom de la boutique
+    ========================================================= */
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const savedShopName =
+            localStorage.getItem("astra_shop_name");
+
+        if (savedShopName) {
+
+            document
+                .querySelectorAll('.dynamic-shop-name')
+                .forEach(el => {
+
+                    el.textContent = savedShopName;
+
+                });
+
+        }
+
+    });
+
+</script>
+
 
 </body>
 

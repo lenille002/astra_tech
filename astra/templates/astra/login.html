@@ -1,644 +1,1265 @@
+```html
 {% load static %}
 
 <!DOCTYPE html>
-
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
+    <title>ASTRA TECH - Connexion</title>
 
-<title>ASTRA TECH - Connexion</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
 
-<style>
-    /* =========================================================
-       WIDGET INSCRIPTION
-    ========================================================= */
+        /* =========================================================
+           BASE — MOBILE FIRST
+        ========================================================= */
 
-    .astra-registration-widget {
-        position: fixed;
-        right: 30px;
-        bottom: 30px;
-        z-index: 9999;
-    }
-
-    .registration-promo {
-        position: absolute;
-        right: 0;
-        bottom: 90px;
-        width: 310px;
-        padding: 17px;
-        display: flex;
-        align-items: center;
-        gap: 13px;
-        border-radius: 20px;
-        background: linear-gradient(
-            135deg,
-            rgba(26, 35, 126, 0.98),
-            rgba(13, 19, 70, 0.98)
-        );
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        box-shadow:
-            0 20px 60px rgba(0, 0, 0, 0.30),
-            0 0 40px rgba(255, 111, 0, 0.18);
-        backdrop-filter: blur(15px);
-        animation: promoAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-
-    .registration-promo::after {
-        content: "";
-        position: absolute;
-        right: 22px;
-        bottom: -8px;
-        width: 17px;
-        height: 17px;
-        background: #151d69;
-        transform: rotate(45deg);
-    }
-
-    .promo-glow {
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background: #ff6f00;
-        filter: blur(50px);
-        opacity: 0.25;
-        left: -30px;
-        top: -35px;
-        pointer-events: none;
-    }
-
-    .promo-icon {
-        position: relative;
-        width: 45px;
-        height: 45px;
-        min-width: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 14px;
-        background: linear-gradient(135deg, #ff6f00, #ff9800);
-        box-shadow: 0 8px 25px rgba(255, 111, 0, 0.4);
-        animation: iconBounce 2s ease-in-out infinite;
-    }
-
-    .promo-icon i {
-        font-size: 19px;
-    }
-
-    .promo-content {
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-        position: relative;
-        z-index: 2;
-    }
-
-    .promo-small {
-        font-size: 9px;
-        letter-spacing: 1.2px;
-        color: rgba(255, 255, 255, 0.65);
-    }
-
-    .promo-title {
-        font-size: 15px;
-        color: white;
-        white-space: nowrap;
-    }
-
-    .promo-subtitle {
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.72);
-    }
-
-    .promo-close {
-        position: absolute;
-        right: 8px;
-        top: 8px;
-        width: 22px;
-        height: 22px;
-        border: none;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.10);
-        color: rgba(255, 255, 255, 0.75);
-        cursor: pointer;
-        font-size: 10px;
-    }
-
-    .promo-close:hover {
-        background: rgba(255, 255, 255, 0.22);
-        color: white;
-    }
-
-    /* =========================================================
-       BOUTON FLOTTANT
-    ========================================================= */
-
-    .astra-chat-button {
-        position: relative;
-        width: 68px;
-        height: 68px;
-        border: none;
-        border-radius: 50%;
-        cursor: pointer;
-        background: linear-gradient(135deg, #1a237e, #283593);
-        box-shadow:
-            0 15px 40px rgba(26, 35, 126, 0.40),
-            0 0 0 4px rgba(255, 255, 255, 0.12);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-        transition: transform 0.3s ease;
-    }
-
-    .astra-chat-button:hover {
-        transform: scale(1.08);
-    }
-
-    .chat-button-inner {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #ff6f00, #ff9800);
-        color: white;
-        font-size: 20px;
-        box-shadow: 0 5px 18px rgba(255, 111, 0, 0.4);
-        animation: buttonFloat 2.5s ease-in-out infinite;
-    }
-
-    .chat-ring {
-        position: absolute;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 111, 0, 0.55);
-        pointer-events: none;
-    }
-
-    .ring-one {
-        inset: -7px;
-        animation: ringPulse 2s infinite;
-    }
-
-    .ring-two {
-        inset: -14px;
-        border-color: rgba(26, 35, 126, 0.25);
-        animation: ringPulse 2s 0.5s infinite;
-    }
-
-    .chat-notification {
-        position: absolute;
-        top: -2px;
-        right: -2px;
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        background: #ff3d00;
-        color: white;
-        font-size: 11px;
-        font-weight: 900;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 3px solid white;
-        animation: notificationPulse 1.5s infinite;
-    }
-
-    /* =========================================================
-       MODAL
-    ========================================================= */
-
-    .astra-register-overlay {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        background: rgba(4, 7, 25, 0.72);
-        backdrop-filter: blur(10px);
-        opacity: 0;
-        visibility: hidden;
-        transition:
-            opacity 0.35s ease,
-            visibility 0.35s ease;
-        z-index: 20000;
-    }
-
-    .astra-register-overlay.active {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    .astra-register-modal {
-        width: 100%;
-        max-width: 520px;
-        max-height: 92vh;
-        overflow-y: auto;
-        border-radius: 26px;
-        background: white;
-        box-shadow: 0 30px 100px rgba(0, 0, 0, 0.45);
-        transform: translateY(35px) scale(0.92);
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .astra-register-overlay.active .astra-register-modal {
-        transform: translateY(0) scale(1);
-    }
-
-    /* =========================================================
-       HEADER MODAL
-    ========================================================= */
-
-    .register-header {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 20px 22px;
-        color: white;
-        background: linear-gradient(135deg, #1a237e, #283593);
-        border-radius: 26px 26px 0 0;
-        overflow: hidden;
-    }
-
-    .register-header::before {
-        content: "";
-        position: absolute;
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
-        background: rgba(255, 111, 0, 0.16);
-        right: -70px;
-        top: -100px;
-    }
-
-    .register-brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        position: relative;
-        z-index: 2;
-    }
-
-    .register-brand-icon {
-        width: 44px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 13px;
-        background: linear-gradient(135deg, #ff6f00, #ff9800);
-        box-shadow: 0 7px 20px rgba(255, 111, 0, 0.35);
-    }
-
-    .register-brand span {
-        display: block;
-        font-size: 17px;
-        font-weight: 900;
-        letter-spacing: 0.5px;
-    }
-
-    .register-brand small {
-        display: block;
-        margin-top: 3px;
-        color: rgba(255, 255, 255, 0.65);
-    }
-
-    .register-close {
-        position: relative;
-        z-index: 3;
-        width: 36px;
-        height: 36px;
-        border: none;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.12);
-        color: white;
-        cursor: pointer;
-        transition: 0.25s;
-    }
-
-    .register-close:hover {
-        background: rgba(255, 255, 255, 0.25);
-        transform: rotate(90deg);
-    }
-
-    /* =========================================================
-       CORPS MODAL
-    ========================================================= */
-
-    .register-body {
-        padding: 25px;
-    }
-
-    .register-welcome {
-        text-align: center;
-        margin-bottom: 24px;
-    }
-
-    .welcome-orbit {
-        position: relative;
-        width: 72px;
-        height: 72px;
-        margin: 0 auto 12px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        background: linear-gradient(135deg, #1a237e, #283593);
-        box-shadow: 0 12px 35px rgba(26, 35, 126, 0.28);
-    }
-
-    .welcome-orbit::before {
-        content: "";
-        position: absolute;
-        inset: -7px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 111, 0, 0.35);
-        animation: orbitRotate 4s linear infinite;
-    }
-
-    .welcome-orbit i {
-        font-size: 29px;
-    }
-
-    .orbit-dot {
-        position: absolute;
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        background: #ff6f00;
-        top: -5px;
-        right: 13px;
-        box-shadow: 0 0 15px #ff6f00;
-    }
-
-    .register-welcome h2 {
-        margin: 0 0 7px;
-        color: #1a237e;
-        font-size: 21px;
-    }
-
-    .register-welcome p {
-        margin: 0;
-        color: #777;
-        font-size: 13px;
-        line-height: 1.6;
-    }
-
-    /* =========================================================
-       CHAMPS
-    ========================================================= */
-
-    .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
-
-    .register-field {
-        margin-bottom: 15px;
-    }
-
-    .register-field label {
-        display: block;
-        margin-bottom: 7px;
-        color: #1a237e;
-        font-size: 13px;
-        font-weight: 800;
-    }
-
-    .register-field label i {
-        margin-right: 5px;
-        color: #ff6f00;
-    }
-
-    .register-field input,
-    .register-field select {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 13px 14px;
-        border: 1px solid #e2e2e2;
-        border-radius: 12px;
-        outline: none;
-        font-size: 13px;
-        transition: 0.25s;
-        background: #fafafa;
-    }
-
-    .register-field input:focus,
-    .register-field select:focus {
-        background: white;
-        border-color: #ff6f00;
-        box-shadow: 0 0 0 3px rgba(255, 111, 0, 0.10);
-    }
-
-    .password-wrapper {
-        position: relative;
-    }
-
-    .password-wrapper input {
-        padding-right: 45px;
-    }
-
-    .toggle-password {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        border: none;
-        background: transparent;
-        color: #777;
-        cursor: pointer;
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        transition: 0.2s;
-    }
-
-    .toggle-password:hover {
-        color: #ff6f00;
-        background: rgba(255, 111, 0, 0.08);
-    }
-
-    .password-help {
-        margin-top: 6px;
-        font-size: 10px;
-        color: #888;
-    }
-
-    /* =========================================================
-       BOUTON
-    ========================================================= */
-
-    .create-account-button {
-        width: 100%;
-        padding: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        border: none;
-        border-radius: 13px;
-        background: linear-gradient(135deg, #ff6f00, #f45100);
-        color: white;
-        font-size: 14px;
-        font-weight: 900;
-        cursor: pointer;
-        box-shadow: 0 10px 30px rgba(255, 111, 0, 0.25);
-        transition: 0.3s;
-    }
-
-    .create-account-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 15px 35px rgba(255, 111, 0, 0.35);
-    }
-
-    .create-account-button i {
-        transition: 0.3s;
-    }
-
-    .create-account-button:hover i {
-        transform: translateX(5px);
-    }
-
-    /* =========================================================
-       FOOTER
-    ========================================================= */
-
-    .register-footer {
-        padding: 13px;
-        text-align: center;
-        color: #888;
-        background: #f7f7f9;
-        border-radius: 0 0 26px 26px;
-        font-size: 10px;
-    }
-
-    .register-footer i {
-        color: #1a237e;
-        margin-right: 5px;
-    }
-
-    /* =========================================================
-       ANIMATIONS
-    ========================================================= */
-
-    @keyframes promoAppear {
-        from {
-            opacity: 0;
-            transform: translateY(20px) scale(0.85);
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
         }
 
-        to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-    }
-
-    @keyframes iconBounce {
-        0%, 100% {
-            transform: translateY(0) rotate(0);
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        50% {
-            transform: translateY(-5px) rotate(5deg);
-        }
-    }
-
-    @keyframes buttonFloat {
-        0%, 100% {
-            transform: translateY(0);
+        body {
+            min-height: 100vh;
         }
 
-        50% {
-            transform: translateY(-4px);
-        }
-    }
-
-    @keyframes ringPulse {
-        0% {
-            transform: scale(0.8);
-            opacity: 1;
-        }
-
-        100% {
-            transform: scale(1.25);
-            opacity: 0;
-        }
-    }
-
-    @keyframes notificationPulse {
-        0%, 100% {
-            transform: scale(1);
-        }
-
-        50% {
-            transform: scale(1.18);
-        }
-    }
-
-    @keyframes orbitRotate {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
-    /* =========================================================
-       MOBILE
-    ========================================================= */
-
-    @media (max-width: 600px) {
+        /* =========================================================
+           WIDGET INSCRIPTION
+        ========================================================= */
 
         .astra-registration-widget {
-            right: 18px;
-            bottom: 18px;
+            position: fixed;
+
+            right: 14px;
+            bottom: 14px;
+
+            z-index: 9999;
+
+            max-width: calc(100vw - 28px);
         }
 
         .registration-promo {
-            width: 270px;
-            right: -2px;
+            position: absolute;
+
+            right: 0;
+            bottom: 76px;
+
+            width: min(310px, calc(100vw - 28px));
+
+            padding: 15px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 11px;
+
+            border-radius: 18px;
+
+            background: linear-gradient(
+                135deg,
+                rgba(26, 35, 126, 0.98),
+                rgba(13, 19, 70, 0.98)
+            );
+
+            color: white;
+
+            border: 1px solid rgba(255, 255, 255, 0.18);
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.30),
+                0 0 40px rgba(255, 111, 0, 0.18);
+
+            backdrop-filter: blur(15px);
+
+            animation:
+                promoAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
 
-        .form-row {
-            grid-template-columns: 1fr;
-            gap: 0;
+        .registration-promo::after {
+            content: "";
+
+            position: absolute;
+
+            right: 20px;
+            bottom: -8px;
+
+            width: 17px;
+            height: 17px;
+
+            background: #151d69;
+
+            transform: rotate(45deg);
         }
+
+        .promo-glow {
+            position: absolute;
+
+            width: 80px;
+            height: 80px;
+
+            border-radius: 50%;
+
+            background: #ff6f00;
+
+            filter: blur(45px);
+
+            opacity: 0.25;
+
+            left: -25px;
+            top: -30px;
+
+            pointer-events: none;
+        }
+
+        .promo-icon {
+            position: relative;
+
+            width: 42px;
+            height: 42px;
+
+            min-width: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: linear-gradient(
+                135deg,
+                #ff6f00,
+                #ff9800
+            );
+
+            box-shadow:
+                0 8px 25px rgba(255, 111, 0, 0.4);
+
+            animation:
+                iconBounce 2s ease-in-out infinite;
+        }
+
+        .promo-icon i {
+            font-size: 17px;
+        }
+
+        .promo-content {
+            display: flex;
+            flex-direction: column;
+
+            gap: 3px;
+
+            position: relative;
+            z-index: 2;
+
+            min-width: 0;
+        }
+
+        .promo-small {
+            font-size: 8px;
+
+            letter-spacing: 1px;
+
+            color: rgba(255, 255, 255, 0.65);
+
+            overflow-wrap: anywhere;
+        }
+
+        .promo-title {
+            font-size: 14px;
+
+            color: white;
+
+            white-space: normal;
+        }
+
+        .promo-subtitle {
+            font-size: 10px;
+
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .promo-close {
+            position: absolute;
+
+            right: 7px;
+            top: 7px;
+
+            width: 22px;
+            height: 22px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.10);
+
+            color: rgba(255, 255, 255, 0.75);
+
+            cursor: pointer;
+
+            font-size: 10px;
+
+            z-index: 5;
+        }
+
+        .promo-close:hover {
+            background: rgba(255, 255, 255, 0.22);
+            color: white;
+        }
+
+        /* =========================================================
+           BOUTON FLOTTANT
+        ========================================================= */
+
+        .astra-chat-button {
+            position: relative;
+
+            width: 58px;
+            height: 58px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            background: linear-gradient(
+                135deg,
+                #1a237e,
+                #283593
+            );
+
+            box-shadow:
+                0 12px 30px rgba(26, 35, 126, 0.40),
+                0 0 0 3px rgba(255, 255, 255, 0.12);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            z-index: 2;
+
+            transition: transform 0.3s ease;
+        }
+
+        .astra-chat-button:hover {
+            transform: scale(1.08);
+        }
+
+        .chat-button-inner {
+            width: 41px;
+            height: 41px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(
+                135deg,
+                #ff6f00,
+                #ff9800
+            );
+
+            color: white;
+
+            font-size: 17px;
+
+            box-shadow:
+                0 5px 18px rgba(255, 111, 0, 0.4);
+
+            animation:
+                buttonFloat 2.5s ease-in-out infinite;
+        }
+
+        .chat-ring {
+            position: absolute;
+
+            border-radius: 50%;
+
+            border: 2px solid rgba(255, 111, 0, 0.55);
+
+            pointer-events: none;
+        }
+
+        .ring-one {
+            inset: -6px;
+
+            animation:
+                ringPulse 2s infinite;
+        }
+
+        .ring-two {
+            inset: -12px;
+
+            border-color: rgba(26, 35, 126, 0.25);
+
+            animation:
+                ringPulse 2s 0.5s infinite;
+        }
+
+        .chat-notification {
+            position: absolute;
+
+            top: -2px;
+            right: -2px;
+
+            width: 20px;
+            height: 20px;
+
+            border-radius: 50%;
+
+            background: #ff3d00;
+
+            color: white;
+
+            font-size: 10px;
+            font-weight: 900;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 3px solid white;
+
+            animation:
+                notificationPulse 1.5s infinite;
+        }
+
+        /* =========================================================
+           MODAL
+        ========================================================= */
 
         .astra-register-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             padding: 10px;
+
+            background: rgba(4, 7, 25, 0.72);
+
+            backdrop-filter: blur(10px);
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition:
+                opacity 0.35s ease,
+                visibility 0.35s ease;
+
+            z-index: 20000;
+        }
+
+        .astra-register-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
         .astra-register-modal {
-            max-height: 95vh;
+            width: 100%;
+            max-width: 520px;
+
+            max-height: calc(100vh - 20px);
+            max-height: calc(100dvh - 20px);
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
             border-radius: 20px;
+
+            background: white;
+
+            box-shadow:
+                0 30px 100px rgba(0, 0, 0, 0.45);
+
+            transform:
+                translateY(35px)
+                scale(0.92);
+
+            transition:
+                transform 0.4s cubic-bezier(
+                    0.16,
+                    1,
+                    0.3,
+                    1
+                );
+
+            -webkit-overflow-scrolling: touch;
         }
+
+        .astra-register-overlay.active
+        .astra-register-modal {
+            transform:
+                translateY(0)
+                scale(1);
+        }
+
+        /* =========================================================
+           HEADER MODAL
+        ========================================================= */
 
         .register-header {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 16px 17px;
+
+            color: white;
+
+            background: linear-gradient(
+                135deg,
+                #1a237e,
+                #283593
+            );
+
             border-radius: 20px 20px 0 0;
+
+            overflow: hidden;
+
+            gap: 10px;
         }
+
+        .register-header::before {
+            content: "";
+
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 111, 0, 0.16);
+
+            right: -60px;
+            top: -85px;
+        }
+
+        .register-brand {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            position: relative;
+            z-index: 2;
+
+            min-width: 0;
+        }
+
+        .register-brand-icon {
+            width: 40px;
+            height: 40px;
+
+            min-width: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: linear-gradient(
+                135deg,
+                #ff6f00,
+                #ff9800
+            );
+
+            box-shadow:
+                0 7px 20px rgba(255, 111, 0, 0.35);
+        }
+
+        .register-brand-icon i {
+            font-size: 15px;
+        }
+
+        .register-brand span {
+            display: block;
+
+            font-size: 15px;
+            font-weight: 900;
+
+            letter-spacing: 0.5px;
+        }
+
+        .register-brand small {
+            display: block;
+
+            margin-top: 2px;
+
+            color: rgba(255, 255, 255, 0.65);
+
+            font-size: 10px;
+        }
+
+        .register-close {
+            position: relative;
+
+            z-index: 3;
+
+            width: 34px;
+            height: 34px;
+
+            min-width: 34px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            color: white;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .register-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+
+            transform: rotate(90deg);
+        }
+
+        /* =========================================================
+           CORPS MODAL
+        ========================================================= */
+
+        .register-body {
+            padding: 18px 16px;
+        }
+
+        .register-welcome {
+            text-align: center;
+
+            margin-bottom: 20px;
+        }
+
+        .welcome-orbit {
+            position: relative;
+
+            width: 62px;
+            height: 62px;
+
+            margin: 0 auto 11px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+
+            background: linear-gradient(
+                135deg,
+                #1a237e,
+                #283593
+            );
+
+            box-shadow:
+                0 12px 35px rgba(26, 35, 126, 0.28);
+        }
+
+        .welcome-orbit::before {
+            content: "";
+
+            position: absolute;
+
+            inset: -6px;
+
+            border-radius: 50%;
+
+            border: 2px solid rgba(255, 111, 0, 0.35);
+
+            animation:
+                orbitRotate 4s linear infinite;
+        }
+
+        .welcome-orbit i {
+            font-size: 24px;
+        }
+
+        .orbit-dot {
+            position: absolute;
+
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #ff6f00;
+
+            top: -5px;
+            right: 11px;
+
+            box-shadow:
+                0 0 15px #ff6f00;
+        }
+
+        .register-welcome h2 {
+            margin: 0 0 6px;
+
+            color: #1a237e;
+
+            font-size: 19px;
+
+            line-height: 1.3;
+        }
+
+        .register-welcome p {
+            margin: 0;
+
+            color: #777;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        /* =========================================================
+           FORMULAIRE
+        ========================================================= */
+
+        .form-row {
+            display: grid;
+
+            grid-template-columns: 1fr;
+
+            gap: 0;
+        }
+
+        .register-field {
+            margin-bottom: 14px;
+
+            min-width: 0;
+        }
+
+        .register-field label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #1a237e;
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+        .register-field label i {
+            margin-right: 4px;
+
+            color: #ff6f00;
+        }
+
+        .register-field input,
+        .register-field select {
+            width: 100%;
+
+            min-height: 46px;
+
+            box-sizing: border-box;
+
+            padding: 11px 12px;
+
+            border: 1px solid #e2e2e2;
+
+            border-radius: 11px;
+
+            outline: none;
+
+            font-size: 13px;
+
+            transition: 0.25s;
+
+            background: #fafafa;
+        }
+
+        .register-field input:focus,
+        .register-field select:focus {
+            background: white;
+
+            border-color: #ff6f00;
+
+            box-shadow:
+                0 0 0 3px rgba(
+                    255,
+                    111,
+                    0,
+                    0.10
+                );
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        .toggle-password {
+            position: absolute;
+
+            right: 7px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            color: #777;
+
+            cursor: pointer;
+
+            width: 32px;
+            height: 32px;
+
+            border-radius: 8px;
+
+            transition: 0.2s;
+        }
+
+        .toggle-password:hover {
+            color: #ff6f00;
+
+            background: rgba(
+                255,
+                111,
+                0,
+                0.08
+            );
+        }
+
+        .password-help {
+            margin-top: 5px;
+
+            font-size: 9px;
+
+            color: #888;
+        }
+
+        /* =========================================================
+           BOUTON CRÉATION
+        ========================================================= */
+
+        .create-account-button {
+            width: 100%;
+
+            min-height: 48px;
+
+            padding: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: linear-gradient(
+                135deg,
+                #ff6f00,
+                #f45100
+            );
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 900;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 30px rgba(
+                    255,
+                    111,
+                    0,
+                    0.25
+                );
+
+            transition: 0.3s;
+        }
+
+        .create-account-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 15px 35px rgba(
+                    255,
+                    111,
+                    0,
+                    0.35
+                );
+        }
+
+        .create-account-button i {
+            transition: 0.3s;
+        }
+
+        .create-account-button:hover i {
+            transform: translateX(5px);
+        }
+
+        /* =========================================================
+           FOOTER MODAL
+        ========================================================= */
 
         .register-footer {
-            border-radius: 0 0 20px 20px;
-        }
-    }
-</style>
+            padding: 11px 12px;
 
+            text-align: center;
+
+            color: #888;
+
+            background: #f7f7f9;
+
+            border-radius: 0 0 20px 20px;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+        .register-footer i {
+            color: #1a237e;
+
+            margin-right: 4px;
+        }
+
+        /* =========================================================
+           ANIMATIONS
+        ========================================================= */
+
+        @keyframes promoAppear {
+            from {
+                opacity: 0;
+                transform:
+                    translateY(20px)
+                    scale(0.85);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+        @keyframes iconBounce {
+            0%, 100% {
+                transform:
+                    translateY(0)
+                    rotate(0);
+            }
+
+            50% {
+                transform:
+                    translateY(-5px)
+                    rotate(5deg);
+            }
+        }
+
+        @keyframes buttonFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        @keyframes ringPulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.25);
+                opacity: 0;
+            }
+        }
+
+        @keyframes notificationPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.18);
+            }
+        }
+
+        @keyframes orbitRotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =========================================================
+           PETITS TÉLÉPHONES
+        ========================================================= */
+
+        @media (max-width: 359px) {
+
+            .astra-registration-widget {
+                right: 10px;
+                bottom: 10px;
+            }
+
+            .astra-chat-button {
+                width: 52px;
+                height: 52px;
+            }
+
+            .chat-button-inner {
+                width: 37px;
+                height: 37px;
+
+                font-size: 15px;
+            }
+
+            .chat-notification {
+                width: 18px;
+                height: 18px;
+
+                font-size: 9px;
+            }
+
+            .astra-register-overlay {
+                padding: 6px;
+            }
+
+            .astra-register-modal {
+                max-height: calc(100vh - 12px);
+                max-height: calc(100dvh - 12px);
+
+                border-radius: 17px;
+            }
+
+            .register-header {
+                padding: 14px;
+                border-radius: 17px 17px 0 0;
+            }
+
+            .register-brand-icon {
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+            }
+
+            .register-brand span {
+                font-size: 14px;
+            }
+
+            .register-body {
+                padding: 15px 12px;
+            }
+
+            .register-welcome h2 {
+                font-size: 17px;
+            }
+
+            .register-welcome p {
+                font-size: 11px;
+            }
+
+            .register-field {
+                margin-bottom: 12px;
+            }
+
+            .register-field input,
+            .register-field select {
+                min-height: 43px;
+                font-size: 12px;
+            }
+
+            .create-account-button {
+                min-height: 45px;
+                font-size: 12px;
+            }
+
+            .register-footer {
+                border-radius: 0 0 17px 17px;
+            }
+        }
+
+        /* =========================================================
+           TABLETTE
+        ========================================================= */
+
+        @media (min-width: 576px) {
+
+            .astra-registration-widget {
+                right: 22px;
+                bottom: 22px;
+            }
+
+            .astra-chat-button {
+                width: 64px;
+                height: 64px;
+            }
+
+            .chat-button-inner {
+                width: 45px;
+                height: 45px;
+
+                font-size: 19px;
+            }
+
+            .registration-promo {
+                width: 310px;
+                bottom: 84px;
+
+                padding: 17px;
+            }
+
+            .promo-title {
+                font-size: 15px;
+                white-space: nowrap;
+            }
+
+            .promo-subtitle {
+                font-size: 11px;
+            }
+
+            .astra-register-overlay {
+                padding: 20px;
+            }
+
+            .astra-register-modal {
+                max-height: 92vh;
+                max-height: 92dvh;
+
+                border-radius: 24px;
+            }
+
+            .register-header {
+                padding: 20px 22px;
+
+                border-radius: 24px 24px 0 0;
+            }
+
+            .register-brand-icon {
+                width: 44px;
+                height: 44px;
+
+                min-width: 44px;
+            }
+
+            .register-brand span {
+                font-size: 17px;
+            }
+
+            .register-body {
+                padding: 25px;
+            }
+
+            .welcome-orbit {
+                width: 72px;
+                height: 72px;
+            }
+
+            .welcome-orbit i {
+                font-size: 29px;
+            }
+
+            .register-welcome h2 {
+                font-size: 21px;
+            }
+
+            .register-welcome p {
+                font-size: 13px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .register-field {
+                margin-bottom: 15px;
+            }
+
+            .register-field input,
+            .register-field select {
+                min-height: auto;
+                padding: 13px 14px;
+
+                font-size: 13px;
+            }
+
+            .create-account-button {
+                min-height: auto;
+                padding: 15px;
+
+                font-size: 14px;
+            }
+
+            .register-footer {
+                padding: 13px;
+
+                border-radius: 0 0 24px 24px;
+
+                font-size: 10px;
+            }
+        }
+
+        /* =========================================================
+           TABLETTE LARGE
+        ========================================================= */
+
+        @media (min-width: 768px) {
+
+            .astra-registration-widget {
+                right: 26px;
+                bottom: 26px;
+            }
+
+            .astra-chat-button {
+                width: 66px;
+                height: 66px;
+            }
+
+            .chat-button-inner {
+                width: 47px;
+                height: 47px;
+            }
+        }
+
+        /* =========================================================
+           DESKTOP
+        ========================================================= */
+
+        @media (min-width: 992px) {
+
+            .astra-registration-widget {
+                right: 30px;
+                bottom: 30px;
+            }
+
+            .astra-chat-button {
+                width: 68px;
+                height: 68px;
+
+                box-shadow:
+                    0 15px 40px rgba(
+                        26,
+                        35,
+                        126,
+                        0.40
+                    ),
+                    0 0 0 4px rgba(
+                        255,
+                        255,
+                        255,
+                        0.12
+                    );
+            }
+
+            .chat-button-inner {
+                width: 48px;
+                height: 48px;
+
+                font-size: 20px;
+            }
+
+            .astra-register-overlay {
+                padding: 20px;
+            }
+
+            .astra-register-modal {
+                max-width: 520px;
+                max-height: 92vh;
+
+                border-radius: 26px;
+            }
+
+            .register-header {
+                border-radius: 26px 26px 0 0;
+            }
+
+            .register-footer {
+                border-radius: 0 0 26px 26px;
+            }
+        }
+
+        /* =========================================================
+           ACCESSIBILITÉ
+        ========================================================= */
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid rgba(
+                255,
+                111,
+                0,
+                0.45
+            );
+
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .astra-chat-button:hover,
+            .create-account-button:hover {
+                transform: none;
+            }
+        }
+
+    </style>
 
 </head>
 
@@ -648,219 +1269,224 @@
 
     <div class="auth-section">
 
-        <div class="auth-content">
+        <!-- =====================================================
+             LOGO
+        ====================================================== -->
 
-            <!-- =====================================================
-                 LOGO
-            ====================================================== -->
+        <div class="logo">
 
-            <div class="logo">
-
-                <div class="logo-shape">
-                    <div class="logo-inner"></div>
-                </div>
-
-                <div class="logo-text">
-                    <div class="astra">ASTRA</div>
-                    <div class="tech">TECH</div>
-                </div>
-
+            <div class="logo-shape">
+                <div class="logo-inner"></div>
             </div>
 
-            <h1 class="auth-title">Connexion</h1>
-
-            <p class="auth-subtitle">
-                Entrez vos informations pour accéder à votre compte
-            </p>
-
-
-            <!-- =====================================================
-                 ERREUR DJANGO
-            ====================================================== -->
-
-            {% if error %}
-            <div class="error-message">
-
-                <i class="fas fa-circle-exclamation"></i>
-
-                {{ error }}
-
+            <div class="logo-text">
+                <div class="astra">ASTRA</div>
+                <div class="tech">TECH</div>
             </div>
-            {% endif %}
+
+        </div>
 
 
-            <!-- =====================================================
-                 MESSAGES DJANGO
-            ====================================================== -->
+        <h1 class="auth-title">
+            Connexion
+        </h1>
 
-            {% if messages %}
+        <p class="auth-subtitle">
+            Entrez vos informations pour accéder à votre compte
+        </p>
 
-                {% for message in messages %}
 
-                    <div class="
-                        {% if message.tags == 'error' %}
-                            error-message
-                        {% elif message.tags == 'warning' %}
-                            error-message
+        <!-- =====================================================
+             ERREUR DJANGO
+        ====================================================== -->
+
+        {% if error %}
+
+        <div class="error-message">
+
+            <i class="fas fa-circle-exclamation"></i>
+
+            {{ error }}
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =====================================================
+             MESSAGES DJANGO
+        ====================================================== -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="
+                    {% if message.tags == 'error' %}
+                        error-message
+                    {% elif message.tags == 'warning' %}
+                        error-message
+                    {% else %}
+                        success-message
+                    {% endif %}
+                ">
+
+                    <i class="
+                        {% if message.tags == 'error' or message.tags == 'warning' %}
+                            fas fa-circle-exclamation
                         {% else %}
-                            success-message
+                            fas fa-circle-check
                         {% endif %}
-                    ">
+                    "></i>
 
-                        <i class="
-                            {% if message.tags == 'error' or message.tags == 'warning' %}
-                                fas fa-circle-exclamation
-                            {% else %}
-                                fas fa-circle-check
-                            {% endif %}
-                        "></i>
+                    {{ message }}
 
-                        {{ message }}
+                </div>
 
-                    </div>
+            {% endfor %}
 
-                {% endfor %}
+        {% endif %}
+
+
+        <!-- =====================================================
+             FORMULAIRE DE CONNEXION
+        ====================================================== -->
+
+        <form method="POST"
+              action="{% url 'astra:login' %}"
+              autocomplete="on">
+
+            {% csrf_token %}
+
+            {% if next %}
+
+            <input type="hidden"
+                   name="next"
+                   value="{{ next }}">
 
             {% endif %}
 
 
-            <!-- =====================================================
-                 FORMULAIRE DE CONNEXION
-            ====================================================== -->
+            <!-- NOM -->
 
-            <form method="POST"
-                  action="{% url 'astra:login' %}"
-                  autocomplete="on">
+            <div class="form-group">
 
-                {% csrf_token %}
+                <label for="loginIdentifiant">
+                    Nom ou adresse email
+                </label>
 
-                {% if next %}
-                <input type="hidden"
-                       name="next"
-                       value="{{ next }}">
-                {% endif %}
+                <div class="input-with-icon">
 
+                    <i class="fas fa-user"></i>
 
-                <!-- NOM -->
-
-                <div class="form-group">
-
-                    <label for="loginIdentifiant">
-                        Nom ou adresse email
-                    </label>
-
-                    <div class="input-with-icon">
-
-                        <i class="fas fa-user"></i>
-
-                        <input
-                            type="text"
-                            id="loginIdentifiant"
-                            name="identifiant"
-                            placeholder="Votre nom ou votre email"
-                            autocomplete="family-name"
-                            autocapitalize="words"
-                            required
-                        >
-
-                    </div>
+                    <input
+                        type="text"
+                        id="loginIdentifiant"
+                        name="identifiant"
+                        placeholder="Votre nom ou votre email"
+                        autocomplete="family-name"
+                        autocapitalize="words"
+                        required
+                    >
 
                 </div>
-
-
-                <!-- PRÉNOM -->
-
-                <div class="form-group">
-
-                    <label for="loginPrenom">
-                        Prénom (si vous utilisez votre nom)
-                    </label>
-
-                    <div class="input-with-icon">
-
-                        <i class="fas fa-user"></i>
-
-                        <input
-                            type="text"
-                            id="loginPrenom"
-                            name="prenom"
-                            placeholder="Votre prénom"
-                            autocomplete="given-name"
-                            autocapitalize="words"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <!-- MOT DE PASSE -->
-
-                <div class="form-group">
-
-                    <label for="loginPassword">
-                        Mot de passe
-                    </label>
-
-                    <div class="input-with-icon password-wrapper">
-
-                        <i class="fas fa-lock"></i>
-
-                        <input
-                            type="password"
-                            name="password"
-                            id="loginPassword"
-                            placeholder="Votre mot de passe"
-                            autocomplete="current-password"
-                            required
-                        >
-
-                        <button
-                            type="button"
-                            class="toggle-password"
-                            id="toggleLoginPassword"
-                            aria-label="Afficher le mot de passe"
-                        >
-                            <i class="fas fa-eye"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- BOUTON CONNEXION -->
-
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-
-                    <i class="fas fa-lock-open"></i>
-
-                    Connexion
-
-                </button>
-
-            </form>
-
-
-            <!-- =====================================================
-                 INFORMATION
-            ====================================================== -->
-
-            <div class="token-info">
-
-                <p>
-
-                    <i class="fas fa-info-circle"></i>
-
-                    Connectez-vous avec votre nom et votre prénom,
-                    ou avec votre adresse email et votre mot de passe.
-
-                </p>
 
             </div>
+
+
+            <!-- PRÉNOM -->
+
+            <div class="form-group">
+
+                <label for="loginPrenom">
+                    Prénom (si vous utilisez votre nom)
+                </label>
+
+                <div class="input-with-icon">
+
+                    <i class="fas fa-user"></i>
+
+                    <input
+                        type="text"
+                        id="loginPrenom"
+                        name="prenom"
+                        placeholder="Votre prénom"
+                        autocomplete="given-name"
+                        autocapitalize="words"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- MOT DE PASSE -->
+
+            <div class="form-group">
+
+                <label for="loginPassword">
+                    Mot de passe
+                </label>
+
+                <div class="input-with-icon password-wrapper">
+
+                    <i class="fas fa-lock"></i>
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="loginPassword"
+                        placeholder="Votre mot de passe"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        id="toggleLoginPassword"
+                        aria-label="Afficher le mot de passe"
+                    >
+
+                        <i class="fas fa-eye"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOUTON CONNEXION -->
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+
+                <i class="fas fa-lock-open"></i>
+
+                Connexion
+
+            </button>
+
+        </form>
+
+
+        <!-- =====================================================
+             INFORMATION
+        ====================================================== -->
+
+        <div class="token-info">
+
+            <p>
+
+                <i class="fas fa-info-circle"></i>
+
+                Connectez-vous avec votre nom et votre prénom,
+                ou avec votre adresse email et votre mot de passe.
+
+            </p>
 
         </div>
 
@@ -1475,7 +2101,9 @@
                         inputField.type === "password";
 
                     inputField.type =
-                        isPassword ? "text" : "password";
+                        isPassword
+                            ? "text"
+                            : "password";
 
                     toggleBtn.innerHTML =
                         isPassword
@@ -1553,7 +2181,6 @@
 
 </script>
 
-
 </body>
-
 </html>
+```

@@ -1,36 +1,79 @@
+ /* =========================================================
+       FOOTER ASTRA TECH — MOBILE FIRST
+       ========================================================= */
 
-/* ==================================================
-   FOOTER ASTRA TECH
-================================================== */
+    .site-footer.footer-mobile {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
 
+    .footer-mobile .footer-bottom {
+        width: 100%;
+        min-height: 50px;
+        padding: 14px 12px;
 
-.site-footer{
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    width:100%;
+        text-align: center;
+        font-size: 13px;
+        line-height: 1.5;
 
-    background:#111827;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
 
-    color:white;
+    /* =========================
+       PETITS TÉLÉPHONES
+       ========================= */
 
-    border-top:4px solid #ff6f00;
+    @media (max-width: 360px) {
 
-    margin-top:auto;
+        .footer-mobile .footer-bottom {
+            min-height: 46px;
+            padding: 12px 10px;
+            font-size: 12px;
+        }
+    }
 
-    padding:25px 40px;
+    /* =========================
+       TABLETTES
+       ========================= */
 
-}
+    @media (min-width: 576px) {
 
+        .footer-mobile .footer-bottom {
+            min-height: 52px;
+            padding: 15px 20px;
+            font-size: 13px;
+        }
+    }
 
+    /* =========================
+       DESKTOP
+       ========================= */
 
+    @media (min-width: 768px) {
 
+        .footer-mobile .footer-bottom {
+            min-height: 55px;
+            padding: 16px 24px;
+            font-size: 14px;
+        }
+    }
 
-.footer-bottom{
+    /* =========================
+       ACCESSIBILITÉ
+       ========================= */
 
-    text-align:center;
+    @media (prefers-reduced-motion: reduce) {
 
-    color:#ddd;
-
-    font-size:14px;
-
-}
-
+        .site-footer.footer-mobile,
+        .footer-mobile .footer-bottom {
+            transition: none !important;
+        }
+    }

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% load static %}
 
 {% block title %}
@@ -6,228 +7,1085 @@ Astra Tech - Gestion des Fournisseurs
 {% endblock %}
 
 {% block css %}
-    <script>
-        (function() {
-            const savedDarkMode = localStorage.getItem('astra_dark_mode');
-            if (savedDarkMode === 'true') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        })();
-    </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/fournisseurs.css' %}">
+<script>
+    (function() {
+        const savedDarkMode = localStorage.getItem('astra_dark_mode');
+
+        if (savedDarkMode === 'true') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    })();
+</script>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet"
+      href="{% static 'css/fournisseurs.css' %}">
+
+<style>
+    /* =========================================================
+       GESTION DES FOURNISSEURS — MOBILE FIRST
+       Design original conservé
+       ========================================================= */
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .supplier-page {
+        width: 100%;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px 12px;
+    }
+
+    /* =========================================================
+       EN-TÊTE
+       ========================================================= */
+
+    .supplier-page-header {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+    }
+
+    .supplier-page-header-content {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .supplier-page-title {
+        font-size: 24px;
+        line-height: 1.25;
+        overflow-wrap: anywhere;
+    }
+
+    .supplier-page-description {
+        font-size: 13px;
+        line-height: 1.6;
+        max-width: 100%;
+    }
+
+    .supplier-add-btn {
+        width: 100%;
+        min-height: 44px;
+        flex-shrink: 0;
+    }
+
+    /* =========================================================
+       MESSAGES DJANGO
+       ========================================================= */
+
+    .supplier-messages {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .supplier-message {
+        width: 100%;
+        overflow-wrap: anywhere;
+        line-height: 1.5;
+    }
+
+    /* =========================================================
+       TABLEAU
+       ========================================================= */
+
+    .supplier-table-card {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        border-radius: 16px;
+    }
+
+    .supplier-table-scroll {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+    }
+
+    .supplier-table {
+        width: 100%;
+        min-width: 900px;
+    }
+
+    .supplier-table th {
+        white-space: nowrap;
+    }
+
+    .supplier-table td {
+        white-space: nowrap;
+    }
+
+    .supplier-table td:nth-child(2),
+    .supplier-table td:nth-child(3),
+    .supplier-table td:nth-child(5) {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .supplier-actions {
+        min-width: 100px;
+    }
+
+    .supplier-actions-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    /* =========================================================
+       TOAST
+       ========================================================= */
+
+    #toastNotification {
+        width: calc(100% - 24px);
+        max-width: 420px;
+        left: 12px;
+        right: 12px;
+        top: 16px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #toastContent {
+        width: 100%;
+        min-width: 0;
+    }
+
+    #toastMessage {
+        min-width: 0;
+        overflow-wrap: anywhere;
+        line-height: 1.4;
+    }
+
+    /* =========================================================
+       MODALES
+       ========================================================= */
+
+    .supplier-modal-overlay {
+        padding: 12px;
+    }
+
+    .supplier-modal-card {
+        width: 100%;
+        max-width: 100%;
+        max-height: calc(100vh - 24px);
+        overflow-y: auto;
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .supplier-modal-footer {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .supplier-modal-footer button {
+        width: 100%;
+        min-height: 42px;
+    }
+
+    .supplier-modal-input {
+        width: 100%;
+        min-height: 44px;
+    }
+
+    .supplier-modal-textarea {
+        width: 100%;
+        resize: vertical;
+    }
+
+    /* =========================================================
+       PETITS TÉLÉPHONES
+       ========================================================= */
+
+    @media (max-width: 360px) {
+
+        .supplier-page {
+            padding: 16px 9px;
+        }
+
+        .supplier-page-title {
+            font-size: 21px;
+        }
+
+        .supplier-page-description {
+            font-size: 12px;
+        }
+
+        .supplier-add-btn {
+            font-size: 13px;
+            padding-left: 14px;
+            padding-right: 14px;
+        }
+
+        .supplier-table {
+            min-width: 850px;
+        }
+
+        .supplier-modal-overlay {
+            padding: 8px;
+        }
+
+        .supplier-modal-card {
+            padding: 15px;
+            border-radius: 14px;
+        }
+
+        #toastNotification {
+            width: calc(100% - 18px);
+            left: 9px;
+            right: 9px;
+        }
+    }
+
+    /* =========================================================
+       TABLETTES
+       ========================================================= */
+
+    @media (min-width: 576px) {
+
+        .supplier-page {
+            padding: 28px 18px;
+        }
+
+        .supplier-page-header {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 28px;
+            padding-bottom: 22px;
+        }
+
+        .supplier-page-title {
+            font-size: 28px;
+        }
+
+        .supplier-page-description {
+            font-size: 14px;
+        }
+
+        .supplier-add-btn {
+            width: auto;
+            min-width: 190px;
+        }
+
+        .supplier-messages {
+            margin-bottom: 24px;
+        }
+
+        .supplier-modal-overlay {
+            padding: 16px;
+        }
+
+        .supplier-modal-card {
+            padding: 24px;
+            border-radius: 18px;
+        }
+
+        .supplier-modal-footer {
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+        .supplier-modal-footer button {
+            width: auto;
+        }
+
+        #toastNotification {
+            width: auto;
+            left: auto;
+            right: 24px;
+            margin: 0;
+        }
+    }
+
+    /* =========================================================
+       TABLETTE LARGE
+       ========================================================= */
+
+    @media (min-width: 768px) {
+
+        .supplier-page {
+            padding: 32px 20px;
+        }
+
+        .supplier-page-title {
+            font-size: 30px;
+        }
+
+        .supplier-table {
+            min-width: 900px;
+        }
+
+        .supplier-modal-overlay {
+            padding: 20px;
+        }
+
+        .supplier-modal-card {
+            padding: 28px;
+        }
+    }
+
+    /* =========================================================
+       DESKTOP
+       ========================================================= */
+
+    @media (min-width: 1024px) {
+
+        .supplier-page {
+            max-width: 1280px;
+            padding: 32px 24px;
+        }
+
+        .supplier-page-header {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+        }
+
+        .supplier-table {
+            min-width: 0;
+        }
+
+        .supplier-table-scroll {
+            overflow-x: visible;
+        }
+
+        .supplier-modal-card {
+            padding: 32px;
+        }
+    }
+
+    /* =========================================================
+       FOCUS / ACCESSIBILITÉ
+       ========================================================= */
+
+    .supplier-page button:focus-visible,
+    .supplier-page a:focus-visible,
+    #supplierModal button:focus-visible,
+    #modalConnexionFournisseur button:focus-visible,
+    #modalEmail button:focus-visible,
+    #supplierModal input:focus-visible,
+    #modalConnexionFournisseur input:focus-visible,
+    #modalEmail input:focus-visible,
+    #modalEmail textarea:focus-visible {
+        outline: 3px solid rgba(59, 130, 246, 0.35);
+        outline-offset: 2px;
+    }
+
+    /* =========================================================
+       DARK MODE
+       ========================================================= */
+
+    html.dark .supplier-page {
+        color: #e5e7eb;
+    }
+
+    html.dark .supplier-table-card {
+        background: #111827 !important;
+        border-color: #374151 !important;
+    }
+
+    html.dark .supplier-table tbody {
+        background: #111827 !important;
+    }
+
+    html.dark .supplier-table tbody tr {
+        border-color: #374151 !important;
+    }
+
+    html.dark .supplier-table tbody tr:hover {
+        background: #1f2937 !important;
+    }
+
+    html.dark .supplier-table td {
+        color: #d1d5db !important;
+    }
+
+    html.dark .supplier-page-title {
+        color: #bfdbfe !important;
+    }
+
+    html.dark .supplier-page-description {
+        color: #9ca3af !important;
+    }
+
+    html.dark .supplier-modal-card {
+        background: #111827 !important;
+    }
+
+    html.dark .supplier-modal-card h3,
+    html.dark .supplier-modal-card label {
+        color: #f9fafb !important;
+    }
+
+    html.dark .supplier-modal-card p {
+        color: #9ca3af !important;
+    }
+
+    html.dark .supplier-modal-card input,
+    html.dark .supplier-modal-card textarea {
+        background: #1f2937 !important;
+        color: #f9fafb !important;
+        border-color: #4b5563 !important;
+    }
+
+    html.dark .supplier-modal-card input::placeholder,
+    html.dark .supplier-modal-card textarea::placeholder {
+        color: #9ca3af !important;
+    }
+
+    html.dark .supplier-modal-card .border-gray-100,
+    html.dark .supplier-modal-card .border-gray-200 {
+        border-color: #374151 !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .supplier-page *,
+        #toastNotification,
+        #supplierModal,
+        #modalConnexionFournisseur,
+        #modalEmail {
+            transition: none !important;
+            animation: none !important;
+        }
+    }
+</style>
+
 {% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
 
-    <!-- Notification Flottante de Succès / Erreur (Toast) -->
-    <div id="toastNotification" class="fixed top-6 right-6 z-50 transform translate-y-[-150%] opacity-0 transition-all duration-300 max-w-md">
-        <div id="toastContent" class="flex items-center gap-3 p-4 rounded-xl shadow-xl border text-sm font-medium">
-            <i id="toastIcon" class="text-lg"></i>
-            <span id="toastMessage"></span>
-        </div>
+<div class="supplier-page">
+
+<!-- =====================================================
+     NOTIFICATION FLOTTANTE
+     ===================================================== -->
+
+<div id="toastNotification"
+     class="fixed z-50 transform translate-y-[-150%] opacity-0 transition-all duration-300">
+
+    <div id="toastContent"
+         class="flex items-center gap-3 p-4 rounded-xl shadow-xl border text-sm font-medium">
+
+        <i id="toastIcon" class="text-lg"></i>
+
+        <span id="toastMessage"></span>
+
     </div>
 
-    <!-- En-tête -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-6 border-b border-gray-200">
-        <div>
-            <h1 class="text-3xl font-extrabold text-blue-900 tracking-tight">
-                Gestion des Fournisseurs
-            </h1>
-            <p class="text-sm text-gray-500 mt-1 font-medium">
-                Gérez le répertoire unique de vos partenaires commerciaux et accédez à leurs espaces d'activités.
-            </p>
-        </div>
+</div>
 
-        <button id="addSupplierBtn" type="button" class="inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white font-medium px-5 py-2.5 rounded-xl shadow-sm transition gap-2">
-            <i class="fas fa-plus text-xs"></i>
-            <span>Nouveau Fournisseur</span>
-        </button>
+
+<!-- =====================================================
+     EN-TÊTE
+     ===================================================== -->
+
+<div class="supplier-page-header border-b border-gray-200">
+
+    <div class="supplier-page-header-content">
+
+        <h1 class="supplier-page-title text-3xl font-extrabold text-blue-900 tracking-tight">
+            Gestion des Fournisseurs
+        </h1>
+
+        <p class="supplier-page-description text-sm text-gray-500 mt-1 font-medium">
+            Gérez le répertoire unique de vos partenaires commerciaux et accédez à leurs espaces d'activités.
+        </p>
+
     </div>
 
-    <!-- Messages flash Django -->
-    {% if messages %}
-        <div class="mb-6 space-y-2">
-            {% for message in messages %}
-                <div class="p-4 rounded-xl text-sm font-medium {% if message.tags == 'error' %}bg-red-100 text-red-700 border border-red-200{% else %}bg-green-100 text-green-700 border border-green-200{% endif %}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+    <button id="addSupplierBtn"
+            type="button"
+            class="supplier-add-btn inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white font-medium px-5 py-2.5 rounded-xl shadow-sm transition gap-2">
 
-    <!-- Tableau -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-blue-900 text-white">
-                    <tr>
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider">Référence</th>
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider">Raison Sociale</th>
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider">Contact</th>
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider">Téléphone</th>
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider">Email</th>
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-center">Espace Sécurisé</th>
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 bg-white">
-                    {% if fournisseurs %}
-                        {% for f in fournisseurs %}
-                        <tr class="hover:bg-gray-50 transition duration-150">
-                            <td class="px-6 py-4 text-xs font-mono text-gray-500">{{ f.reference|default:f.id }}</td>
-                            <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ f.nom }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">{{ f.contact|default:"N/A" }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">{{ f.telephone|default:"N/A" }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-600">{{ f.email|default:"N/A" }}</td>
-                            
-                            <!-- Espace Activités -->
-                            <td class="px-6 py-4 text-center">
-                                <button type="button" 
-                                        onclick="ouvrirModalConnexionFournisseur('{{ f.id }}', '{{ f.nom|escapejs }}')"
-                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg text-xs font-semibold transition">
-                                    <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-                                    <span>Espace Activités</span>
-                                    <i class="fas fa-lock text-[10px] ml-0.5"></i>
+        <i class="fas fa-plus text-xs"></i>
+
+        <span>Nouveau Fournisseur</span>
+
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     MESSAGES FLASH DJANGO
+     ===================================================== -->
+
+{% if messages %}
+
+    <div class="supplier-messages space-y-2">
+
+        {% for message in messages %}
+
+            <div class="supplier-message p-4 rounded-xl text-sm font-medium
+                {% if message.tags == 'error' %}
+                    bg-red-100 text-red-700 border border-red-200
+                {% else %}
+                    bg-green-100 text-green-700 border border-green-200
+                {% endif %}">
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endif %}
+
+
+<!-- =====================================================
+     TABLEAU
+     ===================================================== -->
+
+<div class="supplier-table-card bg-white rounded-2xl shadow-sm border border-gray-200">
+
+    <div class="supplier-table-scroll">
+
+        <table class="supplier-table w-full text-left border-collapse">
+
+            <thead class="bg-blue-900 text-white">
+
+                <tr>
+
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider">
+                        Référence
+                    </th>
+
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider">
+                        Raison Sociale
+                    </th>
+
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider">
+                        Contact
+                    </th>
+
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider">
+                        Téléphone
+                    </th>
+
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider">
+                        Email
+                    </th>
+
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-center">
+                        Espace Sécurisé
+                    </th>
+
+                    <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-right">
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody class="divide-y divide-gray-200 bg-white">
+
+                {% if fournisseurs %}
+
+                    {% for f in fournisseurs %}
+
+                    <tr class="hover:bg-gray-50 transition duration-150">
+
+                        <!-- Référence -->
+
+                        <td class="px-6 py-4 text-xs font-mono text-gray-500">
+                            {{ f.reference|default:f.id }}
+                        </td>
+
+
+                        <!-- Nom -->
+
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                            {{ f.nom }}
+                        </td>
+
+
+                        <!-- Contact -->
+
+                        <td class="px-6 py-4 text-sm text-gray-600">
+                            {{ f.contact|default:"N/A" }}
+                        </td>
+
+
+                        <!-- Téléphone -->
+
+                        <td class="px-6 py-4 text-sm text-gray-600">
+                            {{ f.telephone|default:"N/A" }}
+                        </td>
+
+
+                        <!-- Email -->
+
+                        <td class="px-6 py-4 text-sm text-gray-600">
+                            {{ f.email|default:"N/A" }}
+                        </td>
+
+
+                        <!-- Espace Activités -->
+
+                        <td class="px-6 py-4 text-center">
+
+                            <button type="button"
+                                    onclick="ouvrirModalConnexionFournisseur(
+                                        '{{ f.id }}',
+                                        '{{ f.nom|escapejs }}',
+                                        '{% url 'astra:connexion_fournisseur' f.id %}'
+                                    )"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg text-xs font-semibold transition">
+
+                                <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+
+                                <span>Espace Activités</span>
+
+                                <i class="fas fa-lock text-[10px] ml-0.5"></i>
+
+                            </button>
+
+                        </td>
+
+
+                        <!-- Actions -->
+
+                        <td class="supplier-actions px-6 py-4 text-sm text-right">
+
+                            <div class="supplier-actions-buttons">
+
+                                <!-- Envoyer un e-mail -->
+
+                                <button type="button"
+                                        class="text-gray-400 hover:text-blue-600 p-1 transition"
+                                        onclick="ouvrirModalEmail(
+                                            '{{ f.id }}',
+                                            '{{ f.nom|escapejs }}',
+                                            '{{ f.email|default:''|escapejs }}',
+                                            '{% url 'astra:envoyer_email_fournisseur' f.id %}'
+                                        )"
+                                        title="Envoyer un e-mail"
+                                        aria-label="Envoyer un e-mail">
+
+                                    <i class="fas fa-envelope text-sm"></i>
+
                                 </button>
-                            </td>
 
-                            <!-- Boutons Actions -->
-                            <td class="px-6 py-4 text-sm text-right">
-                                <div class="flex items-center justify-end space-x-2">
-                                    <!-- Bouton Envoyer un e-mail -->
-                                    <button type="button" class="text-gray-400 hover:text-blue-600 p-1 transition" 
-                                            onclick="ouvrirModalEmail('{{ f.id }}', '{{ f.nom|escapejs }}', '{{ f.email|default:"" }}', '{% url 'astra:envoyer_email_fournisseur' f.id %}')" 
-                                            title="Envoyer un e-mail">
-                                        <i class="fas fa-envelope text-sm"></i>
-                                    </button>
-                                    <!-- Bouton Modifier -->
-                                    <button type="button" class="edit-btn text-gray-400 hover:text-blue-600 p-1 transition" 
-                                            data-id="{{ f.id }}" 
-                                            data-nom="{{ f.nom|escapejs }}" 
-                                            data-contact="{{ f.contact|default:''|escapejs }}" 
-                                            data-telephone="{{ f.telephone|default:''|escapejs }}" 
-                                            data-email="{{ f.email|default:''|escapejs }}" 
-                                            title="Modifier">
-                                        <i class="fas fa-pen text-sm"></i>
-                                    </button>
-                                    <!-- Bouton Supprimer -->
-                                    <a href="{% url 'astra:supprimer_fournisseur' f.id %}" 
-                                       onclick="return confirm('Voulez-vous vraiment désactiver ce fournisseur ?');"
-                                       class="text-gray-400 hover:text-red-600 p-1 transition" 
-                                       title="Supprimer">
-                                        <i class="fas fa-trash text-sm"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td colspan="7" class="px-6 py-10 text-center text-gray-500">
-                                <p class="text-sm font-medium">Aucun fournisseur enregistré.</p>
-                            </td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
+
+                                <!-- Modifier -->
+
+                                <button type="button"
+                                        class="edit-btn text-gray-400 hover:text-blue-600 p-1 transition"
+                                        data-id="{{ f.id }}"
+                                        data-nom="{{ f.nom|escapejs }}"
+                                        data-contact="{{ f.contact|default:''|escapejs }}"
+                                        data-telephone="{{ f.telephone|default:''|escapejs }}"
+                                        data-email="{{ f.email|default:''|escapejs }}"
+                                        title="Modifier"
+                                        aria-label="Modifier le fournisseur">
+
+                                    <i class="fas fa-pen text-sm"></i>
+
+                                </button>
+
+
+                                <!-- Supprimer -->
+
+                                <a href="{% url 'astra:supprimer_fournisseur' f.id %}"
+                                   onclick="return confirm('Voulez-vous vraiment désactiver ce fournisseur ?');"
+                                   class="text-gray-400 hover:text-red-600 p-1 transition"
+                                   title="Supprimer"
+                                   aria-label="Supprimer le fournisseur">
+
+                                    <i class="fas fa-trash text-sm"></i>
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="7"
+                            class="px-6 py-10 text-center text-gray-500">
+
+                            <p class="text-sm font-medium">
+                                Aucun fournisseur enregistré.
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
     </div>
+
 </div>
 
-<!-- MODALE DE CONNEXION FOURNISSEUR -->
-<div id="modalConnexionFournisseur" class="fixed inset-0 z-50 overflow-y-auto hidden">
-    <div class="flex items-center justify-center min-h-screen p-4 bg-gray-900/60 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md relative">
-            <div class="flex justify-between items-center mb-4 pb-3 border-b border-gray-100">
-                <h3 class="text-lg font-bold text-gray-900">Espace Fournisseur</h3>
-                <button type="button" class="text-gray-400 hover:text-gray-600" onclick="fermerModalConnexionFournisseur()"><i class="fas fa-times"></i></button>
-            </div>
-            <p class="text-sm text-gray-600 mb-4">Connexion pour : <strong id="nomFournisseurConnexion" class="text-blue-900"></strong></p>
-            <form id="formConnexionFournisseur" method="POST" class="space-y-4">
-                {% csrf_token %}
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Mot de passe :</label>
-                    <input type="password" name="password" required placeholder="Entrez le mot de passe..." class="w-full rounded-lg border-gray-300 shadow-sm text-sm p-2.5 border outline-none">
-                </div>
-                <div class="flex justify-end space-x-3 pt-4 border-t">
-                    <button type="button" class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-xl text-sm" onclick="fermerModalConnexionFournisseur()">Annuler</button>
-                    <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white py-2 px-5 rounded-xl text-sm">Se connecter</button>
-                </div>
-            </form>
-        </div>
-    </div>
+
 </div>
 
-<!-- MODALE AJOUT / MODIFICATION FOURNISSEUR -->
-<div id="supplierModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
-    <div class="flex items-center justify-center min-h-screen p-4 bg-gray-900/60 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-lg relative">
-            <div class="flex justify-between items-center mb-4 pb-3 border-b">
-                <h3 id="supplierModalTitle" class="text-lg font-bold text-gray-900">Nouveau Fournisseur</h3>
-                <button type="button" class="text-gray-400 hover:text-gray-600" onclick="fermerModalFournisseur()"><i class="fas fa-times"></i></button>
-            </div>
-            <form id="supplierForm" method="POST" class="space-y-4">
-                {% csrf_token %}
-                <input type="hidden" name="supplier_id" id="supplier_id">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Raison Sociale</label>
-                    <input type="text" name="nom" id="nom" required class="w-full rounded-lg border-gray-300 text-sm p-2.5 border outline-none">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nom du Contact</label>
-                    <input type="text" name="contact" id="contact" class="w-full rounded-lg border-gray-300 text-sm p-2.5 border outline-none">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
-                    <input type="text" name="telephone" id="telephone" class="w-full rounded-lg border-gray-300 text-sm p-2.5 border outline-none">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" name="email" id="email" class="w-full rounded-lg border-gray-300 text-sm p-2.5 border outline-none">
-                </div>
-                <div class="flex justify-end space-x-3 pt-4 border-t">
-                    <button type="button" class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-xl text-sm" onclick="fermerModalFournisseur()">Annuler</button>
-                    <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white py-2 px-5 rounded-xl text-sm">Enregistrer</button>
-                </div>
-            </form>
+<!-- =========================================================
+     MODALE DE CONNEXION FOURNISSEUR
+     ========================================================= -->
+
+<div id="modalConnexionFournisseur"
+     class="fixed inset-0 z-50 overflow-y-auto hidden">
+
+<div class="supplier-modal-overlay flex items-center justify-center min-h-screen bg-gray-900/60 backdrop-blur-sm">
+
+    <div class="supplier-modal-card bg-white rounded-2xl shadow-2xl relative">
+
+        <div class="flex justify-between items-center mb-4 pb-3 border-b border-gray-100">
+
+            <h3 class="text-lg font-bold text-gray-900">
+                Espace Fournisseur
+            </h3>
+
+            <button type="button"
+                    class="text-gray-400 hover:text-gray-600"
+                    onclick="fermerModalConnexionFournisseur()"
+                    aria-label="Fermer">
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
         </div>
+
+
+        <p class="text-sm text-gray-600 mb-4">
+
+            Connexion pour :
+
+            <strong id="nomFournisseurConnexion"
+                    class="text-blue-900"></strong>
+
+        </p>
+
+
+        <form id="formConnexionFournisseur"
+              method="POST"
+              class="space-y-4">
+
+            {% csrf_token %}
+
+            <div>
+
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Mot de passe :
+                </label>
+
+                <input type="password"
+                       name="password"
+                       required
+                       placeholder="Entrez le mot de passe..."
+                       class="supplier-modal-input rounded-lg border-gray-300 shadow-sm text-sm p-2.5 border outline-none">
+
+            </div>
+
+
+            <div class="supplier-modal-footer pt-4 border-t">
+
+                <button type="button"
+                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-xl text-sm"
+                        onclick="fermerModalConnexionFournisseur()">
+
+                    Annuler
+
+                </button>
+
+                <button type="submit"
+                        class="bg-orange-500 hover:bg-orange-600 text-white py-2 px-5 rounded-xl text-sm">
+
+                    Se connecter
+
+                </button>
+
+            </div>
+
+        </form>
+
     </div>
+
+</div>
+```
+
 </div>
 
-<!-- MODALE D'ENVOI D'E-MAIL -->
-<div id="modalEmail" class="fixed inset-0 z-50 overflow-y-auto hidden">
-    <div class="flex items-center justify-center min-h-screen p-4 bg-gray-900/60 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md relative">
-            <div class="flex justify-between items-center mb-4 pb-3 border-b">
-                <h3 class="text-lg font-bold text-gray-900">Envoyer un e-mail</h3>
-                <button type="button" class="text-gray-400 hover:text-gray-600" onclick="fermerModalEmail()"><i class="fas fa-times"></i></button>
-            </div>
-            <p class="text-sm text-gray-600 mb-3">Destinataire : <strong id="emailDestinataireNom" class="text-blue-900"></strong></p>
-            <form id="formEmailFournisseur" method="POST" class="space-y-4">
-                {% csrf_token %}
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Sujet :</label>
-                    <input type="text" name="sujet" value="Approvisionnement - Astra Tech" required class="w-full rounded-lg border-gray-300 text-sm p-2.5 border outline-none">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Message :</label>
-                    <textarea name="message" rows="4" required placeholder="Rédigez votre message ici..." class="w-full rounded-lg border-gray-300 text-sm p-2.5 border outline-none"></textarea>
-                </div>
-                <div class="flex justify-end space-x-3 pt-4 border-t">
-                    <button type="button" class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-xl text-sm" onclick="fermerModalEmail()">Annuler</button>
-                    <button type="submit" id="submitEmailBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-5 rounded-xl text-sm flex items-center gap-2">
-                        <span>Envoyer</span>
-                    </button>
-                </div>
-            </form>
+<!-- =========================================================
+     MODALE AJOUT / MODIFICATION FOURNISSEUR
+     ========================================================= -->
+
+<div id="supplierModal"
+     class="fixed inset-0 z-50 overflow-y-auto hidden">
+
+```
+<div class="supplier-modal-overlay flex items-center justify-center min-h-screen bg-gray-900/60 backdrop-blur-sm">
+
+    <div class="supplier-modal-card bg-white rounded-2xl shadow-2xl relative">
+
+        <div class="flex justify-between items-center mb-4 pb-3 border-b">
+
+            <h3 id="supplierModalTitle"
+                class="text-lg font-bold text-gray-900">
+
+                Nouveau Fournisseur
+
+            </h3>
+
+            <button type="button"
+                    class="text-gray-400 hover:text-gray-600"
+                    onclick="fermerModalFournisseur()"
+                    aria-label="Fermer">
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
         </div>
+
+
+        <form id="supplierForm"
+              method="POST"
+              class="space-y-4">
+
+            {% csrf_token %}
+
+            <input type="hidden"
+                   name="supplier_id"
+                   id="supplier_id">
+
+
+            <div>
+
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Raison Sociale
+                </label>
+
+                <input type="text"
+                       name="nom"
+                       id="nom"
+                       required
+                       class="supplier-modal-input rounded-lg border-gray-300 text-sm p-2.5 border outline-none">
+
+            </div>
+
+
+            <div>
+
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Nom du Contact
+                </label>
+
+                <input type="text"
+                       name="contact"
+                       id="contact"
+                       class="supplier-modal-input rounded-lg border-gray-300 text-sm p-2.5 border outline-none">
+
+            </div>
+
+
+            <div>
+
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Téléphone
+                </label>
+
+                <input type="text"
+                       name="telephone"
+                       id="telephone"
+                       class="supplier-modal-input rounded-lg border-gray-300 text-sm p-2.5 border outline-none">
+
+            </div>
+
+
+            <div>
+
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Email
+                </label>
+
+                <input type="email"
+                       name="email"
+                       id="email"
+                       class="supplier-modal-input rounded-lg border-gray-300 text-sm p-2.5 border outline-none">
+
+            </div>
+
+
+            <div class="supplier-modal-footer pt-4 border-t">
+
+                <button type="button"
+                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-xl text-sm"
+                        onclick="fermerModalFournisseur()">
+
+                    Annuler
+
+                </button>
+
+                <button type="submit"
+                        class="bg-orange-500 hover:bg-orange-600 text-white py-2 px-5 rounded-xl text-sm">
+
+                    Enregistrer
+
+                </button>
+
+            </div>
+
+        </form>
+
     </div>
+
+</div>
+```
+
+</div>
+
+<!-- =========================================================
+     MODALE D'ENVOI D'E-MAIL
+     ========================================================= -->
+
+<div id="modalEmail"
+     class="fixed inset-0 z-50 overflow-y-auto hidden">
+
+```
+<div class="supplier-modal-overlay flex items-center justify-center min-h-screen bg-gray-900/60 backdrop-blur-sm">
+
+    <div class="supplier-modal-card bg-white rounded-2xl shadow-2xl relative">
+
+        <div class="flex justify-between items-center mb-4 pb-3 border-b">
+
+            <h3 class="text-lg font-bold text-gray-900">
+                Envoyer un e-mail
+            </h3>
+
+            <button type="button"
+                    class="text-gray-400 hover:text-gray-600"
+                    onclick="fermerModalEmail()"
+                    aria-label="Fermer">
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
+        </div>
+
+
+        <p class="text-sm text-gray-600 mb-3">
+
+            Destinataire :
+
+            <strong id="emailDestinataireNom"
+                    class="text-blue-900"></strong>
+
+        </p>
+
+
+        <form id="formEmailFournisseur"
+              method="POST"
+              class="space-y-4">
+
+            {% csrf_token %}
+
+
+            <div>
+
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Sujet :
+                </label>
+
+                <input type="text"
+                       name="sujet"
+                       value="Approvisionnement - Astra Tech"
+                       required
+                       class="supplier-modal-input rounded-lg border-gray-300 text-sm p-2.5 border outline-none">
+
+            </div>
+
+
+            <div>
+
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Message :
+                </label>
+
+                <textarea name="message"
+                          rows="4"
+                          required
+                          placeholder="Rédigez votre message ici..."
+                          class="supplier-modal-input supplier-modal-textarea rounded-lg border-gray-300 text-sm p-2.5 border outline-none"></textarea>
+
+            </div>
+
+
+            <div class="supplier-modal-footer pt-4 border-t">
+
+                <button type="button"
+                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-xl text-sm"
+                        onclick="fermerModalEmail()">
+
+                    Annuler
+
+                </button>
+
+                <button type="submit"
+                        id="submitEmailBtn"
+                        class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-5 rounded-xl text-sm flex items-center justify-center gap-2">
+
+                    <span>Envoyer</span>
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
 </div>
 
 <script>
@@ -241,11 +1099,17 @@ Astra Tech - Gestion des Fournisseurs
         const supplierModal = document.getElementById('supplierModal');
 
         if (addBtn && supplierModal) {
+
             addBtn.addEventListener('click', () => {
 
-                const title = document.getElementById('supplierModalTitle');
-                const form = document.getElementById('supplierForm');
-                const supplierId = document.getElementById('supplier_id');
+                const title =
+                    document.getElementById('supplierModalTitle');
+
+                const form =
+                    document.getElementById('supplierForm');
+
+                const supplierId =
+                    document.getElementById('supplier_id');
 
                 if (title) {
                     title.innerText = "Nouveau Fournisseur";
@@ -272,13 +1136,27 @@ Astra Tech - Gestion des Fournisseurs
 
             btn.addEventListener('click', () => {
 
-                const title = document.getElementById('supplierModalTitle');
-                const supplierId = document.getElementById('supplier_id');
-                const nom = document.getElementById('nom');
-                const contact = document.getElementById('contact');
-                const telephone = document.getElementById('telephone');
-                const email = document.getElementById('email');
-                const modal = document.getElementById('supplierModal');
+                const title =
+                    document.getElementById('supplierModalTitle');
+
+                const supplierId =
+                    document.getElementById('supplier_id');
+
+                const nom =
+                    document.getElementById('nom');
+
+                const contact =
+                    document.getElementById('contact');
+
+                const telephone =
+                    document.getElementById('telephone');
+
+                const email =
+                    document.getElementById('email');
+
+                const modal =
+                    document.getElementById('supplierModal');
+
 
                 if (title) {
                     title.innerText = "Modifier le Fournisseur";
@@ -307,6 +1185,7 @@ Astra Tech - Gestion des Fournisseurs
                 if (modal) {
                     modal.classList.remove('hidden');
                 }
+
             });
 
         });
@@ -316,73 +1195,87 @@ Astra Tech - Gestion des Fournisseurs
         // 3. ENVOI D'E-MAIL EN AJAX
         // =========================================================
 
-        const formEmail = document.getElementById('formEmailFournisseur');
+        const formEmail =
+            document.getElementById('formEmailFournisseur');
 
         if (formEmail) {
 
-            formEmail.addEventListener('submit', async function (e) {
+            formEmail.addEventListener('submit', async function(e) {
 
                 e.preventDefault();
 
-                const submitBtn = document.getElementById('submitEmailBtn');
+                const submitBtn =
+                    document.getElementById('submitEmailBtn');
 
                 if (!submitBtn) {
                     return;
                 }
 
-                const originalText = submitBtn.innerHTML;
+                const originalText =
+                    submitBtn.innerHTML;
 
-                // Désactiver le bouton pendant l'envoi
                 submitBtn.disabled = true;
 
                 submitBtn.innerHTML =
                     '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
 
+
                 try {
 
-                    const formData = new FormData(formEmail);
+                    const formData =
+                        new FormData(formEmail);
 
-                    const response = await fetch(formEmail.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    });
+                    const response =
+                        await fetch(formEmail.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        });
 
-                    // Vérifier que la réponse est bien du JSON
-                    const contentType = response.headers.get('content-type') || '';
+
+                    const contentType =
+                        response.headers.get('content-type') || '';
 
                     if (!contentType.includes('application/json')) {
                         throw new Error('Réponse serveur invalide.');
                     }
 
-                    const data = await response.json();
 
-                    // Fermer la modale
+                    const data =
+                        await response.json();
+
+
                     fermerModalEmail();
 
-                    // Réinitialiser le formulaire
                     formEmail.reset();
+
 
                     if (response.ok && data.status === 'success') {
 
                         showToast(
-                            data.message || 'E-mail envoyé avec succès.',
+                            data.message ||
+                            'E-mail envoyé avec succès.',
                             'success'
                         );
 
                     } else {
 
                         showToast(
-                            data.message || 'Une erreur est survenue lors de l\'envoi.',
+                            data.message ||
+                            "Une erreur est survenue lors de l'envoi.",
                             'error'
                         );
+
                     }
 
                 } catch (error) {
 
-                    console.error('Erreur AJAX e-mail :', error);
+                    console.error(
+                        'Erreur AJAX e-mail :',
+                        error
+                    );
 
                     fermerModalEmail();
 
@@ -395,9 +1288,11 @@ Astra Tech - Gestion des Fournisseurs
 
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
+
                 }
 
             });
+
         }
 
     });
@@ -409,16 +1304,26 @@ Astra Tech - Gestion des Fournisseurs
 
     function showToast(message, type = 'success') {
 
-        const toast = document.getElementById('toastNotification');
-        const content = document.getElementById('toastContent');
-        const icon = document.getElementById('toastIcon');
-        const text = document.getElementById('toastMessage');
+        const toast =
+            document.getElementById('toastNotification');
+
+        const content =
+            document.getElementById('toastContent');
+
+        const icon =
+            document.getElementById('toastIcon');
+
+        const text =
+            document.getElementById('toastMessage');
+
 
         if (!toast || !content || !icon || !text) {
             return;
         }
 
+
         text.innerText = message;
+
 
         if (type === 'success') {
 
@@ -437,9 +1342,10 @@ Astra Tech - Gestion des Fournisseurs
 
             icon.className =
                 'fas fa-exclamation-circle text-red-600 text-lg';
+
         }
 
-        // Afficher
+
         toast.classList.remove(
             'translate-y-[-150%]',
             'opacity-0'
@@ -450,7 +1356,7 @@ Astra Tech - Gestion des Fournisseurs
             'opacity-100'
         );
 
-        // Masquer après 4 secondes
+
         setTimeout(() => {
 
             toast.classList.remove(
@@ -464,6 +1370,7 @@ Astra Tech - Gestion des Fournisseurs
             );
 
         }, 4000);
+
     }
 
 
@@ -473,11 +1380,13 @@ Astra Tech - Gestion des Fournisseurs
 
     function fermerModalFournisseur() {
 
-        const modal = document.getElementById('supplierModal');
+        const modal =
+            document.getElementById('supplierModal');
 
         if (modal) {
             modal.classList.add('hidden');
         }
+
     }
 
 
@@ -485,31 +1394,42 @@ Astra Tech - Gestion des Fournisseurs
     // 6. OUVRIR LA MODALE DE CONNEXION FOURNISSEUR
     // =============================================================
 
-    function ouvrirModalConnexionFournisseur(id, nom, urlAction) {
+    function ouvrirModalConnexionFournisseur(
+        id,
+        nom,
+        urlAction
+    ) {
 
         const nomElement =
-            document.getElementById('nomFournisseurConnexion');
+            document.getElementById(
+                'nomFournisseurConnexion'
+            );
 
         const form =
-            document.getElementById('formConnexionFournisseur');
+            document.getElementById(
+                'formConnexionFournisseur'
+            );
 
         const modal =
-            document.getElementById('modalConnexionFournisseur');
+            document.getElementById(
+                'modalConnexionFournisseur'
+            );
 
 
         if (nomElement) {
             nomElement.innerText = nom;
         }
 
-        if (form) {
 
-            // URL générée directement par Django
+        if (form) {
             form.action = urlAction;
         }
+
 
         if (modal) {
             modal.classList.remove('hidden');
         }
+
     }
 
 
@@ -520,18 +1440,25 @@ Astra Tech - Gestion des Fournisseurs
     function fermerModalConnexionFournisseur() {
 
         const modal =
-            document.getElementById('modalConnexionFournisseur');
+            document.getElementById(
+                'modalConnexionFournisseur'
+            );
 
         const form =
-            document.getElementById('formConnexionFournisseur');
+            document.getElementById(
+                'formConnexionFournisseur'
+            );
+
 
         if (form) {
             form.reset();
         }
 
+
         if (modal) {
             modal.classList.add('hidden');
         }
+
     }
 
 
@@ -539,16 +1466,27 @@ Astra Tech - Gestion des Fournisseurs
     // 8. OUVRIR LA MODALE D'ENVOI D'E-MAIL
     // =============================================================
 
-    function ouvrirModalEmail(id, nom, email, urlAction) {
+    function ouvrirModalEmail(
+        id,
+        nom,
+        email,
+        urlAction
+    ) {
 
         const nomElement =
-            document.getElementById('emailDestinataireNom');
+            document.getElementById(
+                'emailDestinataireNom'
+            );
 
         const form =
-            document.getElementById('formEmailFournisseur');
+            document.getElementById(
+                'formEmailFournisseur'
+            );
 
         const modal =
-            document.getElementById('modalEmail');
+            document.getElementById(
+                'modalEmail'
+            );
 
 
         if (nomElement) {
@@ -557,17 +1495,21 @@ Astra Tech - Gestion des Fournisseurs
                 nom + (
                     email
                         ? ` (${email})`
-                        : ' (Pas d\'email)'
+                        : " (Pas d'email)"
                 );
+
         }
+
 
         if (form) {
             form.action = urlAction;
         }
 
+
         if (modal) {
             modal.classList.remove('hidden');
         }
+
     }
 
 
@@ -583,8 +1525,8 @@ Astra Tech - Gestion des Fournisseurs
         if (modal) {
             modal.classList.add('hidden');
         }
-    }
 
+    }
 </script>
 
 {% endblock %}

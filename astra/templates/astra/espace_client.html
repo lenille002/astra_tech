@@ -4,197 +4,1043 @@
 {% block title %}Espace Client - {{ client_user.nom }} - Astra Tech{% endblock %}
 
 {% block content %}
+
 <style>
-    body, .app-layout, .app-main, .astra-clients-wrapper {
+    /* =========================================================
+       BASE — MOBILE FIRST
+       ========================================================= */
+
+    .client-space-page,
+    .client-space-page *,
+    .client-space-page *::before,
+    .client-space-page *::after {
+        box-sizing: border-box;
+    }
+
+    body,
+    .app-layout,
+    .app-main,
+    .astra-clients-wrapper {
         background-color: #f1f5f9 !important;
         background: #f1f5f9 !important;
     }
 
-    .astra-dashboard { 
-        padding: 2.5rem 1.5rem; 
-        max-width: 1200px; 
-        margin: 0 auto; 
+    .astra-dashboard.client-space-page {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 16px 10px;
+        overflow: hidden;
     }
-    
+
+
+    /* =========================================================
+       BOUTON RETOUR
+       ========================================================= */
+
+    .client-back-wrapper {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
     .btn-retour {
-        display: inline-flex;
+        width: 100%;
+        min-height: 46px;
+
+        display: flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
+
         background-color: #3730a3;
         color: white;
-        padding: 10px 20px;
+
+        padding: 11px 14px;
+
         border-radius: 50px;
+
         text-decoration: none;
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.86rem;
+        line-height: 1.3;
+
         box-shadow: 0 4px 12px rgba(55, 48, 163, 0.2);
-        transition: all 0.2s ease;
-        margin-bottom: 25px;
+
+        transition:
+            all 0.2s ease;
     }
+
     .btn-retour:hover {
         background-color: #312e81;
         transform: translateY(-2px);
         color: white;
     }
 
-    .card {
+    .btn-retour i {
+        flex-shrink: 0;
+    }
+
+
+    /* =========================================================
+       EN-TÊTE
+       ========================================================= */
+
+    .client-page-header {
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    .client-page-header h1 {
+        width: 100%;
+
+        margin: 0 0 7px;
+
+        color: #1e1b4b;
+
+        font-size: 1.4rem;
+        line-height: 1.35;
+        font-weight: 800;
+
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .client-page-header h1 span {
+        color: #4338ca;
+    }
+
+    .client-page-header p {
+        width: 100%;
+
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 0.88rem;
+        line-height: 1.5;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+       CARTES
+       ========================================================= */
+
+    .client-space-page .card {
+        width: 100%;
+        min-width: 0;
+
         background: #ffffff;
-        border-radius: 16px;
-        padding: 28px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-        margin-bottom: 25px;
+
+        border-radius: 15px;
+
+        padding: 16px;
+
+        box-shadow:
+            0 10px 25px -5px rgba(0, 0, 0, 0.05);
+
+        margin-bottom: 16px;
+
         border: 1px solid #e2e8f0;
-        border-left: 5px solid #3730a3;
+        border-left: 4px solid #3730a3;
+
+        overflow: hidden;
     }
 
-    .card.orange-accent { border-left-color: #f97316; }
+    .client-space-page .card.orange-accent {
+        border-left-color: #f97316;
+    }
 
-    .card-title { 
-        font-size: 1.2rem; 
-        font-weight: 700; 
-        color: #1e1b4b; 
-        margin-bottom: 1.5rem; 
-        padding-bottom: 12px;
+
+    /* =========================================================
+       TITRES DES CARTES
+       ========================================================= */
+
+    .client-space-page .card-title {
+        width: 100%;
+        min-width: 0;
+
+        margin: 0 0 1rem;
+
+        padding-bottom: 10px;
+
         border-bottom: 2px solid #f8fafc;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    .card-title i { color: #3730a3; }
-    .orange-accent .card-title i { color: #f97316; }
 
-    .info-grid { 
-        display: grid; 
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-        gap: 20px; 
+        display: flex;
+        align-items: flex-start;
+
+        gap: 9px;
+
+        color: #1e1b4b;
+
+        font-size: 1rem;
+        line-height: 1.4;
+        font-weight: 700;
+
+        overflow-wrap: anywhere;
     }
+
+    .client-space-page .card-title i {
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+
+    /* =========================================================
+       INFORMATIONS PERSONNELLES
+       ========================================================= */
+
+    .info-grid {
+        width: 100%;
+
+        display: grid;
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
     .info-item {
+        width: 100%;
+        min-width: 0;
+
         background: #f8fafc;
-        padding: 15px 18px;
+
+        padding: 13px 14px;
+
         border-radius: 12px;
+
         border: 1px solid #f1f5f9;
+
+        overflow: hidden;
     }
-    .info-item label { 
-        display: block; 
-        font-size: 0.75rem; 
-        color: #64748b; 
-        text-transform: uppercase; 
-        letter-spacing: 0.05em; 
-        margin-bottom: 6px; 
+
+    .info-item label {
+        display: block;
+
+        margin-bottom: 5px;
+
+        color: #64748b;
+
+        font-size: 0.7rem;
+        line-height: 1.4;
+
+        text-transform: uppercase;
+
+        letter-spacing: 0.05em;
+
+        font-weight: 700;
+
+        overflow-wrap: anywhere;
+    }
+
+    .info-item label i {
+        margin-right: 4px;
+    }
+
+    .info-item span {
+        display: block;
+
+        max-width: 100%;
+
+        color: #1e293b;
+
+        font-size: 0.92rem;
+        line-height: 1.45;
+
+        font-weight: 600;
+
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+
+    /* =========================================================
+       TABLEAU DES ACHATS
+       ========================================================= */
+
+    .purchase-table-container {
+        width: 100%;
+        max-width: 100%;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        -webkit-overflow-scrolling: touch;
+
+        scrollbar-width: thin;
+    }
+
+    .astra-table {
+        width: 100%;
+        min-width: 680px;
+
+        border-collapse: collapse;
+
+        margin-top: 5px;
+    }
+
+    .astra-table th {
+        text-align: left;
+
+        padding: 11px 12px;
+
+        background-color: #3730a3;
+        color: white;
+
+        font-size: 0.72rem;
+        line-height: 1.3;
+
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+
+        white-space: nowrap;
+    }
+
+    .astra-table th:first-child {
+        border-top-left-radius: 8px;
+    }
+
+    .astra-table th:last-child {
+        border-top-right-radius: 8px;
+    }
+
+    .astra-table td {
+        padding: 12px;
+
+        border-bottom: 1px solid #f1f5f9;
+
+        color: #334155;
+
+        font-size: 0.84rem;
+        line-height: 1.45;
+
+        white-space: nowrap;
+    }
+
+    .astra-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .vente-reference {
+        color: #3730a3 !important;
+        font-size: 0.92rem !important;
         font-weight: 700;
     }
-    .info-item span { 
-        font-weight: 600; 
-        color: #1e293b; 
-        font-size: 1rem; 
+
+    .vente-date {
+        color: #64748b;
+        font-size: 0.75rem;
     }
 
-    .astra-table { width: 100%; border-collapse: collapse; margin-top: 5px; }
-    .astra-table th { 
-        text-align: left; 
-        padding: 14px 16px; 
-        background-color: #3730a3; 
-        color: white; 
-        font-size: 0.85rem; 
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    .astra-table th:first-child { border-top-left-radius: 8px; }
-    .astra-table th:last-child { border-top-right-radius: 8px; }
-    
-    .astra-table td { 
-        padding: 16px; 
-        border-bottom: 1px solid #f1f5f9; 
-        color: #334155; 
-        font-size: 0.95rem;
-    }
-    .astra-table tbody tr:hover { background-color: #f8fafc; }
-    
-    .status-badge { 
-        background: #dcfce7; 
-        color: #166534; 
-        padding: 6px 14px; 
-        border-radius: 20px; 
-        font-size: 0.8rem; 
-        font-weight: 700; 
+    .payment-badge {
         display: inline-block;
+
+        padding: 4px 9px;
+
+        border-radius: 6px;
+
+        background: #e0e7ff;
+        color: #3730a3;
+
+        font-weight: 600;
+        font-size: 0.78rem;
+
+        white-space: nowrap;
+    }
+
+    .vente-montant {
+        color: #059669 !important;
+
+        font-size: 0.98rem !important;
+        font-weight: 700 !important;
+    }
+
+    .status-badge {
+        display: inline-block;
+
+        background: #dcfce7;
+        color: #166534;
+
+        padding: 5px 11px;
+
+        border-radius: 20px;
+
+        font-size: 0.75rem;
+        line-height: 1.3;
+
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+    .empty-purchases {
+        text-align: center !important;
+
+        padding: 2.5rem 1rem !important;
+
+        color: #94a3b8 !important;
+
+        font-style: italic;
+
+        white-space: normal !important;
+
+        line-height: 1.5;
+    }
+
+    .empty-purchases i {
+        display: block;
+
+        margin-bottom: 10px;
+
+        font-size: 1.8rem;
+    }
+
+
+    /* =========================================================
+       TRÈS PETITS TÉLÉPHONES — <= 360px
+       ========================================================= */
+
+    @media (max-width: 360px) {
+
+        .astra-dashboard.client-space-page {
+            padding: 12px 8px;
+        }
+
+        .btn-retour {
+            min-height: 44px;
+            padding: 10px 11px;
+            font-size: 0.8rem;
+        }
+
+        .client-page-header {
+            margin-bottom: 1.2rem;
+        }
+
+        .client-page-header h1 {
+            font-size: 1.2rem;
+        }
+
+        .client-page-header p {
+            font-size: 0.82rem;
+        }
+
+        .client-space-page .card {
+            padding: 14px;
+
+            border-radius: 12px;
+            border-left-width: 4px;
+        }
+
+        .client-space-page .card-title {
+            font-size: 0.91rem;
+        }
+
+        .info-grid {
+            gap: 10px;
+        }
+
+        .info-item {
+            padding: 12px;
+        }
+
+        .info-item label {
+            font-size: 0.65rem;
+        }
+
+        .info-item span {
+            font-size: 0.87rem;
+        }
+
+        .astra-table {
+            min-width: 640px;
+        }
+
+        .astra-table th,
+        .astra-table td {
+            padding: 10px;
+        }
+
+        .astra-table th {
+            font-size: 0.67rem;
+        }
+
+        .astra-table td {
+            font-size: 0.79rem;
+        }
+
+        .vente-reference {
+            font-size: 0.87rem !important;
+        }
+
+        .vente-montant {
+            font-size: 0.9rem !important;
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            padding: 4px 9px;
+        }
+    }
+
+
+    /* =========================================================
+       SMARTPHONE LARGE / TABLETTE PETITE — >= 576px
+       ========================================================= */
+
+    @media (min-width: 576px) {
+
+        .astra-dashboard.client-space-page {
+            padding: 24px 20px;
+        }
+
+        .client-back-wrapper {
+            margin-bottom: 24px;
+        }
+
+        .btn-retour {
+            width: auto;
+
+            display: inline-flex;
+
+            min-height: 44px;
+
+            padding: 10px 20px;
+
+            font-size: 0.9rem;
+        }
+
+        .client-page-header {
+            margin-bottom: 1.8rem;
+        }
+
+        .client-page-header h1 {
+            font-size: 1.7rem;
+        }
+
+        .client-page-header p {
+            font-size: 0.95rem;
+        }
+
+        .client-space-page .card {
+            padding: 22px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .client-space-page .card-title {
+            font-size: 1.1rem;
+        }
+
+        .info-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            padding: 14px 16px;
+        }
+
+        .astra-table {
+            min-width: 720px;
+        }
+
+        .astra-table th {
+            padding: 13px 15px;
+            font-size: 0.78rem;
+        }
+
+        .astra-table td {
+            padding: 15px;
+            font-size: 0.9rem;
+        }
+    }
+
+
+    /* =========================================================
+       TABLETTE — >= 768px
+       ========================================================= */
+
+    @media (min-width: 768px) {
+
+        .astra-dashboard.client-space-page {
+            padding: 30px 24px;
+        }
+
+        .client-page-header h1 {
+            font-size: 1.9rem;
+        }
+
+        .client-page-header p {
+            font-size: 1rem;
+        }
+
+        .client-space-page .card {
+            padding: 25px;
+        }
+
+        .info-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .info-item {
+            padding: 15px 18px;
+        }
+
+        .info-item span {
+            font-size: 0.98rem;
+        }
+
+        .astra-table {
+            min-width: 760px;
+        }
+
+        .astra-table th {
+            padding: 14px 16px;
+            font-size: 0.82rem;
+        }
+
+        .astra-table td {
+            padding: 16px;
+            font-size: 0.94rem;
+        }
+    }
+
+
+    /* =========================================================
+       DESKTOP — >= 992px
+       ========================================================= */
+
+    @media (min-width: 992px) {
+
+        .astra-dashboard.client-space-page {
+            padding: 2.5rem 1.5rem;
+        }
+
+        .client-page-header h1 {
+            font-size: 2.2rem;
+        }
+
+        .client-page-header p {
+            font-size: 1.05rem;
+        }
+
+        .client-space-page .card {
+            padding: 28px;
+            margin-bottom: 25px;
+        }
+
+        .client-space-page .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 12px;
+        }
+
+        .info-grid {
+            gap: 20px;
+        }
+
+        .info-item {
+            padding: 15px 18px;
+        }
+
+        .info-item label {
+            font-size: 0.75rem;
+        }
+
+        .info-item span {
+            font-size: 1rem;
+        }
+
+        .astra-table {
+            min-width: 100%;
+        }
+
+        .astra-table th {
+            padding: 14px 16px;
+            font-size: 0.85rem;
+        }
+
+        .astra-table td {
+            padding: 16px;
+            font-size: 0.95rem;
+        }
+
+        .vente-reference {
+            font-size: 1rem !important;
+        }
+
+        .vente-montant {
+            font-size: 1.05rem !important;
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+        }
+    }
+
+
+    /* =========================================================
+       GRAND ÉCRAN — >= 1200px
+       ========================================================= */
+
+    @media (min-width: 1200px) {
+
+        .astra-dashboard.client-space-page {
+            padding: 2.5rem 1.5rem;
+        }
+    }
+
+
+    /* =========================================================
+       MODE SOMBRE
+       ========================================================= */
+
+    html.dark .client-space-page .card {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+    }
+
+    html.dark .client-space-page .card {
+        border-left-color: #3730a3 !important;
+    }
+
+    html.dark .client-space-page .card.orange-accent {
+        border-left-color: #f97316 !important;
+    }
+
+    html.dark .client-space-page .card-title {
+        color: #f1f5f9 !important;
+        border-bottom-color: #334155;
+    }
+
+    html.dark .client-page-header h1 {
+        color: #f1f5f9 !important;
+    }
+
+    html.dark .client-page-header h1 span {
+        color: #818cf8;
+    }
+
+    html.dark .client-page-header p {
+        color: #94a3b8;
+    }
+
+    html.dark .info-item {
+        background-color: #0f172a;
+        border-color: #334155;
+    }
+
+    html.dark .info-item label {
+        color: #94a3b8;
+    }
+
+    html.dark .info-item span {
+        color: #f1f5f9;
+    }
+
+    html.dark .astra-table td {
+        color: #cbd5e1;
+        border-bottom-color: #334155;
+    }
+
+    html.dark .astra-table tbody tr:hover {
+        background-color: #334155;
+    }
+
+    html.dark .payment-badge {
+        background: rgba(99, 102, 241, 0.2);
+        color: #a5b4fc;
+    }
+
+
+    /* =========================================================
+       ACCESSIBILITÉ
+       ========================================================= */
+
+    .btn-retour:focus-visible {
+        outline: 2px solid #f97316;
+        outline-offset: 3px;
+    }
+
+
+    /* =========================================================
+       RÉDUCTION DES ANIMATIONS
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .btn-retour {
+            transition: none;
+        }
     }
 </style>
 
-<div class="astra-dashboard">
-    <!-- Bouton de retour corrigé vers le cahier d'activités -->
-    <a href="{% url 'astra:detail_client_activites' client_user.id %}" class="btn-retour">
-        <i class="fa-solid fa-arrow-left"></i> Retour au cahier d'activités
+<div class="astra-dashboard client-space-page">
+
+```
+<!-- =====================================================
+     BOUTON RETOUR
+     ===================================================== -->
+
+<div class="client-back-wrapper">
+
+    <a
+        href="{% url 'astra:detail_client_activites' client_user.id %}"
+        class="btn-retour"
+    >
+        <i class="fa-solid fa-arrow-left"></i>
+
+        <span>Retour au cahier d'activités</span>
     </a>
 
-    <div style="margin-bottom: 2rem;">
-        <h1 style="color: #1e1b4b; font-size: 2.2rem; font-weight: 800; margin-bottom: 5px;">
-            Espace Client de <span style="color: #4338ca;">{{ client_user.nom }}</span>
-        </h1>
-        <p style="color: #64748b; font-size: 1.05rem;">Consultez les informations personnelles et le suivi des achats de ce client chez Astra Tech.</p>
-    </div>
-
-    <div class="card">
-        <h2 class="card-title">
-            <i class="fa-solid fa-user-circle" style="font-size: 1.4rem;"></i> Informations personnelles
-        </h2>
-        <div class="info-grid">
-            <div class="info-item">
-                <label><i class="fa-solid fa-envelope"></i> Email</label>
-                <span>{{ client_user.email|default:"N/A" }}</span>
-            </div>
-            <div class="info-item">
-                <label><i class="fa-solid fa-phone"></i> Téléphone</label>
-                <span>{{ client_user.telephone|default:"Non renseigné" }}</span>
-            </div>
-            <div class="info-item">
-                <label><i class="fa-solid fa-calendar-days"></i> Inscription</label>
-                <span>{{ client_user.date_inscription|date:"d/m/Y"|default:"N/A" }}</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="card orange-accent">
-        <h2 class="card-title" style="color: #c2410c;">
-            <i class="fa-solid fa-bag-shopping" style="font-size: 1.4rem;"></i> Historique des achats
-        </h2>
-        
-        <div style="overflow-x: auto;">
-            <table class="astra-table">
-                <thead>
-                    <tr>
-                        <th>Référence / Date</th>
-                        <th>Mode de paiement</th>
-                        <th>Montant Net</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for vente in historique_achats %}
-                    <tr>
-                        <td>
-                            <strong style="color: #3730a3; font-size: 1rem;">{{ vente.reference }}</strong><br>
-                            <small style="color: #64748b;"><i class="fa-regular fa-clock"></i> {{ vente.date_vente|date:"d/m/Y H:i" }}</small>
-                        </td>
-                        <td>
-                            <span style="background: #e0e7ff; color: #3730a3; padding: 4px 10px; border-radius: 6px; font-weight: 600; font-size: 0.85rem;">
-                                {{ vente.mode_paiement|title }}
-                            </span>
-                        </td>
-                        <td style="font-weight: 700; color: #059669; font-size: 1.05rem;">{{ vente.montant_total|floatformat:0 }} FCFA</td>
-                        <td><span class="status-badge">{{ vente.statut|default:"Validée" }}</span></td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="4" style="text-align: center; padding: 3rem; color: #94a3b8; font-style: italic;">
-                            <i class="fa-solid fa-box-open" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
-                            Aucun achat enregistré pour ce client.
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
+
+
+<!-- =====================================================
+     EN-TÊTE
+     ===================================================== -->
+
+<div class="client-page-header">
+
+    <h1>
+        Espace Client de
+        <span>{{ client_user.nom }}</span>
+    </h1>
+
+    <p>
+        Consultez les informations personnelles et le suivi
+        des achats de ce client chez Astra Tech.
+    </p>
+
+</div>
+
+
+<!-- =====================================================
+     INFORMATIONS PERSONNELLES
+     ===================================================== -->
+
+<div class="card">
+
+    <h2 class="card-title">
+
+        <i
+            class="fa-solid fa-user-circle"
+            style="font-size: 1.4rem;"
+        ></i>
+
+        <span>Informations personnelles</span>
+
+    </h2>
+
+
+    <div class="info-grid">
+
+
+        <!-- Email -->
+
+        <div class="info-item">
+
+            <label>
+                <i class="fa-solid fa-envelope"></i>
+                Email
+            </label>
+
+            <span>
+                {{ client_user.email|default:"N/A" }}
+            </span>
+
+        </div>
+
+
+        <!-- Téléphone -->
+
+        <div class="info-item">
+
+            <label>
+                <i class="fa-solid fa-phone"></i>
+                Téléphone
+            </label>
+
+            <span>
+                {{ client_user.telephone|default:"Non renseigné" }}
+            </span>
+
+        </div>
+
+
+        <!-- Inscription -->
+
+        <div class="info-item">
+
+            <label>
+                <i class="fa-solid fa-calendar-days"></i>
+                Inscription
+            </label>
+
+            <span>
+                {{ client_user.date_inscription|date:"d/m/Y"|default:"N/A" }}
+            </span>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     HISTORIQUE DES ACHATS
+     ===================================================== -->
+
+<div class="card orange-accent">
+
+    <h2
+        class="card-title"
+        style="color: #c2410c;"
+    >
+
+        <i
+            class="fa-solid fa-bag-shopping"
+            style="font-size: 1.4rem;"
+        ></i>
+
+        <span>Historique des achats</span>
+
+    </h2>
+
+
+    <!--
+        Le tableau conserve ses colonnes.
+        Sur téléphone, seul ce conteneur défile
+        horizontalement si nécessaire.
+    -->
+
+    <div class="purchase-table-container">
+
+        <table class="astra-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Référence / Date
+                    </th>
+
+                    <th>
+                        Mode de paiement
+                    </th>
+
+                    <th>
+                        Montant Net
+                    </th>
+
+                    <th>
+                        Statut
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for vente in historique_achats %}
+
+                <tr>
+
+
+                    <!-- Référence + date -->
+
+                    <td>
+
+                        <strong class="vente-reference">
+                            {{ vente.reference }}
+                        </strong>
+
+                        <br>
+
+                        <small class="vente-date">
+
+                            <i class="fa-regular fa-clock"></i>
+
+                            {{ vente.date_vente|date:"d/m/Y H:i" }}
+
+                        </small>
+
+                    </td>
+
+
+                    <!-- Paiement -->
+
+                    <td>
+
+                        <span class="payment-badge">
+                            {{ vente.mode_paiement|title }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- Montant -->
+
+                    <td class="vente-montant">
+
+                        {{ vente.montant_total|floatformat:0 }} FCFA
+
+                    </td>
+
+
+                    <!-- Statut -->
+
+                    <td>
+
+                        <span class="status-badge">
+                            {{ vente.statut|default:"Validée" }}
+                        </span>
+
+                    </td>
+
+
+                </tr>
+
+                {% empty %}
+
+
+                <!-- Aucun achat -->
+
+                <tr>
+
+                    <td
+                        colspan="4"
+                        class="empty-purchases"
+                    >
+
+                        <i class="fa-solid fa-box-open"></i>
+
+                        Aucun achat enregistré pour ce client.
+
+                    </td>
+
+                </tr>
+
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+```
+
+</div>
+
 {% endblock %}

@@ -1,105 +1,1174 @@
 {% extends "base.html" %}
+
 {% load static %}
 
 {% block title %}Astra Tech - Gestion des Fournisseurs{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
-    
-    <!-- Notification Toast -->
-    <div id="toastNotification" class="fixed top-6 right-6 z-50 transform translate-y-[-150%] opacity-0 transition-all duration-300 max-w-md">
-        <div id="toastContent" class="flex items-center gap-3 p-4 rounded-xl shadow-xl border text-sm font-medium">
-            <i id="toastIcon"></i>
-            <span id="toastMessage"></span>
-        </div>
+
+<style>
+    /* =========================================================
+       RESET — MOBILE FIRST
+       ========================================================= */
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+
+    /* =========================================================
+       PAGE PRINCIPALE
+       ========================================================= */
+
+    .supplier-login-page {
+        width: 100%;
+        max-width: 1280px;
+        margin: 0 auto;
+
+        padding: 16px 10px;
+
+        position: relative;
+    }
+
+
+    /* =========================================================
+       TOAST NOTIFICATION
+       ========================================================= */
+
+    #toastNotification {
+        position: fixed;
+
+        top: 15px;
+        left: 10px;
+        right: 10px;
+
+        width: auto;
+        max-width: none;
+
+        z-index: 9999;
+
+        transform: translateY(-150%);
+        opacity: 0;
+
+        transition:
+            transform 0.3s ease,
+            opacity 0.3s ease;
+    }
+
+    #toastContent {
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+
+        gap: 10px;
+
+        padding: 13px 14px;
+
+        border-radius: 12px;
+
+        font-size: 0.85rem;
+
+        overflow-wrap: anywhere;
+    }
+
+    #toastIcon {
+        flex-shrink: 0;
+    }
+
+    #toastMessage {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+       EN-TÊTE — MOBILE
+       ========================================================= */
+
+    .supplier-header {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 15px;
+
+        margin-bottom: 20px;
+        padding-bottom: 18px;
+
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .supplier-header h1 {
+        margin: 0;
+
+        color: #1e3a8a;
+
+        font-size: 1.45rem;
+        line-height: 1.3;
+
+        font-weight: 800;
+
+        overflow-wrap: anywhere;
+    }
+
+    .supplier-header button {
+        width: 100%;
+        min-height: 46px;
+
+        padding: 11px 18px;
+
+        border: none;
+        border-radius: 12px;
+
+        background-color: #f97316;
+        color: white;
+
+        font-size: 0.9rem;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .supplier-header button:hover {
+        background-color: #ea580c;
+        transform: translateY(-1px);
+    }
+
+
+    /* =========================================================
+       CONTENEUR DU TABLEAU
+       ========================================================= */
+
+    .supplier-table-card {
+        width: 100%;
+        max-width: 100%;
+
+        background: white;
+
+        border-radius: 15px;
+
+        border: 1px solid #e5e7eb;
+
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+        overflow: hidden;
+    }
+
+    .supplier-table-scroll {
+        width: 100%;
+        max-width: 100%;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        -webkit-overflow-scrolling: touch;
+
+        scrollbar-width: thin;
+    }
+
+
+    /* =========================================================
+       TABLEAU — MOBILE
+       ========================================================= */
+
+    .supplier-table {
+        width: 100%;
+
+        /*
+         * Le tableau conserve une largeur suffisante
+         * pour que les colonnes restent lisibles.
+         */
+        min-width: 650px;
+
+        border-collapse: collapse;
+
+        text-align: left;
+    }
+
+    .supplier-table thead {
+        background-color: #1e3a8a;
+        color: white;
+    }
+
+    .supplier-table th {
+        padding: 12px 13px;
+
+        color: white;
+
+        font-size: 0.72rem;
+        font-weight: 600;
+
+        text-transform: uppercase;
+
+        white-space: nowrap;
+    }
+
+    .supplier-table td {
+        padding: 12px 13px;
+
+        color: #374151;
+
+        font-size: 0.84rem;
+
+        border-bottom: 1px solid #e5e7eb;
+
+        white-space: nowrap;
+    }
+
+    .supplier-table tbody tr {
+        transition: background-color 0.2s ease;
+    }
+
+    .supplier-table tbody tr:hover {
+        background-color: #f9fafb;
+    }
+
+
+    /* =========================================================
+       BOUTON ESPACE SÉCURISÉ
+       ========================================================= */
+
+    .supplier-secure-btn {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 6px;
+
+        padding: 7px 11px;
+
+        background-color: #eff6ff;
+        color: #1d4ed8;
+
+        border: none;
+        border-radius: 8px;
+
+        font-size: 0.76rem;
+        font-weight: 600;
+
+        white-space: nowrap;
+
+        cursor: pointer;
+
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .supplier-secure-btn:hover {
+        background-color: #dbeafe;
+
+        transform: translateY(-1px);
+    }
+
+    .supplier-secure-btn i {
+        font-size: 0.65rem;
+    }
+
+
+    /* =========================================================
+       ACTION EMAIL
+       ========================================================= */
+
+    .supplier-email-btn {
+        width: 34px;
+        height: 34px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 0;
+
+        border: none;
+        background: transparent;
+
+        color: #9ca3af;
+
+        cursor: pointer;
+
+        transition:
+            color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .supplier-email-btn:hover {
+        color: #2563eb;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* =========================================================
+       MODALE CONNEXION
+       ========================================================= */
+
+    .supplier-modal {
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 9998;
+
+        width: 100%;
+        height: 100%;
+
+        padding: 12px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        background-color: rgba(17, 24, 39, 0.65);
+
+        overflow-y: auto;
+    }
+
+    .supplier-modal.hidden {
+        display: none;
+    }
+
+    .supplier-modal-card {
+        position: relative;
+
+        width: 100%;
+        max-width: 390px;
+
+        max-height: calc(100vh - 24px);
+
+        overflow-y: auto;
+
+        padding: 22px 17px;
+
+        background-color: white;
+
+        border-radius: 17px;
+
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    }
+
+    .supplier-modal-title {
+        margin: 0 0 18px;
+
+        padding-right: 35px;
+
+        color: #1e293b;
+
+        font-size: 1.05rem;
+        line-height: 1.4;
+
+        font-weight: 700;
+
+        overflow-wrap: anywhere;
+    }
+
+    .supplier-modal-title span {
+        color: #1e3a8a;
+    }
+
+    .supplier-password {
+        width: 100%;
+
+        min-height: 46px;
+
+        padding: 11px 13px;
+
+        margin-bottom: 15px;
+
+        border: 1px solid #d1d5db;
+
+        border-radius: 9px;
+
+        background-color: white;
+        color: #1f2937;
+
+        font-size: 0.9rem;
+
+        outline: none;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .supplier-password:focus {
+        border-color: #4338ca;
+
+        box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.12);
+    }
+
+    .supplier-modal-actions {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 9px;
+    }
+
+    .supplier-modal-actions button {
+        width: 100%;
+
+        min-height: 44px;
+
+        padding: 10px 15px;
+
+        border: none;
+        border-radius: 9px;
+
+        font-size: 0.88rem;
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    .supplier-cancel-btn {
+        background-color: #f3f4f6;
+        color: #374151;
+    }
+
+    .supplier-login-btn {
+        background-color: #f97316;
+        color: white;
+    }
+
+    .supplier-login-btn:hover {
+        background-color: #ea580c;
+    }
+
+
+    /* =========================================================
+       PETITS TÉLÉPHONES
+       ========================================================= */
+
+    @media (max-width: 360px) {
+
+        .supplier-login-page {
+            padding: 12px 8px;
+        }
+
+        .supplier-header {
+            gap: 12px;
+
+            margin-bottom: 17px;
+            padding-bottom: 15px;
+        }
+
+        .supplier-header h1 {
+            font-size: 1.25rem;
+        }
+
+        .supplier-header button {
+            min-height: 43px;
+
+            padding: 10px 14px;
+
+            font-size: 0.84rem;
+        }
+
+        .supplier-table {
+            min-width: 610px;
+        }
+
+        .supplier-table th {
+            padding: 10px 11px;
+
+            font-size: 0.68rem;
+        }
+
+        .supplier-table td {
+            padding: 10px 11px;
+
+            font-size: 0.79rem;
+        }
+
+        .supplier-secure-btn {
+            padding: 6px 9px;
+
+            font-size: 0.71rem;
+        }
+
+        .supplier-modal {
+            padding: 9px;
+        }
+
+        .supplier-modal-card {
+            max-height: calc(100vh - 18px);
+
+            padding: 19px 14px;
+
+            border-radius: 14px;
+        }
+    }
+
+
+    /* =========================================================
+       TÉLÉPHONE LARGE / TABLETTE
+       ========================================================= */
+
+    @media (min-width: 576px) {
+
+        .supplier-login-page {
+            padding: 25px 18px;
+        }
+
+        .supplier-header {
+            flex-direction: row;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+        }
+
+        .supplier-header h1 {
+            font-size: 1.7rem;
+        }
+
+        .supplier-header button {
+            width: auto;
+
+            min-width: 185px;
+        }
+
+        .supplier-table th {
+            padding: 14px 16px;
+
+            font-size: 0.78rem;
+        }
+
+        .supplier-table td {
+            padding: 14px 16px;
+
+            font-size: 0.9rem;
+        }
+
+        #toastNotification {
+            left: auto;
+            right: 20px;
+
+            width: auto;
+            max-width: 400px;
+        }
+
+        .supplier-modal {
+            padding: 20px;
+        }
+
+        .supplier-modal-card {
+            padding: 28px 25px;
+        }
+
+        .supplier-modal-actions {
+            flex-direction: row;
+
+            justify-content: flex-end;
+        }
+
+        .supplier-modal-actions button {
+            width: auto;
+        }
+    }
+
+
+    /* =========================================================
+       TABLETTE
+       ========================================================= */
+
+    @media (min-width: 768px) {
+
+        .supplier-login-page {
+            padding: 30px 24px;
+        }
+
+        .supplier-header h1 {
+            font-size: 1.9rem;
+        }
+
+        .supplier-table {
+            min-width: 0;
+        }
+
+        .supplier-table th {
+            padding: 14px 18px;
+
+            font-size: 0.82rem;
+        }
+
+        .supplier-table td {
+            padding: 15px 18px;
+
+            font-size: 0.93rem;
+        }
+    }
+
+
+    /* =========================================================
+       DESKTOP
+       ========================================================= */
+
+    @media (min-width: 1024px) {
+
+        .supplier-login-page {
+            padding: 32px 28px;
+        }
+
+        .supplier-header h1 {
+            font-size: 2rem;
+        }
+
+        .supplier-table th {
+            padding: 16px 20px;
+        }
+
+        .supplier-table td {
+            padding: 16px 20px;
+        }
+    }
+
+
+    /* =========================================================
+       MODE SOMBRE
+       ========================================================= */
+
+    html.dark .supplier-login-page {
+        color: #f1f5f9;
+    }
+
+    html.dark .supplier-header {
+        border-bottom-color: #334155;
+    }
+
+    html.dark .supplier-header h1 {
+        color: #bfdbfe;
+    }
+
+    html.dark .supplier-table-card {
+        background-color: #1e293b;
+
+        border-color: #334155;
+
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    html.dark .supplier-table thead {
+        background-color: #0f172a;
+    }
+
+    html.dark .supplier-table td {
+        color: #cbd5e1;
+
+        border-bottom-color: #334155;
+    }
+
+    html.dark .supplier-table tbody tr:hover {
+        background-color: #334155;
+    }
+
+    html.dark .supplier-secure-btn {
+        background-color: rgba(59, 130, 246, 0.15);
+
+        color: #93c5fd;
+    }
+
+    html.dark .supplier-secure-btn:hover {
+        background-color: rgba(59, 130, 246, 0.25);
+    }
+
+    html.dark .supplier-modal-card {
+        background-color: #1e293b;
+
+        border: 1px solid #334155;
+
+        color: #f1f5f9;
+    }
+
+    html.dark .supplier-modal-title {
+        color: #f1f5f9;
+    }
+
+    html.dark .supplier-modal-title span {
+        color: #93c5fd;
+    }
+
+    html.dark .supplier-password {
+        background-color: #0f172a;
+
+        border-color: #334155;
+
+        color: white;
+    }
+
+    html.dark .supplier-password::placeholder {
+        color: #64748b;
+    }
+
+    html.dark .supplier-cancel-btn {
+        background-color: #334155;
+
+        color: #e2e8f0;
+    }
+
+
+    /* =========================================================
+       ACCESSIBILITÉ
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .supplier-header button,
+        .supplier-secure-btn,
+        .supplier-email-btn,
+        .supplier-password {
+            transition: none;
+        }
+
+        .supplier-header button:hover,
+        .supplier-secure-btn:hover,
+        .supplier-email-btn:hover {
+            transform: none;
+        }
+    }
+
+</style>
+
+<div class="supplier-login-page">
+
+```
+<!-- =====================================================
+     NOTIFICATION TOAST
+     ===================================================== -->
+
+<div id="toastNotification">
+
+    <div id="toastContent">
+
+        <i id="toastIcon"></i>
+
+        <span id="toastMessage"></span>
+
     </div>
 
-    <!-- En-tête -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-6 border-b border-gray-200">
-        <h1 class="text-3xl font-extrabold text-blue-900">Gestion des Fournisseurs</h1>
-        <button id="addSupplierBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-5 py-2.5 rounded-xl transition">Nouveau Fournisseur</button>
-    </div>
-
-    <!-- Tableau -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-        <table class="w-full text-left">
-            <thead class="bg-blue-900 text-white">
-                <tr>
-                    <th class="px-6 py-4 text-xs font-semibold uppercase">Nom</th>
-                    <th class="px-6 py-4 text-xs font-semibold uppercase">Email</th>
-                    <th class="px-6 py-4 text-xs font-semibold uppercase text-center">Espace Sécurisé</th>
-                    <th class="px-6 py-4 text-xs font-semibold uppercase text-right">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-                {% for f in fournisseurs %}
-                <tr class="hover:bg-gray-50">
-                    <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ f.nom }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-600">{{ f.email|default:"N/A" }}</td>
-                    <td class="px-6 py-4 text-center">
-                        <!-- BOUTON SÉCURISÉ : AUCUN HREF DIRECT -->
-                        <button type="button" 
-                                onclick="ouvrirModalConnexionFournisseur('{{ f.id }}', '{{ f.nom|escapejs }}')"
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg text-xs font-semibold transition">
-                            <span>Accéder à l'espace</span>
-                            <i class="fas fa-lock text-[10px]"></i>
-                        </button>
-                    </td>
-                    <td class="px-6 py-4 text-right">
-                        <button class="text-gray-400 hover:text-blue-600 mr-3" onclick="ouvrirModalEmail('{{ f.id }}', '{{ f.nom|escapejs }}', '{{ f.email|default:"" }}', '{% url 'astra:envoyer_email_fournisseur' f.id %}')">
-                            <i class="fas fa-envelope"></i>
-                        </button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
 </div>
 
-<!-- MODALE CONNEXION (Correction Flux) -->
-<div id="modalConnexionFournisseur" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 hidden">
-    <div class="bg-white rounded-2xl p-8 w-full max-w-sm">
-        <h3 class="text-lg font-bold mb-4">Connexion : <span id="nomFournisseurConnexion" class="text-blue-900"></span></h3>
-        <form id="formConnexionFournisseur" method="POST">
-            {% csrf_token %}
-            <input type="password" name="password" required placeholder="Mot de passe" class="w-full p-3 border rounded-lg mb-4">
-            <div class="flex justify-end gap-3">
-                <button type="button" onclick="fermerModalConnexionFournisseur()" class="px-4 py-2 bg-gray-100 rounded-lg">Annuler</button>
-                <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded-lg">Se connecter</button>
-            </div>
-        </form>
+
+<!-- =====================================================
+     EN-TÊTE
+     ===================================================== -->
+
+<div class="supplier-header">
+
+    <h1>
+        Gestion des Fournisseurs
+    </h1>
+
+    <button id="addSupplierBtn"
+            type="button">
+
+        Nouveau Fournisseur
+
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     TABLEAU
+     ===================================================== -->
+
+<div class="supplier-table-card">
+
+    <div class="supplier-table-scroll">
+
+        <table class="supplier-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Nom
+                    </th>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <th style="text-align: center;">
+                        Espace Sécurisé
+                    </th>
+
+                    <th style="text-align: right;">
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for f in fournisseurs %}
+
+                <tr>
+
+                    <td style="font-weight: 600;">
+                        {{ f.nom }}
+                    </td>
+
+                    <td>
+                        {{ f.email|default:"N/A" }}
+                    </td>
+
+                    <td style="text-align: center;">
+
+                        <!-- BOUTON SÉCURISÉ -->
+
+                        <button type="button"
+                                onclick="ouvrirModalConnexionFournisseur('{{ f.id }}', '{{ f.nom|escapejs }}')"
+                                class="supplier-secure-btn">
+
+                            <span>
+                                Accéder à l'espace
+                            </span>
+
+                            <i class="fas fa-lock"></i>
+
+                        </button>
+
+                    </td>
+
+                    <td style="text-align: right;">
+
+                        <button type="button"
+                                class="supplier-email-btn"
+                                onclick="ouvrirModalEmail('{{ f.id }}', '{{ f.nom|escapejs }}', '{{ f.email|default:""|escapejs }}', '{% url 'astra:envoyer_email_fournisseur' f.id %}')"
+                                title="Envoyer un email">
+
+                            <i class="fas fa-envelope"></i>
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="4"
+                        style="text-align: center;
+                               padding: 30px 15px;
+                               color: #94a3b8;">
+
+                        Aucun fournisseur trouvé.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
     </div>
+
+</div>
+```
+
+</div>
+
+<!-- =========================================================
+     MODALE CONNEXION FOURNISSEUR
+     ========================================================= -->
+
+<div id="modalConnexionFournisseur"
+     class="supplier-modal hidden">
+
+```
+<div class="supplier-modal-card">
+
+    <h3 class="supplier-modal-title">
+
+        Connexion :
+
+        <span id="nomFournisseurConnexion"></span>
+
+    </h3>
+
+
+    <form id="formConnexionFournisseur"
+          method="POST">
+
+        {% csrf_token %}
+
+        <input type="password"
+               name="password"
+               required
+               placeholder="Mot de passe"
+               class="supplier-password">
+
+
+        <div class="supplier-modal-actions">
+
+            <button type="button"
+                    onclick="fermerModalConnexionFournisseur()"
+                    class="supplier-cancel-btn">
+
+                Annuler
+
+            </button>
+
+
+            <button type="submit"
+                    class="supplier-login-btn">
+
+                Se connecter
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+```
+
 </div>
 
 <script>
-    // Interception de la connexion pour forcer la redirection après succès
-    document.getElementById('formConnexionFournisseur').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const response = await fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
-        });
-        
-        if (response.redirected) {
-            window.location.href = response.url; // Redirige vers l'espace après connexion validée
-        } else {
-            alert("Mot de passe incorrect ou erreur.");
-        }
-    });
+
+    /* =========================================================
+       CONNEXION FOURNISSEUR
+       ========================================================= */
+
+    const formConnexionFournisseur =
+        document.getElementById('formConnexionFournisseur');
+
+
+    if (formConnexionFournisseur) {
+
+        formConnexionFournisseur.addEventListener(
+            'submit',
+            async (e) => {
+
+                e.preventDefault();
+
+                const form = e.target;
+
+                try {
+
+                    const response = await fetch(
+                        form.action,
+                        {
+                            method: 'POST',
+
+                            body: new FormData(form),
+
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        }
+                    );
+
+
+                    /*
+                     * Si Django renvoie une redirection,
+                     * on suit automatiquement la destination.
+                     */
+
+                    if (response.redirected) {
+
+                        window.location.href =
+                            response.url;
+
+                        return;
+                    }
+
+
+                    /*
+                     * Si aucune redirection n'est retournée,
+                     * le mot de passe ou la requête a probablement
+                     * échoué.
+                     */
+
+                    alert(
+                        "Mot de passe incorrect ou erreur."
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Erreur connexion fournisseur :",
+                        error
+                    );
+
+                    alert(
+                        "Une erreur est survenue lors de la connexion."
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       OUVRIR MODALE CONNEXION
+       ========================================================= */
 
     function ouvrirModalConnexionFournisseur(id, nom) {
-        document.getElementById('nomFournisseurConnexion').innerText = nom;
-        document.getElementById('formConnexionFournisseur').action = `/fournisseur/${id}/connexion/`;
-        document.getElementById('modalConnexionFournisseur').classList.remove('hidden');
+
+        const modal =
+            document.getElementById(
+                'modalConnexionFournisseur'
+            );
+
+        const nomElement =
+            document.getElementById(
+                'nomFournisseurConnexion'
+            );
+
+        const form =
+            document.getElementById(
+                'formConnexionFournisseur'
+            );
+
+
+        if (!modal || !nomElement || !form) {
+            return;
+        }
+
+
+        nomElement.innerText = nom;
+
+
+        /*
+         * Conservation de ton endpoint existant.
+         */
+
+        form.action =
+            `/fournisseur/${id}/connexion/`;
+
+
+        modal.classList.remove('hidden');
+
+
+        /*
+         * Place automatiquement le curseur
+         * dans le champ mot de passe.
+         */
+
+        const passwordInput =
+            form.querySelector(
+                'input[name="password"]'
+            );
+
+        if (passwordInput) {
+
+            setTimeout(() => {
+                passwordInput.focus();
+            }, 100);
+
+        }
+
     }
 
+
+    /* =========================================================
+       FERMER MODALE CONNEXION
+       ========================================================= */
+
     function fermerModalConnexionFournisseur() {
-        document.getElementById('modalConnexionFournisseur').classList.add('hidden');
+
+        const modal =
+            document.getElementById(
+                'modalConnexionFournisseur'
+            );
+
+        if (modal) {
+
+            modal.classList.add('hidden');
+
+        }
+
     }
-    
-    // ... reste de tes fonctions ...
+
+
+    /* =========================================================
+       FERMETURE EN CLIQUANT À L'EXTÉRIEUR
+       ========================================================= */
+
+    const modalConnexionFournisseur =
+        document.getElementById(
+            'modalConnexionFournisseur'
+        );
+
+
+    if (modalConnexionFournisseur) {
+
+        modalConnexionFournisseur.addEventListener(
+            'click',
+            (e) => {
+
+                if (e.target === modalConnexionFournisseur) {
+
+                    fermerModalConnexionFournisseur();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       FERMETURE AVEC ESC
+       ========================================================= */
+
+    document.addEventListener(
+        'keydown',
+        (e) => {
+
+            if (e.key === 'Escape') {
+
+                fermerModalConnexionFournisseur();
+
+            }
+
+        }
+    );
+
 </script>
+
 {% endblock %}

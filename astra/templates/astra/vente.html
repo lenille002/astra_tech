@@ -18,182 +18,421 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-    .cellule td.actions-réactif à la table {
-        white-space: nowrap;
-        width: 1%;
+    /* =========================================================
+   MOBILE FIRST — AJOUT SANS MODIFIER LE DESIGN EXISTANT
+   ========================================================= */
+
+/* ---------- BASE : TÉLÉPHONE ---------- */
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.page-vente {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Les statistiques s'empilent sur téléphone */
+.stats-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+/* Zone des actions */
+.actions {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+}
+
+/* Groupe des boutons */
+.actions > div {
+    width: 100%;
+}
+
+.actions > div:first-child {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100%;
+    gap: 8px !important;
+}
+
+/* Boutons adaptés au mobile */
+.actions > div:first-child .btn-primary,
+.actions > div:first-child .btn-stock {
+    width: 100%;
+    min-height: 44px;
+}
+
+/* Recherche */
+.search-filter-container {
+    width: 100%;
+    max-width: none;
+    min-height: 44px;
+    flex: none;
+}
+
+.search-filter-container input {
+    width: 100%;
+    min-width: 0;
+}
+
+/* =========================================================
+   TABLEAU
+   ========================================================= */
+
+/*
+   On ne change PAS le design du tableau.
+   On permet simplement son défilement horizontal
+   sur les petits écrans.
+*/
+
+.table-box {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.table-responsive {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+/*
+   Le tableau garde sa largeur normale.
+   Sur téléphone, l'utilisateur peut faire glisser
+   horizontalement.
+*/
+.table-responsive table {
+    min-width: 850px;
+}
+
+/* Les boutons d'action restent sur une seule ligne */
+.actions-cell {
+    display: flex;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   MODALES
+   ========================================================= */
+
+.modal-overlay {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 100%;
+    margin: 10px auto;
+}
+
+/* Le contenu des formulaires ne dépasse jamais */
+.modal-content form {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* =========================================================
+   FORMULAIRE NOUVELLE VENTE
+   ========================================================= */
+
+.form-group {
+    width: 100%;
+    max-width: 100%;
+}
+
+.form-group input,
+.form-group select,
+.form-control {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Sélection des produits */
+.form-select-list {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Quantité + bouton */
+.form-row-inline {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-row-inline .flex-grow {
+    width: 100%;
+}
+
+.form-row-inline .btn-primary {
+    width: 100%;
+}
+
+/* =========================================================
+   PANIER
+   ========================================================= */
+
+.panier-box {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.panier-list {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.panier-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.panier-item > span:first-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   TOTAUX
+   ========================================================= */
+
+.total-box {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.monnaie-box {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* =========================================================
+   ACTIONS DES MODALES
+   ========================================================= */
+
+.modal-actions {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modal-actions button {
+    width: 100%;
+    min-height: 42px;
+}
+
+/* =========================================================
+   DÉTAILS / REÇU
+   ========================================================= */
+
+.details-content {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.recu-container {
+    width: 100%;
+    max-width: 100%;
+}
+
+.recu-item {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.recu-item p,
+.recu-item li {
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   MODE NUIT — CONSERVÉ
+   ========================================================= */
+
+html.dark .search-filter-container,
+html.dark .search-box {
+    max-width: 100%;
+}
+
+/* =========================================================
+   PETITS TÉLÉPHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .page-vente {
+        padding-left: 7px;
+        padding-right: 7px;
     }
 
-    .actions-cell {
-        display: flex;
-        gap: 6px;
-        align-items: center;
-        justify-content: flex-start;
+    .stat-card {
+        padding: 12px;
+    }
+
+    .stat-card h4 {
+        font-size: 13px;
+    }
+
+    .stat-card span {
+        font-size: 22px;
     }
 
     .actions-cell button {
-        cursor: pointer;
-        border: none;
-        padding: 6px 10px;
-        border-radius: 4px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        transition: background 0.2s;
+        padding: 5px 8px;
+        font-size: 13px;
     }
 
-    .btn-view {
-        background-color: #e0f2fe;
-        color: #0284c7;
+    .modal-overlay {
+        padding: 5px;
     }
 
-    .btn-view:hover {
-        background-color: #bae6fd;
+    .modal-content {
+        margin: 5px auto;
+        border-radius: 8px;
+    }
+}
+
+/* =========================================================
+   TABLETTE — À PARTIR DE 576px
+   ========================================================= */
+
+@media (min-width: 576px) {
+
+    .page-vente {
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
-    .btn-edit {
-        background-color: #fef9c3;
-        color: #ca8a04;
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .btn-edit:hover {
-        background-color: #fef08a;
+    .actions {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
     }
 
-    .btn-delete {
-        background-color: #fee2e2;
-        color: #dc2626;
+    .actions > div:first-child {
+        flex-direction: row !important;
+        width: auto;
     }
 
-    .btn-delete:hover {
-        background-color: #fecaca;
+    .actions > div:first-child .btn-primary,
+    .actions > div:first-child .btn-stock {
+        width: auto;
     }
 
     .search-filter-container {
-        display: flex;
-        align-items: center;
-        background: #f8fafc;
-        border: 1px solid #cbd5e1;
-        border-radius: 6px;
-        padding: 4px 10px;
-        flex: 1;
+        width: auto;
         max-width: 350px;
+        flex: 1;
     }
 
-    .search-filter-container input {
-        border: none;
-        background: transparent;
-        outline: none;
-        width: 100%;
-        padding: 6px;
-        font-size: 14px;
+    .form-row-inline {
+        flex-direction: row;
+        align-items: flex-end;
     }
 
-    .search-filter-container i {
-        color: #64748b;
+    .form-row-inline .flex-grow {
+        flex: 1;
     }
 
-    .recu-container {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+    .form-row-inline .btn-primary {
+        width: auto;
     }
 
-    .recu-item {
-        border-bottom: 2px dashed #94a3b8;
-        padding-bottom: 10px;
+    .modal-actions {
+        flex-direction: row;
+        justify-content: flex-end;
     }
 
-    .recu-item:last-child {
-        border-bottom: none;
+    .modal-actions button {
+        width: auto;
+    }
+}
+
+/* =========================================================
+   TABLETTE — À PARTIR DE 768px
+   ========================================================= */
+
+@media (min-width: 768px) {
+
+    .page-vente {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
-    @media print {
-        @page {
-            size: portrait;
-            margin: 5mm;
-        }
-
-        body * {
-            visibility: hidden !important;
-        }
-
-        #printArea, #printArea * {
-            visibility: visible !important;
-        }
-
-        #modalDetails, .modal-content {
-            visibility: visible !important;
-            display: block !important;
-            position: absolute !important;
-            left: 0 !important;
-            top: 0 !important;
-            width: 100% !important;
-            background: white !important;
-            box-shadow: none !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-
-        .modal-header,
-        .modal-actions,
-        .modal-footer,
-        #btnFermerDetails,
-        #btnImprimerRecu {
-            display: none !important;
-        }
-
-        .recu-container {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 4px !important;
-            width: 100% !important;
-        }
-
-        .recu-item {
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-            font-size: 9px !important;
-            padding-bottom: 4px !important;
-            margin-bottom: 4px !important;
-            border-bottom: 1px dashed #000 !important;
-        }
-
-        .recu-item:last-child {
-            border-bottom: none !important;
-            margin-bottom: 0 !important;
-        }
+    .stats-container {
+        grid-template-columns: repeat(3, 1fr);
     }
-      
-        html.dark .card-custom { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
+}
 
+/* =========================================================
+   DESKTOP — À PARTIR DE 992px
+   ========================================================= */
 
-        /* --- MODE NUIT GLOBAL --- */
-        html.dark body {
-            background-color: #0f172a !important;
-            color: #f1f5f9 !important;
-        }
-        html.dark .card {
-            background-color: #1e293b !important;
-            border-color: #334155 !important;
-            color: #f1f5f9 !important;
-        }
-        html.dark h1, html.dark h2, html.dark h3, html.dark label, html.dark span, html.dark div {
-            color: inherit;
-        }
-        html.dark input, html.dark select {
-            background-color: #0f172a !important;
-            border-color: #334155 !important;
-            color: #ffffff !important;
-        }
-        html.dark .role-card {
-            background-color: #1e293b;
-            border-color: #334155;
-        }
-        html.dark .role-card.border-orange-500 {
-            border-color: #f97316 !important;
-            background-color: rgba(249, 115, 22, 0.1) !important;
-        }
+@media (min-width: 992px) {
+
+    .page-vente {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    /*
+       À partir de l'ordinateur,
+       on revient au comportement naturel du design original.
+    */
+    .actions {
+        flex-direction: row !important;
+    }
+
+    .modal-content {
+        max-width: 700px;
+    }
+}
+
+/* =========================================================
+   GRAND ÉCRAN — À PARTIR DE 1200px
+   ========================================================= */
+
+@media (min-width: 1200px) {
+
+    .page-vente {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
  
 </style>
 

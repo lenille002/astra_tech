@@ -8,6 +8,7 @@ body {
 
 body {
     max-width: 100vw;
+    padding: 0 !important;
 }
 
 .app-header {
@@ -127,6 +128,10 @@ textarea {
         overflow-x: auto;
         padding-bottom: 2px;
         -webkit-overflow-scrolling: touch;
+    }
+
+    body:has(> .sidebar) {
+        display: block !important;
     }
 
     .nav-item {
@@ -296,6 +301,25 @@ textarea {
         flex-wrap: wrap !important;
     }
 
+    .app-header .logo-container {
+        min-height: 42px !important;
+    }
+
+    .app-header .logo-container img {
+        height: 32px !important;
+        width: auto !important;
+    }
+
+    .app-header .nav-menu {
+        min-height: 38px !important;
+        align-items: center !important;
+    }
+
+    .app-header .user-menu {
+        min-height: 42px !important;
+        align-items: center !important;
+    }
+
     .notification-container #notificationDropdown,
     #notificationDropdown {
         right: 0 !important;
@@ -433,6 +457,42 @@ textarea {
         width: auto !important;
         max-width: none !important;
     }
+
+    .page-vente .stats-container {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .page-vente .stat-card {
+        padding: 16px !important;
+        min-height: 0 !important;
+    }
+
+    .page-vente .actions {
+        gap: 8px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .page-vente .actions>div:first-child {
+        width: 100% !important;
+        flex-direction: column !important;
+    }
+
+    .page-vente .table-header {
+        padding: 14px 16px !important;
+        gap: 6px !important;
+    }
+
+    .page-vente .table-header h2 {
+        font-size: 18px !important;
+    }
+
+    .page-vente .modal-header h2 {
+        font-size: 18px !important;
+        line-height: 1.25 !important;
+        overflow-wrap: anywhere;
+    }
 }
 
 @media (max-width: 480px) {
@@ -457,6 +517,96 @@ textarea {
     .page-vente h1 {
         font-size: clamp(20px, 7vw, 28px) !important;
         line-height: 1.2 !important;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 768px) {
+
+    html,
+    body,
+    .app-layout,
+    .app-main,
+    .app-footer {
+        width: 100% !important;
+        max-width: 100vw !important;
+        min-width: 0 !important;
+        overflow-x: clip !important;
+    }
+
+    .app-main {
+        padding: 10px 6px !important;
+    }
+
+    .app-main>main,
+    .app-main>section,
+    .app-main>article,
+    .app-main>div {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .container,
+    .page-content,
+    .block,
+    .main-container,
+    .content,
+    .main-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    table {
+        min-width: 620px !important;
+        max-width: none !important;
+    }
+
+    .table-responsive,
+    .ef-table-wrapper,
+    .astra-table-container,
+    .overflow-x-auto {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        overscroll-behavior-inline: contain;
+    }
+
+    .modal,
+    .modal-overlay,
+    .modal-backdrop,
+    .astra-register-overlay {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+
+    .modal-content,
+    .astra-register-modal {
+        width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+        min-width: 0 !important;
+    }
+
+    .modal-content form,
+    .modal-content input,
+    .modal-content select,
+    .modal-content textarea {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .card,
+    .card-stock,
+    .table-box,
+    .ef-card,
+    .ef-info-box,
+    .astra-content-box {
         overflow-wrap: anywhere;
     }
 }
@@ -505,5 +655,651 @@ textarea {
         padding: 24px 16px;
         overflow-y: auto;
         overflow-x: hidden;
+    }
+}
+
+/* Final mobile-first overrides for standalone templates and fragments. */
+@media (max-width: 768px) {
+
+    .sidebar+.main-content,
+    .sidebar~.main-content,
+    body>.main-content,
+    body>.content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 16px 10px !important;
+    }
+
+    .sidebar .nav-menu,
+    .sidebar .nav-menu li,
+    .sidebar .nav-menu a,
+    .sidebar .nav-link {
+        min-width: max-content;
+    }
+
+    .sidebar .nav-menu {
+        display: flex !important;
+        flex-direction: row !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        padding: 10px !important;
+        gap: 6px !important;
+    }
+
+    .sidebar .sidebar-footer {
+        width: 100% !important;
+        padding: 10px !important;
+    }
+
+    .sidebar .btn-logout {
+        width: 100% !important;
+    }
+
+    .login-container,
+    .login-form,
+    .login-header,
+    .auth-section,
+    .auth-content,
+    .app-section {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .login-container,
+    .auth-form,
+    .app-section {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .notification-dropdown,
+    #notificationDropdown,
+    .notifications-dropdown {
+        width: min(340px, calc(100vw - 16px)) !important;
+        max-width: calc(100vw - 16px) !important;
+    }
+
+    .site-footer,
+    .app-footer {
+        max-width: 100vw !important;
+        overflow-wrap: anywhere;
+    }
+
+    .app-header .notification-container {
+        position: relative !important;
+        max-width: 100% !important;
+    }
+
+    .app-header .notification-panel,
+    .notification-panel,
+    #notificationDropdown {
+        right: 0 !important;
+        left: auto !important;
+        width: min(340px, calc(100vw - 16px)) !important;
+        max-width: calc(100vw - 16px) !important;
+        max-height: min(70vh, 420px) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+
+    .notification-panel>div:first-child {
+        gap: 8px !important;
+        flex-wrap: wrap !important;
+    }
+
+    .notification-panel p,
+    .notification-panel span,
+    .notification-panel strong {
+        overflow-wrap: anywhere !important;
+    }
+
+    .site-footer {
+        padding: 20px 12px !important;
+        text-align: center !important;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .supplier-page,
+    .main-container,
+    .astra-clients-wrapper,
+    .astra-dashboard,
+    .page-vente,
+    .stock-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        padding: 16px 8px !important;
+        margin: 0 auto !important;
+    }
+
+    .supplier-page>.flex,
+    .main-container>.flex,
+    .astra-header-bar,
+    .astra-top-actions {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+
+    .supplier-page>.flex>*,
+    .main-container>.flex>*,
+    .astra-header-bar>*,
+    .astra-top-actions>* {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .supplier-page h1,
+    .main-container h1,
+    .astra-title,
+    .astra-dashboard h1 {
+        font-size: clamp(21px, 7vw, 30px) !important;
+        line-height: 1.2 !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .astra-stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .astra-filters-row,
+    .search-zone,
+    .search-filter-container {
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    .astra-filters-row,
+    .search-zone {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .astra-search-bar-wrapper,
+    .astra-search-input,
+    .search-filter-container input,
+    .search-zone input,
+    .search-zone select {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+
+    .supplier-page .overflow-x-auto,
+    .main-container .overflow-x-auto,
+    .astra-table-container,
+    .table-responsive {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .supplier-page table,
+    .main-container table,
+    .astra-table,
+    .table-responsive table {
+        min-width: 620px !important;
+    }
+
+    .client-login-page,
+    .password-reset-page {
+        min-height: calc(100vh - 20px) !important;
+        padding: 12px 8px !important;
+    }
+
+    .client-login-page>div[style*="max-width"],
+    .password-reset-page>div[style*="max-width"] {
+        width: 100% !important;
+        max-width: 440px !important;
+        padding: 22px 16px !important;
+        border-radius: 20px !important;
+    }
+
+    .client-login-page .orb-1,
+    .client-login-page .orb-2 {
+        width: 220px !important;
+        height: 220px !important;
+        filter: blur(65px) !important;
+    }
+
+    .register-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 16px auto !important;
+        padding: 0 8px !important;
+    }
+
+    .register-card {
+        width: 100% !important;
+        padding: 24px 16px !important;
+        border-radius: 16px !important;
+    }
+
+    .register-header h1 {
+        font-size: clamp(22px, 8vw, 32px) !important;
+        line-height: 1.2 !important;
+    }
+
+    .register-card .form-control {
+        min-width: 0 !important;
+    }
+
+    .modal-backdrop,
+    .fixed.inset-0 {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+
+    .reports-page,
+    .stock-page,
+    .page-vente {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 12px 8px !important;
+    }
+
+    .reports-page>.max-w-7xl {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .reports-page h1,
+    .reports-page h2,
+    .reports-page h3,
+    .reports-page p,
+    .reports-page span {
+        overflow-wrap: anywhere !important;
+    }
+
+    .reports-page>.max-w-7xl>.bg-white:first-of-type {
+        padding: 16px !important;
+        gap: 16px !important;
+    }
+
+    .reports-page>.max-w-7xl>.bg-white:first-of-type>div:last-child {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+    }
+
+    .reports-page>.max-w-7xl>.bg-white:first-of-type a,
+    .reports-page>.max-w-7xl>.bg-white:first-of-type button,
+    .reports-page>.max-w-7xl>.bg-white:first-of-type form {
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    .reports-page .grid {
+        min-width: 0 !important;
+    }
+
+    .reports-page canvas {
+        max-width: 100% !important;
+    }
+
+    .reports-page .h-72 {
+        height: 220px !important;
+    }
+
+    .reports-page .overflow-x-auto {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .reports-page .overflow-x-auto table {
+        min-width: 620px !important;
+    }
+
+    .reports-page [id$="CahierModal"]>div {
+        width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+        max-height: calc(100vh - 20px) !important;
+        overflow-y: auto !important;
+        margin: 10px !important;
+        padding: 16px !important;
+    }
+
+    .stock-page .stock-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .stock-page .stock-title {
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+
+    .stock-page .stock-title>div,
+    .stock-page .stock-btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .stock-page .stats-container {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .stock-page .card-stock {
+        padding: 12px !important;
+        min-width: 0 !important;
+    }
+
+    .stock-page .search-zone {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    .stock-page .search-zone input,
+    .stock-page .search-zone select {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .stock-page .table-responsive {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+    }
+
+    .stock-page .table-responsive table {
+        min-width: 760px !important;
+    }
+
+    .stock-page .modal-content {
+        width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+        padding: 18px !important;
+    }
+
+    .clients-page,
+    .appro-page {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        padding: 12px 8px !important;
+        margin: 0 !important;
+    }
+
+    .clients-page .astra-header-bar,
+    .clients-page .astra-top-actions,
+    .appro-page .max-w-7xl>div:first-child {
+        width: 100% !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+
+    .clients-page .astra-header-bar>*,
+    .clients-page .astra-top-actions>*,
+    .appro-page .max-w-7xl>div:first-child>* {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .clients-page .astra-title {
+        font-size: clamp(22px, 8vw, 32px) !important;
+        line-height: 1.2 !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .clients-page .astra-stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .clients-page .astra-filters-row {
+        width: 100% !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .clients-page .btn-filter,
+    .clients-page .astra-search-bar-wrapper {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+    }
+
+    .clients-page .astra-table-container,
+    .appro-page .overflow-x-auto {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .clients-page .astra-table,
+    .appro-page table {
+        min-width: 760px !important;
+    }
+
+    .clients-page .astra-content-box {
+        padding: 14px !important;
+        min-width: 0 !important;
+    }
+
+    .clients-page .astra-modal-card,
+    .appro-page .modal-backdrop>div {
+        width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+        max-height: calc(100vh - 20px) !important;
+        overflow-y: auto !important;
+        padding: 18px !important;
+    }
+
+    .appro-page .max-w-7xl {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .appro-page .max-w-md,
+    .appro-page input,
+    .appro-page select {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .appro-page .modal-backdrop>div>div:last-child,
+    .appro-page .modal-backdrop form>div:last-child {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+    }
+
+    .appro-page .modal-backdrop button {
+        width: 100% !important;
+    }
+
+    .supplier-space-page,
+    .client-space-page {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 auto !important;
+        padding: 14px 8px !important;
+    }
+
+    .supplier-space-page .ef-card,
+    .client-space-page .card {
+        width: 100% !important;
+        min-width: 0 !important;
+        padding: 16px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .supplier-space-page .ef-header,
+    .client-space-page .info-grid {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .supplier-space-page .ef-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+
+    .supplier-space-page .ef-header>*,
+    .supplier-space-page .ef-btn {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .supplier-space-page h1,
+    .client-space-page h1 {
+        font-size: clamp(21px, 7vw, 30px) !important;
+        line-height: 1.2 !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .supplier-space-page .ef-grid,
+    .client-space-page .info-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .supplier-space-page .ef-info-box {
+        min-width: 0 !important;
+        padding: 14px !important;
+    }
+
+    .supplier-space-page .ef-table-wrapper,
+    .client-space-page .card.orange-accent>div[style*="overflow-x"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .supplier-space-page .ef-table,
+    .client-space-page .astra-table {
+        min-width: 620px !important;
+    }
+
+    .supplier-space-page .ef-table th,
+    .supplier-space-page .ef-table td,
+    .client-space-page .astra-table th,
+    .client-space-page .astra-table td {
+        padding: 10px 12px !important;
+    }
+
+    .client-space-page .btn-retour {
+        width: 100% !important;
+        justify-content: center !important;
+        margin-bottom: 16px !important;
+    }
+
+    .client-space-page .card-title {
+        font-size: 1rem !important;
+        line-height: 1.3 !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .supplier-login-page {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        padding: 14px 8px !important;
+        margin: 0 auto !important;
+    }
+
+    .supplier-login-page>.overflow-hidden {
+        min-width: 0 !important;
+    }
+
+    .supplier-login-page>.overflow-hidden>.overflow-x-auto {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .supplier-login-page table {
+        min-width: 620px !important;
+    }
+
+    .supplier-login-page .fixed.inset-0>div {
+        width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+        padding: 18px !important;
+    }
+
+    .header-mobile {
+        width: 100% !important;
+        max-width: 100vw !important;
+        min-width: 0 !important;
+        overflow: visible !important;
+    }
+
+    .header-mobile .logo-container,
+    .header-mobile .nav-menu,
+    .header-mobile .user-menu {
+        min-width: 0 !important;
+    }
+
+    .header-mobile .nav-menu {
+        scrollbar-width: thin;
+    }
+
+    .header-mobile .notification-panel {
+        position: absolute !important;
+        right: 0 !important;
+        left: auto !important;
+        top: 45px !important;
+        width: min(340px, calc(100vw - 16px)) !important;
+        max-width: calc(100vw - 16px) !important;
+        max-height: min(70vh, 420px) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        padding: 12px !important;
+    }
+
+    .header-mobile .notification-panel>div:first-child {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+
+    .header-mobile .notification-panel strong,
+    .header-mobile .notification-panel span,
+    .header-mobile .notification-panel small {
+        overflow-wrap: anywhere !important;
+    }
+
+    .footer-mobile {
+        width: 100% !important;
+        max-width: 100vw !important;
+        min-width: 0 !important;
+        padding: 18px 10px !important;
+        text-align: center !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .footer-mobile .footer-bottom {
+        margin-top: 0 !important;
+        padding-top: 12px !important;
+        line-height: 1.4 !important;
     }
 }

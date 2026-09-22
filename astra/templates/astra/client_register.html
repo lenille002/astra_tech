@@ -1,212 +1,807 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Inscription Client - Astra Tech{% endblock %}
+{% block title %}Cahier d'activités - Astra Tech{% endblock %}
 
 {% block content %}
+
 <style>
-    /* Correction du fond global pour correspondre au thème Astra Tech */
-    body, .app-layout, .app-main, .astra-clients-wrapper {
+    /* =========================================================
+       RESET & BASE — MOBILE FIRST
+       ========================================================= */
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    body,
+    .app-layout,
+    .app-main,
+    .astra-clients-wrapper {
         background-color: #f1f5f9 !important;
         background: #f1f5f9 !important;
     }
 
-    .register-container {
-        max-width: 520px;
-        margin: 3rem auto;
-        padding: 0 1rem;
+    .astra-dashboard {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 16px 10px;
     }
 
-    .register-card {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 40px;
-        box-shadow: 0 15px 35px -5px rgba(55, 48, 163, 0.08), 0 5px 15px rgba(0, 0, 0, 0.03);
-        border: 1px solid #e2e8f0;
-        position: relative;
-        overflow: hidden;
-    }
 
-    /* Bande lumineuse décorative en haut de la carte */
-    .register-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 6px;
-        background: linear-gradient(90deg, #3730a3, #4338ca, #f97316);
-    }
+    /* =========================================================
+       ACTIONS — MOBILE
+       ========================================================= */
 
-    .register-header {
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-    .register-header h1 {
-        color: #1e1b4b;
-        font-size: 2rem;
-        font-weight: 800;
-        margin-bottom: 8px;
-        letter-spacing: -0.5px;
-    }
-
-    .register-header p {
-        color: #64748b;
-        font-size: 0.95rem;
-    }
-
-    .form-group {
-        margin-bottom: 1.25rem;
-    }
-
-    .form-group label {
+    .page-actions {
+        width: 100%;
         display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #334155;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        margin-bottom: 8px;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 22px;
     }
 
-    .form-group label i {
-        color: #3730a3;
-        font-size: 1rem;
-    }
-
-    .form-control {
+    .btn-retour,
+    .btn-espace-client {
         width: 100%;
-        padding: 14px 16px;
-        background-color: #f8fafc;
-        border: 1.5px solid #cbd5e1;
-        border-radius: 12px;
-        font-size: 1rem;
-        color: #1e293b;
-        transition: all 0.2s ease;
-    }
+        min-width: 0;
+        min-height: 46px;
 
-    .form-control:focus {
-        outline: none;
-        border-color: #3730a3;
-        background-color: #ffffff;
-        box-shadow: 0 0 0 4px rgba(55, 48, 163, 0.1);
-    }
-
-    .btn-submit {
-        width: 100%;
-        background-color: #3730a3;
-        color: white;
-        border: none;
-        padding: 15px;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 1.05rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: 0 4px 12px rgba(55, 48, 163, 0.25);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        margin-top: 1.5rem;
+        gap: 8px;
+
+        padding: 10px 14px;
+
+        border-radius: 50px;
+        text-decoration: none;
+
+        font-weight: 600;
+        font-size: 0.88rem;
+        line-height: 1.3;
+
+        text-align: center;
+        overflow-wrap: anywhere;
+
+        transition: all 0.2s ease;
     }
 
-    .btn-submit:hover {
+    .btn-retour {
+        background-color: #3730a3;
+        color: white;
+        box-shadow: 0 4px 12px rgba(55, 48, 163, 0.2);
+    }
+
+    .btn-retour:hover {
         background-color: #312e81;
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(55, 48, 163, 0.35);
+        color: white;
     }
 
-    .alert-error {
-        background-color: #fef2f2;
-        border: 1px solid #f87171;
-        color: #991b1b;
-        padding: 12px 16px;
-        border-radius: 10px;
-        font-size: 0.9rem;
-        font-weight: 600;
+    .btn-espace-client {
+        background-color: #059669;
+        color: white;
+        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+    }
+
+    .btn-espace-client:hover {
+        background-color: #047857;
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    .btn-retour i,
+    .btn-espace-client i {
+        flex-shrink: 0;
+    }
+
+
+    /* =========================================================
+       TITRE — MOBILE
+       ========================================================= */
+
+    .client-heading {
+        width: 100%;
         margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
     }
 
-    .register-footer {
-        text-align: center;
-        margin-top: 1.5rem;
-        padding-top: 1.25rem;
-        border-top: 1px solid #f1f5f9;
-        font-size: 0.9rem;
+    .client-heading h1 {
+        margin: 0 0 6px;
+
+        color: #1e1b4b;
+        font-size: 1.35rem;
+        line-height: 1.35;
+        font-weight: 800;
+
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .client-heading h1 span {
+        color: #4338ca;
+    }
+
+    .client-heading p {
+        margin: 0;
+
         color: #64748b;
+        font-size: 0.9rem;
+        line-height: 1.5;
+
+        overflow-wrap: anywhere;
     }
 
-    .register-footer a {
-        color: #3730a3;
+
+    /* =========================================================
+       GRILLE — MOBILE
+       ========================================================= */
+
+    .layout-grid {
+        width: 100%;
+        min-width: 0;
+
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+
+        gap: 14px;
+        align-items: start;
+    }
+
+
+    /* =========================================================
+       CARTES — MOBILE
+       ========================================================= */
+
+    .card {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+
+        background: #ffffff;
+
+        border-radius: 15px;
+        padding: 16px;
+
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+
+        border: 1px solid #e2e8f0;
+        border-left: 5px solid #3730a3;
+
+        overflow: hidden;
+    }
+
+    .card.orange-accent {
+        border-left-color: #f97316;
+    }
+
+
+    /* =========================================================
+       TITRES DES CARTES
+       ========================================================= */
+
+    .card-title {
+        width: 100%;
+        min-width: 0;
+
+        margin: 0 0 1rem;
+        padding-bottom: 10px;
+
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+
+        color: #1e1b4b;
+        font-size: 0.98rem;
         font-weight: 700;
-        text-decoration: none;
+        line-height: 1.4;
+
+        border-bottom: 2px solid #f8fafc;
     }
 
-    .register-footer a:hover {
-        text-decoration: underline;
+    .card-title i {
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .card-title span {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+       RÉSUMÉ CLIENT
+       ========================================================= */
+
+    .summary-item {
+        width: 100%;
+        min-width: 0;
+
+        margin-bottom: 15px;
+    }
+
+    .summary-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .summary-item label {
+        display: block;
+
+        margin-bottom: 3px;
+
+        color: #64748b;
+        font-size: 0.72rem;
+        font-weight: 700;
+
+        text-transform: uppercase;
+        line-height: 1.4;
+    }
+
+    .summary-item span {
+        display: inline-block;
+
+        max-width: 100%;
+
+        color: #1e293b;
+        font-size: 0.96rem;
+        font-weight: 600;
+        line-height: 1.4;
+
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .summary-orders {
+        display: inline-block !important;
+
+        padding: 3px 10px;
+
+        border-radius: 12px;
+
+        background: #e0e7ff;
+        color: #3730a3 !important;
+    }
+
+    .summary-total {
+        color: #059669 !important;
+        font-size: 1.05rem !important;
+        font-weight: 700 !important;
+    }
+
+
+    /* =========================================================
+       TABLEAU — MOBILE
+       ========================================================= */
+
+    .table-container {
+        width: 100%;
+        max-width: 100%;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        -webkit-overflow-scrolling: touch;
+
+        scrollbar-width: thin;
+    }
+
+    .astra-table {
+        width: 100%;
+        min-width: 540px;
+
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    .astra-table th {
+        padding: 11px 12px;
+
+        background-color: #3730a3;
+        color: white;
+
+        text-align: left;
+        font-size: 0.74rem;
+        font-weight: 700;
+        text-transform: uppercase;
+
+        white-space: nowrap;
+    }
+
+    .astra-table th:first-child {
+        border-top-left-radius: 8px;
+    }
+
+    .astra-table th:last-child {
+        border-top-right-radius: 8px;
+    }
+
+    .astra-table td {
+        padding: 12px;
+
+        border-bottom: 1px solid #f1f5f9;
+
+        color: #334155;
+        font-size: 0.86rem;
+
+        white-space: nowrap;
+    }
+
+    .astra-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .vente-reference {
+        color: #3730a3 !important;
+        font-weight: 700;
+    }
+
+    .vente-montant {
+        color: #059669 !important;
+        font-weight: 700;
+    }
+
+    .empty-message {
+        padding: 2.2rem 1rem !important;
+
+        color: #94a3b8 !important;
+
+        font-style: italic;
+        text-align: center !important;
+
+        white-space: normal !important;
+        line-height: 1.5;
+    }
+
+
+    /* =========================================================
+       PETITS TÉLÉPHONES — 360PX ET MOINS
+       ========================================================= */
+
+    @media (max-width: 360px) {
+
+        .astra-dashboard {
+            padding: 12px 8px;
+        }
+
+        .page-actions {
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .btn-retour,
+        .btn-espace-client {
+            min-height: 44px;
+            padding: 9px 11px;
+            font-size: 0.82rem;
+        }
+
+        .client-heading {
+            margin-bottom: 1.2rem;
+        }
+
+        .client-heading h1 {
+            font-size: 1.2rem;
+        }
+
+        .client-heading p {
+            font-size: 0.84rem;
+        }
+
+        .layout-grid {
+            gap: 11px;
+        }
+
+        .card {
+            padding: 14px;
+            border-radius: 12px;
+            border-left-width: 4px;
+        }
+
+        .card-title {
+            font-size: 0.91rem;
+        }
+
+        .summary-item {
+            margin-bottom: 13px;
+        }
+
+        .summary-item span {
+            font-size: 0.91rem;
+        }
+
+        .summary-total {
+            font-size: 1rem !important;
+        }
+
+        .astra-table {
+            min-width: 510px;
+        }
+
+        .astra-table th,
+        .astra-table td {
+            padding: 10px;
+        }
+
+        .astra-table th {
+            font-size: 0.7rem;
+        }
+
+        .astra-table td {
+            font-size: 0.82rem;
+        }
+    }
+
+
+    /* =========================================================
+       TÉLÉPHONE LARGE / TABLETTE
+       ========================================================= */
+
+    @media (min-width: 576px) {
+
+        .astra-dashboard {
+            padding: 24px 18px;
+        }
+
+        .page-actions {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn-retour,
+        .btn-espace-client {
+            width: auto;
+            max-width: none;
+            min-height: 44px;
+            padding: 10px 20px;
+        }
+
+        .client-heading h1 {
+            font-size: 1.65rem;
+        }
+
+        .client-heading p {
+            font-size: 0.94rem;
+        }
+
+        .layout-grid {
+            gap: 18px;
+        }
+
+        .card {
+            padding: 21px;
+        }
+
+        .card-title {
+            font-size: 1rem;
+        }
+
+        .astra-table th {
+            padding: 14px 16px;
+            font-size: 0.8rem;
+        }
+
+        .astra-table td {
+            padding: 15px 16px;
+            font-size: 0.93rem;
+        }
+    }
+
+
+    /* =========================================================
+       TABLETTE / PETIT DESKTOP
+       ========================================================= */
+
+    @media (min-width: 768px) {
+
+        .astra-dashboard {
+            padding: 30px 24px;
+        }
+
+        .client-heading {
+            margin-bottom: 2rem;
+        }
+
+        .client-heading h1 {
+            font-size: 1.9rem;
+        }
+
+        .layout-grid {
+            grid-template-columns: minmax(250px, 280px) minmax(0, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            padding: 24px;
+        }
+    }
+
+
+    /* =========================================================
+       DESKTOP
+       ========================================================= */
+
+    @media (min-width: 900px) {
+
+        .layout-grid {
+            grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
+            gap: 25px;
+        }
+    }
+
+
+    /* =========================================================
+       GRAND ÉCRAN
+       ========================================================= */
+
+    @media (min-width: 1200px) {
+
+        .astra-dashboard {
+            padding: 2.5rem 1.5rem;
+        }
+    }
+
+
+    /* =========================================================
+       MODE SOMBRE
+       ========================================================= */
+
+    html.dark .card {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+    }
+
+    html.dark .card {
+        border-left-color: #3730a3 !important;
+    }
+
+    html.dark .card.orange-accent {
+        border-left-color: #f97316 !important;
+    }
+
+    html.dark .card-title {
+        color: #f1f5f9 !important;
+        border-bottom-color: #334155;
+    }
+
+    html.dark .summary-item label {
+        color: #94a3b8;
+    }
+
+    html.dark .summary-item span {
+        color: #f1f5f9;
+    }
+
+    html.dark .summary-orders {
+        background: rgba(99, 102, 241, 0.2);
+        color: #a5b4fc !important;
+    }
+
+    html.dark .summary-total {
+        color: #34d399 !important;
+    }
+
+    html.dark .client-heading h1 {
+        color: #f1f5f9;
+    }
+
+    html.dark .client-heading h1 span {
+        color: #818cf8;
+    }
+
+    html.dark .client-heading p {
+        color: #94a3b8;
+    }
+
+    html.dark .astra-table td {
+        color: #cbd5e1;
+        border-bottom-color: #334155;
+    }
+
+    html.dark .astra-table tbody tr:hover {
+        background-color: #334155;
+    }
+
+
+    /* =========================================================
+       ACCESSIBILITÉ — RÉDUCTION DES ANIMATIONS
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .btn-retour,
+        .btn-espace-client {
+            transition: none;
+        }
+
+        .btn-retour:hover,
+        .btn-espace-client:hover {
+            transform: none;
+        }
     }
 </style>
 
+<div class="astra-dashboard">
 
-<div class="register-container">
-    <div class="register-card">
-        <div class="register-header">
-            <h1>Créer un Compte</h1>
-            <p>Rejoignez Astra Tech pour suivre vos activités et vos achats en toute simplicité.</p>
-        </div>
+```
+<!-- =====================================================
+     ACTIONS
+     ===================================================== -->
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert-error">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
+<div class="page-actions">
 
-        <form method="POST">
-            {% csrf_token %}
-            
-            <div class="form-group">
-                <label><i class="fa-solid fa-user"></i> Nom complet</label>
-                <input type="text" name="nom" required class="form-control" placeholder="Ex: Jean Dupont">
-            </div>
+    <a href="{% url 'astra:clients' %}" class="btn-retour">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Retour à la liste des clients</span>
+    </a>
 
-            <div class="form-group">
-                <label><i class="fa-solid fa-envelope"></i> Adresse Email</label>
-                <input type="email" name="email" class="form-control" placeholder="Ex: jean.dupont@gmail.com">
-            </div>
+    <a href="{% url 'astra:client_login' client.id %}" class="btn-espace-client">
+        <i class="fa-solid fa-user-gear"></i>
+        <span>Voir l'Espace Client</span>
+    </a>
 
-            <div class="form-group">
-                <label><i class="fa-solid fa-calendar-days"></i> Date de naissance</label>
-                <input type="date" name="date_naissance" required class="form-control">
-            </div>
-            <div class="form-group">
-                <label><i class="fa-solid fa-phone"></i> Numéro de téléphone</label>
-                <input type="text" name="telephone" required class="form-control" placeholder="Ex: +237 6XXXXXXXX">
-            </div>
-
-
-            <div class="form-group">
-                <label><i class="fa-solid fa-lock"></i> Mot de passe sécurisé</label>
-                <input type="password" name="password" required class="form-control" placeholder="••••••••••••">
-            </div>
-
-            <button type="submit" class="btn-submit">
-                <i class="fa-solid fa-user-plus"></i> S'inscrire maintenant
-            </button>
-        </form>
-
-        <div class="register-footer">
-            Vous avez déjà un compte ? <a href="javascript:history.back()">Retourner en arrière</a>
-        </div>
-    </div>
 </div>
+
+
+<!-- =====================================================
+     TITRE
+     ===================================================== -->
+
+<div class="client-heading">
+
+    <h1>
+        Cahier d'activités du client :
+        <span>{{ client.nom }}</span>
+    </h1>
+
+    <p>
+        Suivi complet des transactions et des ventes de ce client.
+    </p>
+
+</div>
+
+
+<!-- =====================================================
+     CONTENU
+     ===================================================== -->
+
+<div class="layout-grid">
+
+    <!-- =================================================
+         RÉSUMÉ CLIENT
+         ================================================= -->
+
+    <div class="card">
+
+        <h2 class="card-title">
+            <i class="fa-solid fa-address-card" style="color: #3730a3;"></i>
+            <span>Résumé du client</span>
+        </h2>
+
+        <div class="summary-item">
+            <label>Nom complet</label>
+            <span>{{ client.nom }}</span>
+        </div>
+
+        <div class="summary-item">
+            <label>Téléphone</label>
+            <span>{{ client.telephone|default:"N/A" }}</span>
+        </div>
+
+        <div class="summary-item">
+            <label>Email</label>
+            <span>{{ client.email|default:"N/A" }}</span>
+        </div>
+
+        <div class="summary-item">
+
+            <label>Commandes totales</label>
+
+            <span class="summary-orders">
+                {{ nombre_achats }}
+            </span>
+
+        </div>
+
+        <div class="summary-item">
+
+            <label>Total dépensé</label>
+
+            <span class="summary-total">
+                {{ total_depenses|floatformat:0 }} FCFA
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         VENTES
+         ================================================= -->
+
+    <div class="card orange-accent">
+
+        <h2 class="card-title" style="color: #c2410c;">
+
+            <i class="fa-solid fa-receipt"
+               style="color: #f97316;"></i>
+
+            <span>Ventes enregistrées</span>
+
+        </h2>
+
+
+        <!-- Scroll horizontal uniquement lorsque nécessaire -->
+
+        <div class="table-container">
+
+            <table class="astra-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Référence Vente</th>
+                        <th>Date</th>
+                        <th>Montant</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for vente in historique_achats %}
+
+                    <tr>
+
+                        <td class="vente-reference">
+                            {{ vente.reference }}
+                        </td>
+
+                        <td>
+                            {{ vente.date_vente|date:"d/m/Y H:i" }}
+                        </td>
+
+                        <td class="vente-montant">
+                            {{ vente.montant_total|floatformat:0 }} FCFA
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="3" class="empty-message">
+                            Aucun achat enregistré dans le cahier de ce client.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
 {% endblock %}

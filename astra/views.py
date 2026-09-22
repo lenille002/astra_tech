@@ -570,6 +570,7 @@ def verifier_acces_strict(view_func=None, allowed_roles=None):
             print("Rôle :", repr(role))
             print("Rôles autorisés :", allowed_roles)
             print("=" * 60)
+            
 
             # ==================================================
             # SI AUCUNE LISTE N'EST FOURNIE
@@ -2586,6 +2587,146 @@ def espace_fournisseur(request, pk=None):
         'astra/espace_fournisseur.html',
         contexte
     )
+    
+def envoyer_email_fournisseur(request, fournisseur_id):
+    if request.method != 'POST':
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Méthode non autorisée.'
+        }, status=400)
+
+    fournisseur = get_object_or_404(
+        Fournisseur,
+        id=fournisseur_id
+    )
+
+    sujet_client = request.POST.get(
+        'sujet',
+        'Approvisionnement - Astra Tech'
+    ).strip()
+
+    message_client = request.POST.get(
+        'message',
+        ''
+    ).strip()
+
+    if not fournisseur.email:
+        return JsonResponse({
+            'status': 'error',
+            'message': (
+                "Ce fournisseur ne possède pas "
+                "d'adresse e-mail enregistrée."
+            )
+        }, status=400)
+
+    try:
+        sujet = (
+            f"📦 {sujet_client} - "
+            f"{fournisseur.nom}"
+        )
+
+        contenu_email = f"""
+Bonjour {fournisseur.nom},
+
+{message_client}
+
+---
+Informations de suivi :
+- Fournisseur : {fournisseur.nom}
+- Téléphone : {fournisseur.telephone}
+- Date d'envoi : {timezone.now().strftime('%d/%m/%Y à %H:%M')}
+
+Cordialement,
+L'équipe Astra Tech
+"""
+
+        destinataires = [
+            fournisseur.email,
+            'lynel9324@gmail.com'
+        ]
+
+        send_mail(
+            sujet,
+            contenu_email,
+            settings.DEFAULT_FROM_EMAIL,
+            destinataires,
+            fail_silently=False
+        )
+
+        NotificationPlateforme.objects.create(
+            titre=f"Approvisionnement : {fournisseur.nom}",
+            message=(
+                f"Un e-mail a été envoyé à "
+                f"{fournisseur.email}. "
+                f"Message : {message_client[:80]}..."
+            )
+        )
+
+        return JsonResponse({
+            'status': 'success',
+            'message': (
+                f"E-mail envoyé avec succès à "
+                f"{fournisseur.nom} et alerte enregistrée "
+                f"sur la plateforme !"
+            )
+        })
+
+    except Exception as e:
+        print(
+            "Erreur technique d'envoi d'e-mail :",
+            e
+        )
+
+        return JsonResponse({
+            'status': 'error',
+            'message': (
+                f"Erreur technique lors de l'envoi : {str(e)}"
+            )
+        }, status=500)   
+        
+        
+def connexion_fournisseur(request, fournisseur_id):
+    fournisseur = get_object_or_404(
+        Fournisseur,
+        pk=fournisseur_id,
+        is_active=True
+    )
+
+    if request.method == 'POST':
+        password = request.POST.get(
+            'password',
+            ''
+        ).strip()
+
+        if not password:
+            messages.error(
+                request,
+                "Veuillez saisir votre mot de passe."
+            )
+
+        elif password == fournisseur.mot_de_passe:
+            request.session[
+                'fournisseur_connecte_id'
+            ] = fournisseur.id
+
+            return redirect(
+                'astra:espace_fournisseur',
+                pk=fournisseur.id
+            )
+
+        else:
+            messages.error(
+                request,
+                "Mot de passe incorrect."
+            )
+
+    return render(
+        request,
+        'astra/connexion_fournisseur.html',
+        {
+            'fournisseur': fournisseur
+        }
+    )         
 
 
 def verification_mot_de_passe_app(request, fournisseur_id):
@@ -2623,255 +2764,29 @@ def verification_mot_de_passe_app(request, fournisseur_id):
         }
     )
 
-
 def deconnexion_fournisseur(request, pk):
+    """
+    Déconnecte le fournisseur actuellement connecté.
+    """
 
-    if 'fournisseur_connecte_id' in request.session:
-        del request.session[
-            'fournisseur_connecte_id'
-        ]
+    # Supprimer l'identifiant du fournisseur de la session
+    request.session.pop(
+        'fournisseur_connecte_id',
+        None
+    )
 
+    # Message de confirmation
     messages.success(
         request,
         "Vous avez été déconnecté de votre espace."
     )
 
+    # Retour vers la page de connexion du fournisseur
     return redirect(
         'astra:connexion_fournisseur',
         fournisseur_id=pk
     )
-
-
-def envoyer_email_fournisseur(request, fournisseur_id):
-
-    if request.method != 'POST':
-        return JsonResponse({
-            'status': 'error',
-            'message': 'Méthode non autorisée.'
-        }, status=400)
-
-    fournisseur = get_object_or_404(
-        Fournisseur,
-        id=fournisseur_id
-    )
-
-    sujet_client = request.POST.get(
-        'sujet',
-        'Approvisionnement - Astra Tech'
-    )
-
-    message_client = request.POST.get(
-        'message',
-        ''
-    )
-
-    if not fournisseur.email:
-
-        return JsonResponse({
-            'status': 'error',
-            'message': (
-                "Ce fournisseur ne possède pas "
-                "d'adresse e-mail enregistrée."
-            )
-        }, status=400)
-
-    try:
-
-        sujet = (
-            f"📦 {sujet_client} - "
-            f"{fournisseur.nom}"
-        )
-
-        contenu_email = f"""
-Bonjour {fournisseur.nom},
-
-{message_client}
-
----
-Informations de suivi :
-- Fournisseur : {fournisseur.nom}
-- Téléphone : {fournisseur.telephone}
-- Date d'envoi : {timezone.now().strftime('%d/%m/%Y à %H:%M')}
-
-Cordialement,
-L'équipe Astra Tech
-"""
-
-        expediteur = settings.DEFAULT_FROM_EMAIL
-
-        destinataires = [
-            fournisseur.email,
-            'lynel9324@gmail.com'
-        ]
-
-        send_mail(
-            sujet,
-            contenu_email,
-            expediteur,
-            destinataires,
-            fail_silently=False
-        )
-
-        NotificationPlateforme.objects.create(
-            titre=f"Approvisionnement : {fournisseur.nom}",
-            message=(
-                f"Un e-mail a été envoyé à "
-                f"{fournisseur.email}. "
-                f"Message : {message_client[:80]}..."
-            )
-        )
-
-        return JsonResponse({
-            'status': 'success',
-            'message': (
-                f"E-mail envoyé avec succès à "
-                f"{fournisseur.nom} et alerte enregistrée "
-                f"sur la plateforme !"
-            )
-        })
-
-    except Exception as e:
-
-        print(
-            "Erreur technique d'envoi d'e-mail :",
-            e
-        )
-
-        return JsonResponse({
-            'status': 'error',
-            'message': (
-                f"Erreur technique lors de l'envoi : {str(e)}"
-            )
-        }, status=500)
-
-
-def connexion_fournisseur(request, fournisseur_id):
-
-    fournisseur = get_object_or_404(
-        Fournisseur,
-        pk=fournisseur_id,
-        is_active=True
-    )
-
-    if request.method == 'POST':
-
-        password = request.POST.get(
-            'password'
-        )
-
-        if password == fournisseur.mot_de_passe:
-
-            request.session[
-                'fournisseur_connecte_id'
-            ] = fournisseur.id
-
-            # IMPORTANT :
-            # on utilise le nom d'URL de l'espace personnel
-            return redirect(
-                'astra:espace_fournisseur',
-                pk=fournisseur.id
-            )
-
-        else:
-            messages.error(
-                request,
-                "Mot de passe incorrect."
-            )
-
-    return render(
-        request,
-        'astra/connexion_fournisseur.html',
-        {
-            'fournisseur': fournisseur
-        }
-    )
-
-def verification_mot_de_passe_app(request, fournisseur_id):
-    fournisseur = get_object_or_404(Fournisseur, pk=fournisseur_id)
-    
-    if request.method == 'POST':
-        password_app = request.POST.get('password_app')
-        
-        # Vérifie le mot de passe de l'application
-        if password_app == fournisseur.password_application: # Ajuste selon ton champ
-            # REDIRECTION OBLIGATOIRE VERS LA DEUXIÈME PAGE DE CONNEXION (Fournisseur)
-            return redirect('astra:connexion_fournisseur', fournisseur_id=fournisseur.id)
-        else:
-            messages.error(request, "Mot de passe de l'application incorrect.")
-            
-    return render(request, 'astra/verification_app.html', {'fournisseur': fournisseur})
-    
-def deconnexion_fournisseur(request, pk):
-    if 'fournisseur_connecte_id' in request.session:
-        del request.session['fournisseur_connecte_id']
-    messages.success(request, "Vous avez été déconnecté de votre espace.")
-    return redirect('astra:connexion_fournisseur', fournisseur_id=pk)
-
-def envoyer_email_fournisseur(request, fournisseur_id):
-    if request.method == 'POST':
-        fournisseur = get_object_or_404(Fournisseur, id=fournisseur_id)
-        
-        sujet_client = request.POST.get('sujet', 'Approvisionnement - Astra Tech')
-        message_client = request.POST.get('message', '')
-        
-        if not fournisseur.email:
-            return JsonResponse({'status': 'error', 'message': "Ce fournisseur ne possède pas d'adresse e-mail enregistrée."}, status=400)
-        
-        try:
-            sujet = f"📦 {sujet_client} - {fournisseur.nom}"
-            contenu_email = f"""
-Bonjour {fournisseur.nom},
-
-{message_client}
-
----
-Informations de suivi :
-- Fournisseur : {fournisseur.nom}
-- Téléphone : {fournisseur.telephone}
-- Date d'envoi : {timezone.now().strftime('%d/%m/%Y à %H:%M')}
-
-Cordialement,
-L'équipe Astra Tech
-            """
-            
-            expediteur = settings.DEFAULT_FROM_EMAIL
-            destinataires = [fournisseur.email, 'lynel9324@gmail.com']
-            
-            send_mail(sujet, contenu_email, expediteur, destinataires, fail_silently=False)
-            
-            NotificationPlateforme.objects.create(
-                titre=f"Approvisionnement : {fournisseur.nom}",
-                message=f"Un e-mail a été envoyé à {fournisseur.email}. Message : {message_client[:80]}..."
-            )
-
-            return JsonResponse({
-                'status': 'success', 
-                'message': f"E-mail envoyé avec succès à {fournisseur.nom} et alerte enregistrée sur la plateforme !"
-            })
-            
-        except Exception as e:
-            print("Erreur technique d'envoi d'e-mail :", e)
-            return JsonResponse({
-                'status': 'error', 
-                'message': f"Erreur technique lors de l'envoi : {str(e)}"
-            }, status=500)
-            
-    return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée.'}, status=400)
-
-def connexion_fournisseur(request, fournisseur_id):
-    fournisseur = get_object_or_404(Fournisseur, pk=fournisseur_id)
-    
-    if request.method == 'POST':
-        password = request.POST.get('password')
-        
-        if password == fournisseur.mot_de_passe: 
-            request.session['fournisseur_connecte_id'] = fournisseur.id
-            # Redirection directe vers son espace personnel
-            return redirect('astra:espace_fournisseur', pk=fournisseur.id)
-        else:
-            messages.error(request, "Mot de passe incorrect.")
-            
-    return redirect('astra:fournisseurs')
+# ============================================================ # CONNEXION FOURNISSEUR # ============================================================ def connexion_fournisseur(request, fournisseur_id): fournisseur = get_object_or_404( Fournisseur, pk=fournisseur_id, is_active=True ) if request.method == 'POST': password = request.POST.get('password', '').strip() if not password: messages.error( request, "Veuillez saisir votre mot de passe." ) elif password == fournisseur.mot_de_passe: # Enregistre le fournisseur connecté dans la session request.session['fournisseur_connecte_id'] = fournisseur.id # Redirection vers son espace personnel return redirect( 'astra:espace_fournisseur', pk=fournisseur.id ) else: messages.error( request, "Mot de passe incorrect." ) return render( request, 'astra/connexion_fournisseur.html', { 'fournisseur': fournisseur } ) # ============================================================ # VÉRIFICATION DU MOT DE PASSE DE L'APPLICATION # ============================================================ def verification_mot_de_passe_app(request, fournisseur_id): fournisseur = get_object_or_404( Fournisseur, pk=fournisseur_id, is_active=True ) if request.method == 'POST': password_app = request.POST.get( 'password_app', '' ).strip() if password_app == fournisseur.password_application: # Passage obligatoire à la deuxième connexion return redirect( 'astra:connexion_fournisseur', fournisseur_id=fournisseur.id ) messages.error( request, "Mot de passe de l'application incorrect." ) return render( request, 'astra/verification_app.html', { 'fournisseur': fournisseur } ) # ============================================================ # DÉCONNEXION FOURNISSEUR # ============================================================ def deconnexion_fournisseur(request, pk): # Suppression de la session fournisseur request.session.pop( 'fournisseur_connecte_id', None ) messages.success( request, "Vous avez été déconnecté de votre espace." ) # Retour vers la page de connexion du fournisseur return redirect( 'astra:connexion_fournisseur', fournisseur_id=pk ) # ============================================================ # ENVOYER UN EMAIL AU FOURNISSEUR # ============================================================ def envoyer_email_fournisseur(request, fournisseur_id): if request.method != 'POST': return JsonResponse( { 'status': 'error', 'message': 'Méthode non autorisée.' }, status=400 ) fournisseur = get_object_or_404( Fournisseur, id=fournisseur_id ) sujet_client = request.POST.get( 'sujet', 'Approvisionnement - Astra Tech' ).strip() message_client = request.POST.get( 'message', '' ).strip() # Vérification de l'adresse email if not fournisseur.email: return JsonResponse( { 'status': 'error', 'message': ( "Ce fournisseur ne possède pas " "d'adresse e-mail enregistrée." ) }, status=400 ) try: sujet = ( f"📦 {sujet_client} - " f"{fournisseur.nom}" ) contenu_email = f""" Bonjour {fournisseur.nom}, {message_client} --- Informations de suivi : - Fournisseur : {fournisseur.nom} - Téléphone : {fournisseur.telephone} - Date d'envoi : {timezone.now().strftime('%d/%m/%Y à %H:%M')} Cordialement, L'équipe Astra Tech """ expediteur = settings.DEFAULT_FROM_EMAIL destinataires = [ fournisseur.email, 'lynel9324@gmail.com' ] # Envoi de l'email send_mail( sujet, contenu_email, expediteur, destinataires, fail_silently=False ) # Création de la notification dans Astra Tech NotificationPlateforme.objects.create( titre=( f"Approvisionnement : " f"{fournisseur.nom}" ), message=( f"Un e-mail a été envoyé à " f"{fournisseur.email}. " f"Message : " f"{message_client[:80]}..." ) ) return JsonResponse( { 'status': 'success', 'message': ( f"E-mail envoyé avec succès à " f"{fournisseur.nom} et alerte " f"enregistrée sur la plateforme !" ) } ) except Exception as e: print( "Erreur technique d'envoi d'e-mail :", e ) return JsonResponse( { 'status': 'error', 'message': ( "Erreur technique lors de l'envoi : " f"{str(e)}" ) }, status=500 )
 # ==========================
 # GESTION DES APPROVISIONNEMENTS
 # ==========================

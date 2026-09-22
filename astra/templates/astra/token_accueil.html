@@ -4,753 +4,2468 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
     <title>ASTRA TECH - Gestion des Tokens</title>
 
-    <!-- ========================================================================= -->
-    <!-- SCRIPT CRUCIAL D'ACTIVATION INSTANTANÉE (Synchronisé avec les Paramètres) -->
-    <!-- ========================================================================= -->
+    <!-- =========================================================
+         DARK MODE PRELOAD
+    ========================================================== -->
     <script>
         if (localStorage.getItem('astra_dark_mode') === 'true') {
-            document.documentElement.classList.add('dark-mode-preload'); // Sécurité anti-flash
+            document.documentElement.classList.add('dark-mode-preload');
         }
     </script>
 
-    <!-- FontAwesome & EmailJS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- =========================================================
+         GOOGLE FONT
+    ========================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <style>
-        :root {
-            --tech-blue: #0078D7;
-            --tech-bleu-fonce: #004E8C;
-            --tech-sidebar-bg: #003366;
-            --tech-orange: #FF8C00;
-            --tech-orange-hover: #e67e00;
-            --tech-white: #FFFFFF;
-            --tech-gris-clair: #F4F6F9;
-            --tech-card-bg: #ffffff;
-            --tech-gris-fonce: #333333;
-            --frontiere-technologique: #E0E0E0;
-            --largeur-sidebar: 280px;
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-            --rayon-lg: 16px;
-            --rayon-md: 10px;
-        }
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
-        * {
+    <!-- =========================================================
+         FONT AWESOME
+    ========================================================== -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    >
+
+    <!-- =========================================================
+         CSS RESPONSIVE EXTERNE
+    ========================================================== -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/responsive.css' %}"
+    >
+
+    <!-- =========================================================
+         EMAILJS
+    ========================================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+
+   
+   <style>
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+    --tech-dark-blue: #004E8C;
+    --tech-sidebar-bg: #003366;
+    --tech-blue: #0078D7;
+    --tech-blue-light: #2196F3;
+
+    --tech-orange: #FF8C00;
+    --tech-orange-light: #FFA726;
+
+    --tech-white: #ffffff;
+
+    --bg-light: #f8fafc;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+
+    --border-light: #e2e8f0;
+
+    --success-bg: #dcfce7;
+    --success-text: #15803d;
+
+    --danger-bg: #fee2e2;
+    --danger-text: #b91c1c;
+
+    --warning-bg: #fef3c7;
+    --warning-text: #b45309;
+
+    --sidebar-width: 280px;
+
+    --radius: 14px;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+html.dark body {
+    background: #0f172a !important;
+    color: #f1f5f9 !important;
+}
+
+html.dark .card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+html.dark .card-header {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+html.dark .card-body {
+    color: #f1f5f9;
+}
+
+html.dark .form-control,
+html.dark .form-select {
+    background: #0f172a;
+    border-color: #475569;
+    color: #ffffff;
+}
+
+html.dark .form-control::placeholder {
+    color: #94a3b8;
+}
+
+html.dark .tokens-table {
+    color: #f1f5f9;
+}
+
+html.dark .tokens-table th {
+    background: #0f172a;
+}
+
+html.dark .tokens-table td,
+html.dark .tokens-table th {
+    border-color: #334155;
+}
+
+html.dark .page-subtitle {
+    color: #94a3b8;
+}
+
+html.dark .token-result {
+    background: rgba(34, 197, 94, 0.08);
+    border-color: rgba(34, 197, 94, 0.30);
+}
+
+
+/* =========================================================
+   HEADER MOBILE
+========================================================= */
+
+.mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    min-height: 64px;
+
+    padding: 10px 15px;
+
+    background: linear-gradient(
+        135deg,
+        var(--tech-dark-blue),
+        var(--tech-sidebar-bg)
+    );
+
+    color: white;
+
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+
+    position: relative;
+    z-index: 1000;
+}
+
+.mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 18px;
+    font-weight: 800;
+
+    letter-spacing: .5px;
+}
+
+.mobile-brand img {
+    width: 38px;
+    height: 38px;
+
+    object-fit: contain;
+}
+
+.brand-orange {
+    color: var(--tech-orange);
+}
+
+.mobile-menu-btn {
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid rgba(255,255,255,.20);
+    border-radius: 10px;
+
+    background: rgba(255,255,255,.08);
+    color: #ffffff;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+}
+
+.mobile-menu-btn:hover {
+    background: rgba(255,255,255,.16);
+}
+
+
+/* =========================================================
+   OVERLAY MOBILE
+========================================================= */
+
+.sidebar-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.55);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: .25s ease;
+
+    z-index: 1998;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+        .sidebar {
+            position: relative;
+
+            top: auto;
+            left: auto;
+            right: auto;
+            bottom: auto;
+
+            width: 100%;
+            max-width: 100%;
+
+            height: auto;
+            min-height: 0;
+
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-        }
 
-        body {
-            background-color: var(--tech-gris-clair);
-            color: var(--tech-gris-fonce);
-            display: flex;
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+            background: linear-gradient(
+                180deg,
+                var(--tech-dark-blue) 0%,
+                #003366 100%
+            );
 
-        /* --- BARRE LATÉRALE --- */
-        .sidebar {
-            width: var(--largeur-sidebar);
-            background: linear-gradient(180deg, var(--tech-bleu-fonce) 0%, #003366 100%);
             color: var(--tech-white);
+
             display: flex;
             flex-direction: column;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
+
+            overflow: hidden;
+
             z-index: 100;
-            box-shadow: 4px 0 25px rgba(0, 0, 0, 0.08);
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.08);
+
+            border-right: none;
         }
 
+
+        /* =====================================================
+           BRAND MOBILE
+           ===================================================== */
+
         .sidebar-brand {
-            padding: 30px 24px;
+            width: 100%;
+
+            min-height: 58px;
+
+            padding: 12px 14px;
+
             display: flex;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+            flex-shrink: 0;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar-logo {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
+
+            flex-shrink: 0;
+
             background: var(--tech-white);
-            border-radius: 8px;
+
+            border-radius: 7px;
+
             transform: rotate(45deg);
+
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+            margin-right: 13px;
+
+            box-shadow:
+                0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
         .sidebar-logo-inner {
-            width: 28px;
-            height: 28px;
-            border: 2px solid var(--tech-orange);
+            width: 24px;
+            height: 24px;
+
+            border:
+                2px solid var(--tech-orange);
+
             border-radius: 5px;
+
             transform: rotate(-45deg);
         }
 
         .sidebar-title {
             font-weight: bold;
-            font-size: 20px;
+            font-size: 18px;
+
             letter-spacing: 1px;
+
+            color: #ffffff !important;
+
+            white-space: nowrap;
         }
 
         .sidebar-title span {
             color: var(--tech-orange);
         }
 
-        .nav-menu {
-            list-style: none;
-            padding: 24px 16px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            overflow-y: auto;
-        }
+/* =========================================================
+   BOUTON FERMER
+========================================================= */
 
-        .nav-menu li a,
-        .nav-menu a.back-link {
-            display: flex;
-            align-items: center;
-            padding: 14px 18px;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            border-radius: var(--rayon-md);
-            transition: all 0.25s ease;
-        }
+.sidebar-close {
+    position: absolute;
 
-        .nav-menu li a i,
-        .nav-menu a.back-link i {
-            margin-right: 14px;
-            font-size: 16px;
-            width: 22px;
-            text-align: center;
-            transition: transform 0.25s;
-        }
+    top: 18px;
+    right: 15px;
 
-        .nav-menu li a:hover,
-        .nav-menu a.back-link:hover {
-            color: var(--tech-white);
-            background-color: rgba(255, 255, 255, 0.08);
-        }
+    width: 35px;
+    height: 35px;
 
-        .nav-menu li a:hover i,
-        .nav-menu a.back-link:hover i {
-            transform: translateX(3px);
-        }
+    border: 0;
+    border-radius: 8px;
 
-        .nav-menu li a.active {
-            color: var(--tech-white);
-            background-color: rgba(255, 255, 255, 0.12);
-            border-left: 4px solid var(--tech-orange);
-            font-weight: 600;
-        }
+    background: rgba(255,255,255,.08);
 
-        .nav-menu a.back-link {
-            margin-top: auto;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+    color: #ffffff;
 
-        .sidebar-footer {
-            padding: 20px 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    cursor: pointer;
 
-        .btn-logout {
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--tech-white);
-            border: none;
-            padding: 12px;
-            border-radius: var(--rayon-md);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .btn-logout:hover {
-            background-color: #ff4d4d;
-            box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
-        }
+.sidebar-close:hover {
+    background: rgba(255,255,255,.18);
+}
 
-        /* --- CONTENU PRINCIPAL --- */
-        .main-content {
-            margin-left: var(--largeur-sidebar);
-            flex: 1;
-            padding: 40px;
-            max-width: calc(100% - var(--largeur-sidebar));
-        }
 
-        .page-header {
-            margin-bottom: 35px;
-        }
+/* =========================================================
+   MENU
+========================================================= */
 
-        .page-title {
-            font-size: 26px;
-            color: var(--tech-bleu-fonce);
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            transition: color 0.3s ease;
-        }
+.sidebar-menu {
+    flex: 1;
 
-        .page-subtitle {
-            color: #666;
-            margin-top: 6px;
-            font-size: 15px;
-            transition: color 0.3s ease;
-        }
+    padding: 22px 14px;
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1.3fr;
-            gap: 30px;
-            align-items: start;
-        }
+    display: flex;
+    flex-direction: column;
 
-        @media (max-width: 1300px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-        }
+    gap: 6px;
+}
 
-        .card {
-            background: var(--tech-card-bg);
-            border-radius: var(--rayon-lg);
-            padding: 32px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--frontiere-technologique);
-            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
+.sidebar-menu-title {
+    padding: 0 12px 10px;
 
-        .card:hover {
-            box-shadow: var(--shadow-md);
-        }
+    font-size: 11px;
+    font-weight: 700;
 
-        .card-title {
-            font-size: 18px;
-            color: var(--tech-bleu-fonce);
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--tech-gris-clair);
-            transition: color 0.3s ease, border-color 0.3s ease;
-        }
+    text-transform: uppercase;
+    letter-spacing: 1px;
 
-        .form-group {
-            margin-bottom: 22px;
-        }
+    color: rgba(255,255,255,.55);
+}
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--tech-gris-fonce);
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: color 0.3s ease;
-        }
 
-        label i {
-            color: var(--tech-blue);
-            margin-right: 6px;
-        }
+/* =========================================================
+   LIENS SIDEBAR
+========================================================= */
 
-        input,
-        select {
-            width: 100%;
-            padding: 13px 16px;
-            border: 1px solid var(--frontiere-technologique);
-            border-radius: var(--rayon-md);
-            font-size: 15px;
-            outline: none;
-            transition: all 0.2s;
-            background-color: var(--tech-input-bg, #fafbfc);
-            color: var(--tech-gris-fonce);
-        }
+.sidebar-link {
+    width: 100%;
 
-        input:focus,
-        select:focus {
-            border-color: var(--tech-blue);
-            background-color: var(--tech-card-bg);
-            box-shadow: 0 0 0 4px rgba(0, 120, 215, 0.1);
-        }
+    min-height: 48px;
 
-        .btn {
-            padding: 14px 20px;
-            border-radius: var(--rayon-md);
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 15px;
-        }
+    padding: 12px 15px;
 
-        .btn-primary {
-            background-color: var(--tech-orange);
-            color: var(--tech-white);
-            width: 100%;
-            box-shadow: 0 4px 14px rgba(255, 140, 0, 0.3);
-        }
+    display: flex;
+    align-items: center;
 
-        .btn-primary:hover {
-            background-color: var(--tech-orange-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 18px rgba(255, 140, 0, 0.4);
-        }
+    gap: 12px;
 
-        .token-display {
-            background: var(--tech-token-bg, #f8f9fa);
-            border: 2px dashed var(--tech-blue);
-            border-radius: var(--rayon-md);
-            padding: 20px;
-            text-align: center;
-            margin-top: 24px;
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
+    border-radius: 10px;
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    color: rgba(255,255,255,.82);
 
-        .token-value {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 17px;
-            font-weight: bold;
-            color: var(--tech-bleu-fonce);
-            letter-spacing: 1px;
-            word-break: break-all;
-            margin: 6px 0;
-            padding: 6px;
-            background: var(--tech-card-bg);
-            border-radius: 6px;
-            border: 1px solid var(--frontiere-technologique);
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
+    text-decoration: none;
 
-        .status-message {
-            padding: 14px;
-            border-radius: var(--rayon-md);
-            margin-top: 20px;
-            display: none;
-            font-size: 14px;
-            font-weight: 500;
-        }
+    font-size: 14px;
+    font-weight: 500;
 
-        .status-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
+    transition:
+        background .20s ease,
+        color .20s ease,
+        transform .20s ease;
+}
 
-        .status-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+.sidebar-link i {
+    width: 21px;
 
-        /* --- TABLEAU CORRIGÉ ET OPTIMISÉ --- */
-        .table-responsive {
-            overflow-x: auto;
-            margin-top: 5px;
-            border-radius: var(--rayon-md);
-            border: 1px solid var(--frontiere-technologique);
-            background: var(--tech-card-bg);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
+    text-align: center;
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            table-layout: fixed;
-        }
+    font-size: 16px;
 
-        th:nth-child(1), td:nth-child(1) { width: 28%; }
-        th:nth-child(2), td:nth-child(2) { width: 28%; }
-        th:nth-child(3), td:nth-child(3) { width: 24%; }
-        th:nth-child(4), td:nth-child(4) { width: 20%; }
+    flex-shrink: 0;
+}
 
-        th,
-        td {
-            padding: 14px 12px;
-            border-bottom: 1px solid var(--frontiere-technologique);
-            font-size: 12px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            transition: border-color 0.3s ease, color 0.3s ease;
-        }
+.sidebar-link:hover {
+    background: rgba(255,255,255,.09);
+    color: #ffffff;
 
-        th {
-            background-color: var(--tech-gris-clair);
-            color: var(--tech-bleu-fonce);
-            font-weight: 700;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+    transform: translateX(2px);
+}
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+.sidebar-link.active {
+    background: rgba(255,255,255,.12);
 
-        tr:hover td {
-            background-color: var(--tech-row-hover, #fafbfc);
-        }
+    color: #ffffff;
 
-        .badge {
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 600;
-            display: inline-block;
-        }
+    border-left: 4px solid var(--tech-orange);
 
-        .badge-active {
-            background-color: #e3f2fd;
-            color: #0d47a1;
-        }
+    padding-left: 11px;
 
-        /* --- MODE SOMBRE (NIGHT MODE) SYNCHRONISÉ --- */
-        body.dark-mode {
-            --tech-gris-clair: #0b0f19;
-            --tech-card-bg: #0f172a;
-            --tech-gris-fonce: #f8fafc;
-            --frontiere-technologique: #1e293b;
-            --tech-bleu-fonce: #60a5fa;
-            --tech-input-bg: #1e293b;
-            --tech-token-bg: #1e293b;
-            --tech-row-hover: rgba(30, 41, 59, 0.4);
-        }
+    font-weight: 700;
+}
 
-        body.dark-mode .page-subtitle {
-            color: #94a3b8;
-        }
 
-        body.dark-mode .status-success {
-            background-color: rgba(22, 163, 74, 0.2);
-            color: #4ade80;
-            border-color: rgba(22, 163, 74, 0.3);
-        }
+/* =========================================================
+   FOOTER SIDEBAR
+========================================================= */
 
-        body.dark-mode .status-error {
-            background-color: rgba(220, 38, 38, 0.2);
-            color: #f87171;
-            border-color: rgba(220, 38, 38, 0.3);
-        }
+.sidebar-footer {
+    padding: 16px;
 
-        body.dark-mode .badge-active {
-            background-color: rgba(37, 99, 235, 0.2);
-            color: #60a5fa;
-        }
-    </style>
+    border-top: 1px solid rgba(255,255,255,.10);
+}
+
+.logout-link {
+    color: #ffb4b4;
+    background: rgba(255,77,77,.08);
+}
+
+.logout-link:hover {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   CONTENU PRINCIPAL
+========================================================= */
+
+.main-content {
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 25px 15px 40px;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   HEADER PAGE
+========================================================= */
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-title {
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    font-size: 1.55rem;
+    line-height: 1.3;
+
+    color: var(--text-dark);
+}
+
+.page-title i {
+    color: var(--tech-orange);
+
+    flex-shrink: 0;
+}
+
+.page-subtitle {
+    margin: 9px 0 0;
+
+    color: var(--text-muted);
+
+    font-size: .95rem;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card {
+    width: 100%;
+
+    margin-bottom: 25px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--border-light);
+
+    border-radius: var(--radius);
+
+    box-shadow:
+        0 8px 25px rgba(15,23,42,.06);
+
+    overflow: hidden;
+}
+
+.card-header {
+    min-height: 60px;
+
+    padding: 18px 20px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    border-bottom: 1px solid var(--border-light);
+
+    font-size: 16px;
+    font-weight: 700;
+
+    color: #1e293b;
+}
+
+.card-header i {
+    color: var(--tech-orange);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+
+/* =========================================================
+   FORMULAIRE
+========================================================= */
+
+.form-row {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+
+    margin-bottom: 18px;
+}
+
+.form-group {
+    width: 100%;
+
+    margin-bottom: 18px;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #334155;
+}
+
+.form-label i {
+    color: var(--tech-orange);
+}
+
+.form-control,
+.form-select {
+    width: 100%;
+
+    min-height: 46px;
+
+    padding: 11px 13px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #1e293b;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--tech-blue);
+
+    box-shadow:
+        0 0 0 3px rgba(0,120,215,.12);
+}
+
+
+/* =========================================================
+   BOUTON
+========================================================= */
+
+.btn {
+    min-height: 48px;
+
+    padding: 12px 20px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    font-family: inherit;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        opacity .2s ease;
+}
+
+.btn-primary {
+    width: 100%;
+
+    background: linear-gradient(
+        135deg,
+        var(--tech-blue),
+        var(--tech-dark-blue)
+    );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 5px 14px rgba(0,78,140,.20);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px rgba(0,78,140,.28);
+}
+
+.btn-primary:disabled {
+    opacity: .65;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   MESSAGE STATUS
+========================================================= */
+
+.status-message {
+    display: none;
+
+    margin-top: 15px;
+
+    padding: 13px 15px;
+
+    border-radius: 9px;
+
+    align-items: center;
+
+    gap: 9px;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.status-message.show {
+    display: flex;
+}
+
+.status-success {
+    background: var(--success-bg);
+    color: var(--success-text);
+}
+
+.status-warning {
+    background: var(--warning-bg);
+    color: var(--warning-text);
+}
+
+.status-error {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+}
+
+
+/* =========================================================
+   TOKEN RESULT
+========================================================= */
+
+.token-result {
+    display: none;
+
+    margin-top: 18px;
+
+    padding: 18px;
+
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+    border-radius: 10px;
+
+    text-align: center;
+}
+
+.token-result.show {
+    display: block;
+}
+
+.token-success-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-bottom: 12px;
+
+    color: #15803d;
+
+    font-weight: 700;
+}
+
+.token-value {
+    display: inline-block;
+
+    padding: 10px 16px;
+
+    background: #ffffff;
+
+    border: 1px dashed #22c55e;
+
+    border-radius: 8px;
+
+    font-family: monospace;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: #166534;
+
+    word-break: break-all;
+}
+
+
+/* =========================================================
+   TABLEAU
+========================================================= */
+
+.table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+.tokens-table {
+    width: 100%;
+
+    min-width: 850px;
+
+    border-collapse: collapse;
+
+    font-size: 13px;
+}
+
+.tokens-table th {
+    padding: 13px 14px;
+
+    background: #f1f5f9;
+
+    color: #334155;
+
+    text-align: left;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.tokens-table td {
+    padding: 13px 14px;
+
+    border-top: 1px solid #e2e8f0;
+
+    vertical-align: middle;
+
+    color: #475569;
+}
+
+.tokens-table tr:hover td {
+    background: #f8fafc;
+}
+
+.tokens-table code {
+    display: inline-block;
+
+    padding: 5px 8px;
+
+    border-radius: 6px;
+
+    background: #f1f5f9;
+
+    color: #334155;
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    word-break: break-all;
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.badge-admin {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.badge-vente {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.badge-client {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.badge-fournisseur {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+    padding: 45px 20px;
+
+    text-align: center;
+
+    color: #64748b;
+}
+
+.empty-state i {
+    margin-bottom: 12px;
+
+    font-size: 40px;
+
+    color: #94a3b8;
+}
+
+.empty-state p {
+    margin: 0;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast-message {
+    position: fixed;
+
+    left: 50%;
+    bottom: 25px;
+
+    transform: translate(-50%, 20px);
+
+    width: calc(100% - 30px);
+    max-width: 420px;
+
+    padding: 13px 17px;
+
+    border-radius: 10px;
+
+    background: #0f172a;
+
+    color: #ffffff;
+
+    text-align: center;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    opacity: 0;
+    visibility: hidden;
+
+    z-index: 3000;
+
+    transition: .25s ease;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.25);
+}
+
+.toast-message.show {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translate(-50%, 0);
+}
+
+
+/* =========================================================
+   TABLETTE
+========================================================= */
+
+@media (min-width: 576px) {
+
+    .main-content {
+        padding: 30px 22px 45px;
+    }
+
+    .page-title {
+        font-size: 1.75rem;
+    }
+
+    .card-body {
+        padding: 24px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .btn-primary {
+        width: auto;
+        min-width: 250px;
+    }
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 992px) {
+
+    body {
+        padding: 0;
+    }
+
+    .mobile-header {
+        display: none;
+    }
+
+    .sidebar {
+        left: 0;
+
+        width: var(--sidebar-width);
+
+        transition: none;
+    }
+
+    .sidebar-close {
+        display: none;
+    }
+
+    .sidebar-overlay {
+        display: none;
+    }
+
+    .main-content {
+        width: calc(100% - var(--sidebar-width));
+
+        margin-left: var(--sidebar-width);
+
+        padding: 40px !important;
+    }
+
+    .page-title {
+        font-size: 1.9rem;
+    }
+
+    .card {
+        border-radius: 16px;
+    }
+
+    .card-header {
+        padding: 20px 24px;
+    }
+
+    .card-body {
+        padding: 25px;
+    }
+
+    .btn-primary {
+        width: auto;
+    }
+}
+
+
+/* =========================================================
+   GRAND ÉCRAN
+========================================================= */
+
+@media (min-width: 1200px) {
+
+    .main-content {
+        padding: 40px 50px !important;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITÉ
+========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--tech-orange);
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   RÉDUCTION ANIMATIONS
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+</style>
 </head>
 
-<body>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-brand">
+<body>
+<header class="mobile-header">
+    
+
+    <button
+        type="button"
+        class="mobile-menu-btn"
+        id="mobileMenuBtn"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+    >
+        <i class="fa-solid fa-bars"></i>
+    </button>
+</header>
+
+
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+></div>
+
+
+<aside
+    class="sidebar"
+    id="sidebar"
+    aria-label="Navigation principale"
+>
+
+  <div class="sidebar-brand">
+
             <div class="sidebar-logo">
                 <div class="sidebar-logo-inner"></div>
             </div>
-            <div class="sidebar-title">ASTRA <span>TECH</span></div>
+
+            <div class="sidebar-title">
+                ASTRA <span>TECH</span>
+            </div>
+
         </div>
 
-        <ul class="nav-menu">
-            <li><a href="{% url 'astra:token_accueil' %}" class="active"><i class="fas fa-key"></i> Gestion des Tokens</a></li>
-            <li><a href="{% url 'astra:page_utilisateurs' %}"><i class="fas fa-users"></i> Utilisateurs</a></li>
-            <li><a href="{% url 'astra:permissions_page' %}"><i class="fas fa-shield-alt"></i> Permissions</a></li>
-            <li><a href="{% url 'astra:historiques_page' %}"><i class="fas fa-history"></i> Historique</a></li>
-            <li><a href="{% url 'astra:parametres_page' %}"><i class="fas fa-cog"></i> Paramètres</a></li>
 
-            <a href="#" onclick="history.back(); return false;" class="back-link">
-                <i class="fas fa-arrow-left text-white text-lg"></i>
-                <span>Retour</span>
-            </a>
-        </ul>
+    <button
+        type="button"
+        class="sidebar-close"
+        id="sidebarClose"
+        aria-label="Fermer le menu"
+    >
+        <i class="fa-solid fa-xmark"></i>
+    </button>
 
-        <div class="sidebar-footer">
-            <form action="{% url 'astra:login' %}" method="post" style="width: 100%;">
-                {% csrf_token %}
-                <button type="submit" class="btn-logout" id="sidebarLogin">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
-                </button>
-            </form>
-        </div>
-    </aside>
 
-    <!-- CONTENU PRINCIPAL -->
+    <nav class="sidebar-menu">
+
+        
+
+        <a
+            href="{% url 'astra:token_accueil' %}"
+            class="sidebar-link active"
+        >
+            <i class="fa-solid fa-key"></i>
+            <span>Gestion des Tokens</span>
+        </a>
+
+
+        <a
+            href="{% url 'astra:page_utilisateurs' %}"
+            class="sidebar-link"
+        >
+            <i class="fa-solid fa-users"></i>
+            <span>Utilisateurs</span>
+        </a>
+
+
+        <a
+            href="{% url 'astra:permissions_page' %}"
+            class="sidebar-link"
+        >
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Permissions</span>
+        </a>
+
+
+        <a
+            href="{% url 'astra:historiques_page' %}"
+            class="sidebar-link"
+        >
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Historique</span>
+        </a>
+
+
+        <a
+            href="{% url 'astra:parametres_page' %}"
+            class="sidebar-link"
+        >
+            <i class="fa-solid fa-gear"></i>
+            <span>Paramètres</span>
+        </a>
+
+
+        <a
+            href="#"
+            onclick="history.back(); return false;"
+            class="sidebar-link"
+        >
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Retour</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <a
+            href="{% url 'astra:login' %}"
+            class="sidebar-link logout-link"
+        >
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Déconnexion</span>
+        </a>
+
+    </div>
+
+</aside>
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
     <main class="main-content">
-        <div class="page-header">
-            <h1 class="page-title">Génération & Envoi de Tokens d'Accès</h1>
-            <p class="page-subtitle">Créez des jetons de sécurité sécurisés et transmettez-les directement par email aux utilisateurs.</p>
-        </div>
 
-        <div class="grid-container">
-            <!-- Formulaire de Génération -->
-            <div class="card">
-                <div class="card-title">
-                    <i class="fas fa-shield-alt" style="color: var(--tech-orange);"></i> Générer un Token d'Activation
-                </div>
 
-                <form id="tokenForm">
-                    <div class="form-group">
-                        <label for="recipientEmail"><i class="fas fa-envelope"></i> Email du destinataire</label>
-                        <select id="recipientEmail" required>
-                            <option value="" disabled selected>Sélectionner un utilisateur enregistré</option>
-                            {% for u in registered_users %}
-                                <option value="{{ u.email }}">{{ u.prenom }} {{ u.nom }} ({{ u.email }})</option>
-                            {% empty %}
-                                <option value="" disabled>Aucun utilisateur trouvé</option>
-                            {% endfor %}
-                        </select>
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <section class="page-header">
+
+            <h1 class="page-title">
+
+                <i
+                    class="fa-solid fa-key"
+                    aria-hidden="true"
+                ></i>
+
+                <span>
+                    Génération &amp; Envoi de Tokens d'Accès
+                </span>
+
+            </h1>
+
+
+            <p class="page-subtitle">
+
+                Créez un token sécurisé et envoyez-le à
+                l'utilisateur correspondant à son rôle.
+
+            </p>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             FORMULAIRE
+        ====================================================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <i
+                    class="fa-solid fa-paper-plane"
+                    aria-hidden="true"
+                ></i>
+
+                <span>
+                    Générer un nouveau token
+                </span>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <form
+                    id="tokenForm"
+                    method="POST"
+                    autocomplete="off"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- LIGNE FORMULAIRE -->
+
+                    <div class="form-row">
+
+
+                        <!-- EMAIL -->
+
+                        <div class="form-group">
+
+                            <label
+                                for="email"
+                                class="form-label"
+                            >
+
+                                <i
+                                    class="fa-solid fa-envelope"
+                                    aria-hidden="true"
+                                ></i>
+
+                                <span>
+                                    Adresse e-mail
+                                </span>
+
+                            </label>
+
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="exemple@email.com"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- ROLE -->
+
+                        <div class="form-group">
+
+                            <label
+                                for="role"
+                                class="form-label"
+                            >
+
+                                <i
+                                    class="fa-solid fa-user-tag"
+                                    aria-hidden="true"
+                                ></i>
+
+                                <span>
+                                    Rôle utilisateur
+                                </span>
+
+                            </label>
+
+
+                            <select
+                                id="role"
+                                name="role"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Sélectionner un rôle
+                                </option>
+
+                                <option value="vente">
+                                    Vente
+                                </option>
+
+                                <option value="client">
+                                    Client
+                                </option>
+
+                                <option value="fournisseur">
+                                    Fournisseur
+                                </option>
+
+                                <option value="approvisionnement">
+                                    Approvisionnement
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
                     </div>
 
-                    <div class="form-group">
-                        <label for="userRole"><i class="fas fa-user-tag"></i> Statut / Rôle attribué</label>
-                        <select id="userRole">
-                            <option value="client">Client (Espace Client + Espace Caissier/Cahier)</option>
-                            <option value="fournisseur">Fournisseur (Espace Fournisseur)</option>
-                            <option value="admin">Administrateur</option>
-                            <option value="caissier">Caissier / Vendeur</option>
-                            <option value="gestionnaire_stock">Gestionnaire de Stock</option>
-                        </select>
-                    </div>
+
+
+                    <!-- VALIDITÉ -->
 
                     <div class="form-group">
-                        <label for="validity"><i class="fas fa-clock"></i> Durée de validité</label>
-                        <select id="validity">
-                            <option value="24">24 Heures</option>
-                            <option value="168">7 Jours</option>
-                            <option value="720">30 Jours</option>
+
+                        <label
+                            for="validity"
+                            class="form-label"
+                        >
+
+                            <i
+                                class="fa-solid fa-clock"
+                                aria-hidden="true"
+                            ></i>
+
+                            <span>
+                                Durée de validité
+                            </span>
+
+                        </label>
+
+
+                        <select
+                            id="validity"
+                            name="validity"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="30">
+                                30 minutes
+                            </option>
+
+                            <option value="60">
+                                1 heure
+                            </option>
+
+                            <option value="120">
+                                2 heures
+                            </option>
+
+                            <option value="1440">
+                                24 heures
+                            </option>
+
                         </select>
+
                     </div>
 
-                    <button type="submit" class="btn btn-primary" id="btnGenerate">
-                        <i class="fas fa-paper-plane"></i> Activer le Statut et Générer les Mots de Passe
+
+
+                    <!-- BOUTON -->
+
+                    <button
+                        type="submit"
+                        id="generateBtn"
+                        class="btn btn-primary"
+                    >
+
+                        <i
+                            class="fa-solid fa-paper-plane"
+                            aria-hidden="true"
+                        ></i>
+
+                        <span>
+                            Générer et envoyer le token
+                        </span>
+
                     </button>
+
+
+                    <!-- STATUS -->
+
+                    <div
+                        id="statusMessage"
+                        class="status-message"
+                    ></div>
+
+
+
+                    <!-- TOKEN -->
+
+                    <div
+                        id="tokenResult"
+                        class="token-result"
+                    >
+
+                        <div class="token-success-title">
+
+                            <i
+                                class="fa-solid fa-circle-check"
+                                aria-hidden="true"
+                            ></i>
+
+                            <span>
+                                Token généré avec succès
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            id="tokenValue"
+                            class="token-value"
+                        >
+                            --------
+                        </div>
+
+                    </div>
+
                 </form>
 
-                <div class="status-message" id="statusMessage"></div>
+            </div>
 
-                <div class="token-display" id="tokenDisplay">
-                    <div style="font-size: 13px;" class="page-subtitle">Mot de passe de Connexion (App) :</div>
-                    <div class="token-value" id="generatedTokenVal">ASTRA-XXXX-XXXX</div>
-                    
-                    <div id="clientTokensExtra" style="display: none; margin-top: 10px;">
-                        <div style="font-size: 13px;" class="page-subtitle">Mot de passe Secondaire (Espace Caissier/Cahier) :</div>
-                        <div class="token-value" id="generatedSecondaryTokenVal">CAHIER-YYYY-YYYY</div>
+        </section>
+
+
+
+        <!-- =====================================================
+             HISTORIQUE DES TOKENS
+        ====================================================== -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <i
+                    class="fa-solid fa-clock-rotate-left"
+                    aria-hidden="true"
+                ></i>
+
+                <span>
+                    Historique des tokens
+                </span>
+
+            </div>
+
+
+            <div class="card-body">
+
+                {% if tokens %}
+
+                    <div class="table-wrapper">
+
+                        <table class="tokens-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        E-mail
+                                    </th>
+
+                                    <th>
+                                        Rôle
+                                    </th>
+
+                                    <th>
+                                        Token
+                                    </th>
+
+                                    <th>
+                                        Création
+                                    </th>
+
+                                    <th>
+                                        Expiration
+                                    </th>
+
+                                    <th>
+                                        Statut
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for token in tokens %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ token.email }}
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if token.role == "admin" %}
+
+                                            <span class="badge badge-admin">
+                                                <i class="fa-solid fa-shield"></i>
+                                                Admin
+                                            </span>
+
+                                        {% elif token.role == "vente" %}
+
+                                            <span class="badge badge-vente">
+                                                <i class="fa-solid fa-cart-shopping"></i>
+                                                Vente
+                                            </span>
+
+                                        {% elif token.role == "client" %}
+
+                                            <span class="badge badge-client">
+                                                <i class="fa-solid fa-user"></i>
+                                                Client
+                                            </span>
+
+                                        {% elif token.role == "fournisseur" %}
+
+                                            <span class="badge badge-fournisseur">
+                                                <i class="fa-solid fa-truck"></i>
+                                                Fournisseur
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge">
+                                                {{ token.role }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <code>
+                                            {{ token.token }}
+                                        </code>
+
+                                    </td>
+
+
+                                    <td>
+                                        {{ token.created_at|date:"d/m/Y H:i" }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ token.expires_at|date:"d/m/Y H:i" }}
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if token.is_valid %}
+
+                                            <span
+                                                class="badge"
+                                                style="
+                                                    background:#dcfce7;
+                                                    color:#15803d;
+                                                "
+                                            >
+
+                                                <i
+                                                    class="fa-solid fa-circle-check"
+                                                ></i>
+
+                                                Valide
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span
+                                                class="badge"
+                                                style="
+                                                    background:#fee2e2;
+                                                    color:#b91c1c;
+                                                "
+                                            >
+
+                                                <i
+                                                    class="fa-solid fa-circle-xmark"
+                                                ></i>
+
+                                                Expiré
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
                     </div>
 
-                    <p style="font-size: 12px; color: #888; margin-top: 8px;">Les informations d'accès ont été générées et transmises.</p>
-                </div>
+
+                {% else %}
+
+
+                    <div class="empty-state">
+
+                        <i
+                            class="fa-regular fa-folder-open"
+                            aria-hidden="true"
+                        ></i>
+
+                        <p>
+                            Aucun token n'a encore été généré.
+                        </p>
+
+                    </div>
+
+
+                {% endif %}
+
             </div>
 
-            <!-- Historique des Tokens émis -->
-            <div class="card">
-                <div class="card-title">
-                    <i class="fas fa-history" style="color: var(--tech-blue);"></i> Tokens émis récemment
-                </div>
+        </section>
 
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Destinataire</th>
-                                <th>Mdp App</th>
-                                <th>Mdp Cahier / Rôle</th>
-                                <th style="text-align: center;">État</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tokenTableBody">
-                            {% if tokens %}
-                                {% for t in tokens %}
-                                <tr>
-                                    <td title="{{ t.email }}">{{ t.email }}</td>
-                                    <td title="{{ t.token }}"><strong style="font-family: 'Courier New', monospace; color: var(--tech-bleu-fonce);">{{ t.token }}</strong></td>
-                                    <td title="{{ t.secondary_token|default:t.role }}">
-                                        {% if t.secondary_token %}
-                                            <strong style="font-family: 'Courier New', monospace; color: var(--tech-orange);">{{ t.secondary_token }}</strong>
-                                        {% else %}
-                                            {{ t.role }}
-                                        {% endif %}
-                                    </td>
-                                    <td style="text-align: center;"><span class="badge badge-active">Actif</span></td>
-                                </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr id="emptyRow">
-                                    <td colspan="4" style="text-align: center; color: #888; padding: 25px;">Aucun token émis pour le moment.</td>
-                                </tr>
-                            {% endif %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+
     </main>
 
-   <script>
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
+
+
+    <!-- =========================================================
+         TOAST
+    ========================================================== -->
+
+    <div
+        id="toastMessage"
+        class="toast-message"
+        role="alert"
+        aria-live="polite"
+    ></div>
+
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function () {
+
+
+                /* =================================================
+                   ÉLÉMENTS
+                ================================================== */
+
+                const mobileMenuBtn =
+                    document.getElementById(
+                        'mobileMenuBtn'
+                    );
+
+                const sidebar =
+                    document.getElementById(
+                        'sidebar'
+                    );
+
+                const sidebarOverlay =
+                    document.getElementById(
+                        'sidebarOverlay'
+                    );
+
+                const sidebarClose =
+                    document.getElementById(
+                        'sidebarClose'
+                    );
+
+
+                const tokenForm =
+                    document.getElementById(
+                        'tokenForm'
+                    );
+
+                const generateBtn =
+                    document.getElementById(
+                        'generateBtn'
+                    );
+
+                const statusMessage =
+                    document.getElementById(
+                        'statusMessage'
+                    );
+
+                const tokenResult =
+                    document.getElementById(
+                        'tokenResult'
+                    );
+
+                const tokenValue =
+                    document.getElementById(
+                        'tokenValue'
+                    );
+
+
+                /* =================================================
+                   MENU MOBILE
+                ================================================== */
+
+                function openSidebar() {
+
+                    if (!sidebar) {
+                        return;
                     }
-                }
-            }
-            return cookieValue;
-        }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // --- SYNCHRONISATION AUTOMATIQUE DU MODE SOMBRE ---
-            if (localStorage.getItem('astra_dark_mode') === 'true') {
-                document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
-            }
+                    sidebar.classList.add('active');
 
-            // --- LOGIQUE DES TOKENS ---
-            const tokenForm = document.getElementById('tokenForm');
-            const statusMessage = document.getElementById('statusMessage');
-            const tokenDisplay = document.getElementById('tokenDisplay');
-            const generatedTokenVal = document.getElementById('generatedTokenVal');
-            const generatedSecondaryTokenVal = document.getElementById('generatedSecondaryTokenVal');
-            const clientTokensExtra = document.getElementById('clientTokensExtra');
-            const tokenTableBody = document.getElementById('tokenTableBody');
-
-            function handleSuccess(email, token, secondaryToken, role) {
-                statusMessage.className = "status-message status-success";
-                
-                // Adaptation du message selon le rôle (Client ou Fournisseur)
-                if (role === 'client' || role === 'fournisseur') {
-                    statusMessage.textContent = `Accès [${role.toUpperCase()}] activé : Mot de passe application et mot de passe d'espace dédié générés et envoyés à ${email} !`;
-                    generatedSecondaryTokenVal.textContent = secondaryToken;
-                    clientTokensExtra.style.display = "block";
-                } else {
-                    statusMessage.textContent = `Le statut [${role.toUpperCase()}] a été activé et le mot de passe a été envoyé à ${email} !`;
-                    clientTokensExtra.style.display = "none";
-                }
-                statusMessage.style.display = "block";
-
-                generatedTokenVal.textContent = token;
-                tokenDisplay.style.display = "block";
-
-                addTokenToHistory(email, token, secondaryToken, role);
-                tokenForm.reset();
-            }
-
-            function addTokenToHistory(email, token, secondaryToken, role) {
-                const emptyRow = document.getElementById('emptyRow');
-                if (emptyRow) {
-                    emptyRow.remove();
-                }
-
-                // Si un mot de passe secondaire existe (client/fournisseur), on l'affiche proprement en orange, sinon on affiche le rôle
-                let displaySec = (secondaryToken && secondaryToken !== 'N/A') ? secondaryToken : role.toUpperCase();
-                const secondaryDisplay = `<strong style="font-family: 'Courier New', monospace; color: var(--tech-orange);">${displaySec}</strong>`;
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td title="${email}">${email}</td>
-                    <td title="${token}"><strong style="font-family: 'Courier New', monospace; color: var(--tech-bleu-fonce);">${token}</strong></td>
-                    <td title="${displaySec}">${secondaryDisplay}</td>
-                    <td style="text-align: center;"><span class="badge badge-active">Actif</span></td>
-                `;
-                tokenTableBody.prepend(tr);
-            }
-
-            tokenForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                statusMessage.style.display = 'none';
-                tokenDisplay.style.display = 'none';
-
-                const email = document.getElementById('recipientEmail').value;
-                const role = document.getElementById('userRole').value;
-                const validity = document.getElementById('validity').value;
-
-                const btn = document.getElementById('btnGenerate');
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Génération et envoi en cours...';
-
-                fetch("{% url 'astra:generer_token_api' %}", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken')
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        role: role,
-                        validite: validity
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Activer le Statut et Générer les Mots de Passe';
-
-                    if (data.status === 'success') {
-                        // On passe bien le secondary_token renvoyé par le backend
-                        handleSuccess(email, data.token, data.secondary_token, role);
-                    } else {
-                        statusMessage.className = "status-message status-error";
-                        statusMessage.textContent = "Erreur : " + (data.message || "Une erreur est survenue.");
-                        statusMessage.style.display = "block";
+                    if (sidebarOverlay) {
+                        sidebarOverlay.classList.add('active');
                     }
-                })
-                .catch(error => {
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Activer le Statut et Générer les Mots de Passe';
-                    statusMessage.className = "status-message status-error";
-                    statusMessage.textContent = "Une erreur est survenue lors de la communication avec le serveur.";
-                    statusMessage.style.display = "block";
-                });
-            });
-        });
+
+                    if (mobileMenuBtn) {
+                        mobileMenuBtn.setAttribute(
+                            'aria-expanded',
+                            'true'
+                        );
+                    }
+
+                    document.body.style.overflow =
+                        'hidden';
+                }
+
+
+                function closeSidebar() {
+
+                    if (sidebar) {
+                        sidebar.classList.remove('active');
+                    }
+
+                    if (sidebarOverlay) {
+                        sidebarOverlay.classList.remove('active');
+                    }
+
+                    if (mobileMenuBtn) {
+                        mobileMenuBtn.setAttribute(
+                            'aria-expanded',
+                            'false'
+                        );
+                    }
+
+                    document.body.style.overflow =
+                        '';
+                }
+
+
+                if (mobileMenuBtn) {
+
+                    mobileMenuBtn.addEventListener(
+                        'click',
+                        openSidebar
+                    );
+
+                }
+
+
+                if (sidebarClose) {
+
+                    sidebarClose.addEventListener(
+                        'click',
+                        closeSidebar
+                    );
+
+                }
+
+
+                if (sidebarOverlay) {
+
+                    sidebarOverlay.addEventListener(
+                        'click',
+                        closeSidebar
+                    );
+
+                }
+
+
+                /* =================================================
+                   FERMER LE MENU APRÈS UN CLIC
+                ================================================== */
+
+                document
+                    .querySelectorAll('.sidebar-link')
+                    .forEach(function (link) {
+
+                        link.addEventListener(
+                            'click',
+                            function () {
+
+                                if (
+                                    window.innerWidth < 992
+                                ) {
+
+                                    closeSidebar();
+
+                                }
+
+                            }
+                        );
+
+                    });
+
+
+                /* =================================================
+                   ESCAPE
+                ================================================== */
+
+                document.addEventListener(
+                    'keydown',
+                    function (event) {
+
+                        if (
+                            event.key === 'Escape'
+                        ) {
+
+                            closeSidebar();
+
+                        }
+
+                    }
+                );
+
+
+                /* =================================================
+                   REDIMENSIONNEMENT
+                ================================================== */
+
+                window.addEventListener(
+                    'resize',
+                    function () {
+
+                        if (
+                            window.innerWidth >= 992
+                        ) {
+
+                            closeSidebar();
+
+                        }
+
+                    }
+                );
+
+
+                /* =================================================
+                   AFFICHER MESSAGE
+                ================================================== */
+
+                function showStatus(
+                    message,
+                    type
+                ) {
+
+                    statusMessage.innerHTML = '';
+
+
+                    const icon =
+                        document.createElement(
+                            'i'
+                        );
+
+
+                    if (type === 'success') {
+
+                        icon.className =
+                            'fa-solid fa-circle-check';
+
+                        statusMessage.className =
+                            'status-message show status-success';
+
+                    }
+
+                    else if (type === 'warning') {
+
+                        icon.className =
+                            'fa-solid fa-triangle-exclamation';
+
+                        statusMessage.className =
+                            'status-message show status-warning';
+
+                    }
+
+                    else {
+
+                        icon.className =
+                            'fa-solid fa-circle-exclamation';
+
+                        statusMessage.className =
+                            'status-message show status-error';
+
+                    }
+
+
+                    const span =
+                        document.createElement(
+                            'span'
+                        );
+
+
+                    span.textContent =
+                        message;
+
+
+                    statusMessage.appendChild(
+                        icon
+                    );
+
+                    statusMessage.appendChild(
+                        span
+                    );
+
+                }
+
+
+                /* =================================================
+                   TOAST
+                ================================================== */
+
+                function showToast(message) {
+
+                    const toast =
+                        document.getElementById(
+                            'toastMessage'
+                        );
+
+
+                    if (!toast) {
+                        return;
+                    }
+
+
+                    toast.textContent =
+                        message;
+
+
+                    toast.classList.add(
+                        'show'
+                    );
+
+
+                    setTimeout(
+                        function () {
+
+                            toast.classList.remove(
+                                'show'
+                            );
+
+                        },
+                        3500
+                    );
+
+                }
+
+
+                /* =================================================
+                   RESET STATUS
+                ================================================== */
+
+                function resetMessages() {
+
+                    statusMessage.className =
+                        'status-message';
+
+                    statusMessage.innerHTML =
+                        '';
+
+                    tokenResult.classList.remove(
+                        'show'
+                    );
+
+                }
+
+
+                /* =================================================
+                   FORMULAIRE TOKEN
+                ================================================== */
+
+                if (tokenForm) {
+
+                    tokenForm.addEventListener(
+                        'submit',
+                        async function (event) {
+
+                            event.preventDefault();
+
+
+                            resetMessages();
+
+
+                            const email =
+                                document
+                                    .getElementById(
+                                        'email'
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            const role =
+                                document
+                                    .getElementById(
+                                        'role'
+                                    )
+                                    .value;
+
+
+                            const validity =
+                                document
+                                    .getElementById(
+                                        'validity'
+                                    )
+                                    .value;
+
+
+                            if (
+                                !email ||
+                                !role ||
+                                !validity
+                            ) {
+
+                                showStatus(
+                                    'Veuillez remplir tous les champs.',
+                                    'warning'
+                                );
+
+                                return;
+
+                            }
+
+
+                            /* =====================================
+                               ÉTAT CHARGEMENT
+                            ====================================== */
+
+                            generateBtn.disabled =
+                                true;
+
+
+                            generateBtn.innerHTML = `
+
+                                <i
+                                    class="fa-solid fa-spinner fa-spin"
+                                    aria-hidden="true"
+                                ></i>
+
+                                <span>
+                                    Génération en cours...
+                                </span>
+
+                            `;
+
+
+                            try {
+
+                                /* =================================
+                                   URL DJANGO
+                                ================================== */
+
+                                const apiUrl =
+                                    "{% url 'astra:generer_token_api' %}";
+
+
+                                /* =================================
+                                   CSRF
+                                ================================== */
+
+                                const csrfToken =
+                                    document
+                                        .querySelector(
+                                            '[name=csrfmiddlewaretoken]'
+                                        )
+                                        .value;
+
+
+                                /* =================================
+                                   REQUÊTE
+                                ================================== */
+
+                                const response =
+                                    await fetch(
+                                        apiUrl,
+                                        {
+
+                                            method: 'POST',
+
+                                            headers: {
+
+                                                'Content-Type':
+                                                    'application/json',
+
+                                                'X-CSRFToken':
+                                                    csrfToken,
+
+                                                'X-Requested-With':
+                                                    'XMLHttpRequest'
+
+                                            },
+
+                                            body:
+                                                JSON.stringify({
+
+                                                    email:
+                                                        email,
+
+                                                    role:
+                                                        role,
+
+                                                    validity:
+                                                        validity
+
+                                                })
+
+                                        }
+                                    );
+
+
+                                /* =================================
+                                   RÉPONSE
+                                ================================== */
+
+                                const data =
+                                    await response.json();
+
+
+                                if (
+                                    !response.ok ||
+                                    !data.success
+                                ) {
+
+                                    throw new Error(
+                                        data.message ||
+                                        'Une erreur est survenue lors de la génération du token.'
+                                    );
+
+                                }
+
+
+                                /* =================================
+                                   TOKEN
+                                ================================== */
+
+                                tokenValue.textContent =
+                                    data.token;
+
+
+                                tokenResult.classList.add(
+                                    'show'
+                                );
+
+
+                                showStatus(
+                                    data.message ||
+                                    'Le token a été généré et envoyé avec succès.',
+                                    'success'
+                                );
+
+
+                                showToast(
+                                    'Token généré avec succès.'
+                                );
+
+
+                                /* =================================
+                                   RESET FORM
+                                ================================== */
+
+                                document
+                                    .getElementById(
+                                        'email'
+                                    )
+                                    .value = '';
+
+
+                                document
+                                    .getElementById(
+                                        'role'
+                                    )
+                                    .value = '';
+
+
+                                document
+                                    .getElementById(
+                                        'validity'
+                                    )
+                                    .value = '30';
+
+                            }
+
+
+                            catch (error) {
+
+                                console.error(
+                                    'Erreur token :',
+                                    error
+                                );
+
+
+                                showStatus(
+                                    error.message ||
+                                    'Impossible de générer le token.',
+                                    'error'
+                                );
+
+                            }
+
+
+                            finally {
+
+                                /* =============================
+                                   RESTAURER BOUTON
+                                ============================== */
+
+                                generateBtn.disabled =
+                                    false;
+
+
+                                generateBtn.innerHTML = `
+
+                                    <i
+                                        class="fa-solid fa-paper-plane"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                    <span>
+                                        Générer et envoyer le token
+                                    </span>
+
+                                `;
+
+                            }
+
+                        }
+                    );
+
+                }
+
+
+                /* =================================================
+                   VÉRIFICATION FONT AWESOME
+                ================================================== */
+
+                const testIcon =
+                    document.querySelector(
+                        '.fa-solid'
+                    );
+
+
+                if (testIcon) {
+
+                    const iconStyle =
+                        window.getComputedStyle(
+                            testIcon
+                        );
+
+
+                    console.log(
+                        'ASTRA TECH - Font Awesome'
+                    );
+
+
+                    console.log(
+                        'Font utilisée :',
+                        iconStyle.fontFamily
+                    );
+
+
+                    console.log(
+                        'Font weight :',
+                        iconStyle.fontWeight
+                    );
+
+                }
+
+
+            }
+        );
+
     </script>
+
+
 </body>
 </html>

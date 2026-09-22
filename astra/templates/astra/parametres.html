@@ -1,16 +1,23 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
     <title>ASTRA TECH - Paramètres & Administration Globale</title>
-    
-    <!-- Script d’initialisation immédiate du mode nuit global -->
+
+    <!-- =====================================================
+         INITIALISATION DU MODE NUIT
+         ===================================================== -->
     <script>
-        (function() {
+        (function () {
             const savedDarkMode = localStorage.getItem('astra_dark_mode');
+
             if (savedDarkMode === 'true') {
                 document.documentElement.classList.add('dark');
             } else {
@@ -19,16 +26,27 @@
         })();
     </script>
 
-    <!-- CSS Tailwind & FontAwesome -->
+    <!-- TAILWIND -->
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
         }
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
+    <!-- FONT AWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
     <style>
+
+        /* =====================================================
+           VARIABLES
+           ===================================================== */
+
         :root {
             --tech-blue: #0078D7;
             --tech-dark-blue: #004E8C;
@@ -40,650 +58,2364 @@
             --tech-card-bg: #ffffff;
             --tech-dark-gray: #333333;
             --tech-border: #E0E0E0;
+
             --sidebar-width: 280px;
+
             --radius-lg: 16px;
             --radius-md: 10px;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--tech-light-gray);
-            color: var(--tech-dark-gray);
-            display: flex;
-            min-height: 100vh;
-            overflow-x: hidden;
-            gap: 0;
-            transition: background-color 0.3s ease, color 0.3s ease;
+
+        /* =====================================================
+           RESET — MOBILE FIRST
+           ===================================================== */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
         }
 
-        /* --- MODE NUIT GLOBAL --- */
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+
+            background-color: var(--tech-light-gray);
+            color: var(--tech-dark-gray);
+
+            min-height: 100vh;
+
+            display: block;
+
+            gap: 0;
+
+            transition:
+                background-color 0.3s ease,
+                color 0.3s ease;
+        }
+
+
+        /* =====================================================
+           DARK MODE
+           ===================================================== */
+
         html.dark body {
             background-color: #0f172a !important;
             color: #f1f5f9 !important;
         }
+
         html.dark .card {
             background-color: #1e293b !important;
             border-color: #334155 !important;
             color: #f1f5f9 !important;
         }
-        html.dark h1, html.dark h2, html.dark h3, html.dark label, html.dark span, html.dark div {
+
+        html.dark h1,
+        html.dark h2,
+        html.dark h3,
+        html.dark label,
+        html.dark span,
+        html.dark div {
             color: inherit;
         }
-        html.dark input, html.dark select {
+
+        html.dark input,
+        html.dark select {
             background-color: #0f172a !important;
             border-color: #334155 !important;
             color: #ffffff !important;
         }
+
         html.dark .role-card {
             background-color: #1e293b;
             border-color: #334155;
         }
+
         html.dark .role-card.border-orange-500 {
             border-color: #f97316 !important;
             background-color: rgba(249, 115, 22, 0.1) !important;
         }
 
-        /* --- SIDEBAR --- */
+
+        /* =====================================================
+           SIDEBAR — MOBILE
+           ===================================================== */
+
         .sidebar {
-            width: var(--sidebar-width);
-            background: linear-gradient(180deg, var(--tech-dark-blue) 0%, #003366 100%);
+            position: relative;
+
+            top: auto;
+            left: auto;
+            right: auto;
+            bottom: auto;
+
+            width: 100%;
+            max-width: 100%;
+
+            height: auto;
+            min-height: 0;
+
+            margin: 0;
+            padding: 0;
+
+            background: linear-gradient(
+                180deg,
+                var(--tech-dark-blue) 0%,
+                #003366 100%
+            );
+
             color: var(--tech-white);
+
             display: flex;
             flex-direction: column;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
+
+            overflow: hidden;
+
             z-index: 100;
-            box-shadow: 4px 0 25px rgba(0, 0, 0, 0.08);
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.08);
+
+            border-right: none;
         }
 
+
+        /* =====================================================
+           BRAND MOBILE
+           ===================================================== */
+
         .sidebar-brand {
-            padding: 30px 24px;
+            width: 100%;
+
+            min-height: 58px;
+
+            padding: 12px 14px;
+
             display: flex;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+            flex-shrink: 0;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar-logo {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
+
+            flex-shrink: 0;
+
             background: var(--tech-white);
-            border-radius: 8px;
+
+            border-radius: 7px;
+
             transform: rotate(45deg);
+
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+            margin-right: 13px;
+
+            box-shadow:
+                0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
         .sidebar-logo-inner {
-            width: 28px;
-            height: 28px;
-            border: 2px solid var(--tech-orange);
+            width: 24px;
+            height: 24px;
+
+            border:
+                2px solid var(--tech-orange);
+
             border-radius: 5px;
+
             transform: rotate(-45deg);
         }
 
         .sidebar-title {
             font-weight: bold;
-            font-size: 20px;
+            font-size: 18px;
+
             letter-spacing: 1px;
+
             color: #ffffff !important;
+
+            white-space: nowrap;
         }
 
         .sidebar-title span {
             color: var(--tech-orange);
         }
 
+
+        /* =====================================================
+           MENU MOBILE
+           ===================================================== */
+
         .nav-menu {
+            width: 100%;
+
+            height: auto;
+            min-height: 54px;
+
             list-style: none;
-            padding: 24px 16px;
+
+            padding: 7px 10px;
             margin: 0;
-            flex: 1;
+
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            align-items: center;
+
             gap: 6px;
-            overflow-y: auto;
+
+            flex: none;
+
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            scrollbar-width: none;
+        }
+
+        .nav-menu::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-menu li {
+            flex: 0 0 auto;
         }
 
         .nav-menu li a,
         .nav-menu a.back-link {
+            min-height: 40px;
+
             display: flex;
             align-items: center;
-            padding: 14px 18px;
-            color: rgba(255, 255, 255, 0.8);
+
+            padding: 10px 13px;
+
+            color:
+                rgba(255, 255, 255, 0.8);
+
             text-decoration: none;
+
             font-weight: 500;
-            font-size: 14px;
+
+            font-size: 12px;
+
             border-radius: var(--radius-md);
-            transition: all 0.25s ease;
+
+            white-space: nowrap;
+
+            transition:
+                background-color 0.25s ease,
+                color 0.25s ease;
         }
 
         .nav-menu li a i,
         .nav-menu a.back-link i {
-            margin-right: 14px;
-            font-size: 16px;
-            width: 22px;
+            margin-right: 7px;
+
+            font-size: 14px;
+
+            width: 18px;
+
             text-align: center;
-            transition: transform 0.25s;
         }
 
         .nav-menu li a:hover,
         .nav-menu a.back-link:hover {
             color: var(--tech-white);
-            background-color: rgba(255, 255, 255, 0.08);
+
+            background-color:
+                rgba(255, 255, 255, 0.08);
         }
 
         .nav-menu li a.active {
             color: var(--tech-white);
-            background-color: rgba(255, 255, 255, 0.12);
-            border-left: 4px solid var(--tech-orange);
+
+            background-color:
+                rgba(255, 255, 255, 0.12);
+
+            border-left:
+                3px solid var(--tech-orange);
+
             font-weight: 600;
         }
 
         .nav-menu a.back-link {
-            margin-top: auto;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 0;
+
+            background-color:
+                rgba(255, 255, 255, 0.05);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.1);
         }
 
+
+        /* =====================================================
+           FOOTER SIDEBAR MOBILE
+           ===================================================== */
+
         .sidebar-footer {
-            padding: 20px 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+
+            padding: 10px 12px;
+
+            border-top:
+                1px solid rgba(255, 255, 255, 0.1);
         }
 
         .btn-logout {
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.1);
+
+            min-height: 42px;
+
+            background-color:
+                rgba(255, 255, 255, 0.1);
+
             color: var(--tech-white);
+
             border: none;
-            padding: 12px;
+
+            padding: 10px 12px;
+
             border-radius: var(--radius-md);
+
             cursor: pointer;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+
+            gap: 9px;
+
             font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
+            font-size: 13px;
+
             text-decoration: none;
+
+            transition:
+                background-color 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
         .btn-logout:hover {
             background-color: #ff4d4d;
-            box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
+
+            box-shadow:
+                0 4px 12px rgba(255, 77, 77, 0.3);
         }
 
+
+        /* =====================================================
+           CONTENU PRINCIPAL — MOBILE
+           ===================================================== */
+
         .main-content {
-            margin-left: var(--sidebar-width);
-            flex: 1;
-            padding: 40px;
-            max-width: calc(100% - var(--sidebar-width));
+            position: relative;
+
+            width: 100%;
+            max-width: 100%;
+
+            margin: 0 !important;
+
+            padding: 18px 12px 30px !important;
+
+            display: block;
+
+            box-sizing: border-box;
+
+            overflow-x: hidden;
+        }
+
+        .main-content > * {
+            width: 100%;
+            max-width: 100%;
+
             box-sizing: border-box;
         }
 
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .page-header {
+            width: 100%;
+
+            margin: 0 0 22px;
+
+            padding: 0;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: stretch;
+
+            gap: 12px;
+        }
+
+        .page-header h1 {
+            width: 100%;
+
+            margin: 0;
+
+            font-size: 1.45rem !important;
+
+            line-height: 1.3;
+
+            overflow-wrap: anywhere;
+        }
+
+        .page-header h1 i {
+            flex-shrink: 0;
+        }
+
+        .page-header p {
+            width: 100%;
+
+            margin-top: 7px;
+
+            font-size: 0.78rem;
+
+            line-height: 1.5;
+
+            overflow-wrap: anywhere;
+        }
+
+
+        /* =====================================================
+           CARDS
+           ===================================================== */
+
         .card {
-            background-color: var(--tech-card-bg);
-            border-radius: var(--radius-lg);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--tech-border);
+            width: 100%;
+            max-width: 100%;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+        }
+
+
+        /* =====================================================
+           FORMULAIRE / SECTIONS
+           ===================================================== */
+
+        .card.p-8 {
+            padding: 18px !important;
+        }
+
+        .card h2 {
+            font-size: 1.15rem !important;
+
+            line-height: 1.35;
+        }
+
+        .card p {
+            line-height: 1.5;
+        }
+
+        input,
+        select {
+            width: 100% !important;
+
+            max-width: 100%;
+
+            min-height: 46px;
+
+            box-sizing: border-box;
+        }
+
+
+        /* =====================================================
+           BOUTON SAUVEGARDE PARAMÈTRES
+           ===================================================== */
+
+        #save-settings-btn {
+            width: 100%;
+
+            min-height: 48px;
+
+            justify-content: center;
+
+            text-align: center;
+
+            line-height: 1.3;
+
+            white-space: normal;
+        }
+
+
+        /* =====================================================
+           MAINTENANCE
+           ===================================================== */
+
+        .card .grid {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .card .grid > div {
+            min-width: 0;
+            width: 100%;
+        }
+
+        #backup-btn,
+        #purge-btn {
+            width: 100% !important;
+
+            max-width: 100%;
+
+            min-height: 44px;
+
+            justify-content: center;
+
+            white-space: normal;
+        }
+
+
+        /* =====================================================
+           ROLE SELECTOR
+           ===================================================== */
+
+        #role-selector {
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns: 1fr;
+
+            gap: 10px;
         }
 
         .role-card {
-            cursor: pointer;
-            transition: all 0.2s ease;
+            width: 100%;
+
+            min-height: 105px;
+
+            padding: 16px 12px !important;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            overflow: hidden;
         }
+
+        .role-card i {
+            font-size: 1.4rem !important;
+
+            margin-bottom: 7px !important;
+        }
+
+
+        /* =====================================================
+           LIEN UTILISATEURS
+           ===================================================== */
+
+        .users-list-link {
+            display: flex;
+
+            width: 100%;
+
+            justify-content: flex-start;
+
+            line-height: 1.4;
+        }
+
+
+        /* =====================================================
+           FORMULAIRE UTILISATEUR
+           ===================================================== */
+
+        #create-user-form {
+            width: 100%;
+
+            max-width: 100%;
+        }
+
+        #create-user-form button[type="submit"] {
+            width: 100%;
+
+            min-height: 50px;
+
+            padding: 12px 14px;
+
+            line-height: 1.35;
+
+            white-space: normal;
+        }
+
+
+        /* =====================================================
+           CHECKBOXES
+           ===================================================== */
+
+        #global-settings-form label.flex {
+            width: 100%;
+
+            align-items: flex-start;
+
+            gap: 8px;
+
+            line-height: 1.4;
+        }
+
+        #global-settings-form label.flex input {
+            width: 20px !important;
+            min-width: 20px;
+
+            height: 20px;
+            min-height: 20px;
+
+            flex-shrink: 0;
+
+            margin-top: 1px;
+        }
+
+
+        /* =====================================================
+           TRÈS PETITS ÉCRANS
+           ===================================================== */
+
+        @media (max-width: 359px) {
+
+            .sidebar-brand {
+                min-height: 54px;
+
+                padding: 10px 12px;
+            }
+
+            .sidebar-logo {
+                width: 30px;
+                height: 30px;
+
+                margin-right: 11px;
+            }
+
+            .sidebar-logo-inner {
+                width: 21px;
+                height: 21px;
+            }
+
+            .sidebar-title {
+                font-size: 16px;
+            }
+
+            .nav-menu {
+                min-height: 50px;
+
+                padding: 6px 8px;
+            }
+
+            .nav-menu li a,
+            .nav-menu a.back-link {
+                padding: 9px 10px;
+
+                font-size: 11px;
+            }
+
+            .main-content {
+                padding: 15px 10px 25px !important;
+            }
+
+            .page-header {
+                margin-bottom: 18px;
+            }
+
+            .page-header h1 {
+                font-size: 1.3rem !important;
+            }
+
+            .card.p-8 {
+                padding: 14px !important;
+            }
+
+            .card h2 {
+                font-size: 1.05rem !important;
+            }
+
+            .role-card {
+                min-height: 95px;
+
+                padding: 13px 10px !important;
+            }
+        }
+
+
+        /* =====================================================
+           PETITS MOBILES / TABLETTE
+           ===================================================== */
+
+        @media (min-width: 576px) {
+
+            .sidebar-brand {
+                min-height: 62px;
+
+                padding: 14px 20px;
+            }
+
+            .sidebar-logo {
+                width: 38px;
+                height: 38px;
+            }
+
+            .sidebar-logo-inner {
+                width: 26px;
+                height: 26px;
+            }
+
+            .sidebar-title {
+                font-size: 19px;
+            }
+
+            .nav-menu {
+                min-height: 56px;
+
+                padding: 8px 14px;
+            }
+
+            .nav-menu li a,
+            .nav-menu a.back-link {
+                padding: 11px 14px;
+
+                font-size: 13px;
+            }
+
+            .sidebar-footer {
+                padding: 12px 16px;
+            }
+
+            .main-content {
+                padding: 25px 20px 35px !important;
+            }
+
+            .page-header {
+                margin-bottom: 28px;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem !important;
+            }
+
+            .page-header p {
+                font-size: 0.85rem;
+            }
+
+            .card.p-8 {
+                padding: 24px !important;
+            }
+
+            #role-selector {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+                gap: 12px;
+            }
+
+            .role-card {
+                min-height: 120px;
+            }
+
+            #backup-btn,
+            #purge-btn {
+                width: fit-content !important;
+            }
+        }
+
+
+        /* =====================================================
+           TABLETTE
+           ===================================================== */
+
+        @media (min-width: 768px) {
+
+            .page-header {
+                flex-direction: row;
+
+                align-items: center;
+                justify-content: space-between;
+
+                gap: 20px;
+            }
+
+            .page-header > div {
+                min-width: 0;
+            }
+
+            #role-selector {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            }
+
+            .users-list-link {
+                width: auto;
+            }
+        }
+
+
+        /* =====================================================
+           DESKTOP
+           ===================================================== */
+
+        @media (min-width: 992px) {
+
+            body {
+                display: flex;
+
+                min-height: 100vh;
+            }
+
+
+            /* SIDEBAR DESKTOP */
+
+            .sidebar {
+                position: fixed;
+
+                top: 0;
+                left: 0;
+                bottom: 0;
+
+                width: var(--sidebar-width);
+
+                height: 100vh;
+                min-height: 100vh;
+
+                display: flex;
+                flex-direction: column;
+
+                overflow: visible;
+
+                box-shadow:
+                    4px 0 25px rgba(0, 0, 0, 0.08);
+
+                border-right:
+                    1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .sidebar-brand {
+                min-height: auto;
+
+                padding: 30px 24px;
+            }
+
+            .sidebar-logo {
+                width: 40px;
+                height: 40px;
+
+                margin-right: 15px;
+            }
+
+            .sidebar-logo-inner {
+                width: 28px;
+                height: 28px;
+            }
+
+            .sidebar-title {
+                font-size: 20px;
+            }
+
+
+            /* MENU DESKTOP */
+
+            .nav-menu {
+                height: auto;
+                min-height: 0;
+
+                padding: 24px 16px;
+
+                margin: 0;
+
+                flex: 1;
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 6px;
+
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            .nav-menu li {
+                width: 100%;
+
+                flex: none;
+            }
+
+            .nav-menu li a,
+            .nav-menu a.back-link {
+                width: 100%;
+
+                padding: 14px 18px;
+
+                font-size: 14px;
+            }
+
+            .nav-menu li a i,
+            .nav-menu a.back-link i {
+                margin-right: 14px;
+
+                font-size: 16px;
+
+                width: 22px;
+            }
+
+            .nav-menu li a.active {
+                border-left-width: 4px;
+            }
+
+            .nav-menu a.back-link {
+                margin-top: auto;
+            }
+
+
+            /* FOOTER DESKTOP */
+
+            .sidebar-footer {
+                padding: 20px 24px;
+            }
+
+            .btn-logout {
+                min-height: auto;
+
+                padding: 12px;
+
+                font-size: 14px;
+            }
+
+
+            /* CONTENU DESKTOP */
+
+            .main-content {
+                width: auto;
+                max-width:
+                    calc(100% - var(--sidebar-width));
+
+                margin-left:
+                    var(--sidebar-width) !important;
+
+                padding: 40px !important;
+
+                flex: 1;
+
+                overflow-x: hidden;
+            }
+
+
+            /* HEADER DESKTOP */
+
+            .page-header {
+                margin-bottom: 32px;
+            }
+
+            .page-header h1 {
+                font-size: 1.875rem !important;
+            }
+
+
+            /* CARDS DESKTOP */
+
+            .card.p-8 {
+                padding: 32px !important;
+            }
+
+
+            /* RÔLES DESKTOP */
+
+            #role-selector {
+                grid-template-columns:
+                    repeat(5, minmax(0, 1fr));
+
+                gap: 16px;
+            }
+
+            .role-card {
+                min-height: auto;
+
+                padding: 16px !important;
+            }
+
+            .role-card i {
+                font-size: 1.5rem !important;
+            }
+        }
+
+
+        /* =====================================================
+           GRAND DESKTOP
+           ===================================================== */
+
+        @media (min-width: 1200px) {
+
+            .main-content {
+                padding: 40px 45px !important;
+            }
+        }
+
+
+        /* =====================================================
+           ACCESSIBILITÉ
+           ===================================================== */
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline:
+                2px solid var(--tech-orange);
+
+            outline-offset: 2px;
+        }
+
+
+        /* =====================================================
+           RÉDUCTION DES ANIMATIONS
+           ===================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+
+                transition: none !important;
+            }
+        }
+
     </style>
 </head>
+
+
 <body>
 
-    <!-- SIDEBAR -->
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
     <aside class="sidebar">
+
         <div class="sidebar-brand">
+
             <div class="sidebar-logo">
                 <div class="sidebar-logo-inner"></div>
             </div>
-            <div class="sidebar-title">ASTRA <span>TECH</span></div>
+
+            <div class="sidebar-title">
+                ASTRA <span>TECH</span>
+            </div>
+
         </div>
 
+
         <ul class="nav-menu">
-            <li><a href="{% url 'astra:token_accueil' %}"><i class="fas fa-key"></i> Gestion des Tokens</a></li>
-            <li><a href="{% url 'astra:page_utilisateurs' %}"><i class="fas fa-users"></i> Utilisateurs</a></li>
-            <li><a href="{% url 'astra:permissions_page' %}"><i class="fas fa-shield-alt"></i> Permissions</a></li>
-            <li><a href="{% url 'astra:historiques_page' %}"><i class="fas fa-history"></i> Historique</a></li>
-            <li><a href="{% url 'astra:parametres_page' %}" class="active"><i class="fas fa-cog"></i> Paramètres</a></li>
 
             <li>
-                <a href="#" onclick="history.back(); return false;" class="back-link">
+                <a href="{% url 'astra:token_accueil' %}">
+                    <i class="fas fa-key"></i>
+                    Gestion des Tokens
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'astra:page_utilisateurs' %}">
+                    <i class="fas fa-users"></i>
+                    Utilisateurs
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'astra:permissions_page' %}">
+                    <i class="fas fa-shield-alt"></i>
+                    Permissions
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'astra:historiques_page' %}">
+                    <i class="fas fa-history"></i>
+                    Historique
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="{% url 'astra:parametres_page' %}"
+                    class="active"
+                >
+                    <i class="fas fa-cog"></i>
+                    Paramètres
+                </a>
+            </li>
+
+
+            <li>
+                <a
+                    href="#"
+                    onclick="history.back(); return false;"
+                    class="back-link"
+                >
                     <i class="fas fa-arrow-left text-white text-lg"></i>
                     <span>Retour</span>
                 </a>
             </li>
+
         </ul>
 
+
         <div class="sidebar-footer">
-            <a href="{% url 'astra:login' %}" class="btn-logout" id="loginBtn">
-                <i class="fas fa-sign-out-alt"></i> Déconnexion
+
+            <a
+                href="{% url 'astra:login' %}"
+                class="btn-logout"
+                id="loginBtn"
+            >
+                <i class="fas fa-sign-out-alt"></i>
+                Déconnexion
             </a>
+
         </div>
+
     </aside>
 
-    <!-- CONTENU PRINCIPAL -->
-    <div class="main-content">
-        
-        <!-- En-tête -->
-        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+
+    <!-- =====================================================
+         CONTENU PRINCIPAL
+         ===================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             EN-TÊTE
+             ================================================= -->
+
+        <header class="page-header">
+
             <div>
+
                 <h1 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
+
                     <i class="fas fa-cog text-orange-500 mr-4"></i>
-                    Paramètres & Administration Globale
+
+                    <span>
+                        Paramètres & Administration Globale
+                    </span>
+
                 </h1>
-                <p class="text-gray-500 dark:text-gray-400 mt-1">Configurez l'environnement, l'affichage et les règles de gestion de la boutique.</p>
+
+                <p class="text-gray-500 dark:text-gray-400">
+                    Configurez l'environnement, l'affichage et les règles
+                    de gestion de la boutique.
+                </p>
+
             </div>
+
         </header>
 
-        <!-- SECTION 1 : CONFIGURATION GÉNÉRALE & APPARENCE -->
+
+        <!-- =================================================
+             SECTION 1
+             ================================================= -->
+
         <div class="card p-8 mb-8">
+
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Paramètres Généraux & Apparence</h2>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Personnalisez l'identité de la boutique, la fiscalité et le mode d'affichage.</p>
+
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+                    Paramètres Généraux & Apparence
+                </h2>
+
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    Personnalisez l'identité de la boutique, la fiscalité
+                    et le mode d'affichage.
+                </p>
+
             </div>
 
-            <form id="global-settings-form" class="space-y-6" onsubmit="return false;">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nom de la Boutique / Entreprise</label>
-                        <input type="text" id="shop-name" value="{{ config.nom_boutique }}" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Devise Système</label>
-                        <select id="shop-currency" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white">
-                            <option value="FCFA">FCFA (XAF)</option>
-                            <option value="EUR">Euro (€)</option>
-                            <option value="USD">Dollar US ($)</option>
-                        </select>
-                    </div>
-                </div>
+
+            <form
+                id="global-settings-form"
+                class="space-y-6"
+                onsubmit="return false;"
+            >
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Seuil d'alerte de stock bas par défaut</label>
-                        <input type="number" id="stock-threshold" value="{{ config.seuil_stock }}" min="1" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white" required>
+
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Nom de la Boutique / Entreprise
+                        </label>
+
+                        <input
+                            type="text"
+                            id="shop-name"
+                            value="{{ config.nom_boutique }}"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
+                            required
+                        >
+
                     </div>
+
+
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Taux de TVA par défaut (%)</label>
-                        <input type="number" id="tax-rate" value="{{ config.taux_tva }}" step="0.01" min="0" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white" required>
+
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Devise Système
+                        </label>
+
+                        <select
+                            id="shop-currency"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
+                        >
+                            <option value="FCFA">
+                                FCFA (XAF)
+                            </option>
+
+                            <option value="EUR">
+                                Euro (€)
+                            </option>
+
+                            <option value="USD">
+                                Dollar US ($)
+                            </option>
+                        </select>
+
                     </div>
+
                 </div>
+
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+                    <div>
+
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Seuil d'alerte de stock bas par défaut
+                        </label>
+
+                        <input
+                            type="number"
+                            id="stock-threshold"
+                            value="{{ config.seuil_stock }}"
+                            min="1"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Taux de TVA par défaut (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="tax-rate"
+                            value="{{ config.taux_tva }}"
+                            step="0.01"
+                            min="0"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center pt-2 border-t border-gray-100 dark:border-slate-800">
+
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Format d'impression des reçus de caisse</label>
-                        <select id="receipt-format" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white">
-                            <option value="thermal">Imprimante Thermique (80 mm)</option>
-                            <option value="a4">Format Standard (A4)</option>
+
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Format d'impression des reçus de caisse
+                        </label>
+
+                        <select
+                            id="receipt-format"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
+                        >
+
+                            <option value="thermal">
+                                Imprimante Thermique (80 mm)
+                            </option>
+
+                            <option value="a4">
+                                Format Standard (A4)
+                            </option>
+
                         </select>
+
                     </div>
+
+
                     <div class="space-y-4 pt-4">
+
                         <label class="flex items-center cursor-pointer select-none">
-                            <input type="checkbox" id="lock-commercial-mode" {% if config.verrou_commercial %}checked{% endif %} class="w-5 h-5 accent-orange-500 rounded cursor-pointer">
-                            <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">Verrouillage effectif du module commercial</span>
+
+                            <input
+                                type="checkbox"
+                                id="lock-commercial-mode"
+                                {% if config.verrou_commercial %}checked{% endif %}
+                                class="w-5 h-5 accent-orange-500 rounded cursor-pointer"
+                            >
+
+                            <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Verrouillage effectif du module commercial
+                            </span>
+
                         </label>
-                        
+
+
                         <label class="flex items-center cursor-pointer select-none">
-                            <input type="checkbox" id="lock-admin-mode" {% if config.verrou_admin %}checked{% endif %} class="w-5 h-5 accent-red-500 rounded cursor-pointer">
-                            <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">Verrouillage effectif du module administration</span>
+
+                            <input
+                                type="checkbox"
+                                id="lock-admin-mode"
+                                {% if config.verrou_admin %}checked{% endif %}
+                                class="w-5 h-5 accent-red-500 rounded cursor-pointer"
+                            >
+
+                            <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                Verrouillage effectif du module administration
+                            </span>
+
                         </label>
-                        
+
+
                         <label class="flex items-center cursor-pointer select-none">
-                            <input type="checkbox" id="dark-mode-toggle" class="w-5 h-5 accent-indigo-600 rounded cursor-pointer">
-                            <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300"><i class="fas fa-moon text-indigo-500 mr-1"></i> Activer le Mode Nuit Global</span>
+
+                            <input
+                                type="checkbox"
+                                id="dark-mode-toggle"
+                                class="w-5 h-5 accent-indigo-600 rounded cursor-pointer"
+                            >
+
+                            <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-moon text-indigo-500 mr-1"></i>
+                                Activer le Mode Nuit Global
+                            </span>
+
                         </label>
+
                     </div>
+
                 </div>
 
-                <button type="button" id="save-settings-btn" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer">
-                    <i class="fas fa-save"></i> Enregistrer les modifications globales
+
+                <button
+                    type="button"
+                    id="save-settings-btn"
+                    class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                >
+
+                    <i class="fas fa-save"></i>
+
+                    <span>
+                        Enregistrer les modifications globales
+                    </span>
+
                 </button>
+
             </form>
+
         </div>
 
-        <!-- SECTION 2 : MAINTENANCE & SAUVEGARDE SYSTÈME -->
+
+        <!-- =================================================
+             SECTION 2
+             ================================================= -->
+
         <div class="card p-8 mb-8">
+
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Maintenance & Sécurité des Données</h2>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Gérez les sauvegardes de la base de données et l'archivage des journaux d'activité.</p>
+
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+                    Maintenance & Sécurité des Données
+                </h2>
+
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    Gérez les sauvegardes de la base de données et
+                    l'archivage des journaux d'activité.
+                </p>
+
             </div>
+
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="p-6 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2 mb-2">
-                            <i class="fas fa-database text-blue-500"></i> Sauvegarde de la Base de Données
-                        </h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Téléchargez une copie de sauvegarde complète de toutes vos données (ventes, clients, stocks).</p>
-                    </div>
-                    <button type="button" id="backup-btn" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-lg transition-all shadow-sm flex items-center justify-center gap-2 w-fit cursor-pointer">
-                        <i class="fas fa-download"></i> Télécharger le Backup (.sqlite3)
-                    </button>
-                </div>
 
                 <div class="p-6 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 flex flex-col justify-between">
+
                     <div>
+
                         <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2 mb-2">
-                            <i class="fas fa-trash-alt text-red-500"></i> Purge des Journaux & Cache
+
+                            <i class="fas fa-database text-blue-500"></i>
+
+                            Sauvegarde de la Base de Données
+
                         </h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Nettoyez les anciens fichiers temporaires et l'historique des connexions pour optimiser l'application.</p>
+
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">
+                            Téléchargez une copie de sauvegarde complète
+                            de toutes vos données (ventes, clients, stocks).
+                        </p>
+
                     </div>
-                    <button type="button" id="purge-btn" class="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium text-sm rounded-lg transition-all shadow-sm flex items-center justify-center gap-2 w-fit cursor-pointer">
-                        <i class="fas fa-broom"></i> Nettoyer le Système
+
+
+                    <button
+                        type="button"
+                        id="backup-btn"
+                        class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-lg transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                    >
+
+                        <i class="fas fa-download"></i>
+
+                        Télécharger le Backup (.sqlite3)
+
                     </button>
+
                 </div>
+
+
+                <div class="p-6 bg-gray-50 dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 flex flex-col justify-between">
+
+                    <div>
+
+                        <h3 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2 mb-2">
+
+                            <i class="fas fa-trash-alt text-red-500"></i>
+
+                            Purge des Journaux & Cache
+
+                        </h3>
+
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">
+                            Nettoyez les anciens fichiers temporaires
+                            et l'historique des connexions pour optimiser
+                            l'application.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="purge-btn"
+                        class="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium text-sm rounded-lg transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                    >
+
+                        <i class="fas fa-broom"></i>
+
+                        Nettoyer le Système
+
+                    </button>
+
+                </div>
+
             </div>
+
         </div>
 
-        <!-- SECTION 3 : FORMULAIRE D'ENREGISTREMENT UTILISATEUR & RÔLE SYSTÈME -->
+
+        <!-- =================================================
+             SECTION 3
+             ================================================= -->
+
         <div class="card p-8 mb-8">
+
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Enregistrer un nouvel utilisateur ou client</h2>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Ajoutez un nouvel employé ou client au système, attribuez-lui son rôle et son statut.</p>
+
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+                        Enregistrer un nouvel utilisateur ou client
+                    </h2>
+
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        Ajoutez un nouvel employé ou client au système,
+                        attribuez-lui son rôle et son statut.
+                    </p>
+
                 </div>
-                <a href="{% url 'astra:page_utilisateurs' %}" class="text-sm font-semibold text-blue-600 hover:text-blue-800 dark:text-blue-400 flex items-center gap-1.5 transition-colors">
-                    <i class="fas fa-users"></i> Voir la liste des utilisateurs
+
+
+                <a
+                    href="{% url 'astra:page_utilisateurs' %}"
+                    class="users-list-link text-sm font-semibold text-blue-600 hover:text-blue-800 dark:text-blue-400 items-center gap-1.5 transition-colors"
+                >
+
+                    <i class="fas fa-users"></i>
+
+                    Voir la liste des utilisateurs
+
                 </a>
+
             </div>
 
-            <form id="create-user-form" class="space-y-6">
-                <!-- Attribution du Rôle Système incluant la carte Client -->
+
+            <form
+                id="create-user-form"
+                class="space-y-6"
+            >
+
+                <!-- RÔLE -->
+
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Attribuer un Rôle Système :</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4" id="role-selector">
-                        <div class="role-card border-2 border-orange-500 bg-orange-50/50 rounded-xl p-4 text-center transition-all cursor-pointer" data-role="Administrateur">
+
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                        Attribuer un Rôle Système :
+                    </label>
+
+
+                    <div
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
+                        id="role-selector"
+                    >
+
+                        <div
+                            class="role-card border-2 border-orange-500 bg-orange-50/50 rounded-xl p-4 text-center transition-all cursor-pointer"
+                            data-role="Administrateur"
+                        >
+
                             <i class="fas fa-user-shield text-2xl text-orange-500 mb-2"></i>
-                            <div class="font-semibold text-sm text-gray-800 dark:text-gray-200">Administrateur</div>
+
+                            <div class="font-semibold text-sm text-gray-800 dark:text-gray-200">
+                                Administrateur
+                            </div>
+
                         </div>
-                        <div class="role-card border-2 border-gray-200 rounded-xl p-4 text-center transition-all cursor-pointer" data-role="Gestionnaire Stock">
+
+
+                        <div
+                            class="role-card border-2 border-gray-200 rounded-xl p-4 text-center transition-all cursor-pointer"
+                            data-role="Gestionnaire Stock"
+                        >
+
                             <i class="fas fa-boxes text-2xl text-blue-500 mb-2"></i>
-                            <div class="font-semibold text-sm text-gray-800 dark:text-gray-200">Gestionnaire Stock</div>
+
+                            <div class="font-semibold text-sm text-gray-800 dark:text-gray-200">
+                                Gestionnaire Stock
+                            </div>
+
                         </div>
-                        <div class="role-card border-2 border-gray-200 rounded-xl p-4 text-center transition-all cursor-pointer" data-role="Caissier / Vendeur">
+
+
+                        <div
+                            class="role-card border-2 border-gray-200 rounded-xl p-4 text-center transition-all cursor-pointer"
+                            data-role="Caissier / Vendeur"
+                        >
+
                             <i class="fas fa-cash-register text-2xl text-green-500 mb-2"></i>
-                            <div class="font-semibold text-sm text-gray-800 dark:text-gray-200">Caissier / Vendeur</div>
+
+                            <div class="font-semibold text-sm text-gray-800 dark:text-gray-200">
+                                Caissier / Vendeur
+                            </div>
+
                         </div>
-                        <div class="role-card border-2 border-gray-200 rounded-xl p-4 text-center transition-all cursor-pointer" data-role="Technicien / SAV">
+
+
+                        <div
+                            class="role-card border-2 border-gray-200 rounded-xl p-4 text-center transition-all cursor-pointer"
+                            data-role="Technicien / SAV"
+                        >
+
                             <i class="fas fa-tools text-2xl text-purple-500 mb-2"></i>
-                            <div class="font-semibold text-sm text-gray-800 dark:text-gray-200">Technicien / SAV</div>
+
+                            <div class="font-semibold text-sm text-gray-800 dark:text-gray-200">
+                                Technicien / SAV
+                            </div>
+
                         </div>
-                        <div class="role-card border-2 border-gray-200 rounded-xl p-4 text-center transition-all cursor-pointer" data-role="Client">
+
+
+                        <div
+                            class="role-card border-2 border-gray-200 rounded-xl p-4 text-center transition-all cursor-pointer"
+                            data-role="Client"
+                        >
+
                             <i class="fas fa-user-tag text-2xl text-amber-600 mb-2"></i>
-                            <div class="font-semibold text-sm text-gray-800 dark:text-gray-200">Client</div>
+
+                            <div class="font-semibold text-sm text-gray-800 dark:text-gray-200">
+                                Client
+                            </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
+                <!-- PRÉNOM / NOM -->
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
                     <div>
-                        <input type="text" id="new-user-firstname" placeholder="Prénom" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white" required>
+
+                        <input
+                            type="text"
+                            id="new-user-firstname"
+                            placeholder="Prénom"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
+                            required
+                        >
+
                     </div>
+
+
                     <div>
-                        <input type="text" id="new-user-lastname" placeholder="Nom" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white" required>
+
+                        <input
+                            type="text"
+                            id="new-user-lastname"
+                            placeholder="Nom"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
+                            required
+                        >
+
                     </div>
+
                 </div>
 
-                <div>
-                    <input type="email" id="new-user-email" placeholder="Adresse email" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white" required>
-                </div>
+
+                <!-- EMAIL -->
 
                 <div>
-                    <input type="password" id="new-user-password" placeholder="Mot de passe initial temporaire" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white" required>
+
+                    <input
+                        type="email"
+                        id="new-user-email"
+                        placeholder="Adresse email"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
+                        required
+                    >
+
                 </div>
 
+
+                <!-- MOT DE PASSE -->
+
                 <div>
-                    <label id="status-label" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Statut initial du compte employé :</label>
-                    <select id="new-user-status" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white dark:bg-slate-900 dark:border-slate-700 dark:text-white" required>
-                        <!-- Options dynamiques injectées par JS selon le rôle sélectionné -->
+
+                    <input
+                        type="password"
+                        id="new-user-password"
+                        placeholder="Mot de passe initial temporaire"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- STATUT -->
+
+                <div>
+
+                    <label
+                        id="status-label"
+                        class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    >
+                        Statut initial du compte employé :
+                    </label>
+
+                    <select
+                        id="new-user-status"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white dark:bg-slate-900 dark:border-slate-700 dark:text-white"
+                        required
+                    >
                     </select>
+
                 </div>
 
-                <button type="submit" class="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 cursor-pointer">
-                    <i class="fas fa-user-plus"></i> Enregistrer l'utilisateur / client et son statut
+
+                <!-- ENREGISTRER -->
+
+                <button
+                    type="submit"
+                    class="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                >
+
+                    <i class="fas fa-user-plus"></i>
+
+                    <span>
+                        Enregistrer l'utilisateur / client et son statut
+                    </span>
+
                 </button>
+
             </form>
+
         </div>
-    </div>
+
+    </main>
+
 
 <script>
+
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Récupération du jeton CSRF Django
+
+
+    /* =====================================================
+       1. RÉCUPÉRATION CSRF
+       ===================================================== */
+
     function getCookie(name) {
+
         let cookieValue = null;
+
         if (document.cookie && document.cookie !== '') {
+
             const cookies = document.cookie.split(';');
+
             for (let i = 0; i < cookies.length; i++) {
+
                 const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+
+                if (
+                    cookie.substring(0, name.length + 1)
+                    ===
+                    (name + '=')
+                ) {
+
+                    cookieValue =
+                        decodeURIComponent(
+                            cookie.substring(
+                                name.length + 1
+                            )
+                        );
+
                     break;
                 }
             }
         }
+
         return cookieValue;
     }
+
+
     const csrftoken = getCookie('csrftoken');
 
-    // 2. Gestion spécifique et immédiate du Mode Nuit Global
-    const darkModeToggle = document.getElementById("dark-mode-toggle");
+
+    /* =====================================================
+       2. MODE NUIT
+       ===================================================== */
+
+    const darkModeToggle =
+        document.getElementById("dark-mode-toggle");
+
     if (darkModeToggle) {
-        const isDark = localStorage.getItem("astra_dark_mode") === "true";
+
+        const isDark =
+            localStorage.getItem("astra_dark_mode")
+            ===
+            "true";
+
         darkModeToggle.checked = isDark;
 
-        darkModeToggle.addEventListener("change", function() {
-            if (this.checked) {
-                document.documentElement.classList.add("dark");
-                localStorage.setItem("astra_dark_mode", "true");
-            } else {
-                document.documentElement.classList.remove("dark");
-                localStorage.setItem("astra_dark_mode", "false");
+
+        darkModeToggle.addEventListener(
+            "change",
+            function () {
+
+                if (this.checked) {
+
+                    document.documentElement
+                        .classList.add("dark");
+
+                    localStorage.setItem(
+                        "astra_dark_mode",
+                        "true"
+                    );
+
+                } else {
+
+                    document.documentElement
+                        .classList.remove("dark");
+
+                    localStorage.setItem(
+                        "astra_dark_mode",
+                        "false"
+                    );
+                }
             }
-        });
+        );
     }
 
-    // 3. Gestion dynamique des statuts selon chaque rôle sélectionné
-    const statusSelect = document.getElementById("new-user-status");
-    const statusLabel = document.getElementById("status-label");
+
+    /* =====================================================
+       3. STATUTS SELON LE RÔLE
+       ===================================================== */
+
+    const statusSelect =
+        document.getElementById("new-user-status");
+
+    const statusLabel =
+        document.getElementById("status-label");
+
 
     function updateStatusOptions(role) {
+
         statusSelect.innerHTML = "";
-        
+
+
         if (role === "Administrateur") {
-            statusLabel.textContent = "Statut initial du compte Administrateur :";
+
+            statusLabel.textContent =
+                "Statut initial du compte Administrateur :";
+
+
             const options = [
-                { val: "super_admin", text: "Super Administrateur (Accès Total & Global)" },
-                { val: "admin_adjoint", text: "Administrateur Adjoint (Droits partiels)" },
-                { val: "admin_provisoire", text: "Administrateur Provisoire / En observation" }
+                {
+                    val: "super_admin",
+                    text: "Super Administrateur (Accès Total & Global)"
+                },
+                {
+                    val: "admin_adjoint",
+                    text: "Administrateur Adjoint (Droits partiels)"
+                },
+                {
+                    val: "admin_provisoire",
+                    text: "Administrateur Provisoire / En observation"
+                }
             ];
+
+
             options.forEach(opt => {
-                const el = document.createElement("option");
+
+                const el =
+                    document.createElement("option");
+
                 el.value = opt.val;
                 el.textContent = opt.text;
+
                 statusSelect.appendChild(el);
             });
-        } 
-        else if (role === "Gestionnaire Stock") {
-            statusLabel.textContent = "Statut initial du compte Gestionnaire Stock :";
+
+
+        } else if (role === "Gestionnaire Stock") {
+
+            statusLabel.textContent =
+                "Statut initial du compte Gestionnaire Stock :";
+
+
             const options = [
-                { val: "stock_principal", text: "Gestionnaire Principal (Validation & Inventaires)" },
-                { val: "stock_adjoint", text: "Gestionnaire Adjoint (Entrées/Sorties simples)" },
-                { val: "stock_audit", text: "Auditeur de Stock (Consultation seule)" }
+                {
+                    val: "stock_principal",
+                    text: "Gestionnaire Principal (Validation & Inventaires)"
+                },
+                {
+                    val: "stock_adjoint",
+                    text: "Gestionnaire Adjoint (Entrées/Sorties simples)"
+                },
+                {
+                    val: "stock_audit",
+                    text: "Auditeur de Stock (Consultation seule)"
+                }
             ];
+
+
             options.forEach(opt => {
-                const el = document.createElement("option");
+
+                const el =
+                    document.createElement("option");
+
                 el.value = opt.val;
                 el.textContent = opt.text;
+
                 statusSelect.appendChild(el);
             });
-        } 
-        else if (role === "Caissier / Vendeur") {
-            statusLabel.textContent = "Statut initial du compte Caissier / Vendeur :";
+
+
+        } else if (role === "Caissier / Vendeur") {
+
+            statusLabel.textContent =
+                "Statut initial du compte Caissier / Vendeur :";
+
+
             const options = [
-                { val: "vendeur_principal", text: "Vendeur Principal (Encaissement & Remises autorisées)" },
-                { val: "caissier_standard", text: "Caissier Standard (Encaissement simple)" },
-                { val: "vendeur_junior", text: "Vendeur Junior / En formation" }
+                {
+                    val: "vendeur_principal",
+                    text: "Vendeur Principal (Encaissement & Remises autorisées)"
+                },
+                {
+                    val: "caissier_standard",
+                    text: "Caissier Standard (Encaissement simple)"
+                },
+                {
+                    val: "vendeur_junior",
+                    text: "Vendeur Junior / En formation"
+                }
             ];
+
+
             options.forEach(opt => {
-                const el = document.createElement("option");
+
+                const el =
+                    document.createElement("option");
+
                 el.value = opt.val;
                 el.textContent = opt.text;
+
                 statusSelect.appendChild(el);
             });
-        } 
-        else if (role === "Technicien / SAV") {
-            statusLabel.textContent = "Statut initial du compte Technicien / SAV :";
+
+
+        } else if (role === "Technicien / SAV") {
+
+            statusLabel.textContent =
+                "Statut initial du compte Technicien / SAV :";
+
+
             const options = [
-                { val: "tech_expert", text: "Technicien Expert / Chef d'atelier (Réparations complexes)" },
-                { val: "sav_standard", text: "Agent SAV & Diagnostic (Réception & Suivi pannes)" },
-                { val: "tech_stagiaire", text: "Technicien Stagiaire / Assistant" }
+                {
+                    val: "tech_expert",
+                    text: "Technicien Expert / Chef d'atelier (Réparations complexes)"
+                },
+                {
+                    val: "sav_standard",
+                    text: "Agent SAV & Diagnostic (Réception & Suivi pannes)"
+                },
+                {
+                    val: "tech_stagiaire",
+                    text: "Technicien Stagiaire / Assistant"
+                }
             ];
+
+
             options.forEach(opt => {
-                const el = document.createElement("option");
+
+                const el =
+                    document.createElement("option");
+
                 el.value = opt.val;
                 el.textContent = opt.text;
+
                 statusSelect.appendChild(el);
             });
-        } 
-        else if (role === "Client") {
-            statusLabel.textContent = "Statut / Catégorie du Client :";
+
+
+        } else if (role === "Client") {
+
+            statusLabel.textContent =
+                "Statut / Catégorie du Client :";
+
+
             const options = [
-                { val: "regulier", text: "Client Régulier (Fidèle)" },
-                { val: "vip", text: "Client VIP (Tarif Préférentiel)" },
-                { val: "occasionnel", text: "Client Occasionnel" },
-                { val: "nouveau", text: "Nouveau Client" }
+                {
+                    val: "regulier",
+                    text: "Client Régulier (Fidèle)"
+                },
+                {
+                    val: "vip",
+                    text: "Client VIP (Tarif Préférentiel)"
+                },
+                {
+                    val: "occasionnel",
+                    text: "Client Occasionnel"
+                },
+                {
+                    val: "nouveau",
+                    text: "Nouveau Client"
+                }
             ];
+
+
             options.forEach(opt => {
-                const el = document.createElement("option");
+
+                const el =
+                    document.createElement("option");
+
                 el.value = opt.val;
                 el.textContent = opt.text;
+
                 statusSelect.appendChild(el);
             });
         }
     }
 
+
     let selectedRole = "Administrateur";
+
     updateStatusOptions(selectedRole);
 
-    const roleCards = document.querySelectorAll(".role-card");
+
+    /* =====================================================
+       4. SÉLECTION DES RÔLES
+       ===================================================== */
+
+    const roleCards =
+        document.querySelectorAll(".role-card");
+
+
     roleCards.forEach(card => {
+
         card.addEventListener("click", () => {
+
             roleCards.forEach(c => {
-                c.classList.remove("border-orange-500", "bg-orange-50/50");
-                c.classList.add("border-gray-200");
+
+                c.classList.remove(
+                    "border-orange-500",
+                    "bg-orange-50/50"
+                );
+
+                c.classList.add(
+                    "border-gray-200"
+                );
             });
-            card.classList.remove("border-gray-200");
-            card.classList.add("border-orange-500", "bg-orange-50/50");
-            selectedRole = card.getAttribute("data-role");
-            updateStatusOptions(selectedRole);
+
+
+            card.classList.remove(
+                "border-gray-200"
+            );
+
+
+            card.classList.add(
+                "border-orange-500",
+                "bg-orange-50/50"
+            );
+
+
+            selectedRole =
+                card.getAttribute("data-role");
+
+
+            updateStatusOptions(
+                selectedRole
+            );
         });
     });
 
-    // 4. Enregistrement des paramètres globaux vers Django
-    const saveSettingsBtn = document.getElementById("save-settings-btn");
+
+    /* =====================================================
+       5. ENREGISTREMENT PARAMÈTRES
+       ===================================================== */
+
+    const saveSettingsBtn =
+        document.getElementById(
+            "save-settings-btn"
+        );
+
+
     if (saveSettingsBtn) {
-        saveSettingsBtn.addEventListener("click", () => {
-            const shopName = document.getElementById("shop-name").value.trim();
-            const currency = document.getElementById("shop-currency").value;
-            const threshold = document.getElementById("stock-threshold").value;
-            const taxRate = document.getElementById("tax-rate").value;
-            const receiptFormat = document.getElementById("receipt-format").value;
-            const lockCommercial = document.getElementById("lock-commercial-mode").checked;
-            const lockAdmin = document.getElementById("lock-admin-mode").checked;
-            const darkMode = darkModeToggle ? darkModeToggle.checked : false;
 
-            localStorage.setItem("astra_shop_name", shopName);
-            localStorage.setItem("astra_currency", currency);
-            localStorage.setItem("astra_threshold", threshold);
-            localStorage.setItem("astra_tax_rate", taxRate);
-            localStorage.setItem("astra_receipt_format", receiptFormat);
-            localStorage.setItem("astra_lock_commercial", lockCommercial ? "true" : "false");
-            localStorage.setItem("astra_lock_admin", lockAdmin ? "true" : "false");
-            localStorage.setItem("astra_dark_mode", darkMode ? "true" : "false");
+        saveSettingsBtn.addEventListener(
+            "click",
+            () => {
 
-            const payload = {
-                nom_boutique: shopName,
-                devise: currency,
-                seuil_stock: threshold,
-                taux_tva: taxRate,
-                format_recu: receiptFormat,
-                verrou_commercial: lockCommercial,
-                verrou_admin: lockAdmin
-            };
+                const shopName =
+                    document.getElementById(
+                        "shop-name"
+                    ).value.trim();
 
-            fetch("{% url 'astra:api_save_parametres' %}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrftoken
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.success || data.status === 'success') {
-                    alert("Paramètres enregistrés et appliqués avec succès en base de données !");
-                } else {
-                    alert("Erreur lors de l'enregistrement : " + (data.error || data.message));
-                }
-            })
-            .catch(err => {
-                alert("Erreur de communication avec le serveur.");
-            });
-        });
+                const currency =
+                    document.getElementById(
+                        "shop-currency"
+                    ).value;
+
+                const threshold =
+                    document.getElementById(
+                        "stock-threshold"
+                    ).value;
+
+                const taxRate =
+                    document.getElementById(
+                        "tax-rate"
+                    ).value;
+
+                const receiptFormat =
+                    document.getElementById(
+                        "receipt-format"
+                    ).value;
+
+                const lockCommercial =
+                    document.getElementById(
+                        "lock-commercial-mode"
+                    ).checked;
+
+                const lockAdmin =
+                    document.getElementById(
+                        "lock-admin-mode"
+                    ).checked;
+
+                const darkMode =
+                    darkModeToggle
+                        ? darkModeToggle.checked
+                        : false;
+
+
+                localStorage.setItem(
+                    "astra_shop_name",
+                    shopName
+                );
+
+                localStorage.setItem(
+                    "astra_currency",
+                    currency
+                );
+
+                localStorage.setItem(
+                    "astra_threshold",
+                    threshold
+                );
+
+                localStorage.setItem(
+                    "astra_tax_rate",
+                    taxRate
+                );
+
+                localStorage.setItem(
+                    "astra_receipt_format",
+                    receiptFormat
+                );
+
+                localStorage.setItem(
+                    "astra_lock_commercial",
+                    lockCommercial
+                        ? "true"
+                        : "false"
+                );
+
+                localStorage.setItem(
+                    "astra_lock_admin",
+                    lockAdmin
+                        ? "true"
+                        : "false"
+                );
+
+                localStorage.setItem(
+                    "astra_dark_mode",
+                    darkMode
+                        ? "true"
+                        : "false"
+                );
+
+
+                const payload = {
+
+                    nom_boutique:
+                        shopName,
+
+                    devise:
+                        currency,
+
+                    seuil_stock:
+                        threshold,
+
+                    taux_tva:
+                        taxRate,
+
+                    format_recu:
+                        receiptFormat,
+
+                    verrou_commercial:
+                        lockCommercial,
+
+                    verrou_admin:
+                        lockAdmin
+                };
+
+
+                fetch(
+                    "{% url 'astra:api_save_parametres' %}",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "X-CSRFToken":
+                                csrftoken
+                        },
+
+                        body:
+                            JSON.stringify(
+                                payload
+                            )
+                    }
+                )
+                .then(res => res.json())
+
+                .then(data => {
+
+                    if (
+                        data.success
+                        ||
+                        data.status === 'success'
+                    ) {
+
+                        alert(
+                            "Paramètres enregistrés et appliqués avec succès en base de données !"
+                        );
+
+                    } else {
+
+                        alert(
+                            "Erreur lors de l'enregistrement : "
+                            +
+                            (
+                                data.error
+                                ||
+                                data.message
+                            )
+                        );
+                    }
+                })
+
+                .catch(err => {
+
+                    alert(
+                        "Erreur de communication avec le serveur."
+                    );
+                });
+            }
+        );
     }
 
-    // 5. Enregistrement d'un utilisateur ou client depuis le formulaire dédié
-    const createUserForm = document.getElementById("create-user-form");
+
+    /* =====================================================
+       6. CRÉATION UTILISATEUR / CLIENT
+       ===================================================== */
+
+    const createUserForm =
+        document.getElementById(
+            "create-user-form"
+        );
+
+
     if (createUserForm) {
-        createUserForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const userPayload = {
-                role: selectedRole,
-                prenom: document.getElementById("new-user-firstname").value.trim(),
-                nom: document.getElementById("new-user-lastname").value.trim(),
-                email: document.getElementById("new-user-email").value.trim(),
-                mot_de_passe: document.getElementById("new-user-password").value,
-                statut: document.getElementById("new-user-status").value
-            };
 
-            fetch("{% url 'astra:api_users_list_create' %}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrftoken
-                },
-                body: JSON.stringify(userPayload)
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === 'success') {
-                    alert(data.message);
-                    createUserForm.reset();
-                    updateStatusOptions(selectedRole);
-                } else {
-                    alert("Erreur : " + data.message);
-                }
-            })
-            .catch(err => {
-                alert("Erreur de communication avec le serveur.");
-            });
-        });
+        createUserForm.addEventListener(
+            "submit",
+            (e) => {
+
+                e.preventDefault();
+
+
+                const userPayload = {
+
+                    role:
+                        selectedRole,
+
+                    prenom:
+                        document.getElementById(
+                            "new-user-firstname"
+                        ).value.trim(),
+
+                    nom:
+                        document.getElementById(
+                            "new-user-lastname"
+                        ).value.trim(),
+
+                    email:
+                        document.getElementById(
+                            "new-user-email"
+                        ).value.trim(),
+
+                    mot_de_passe:
+                        document.getElementById(
+                            "new-user-password"
+                        ).value,
+
+                    statut:
+                        document.getElementById(
+                            "new-user-status"
+                        ).value
+                };
+
+
+                fetch(
+                    "{% url 'astra:api_users_list_create' %}",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "X-CSRFToken":
+                                csrftoken
+                        },
+
+                        body:
+                            JSON.stringify(
+                                userPayload
+                            )
+                    }
+                )
+
+                .then(res => res.json())
+
+                .then(data => {
+
+                    if (
+                        data.status
+                        ===
+                        'success'
+                    ) {
+
+                        alert(
+                            data.message
+                        );
+
+                        createUserForm.reset();
+
+                        updateStatusOptions(
+                            selectedRole
+                        );
+
+                    } else {
+
+                        alert(
+                            "Erreur : "
+                            +
+                            data.message
+                        );
+                    }
+                })
+
+                .catch(err => {
+
+                    alert(
+                        "Erreur de communication avec le serveur."
+                    );
+                });
+            }
+        );
     }
+
 });
+
 </script>
+
 </body>
 </html>
+

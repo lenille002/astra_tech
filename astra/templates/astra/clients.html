@@ -4,24 +4,51 @@
 {% block title %}Astra Tech - Gestion des Clients{% endblock %}
 
 {% block css %}
-    <script>
-        (function() {
-            const savedDarkMode = localStorage.getItem('astra_dark_mode');
-            if (savedDarkMode === 'true') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        })();
-    </script>
+
+<script>
+    (function() {
+        const savedDarkMode = localStorage.getItem('astra_dark_mode');
+
+        if (savedDarkMode === 'true') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    })();
+</script>
+
 <style>
-    /* --- ÉTAT CLAIR PAR DÉFAUT --- */
-    body, .app-layout, .app-main {
+
+    /* =========================================================
+       RESET GLOBAL — MOBILE FIRST
+       ========================================================= */
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box !important;
+    }
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    body,
+    .app-layout,
+    .app-main {
         background-color: #f8fafc !important;
         background: #f8fafc !important;
     }
 
-    .astra-clients-wrapper, 
+
+    /* =========================================================
+       CONTENEUR PRINCIPAL — MOBILE
+       ========================================================= */
+
+    .astra-clients-wrapper,
     .astra-clients-wrapper * {
         box-sizing: border-box !important;
     }
@@ -30,80 +57,145 @@
         width: 100% !important;
         max-width: 1200px !important;
         margin: 0 auto !important;
-        padding: 25px 20px !important;
+
+        padding: 16px 10px !important;
+
         display: block !important;
+
         background-color: transparent !important;
     }
 
+
+    /* =========================================================
+       EN-TÊTE — MOBILE
+       ========================================================= */
+
     .astra-header-bar {
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        margin-bottom: 25px !important;
         width: 100% !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+
+        gap: 15px !important;
+        margin-bottom: 22px !important;
     }
 
     .astra-title {
-        font-size: 2rem !important;
-        font-weight: 800 !important;
-        color: #1e1b4b !important;
+        width: 100% !important;
+
         margin: 0 !important;
+
+        color: #1e1b4b !important;
+
+        font-size: 1.55rem !important;
+        line-height: 1.3 !important;
+        font-weight: 800 !important;
+
+        overflow-wrap: anywhere;
     }
 
     .astra-title span {
         color: #4338ca !important;
     }
 
+    .astra-header-bar > div {
+        width: 100% !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+
+        gap: 10px !important;
+    }
+
+    .astra-header-bar > div > a {
+        width: 100% !important;
+
+        display: block !important;
+
+        text-align: center !important;
+
+        padding: 8px 10px !important;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+       BOUTON AJOUTER — MOBILE
+       ========================================================= */
+
     .btn-astra-orange {
-        background-color: #f97316 !important;
-        color: white !important;
-        border: none !important;
-        padding: 12px 24px !important;
-        border-radius: 50px !important;
-        font-weight: bold !important;
-        cursor: pointer !important;
-        box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3) !important;
-        transition: transform 0.2s ease !important;
+        width: 100% !important;
+        min-height: 46px !important;
+
         display: inline-flex !important;
         align-items: center !important;
+        justify-content: center !important;
+
         gap: 8px !important;
+
+        padding: 11px 18px !important;
+
+        border: none !important;
+        border-radius: 50px !important;
+
+        background-color: #f97316 !important;
+        color: white !important;
+
+        font-weight: bold !important;
+        font-size: 0.9rem !important;
+
+        cursor: pointer !important;
+
+        box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3) !important;
+
         text-decoration: none !important;
+
+        transition: transform 0.2s ease,
+                    background-color 0.2s ease !important;
     }
 
     .btn-astra-orange:hover {
-        transform: scale(1.03) !important;
+        transform: scale(1.02) !important;
         background-color: #ea580c !important;
     }
 
-    .astra-stats-grid {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 20px !important;
-        margin-bottom: 30px !important;
-        width: 100% !important;
-    }
 
-    @media (max-width: 768px) {
-        .astra-stats-grid {
-            grid-template-columns: 1fr !important;
-        }
-        .astra-header-bar {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            gap: 15px !important;
-        }
+    /* =========================================================
+       STATISTIQUES — MOBILE
+       ========================================================= */
+
+    .astra-stats-grid {
+        width: 100% !important;
+
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+
+        gap: 12px !important;
+
+        margin-bottom: 20px !important;
     }
 
     .astra-card {
-        padding: 20px 24px !important;
-        border-radius: 16px !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 100px !important;
+
+        padding: 18px !important;
+
+        border-radius: 15px !important;
+
         color: white !important;
+
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
-        min-height: 110px !important;
+
+        overflow: hidden;
     }
 
     .astra-card-indigo {
@@ -115,129 +207,250 @@
     }
 
     .astra-card h3 {
-        font-size: 1.05rem !important;
-        font-weight: 600 !important;
-        margin: 0 0 8px 0 !important;
-        opacity: 0.9 !important;
+        margin: 0 0 7px 0 !important;
+
         color: white !important;
-        white-space: nowrap !important;
+
+        font-size: 0.92rem !important;
+        font-weight: 600 !important;
+
+        line-height: 1.35 !important;
+
+        opacity: 0.9 !important;
+
+        white-space: normal !important;
+        overflow-wrap: anywhere;
     }
 
     .astra-card p {
-        font-size: 2.2rem !important;
-        font-weight: 800 !important;
         margin: 0 !important;
+
         color: white !important;
+
+        font-size: 2rem !important;
+        font-weight: 800 !important;
+
         line-height: 1 !important;
     }
 
+
+    /* =========================================================
+       BOÎTE PRINCIPALE — MOBILE
+       ========================================================= */
+
     .astra-content-box {
-        background: white !important;
-        border-radius: 16px !important;
-        padding: 25px !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
-        border: 1px solid #e2e8f0 !important;
         width: 100% !important;
+        min-width: 0 !important;
+
+        padding: 16px !important;
+
+        background: white !important;
+
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 15px !important;
+
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+
+        overflow: hidden;
     }
 
+    .astra-content-box > h2 {
+        margin-bottom: 15px !important;
+
+        font-size: 1.2rem !important;
+        line-height: 1.35 !important;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+       ACTIONS / FILTRES — MOBILE
+       ========================================================= */
+
     .astra-top-actions {
+        width: 100% !important;
+
         display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        flex-wrap: wrap !important;
-        gap: 15px !important;
-        margin-bottom: 20px !important;
+        flex-direction: column !important;
+
+        align-items: stretch !important;
+
+        gap: 14px !important;
+
+        margin-bottom: 18px !important;
     }
 
     .astra-filters-row {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 10px !important;
-        flex-wrap: wrap !important;
-    }
-
-    .astra-search-bar-wrapper {
-        position: relative !important;
-        flex: 1 !important;
-        max-width: 350px !important;
-        min-width: 250px !important;
-    }
-
-    .astra-search-input {
         width: 100% !important;
-        padding: 10px 15px 10px 40px !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 50px !important;
-        font-size: 0.95rem !important;
-        outline: none !important;
-        transition: all 0.2s ease !important;
-        background-color: #f8fafc !important;
-        color: #1e293b !important;
-    }
 
-    .astra-search-input:focus {
-        border-color: #4338ca !important;
-        background-color: #fff !important;
-        box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.15) !important;
-    }
+        display: flex !important;
+        flex-direction: column !important;
 
-    .astra-search-icon {
-        position: absolute !important;
-        left: 15px !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        color: #64748b !important;
-        pointer-events: none !important;
+        gap: 8px !important;
+
+        flex-wrap: nowrap !important;
     }
 
     .btn-filter {
-        padding: 8px 20px !important;
-        border-radius: 50px !important;
-        font-weight: 600 !important;
+        width: 100% !important;
+        min-height: 42px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        padding: 9px 12px !important;
+
         border: 1px solid #cbd5e1 !important;
-        cursor: pointer !important;
+        border-radius: 50px !important;
+
         background-color: #f1f5f9 !important;
         color: #334155 !important;
-        transition: all 0.2s ease !important;
+
+        font-size: 0.85rem !important;
+        font-weight: 600 !important;
+
+        text-align: center !important;
         text-decoration: none !important;
-        display: inline-block !important;
+
+        line-height: 1.3 !important;
+
+        overflow-wrap: anywhere;
+
+        cursor: pointer !important;
+
+        transition: all 0.2s ease !important;
     }
 
     .btn-filter.active {
         background-color: #3730a3 !important;
         color: white !important;
+
         border-color: #3730a3 !important;
     }
 
+
+    /* =========================================================
+       RECHERCHE — MOBILE
+       ========================================================= */
+
+    .astra-search-bar-wrapper {
+        position: relative !important;
+
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+
+        flex: none !important;
+    }
+
+    .astra-search-input {
+        width: 100% !important;
+        min-height: 44px !important;
+
+        padding: 10px 15px 10px 40px !important;
+
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 50px !important;
+
+        background-color: #f8fafc !important;
+        color: #1e293b !important;
+
+        font-size: 0.9rem !important;
+
+        outline: none !important;
+
+        transition: all 0.2s ease !important;
+    }
+
+    .astra-search-input:focus {
+        border-color: #4338ca !important;
+
+        background-color: #fff !important;
+
+        box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.15) !important;
+    }
+
+    .astra-search-icon {
+        position: absolute !important;
+
+        left: 15px !important;
+        top: 50% !important;
+
+        transform: translateY(-50%) !important;
+
+        color: #64748b !important;
+
+        pointer-events: none !important;
+    }
+
+
+    /* =========================================================
+       TABLEAU — MOBILE
+       ========================================================= */
+
     .astra-table-container {
         width: 100% !important;
+        max-width: 100% !important;
+
         overflow-x: auto !important;
+        overflow-y: hidden !important;
+
+        -webkit-overflow-scrolling: touch;
+
+        scrollbar-width: thin;
     }
 
     .astra-table {
         width: 100% !important;
+
+        /*
+         * Le tableau garde ses colonnes lisibles.
+         * Le scroll horizontal n'apparaît que sur petit écran.
+         */
+        min-width: 850px !important;
+
         border-collapse: collapse !important;
+
         text-align: left !important;
-        margin-top: 10px !important;
+
+        margin-top: 8px !important;
     }
 
     .astra-table th {
+        padding: 12px 13px !important;
+
         background-color: #1e1b4b !important;
         color: white !important;
-        padding: 14px 16px !important;
-        font-size: 0.9rem !important;
+
+        font-size: 0.76rem !important;
+        font-weight: 700 !important;
+
         text-transform: uppercase !important;
-        letter-spacing: 0.5px !important;
+        letter-spacing: 0.4px !important;
+
+        white-space: nowrap !important;
     }
 
-    .astra-table th:first-child { border-top-left-radius: 8px; }
-    .astra-table th:last-child { border-top-right-radius: 8px; }
+    .astra-table th:first-child {
+        border-top-left-radius: 8px;
+    }
+
+    .astra-table th:last-child {
+        border-top-right-radius: 8px;
+    }
 
     .astra-table td {
-        padding: 14px 16px !important;
+        padding: 12px 13px !important;
+
         border-bottom: 1px solid #e2e8f0 !important;
+
         color: #334155 !important;
-        font-size: 0.95rem !important;
+
+        font-size: 0.85rem !important;
+
+        white-space: nowrap !important;
     }
 
     .astra-table tbody tr:hover {
@@ -245,31 +458,414 @@
     }
 
 
-    /* ==========================================================
-       --- MODE NUIT CORRIGÉ & FORCÉ POUR CETTE PAGE ---
-       ========================================================== */
-    html.dark body, 
-    html.dark .app-layout, 
+    /* =========================================================
+       CELLULES SPÉCIALES
+       ========================================================= */
+
+    .astra-table td[style*="font-weight: 600"] {
+        overflow-wrap: anywhere;
+    }
+
+    .astra-table td a {
+        white-space: nowrap !important;
+    }
+
+    .astra-table td button,
+    .astra-table td .delete-link {
+        white-space: nowrap !important;
+    }
+
+
+    /* =========================================================
+       MODALES — MOBILE
+       ========================================================= */
+
+    .astra-modal {
+        position: fixed !important;
+
+        inset: 0 !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        padding: 15px !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        overflow-y: auto !important;
+
+        z-index: 9999 !important;
+    }
+
+    .astra-modal.hidden {
+        display: none !important;
+    }
+
+    .astra-modal-card {
+        position: relative !important;
+
+        width: 100% !important;
+        max-width: 500px !important;
+        max-height: calc(100vh - 30px) !important;
+
+        overflow-y: auto !important;
+
+        padding: 20px 16px !important;
+
+        background: #ffffff !important;
+
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 18px !important;
+
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2) !important;
+
+        color: #1e293b !important;
+    }
+
+    .astra-modal-card h2 {
+        padding-right: 35px !important;
+
+        font-size: 1.1rem !important;
+        line-height: 1.4 !important;
+
+        overflow-wrap: anywhere;
+    }
+
+    .close-modal-x {
+        position: absolute !important;
+
+        top: 10px !important;
+        right: 12px !important;
+
+        width: 36px !important;
+        height: 36px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        border: none !important;
+
+        background: transparent !important;
+
+        color: #64748b !important;
+
+        font-size: 1.8rem !important;
+
+        cursor: pointer !important;
+
+        line-height: 1 !important;
+    }
+
+    .astra-form-group {
+        width: 100% !important;
+
+        margin-bottom: 14px !important;
+    }
+
+    .astra-form-group label {
+        display: block !important;
+
+        margin-bottom: 6px !important;
+
+        color: #334155 !important;
+
+        font-size: 0.88rem !important;
+        font-weight: 600 !important;
+
+        line-height: 1.4 !important;
+    }
+
+    .astra-form-group input {
+        width: 100% !important;
+        min-height: 44px !important;
+
+        padding: 10px 12px !important;
+
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 8px !important;
+
+        background-color: #ffffff !important;
+        color: #1e293b !important;
+
+        font-size: 0.9rem !important;
+
+        outline: none !important;
+    }
+
+    .astra-form-group input:focus {
+        border-color: #4338ca !important;
+
+        box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.12) !important;
+    }
+
+    .astra-modal-card form > div:last-child {
+        margin-top: 20px !important;
+    }
+
+
+    /* =========================================================
+       TRÈS PETITS TÉLÉPHONES — 360PX
+       ========================================================= */
+
+    @media (max-width: 360px) {
+
+        .astra-clients-wrapper {
+            padding: 12px 8px !important;
+        }
+
+        .astra-header-bar {
+            gap: 12px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .astra-title {
+            font-size: 1.3rem !important;
+        }
+
+        .btn-astra-orange {
+            min-height: 44px !important;
+            padding: 10px 14px !important;
+            font-size: 0.84rem !important;
+        }
+
+        .astra-stats-grid {
+            gap: 9px !important;
+        }
+
+        .astra-card {
+            min-height: 90px !important;
+            padding: 15px !important;
+        }
+
+        .astra-card h3 {
+            font-size: 0.85rem !important;
+        }
+
+        .astra-card p {
+            font-size: 1.75rem !important;
+        }
+
+        .astra-content-box {
+            padding: 13px !important;
+            border-radius: 13px !important;
+        }
+
+        .astra-content-box > h2 {
+            font-size: 1.05rem !important;
+        }
+
+        .btn-filter {
+            min-height: 40px !important;
+            font-size: 0.8rem !important;
+        }
+
+        .astra-search-input {
+            font-size: 0.84rem !important;
+        }
+
+        .astra-table {
+            min-width: 820px !important;
+        }
+
+        .astra-table th,
+        .astra-table td {
+            padding: 10px 11px !important;
+        }
+
+        .astra-table th {
+            font-size: 0.7rem !important;
+        }
+
+        .astra-table td {
+            font-size: 0.8rem !important;
+        }
+
+        .astra-modal {
+            padding: 10px !important;
+        }
+
+        .astra-modal-card {
+            max-height: calc(100vh - 20px) !important;
+            padding: 18px 14px !important;
+            border-radius: 15px !important;
+        }
+    }
+
+
+    /* =========================================================
+       TÉLÉPHONE LARGE / TABLETTE
+       ========================================================= */
+
+    @media (min-width: 576px) {
+
+        .astra-clients-wrapper {
+            padding: 24px 18px !important;
+        }
+
+        .astra-header-bar {
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+        }
+
+        .astra-title {
+            font-size: 1.75rem !important;
+        }
+
+        .astra-header-bar > div {
+            width: auto !important;
+
+            flex-direction: row !important;
+            align-items: center !important;
+
+            gap: 10px !important;
+        }
+
+        .astra-header-bar > div > a {
+            width: auto !important;
+            display: inline-block !important;
+
+            text-align: left !important;
+        }
+
+        .btn-astra-orange {
+            width: auto !important;
+            min-width: 160px !important;
+        }
+
+        .astra-stats-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 15px !important;
+        }
+
+        .astra-card {
+            padding: 20px !important;
+        }
+
+        .astra-card h3 {
+            font-size: 0.98rem !important;
+        }
+
+        .astra-card p {
+            font-size: 2.1rem !important;
+        }
+
+        .astra-content-box {
+            padding: 21px !important;
+        }
+
+        .astra-filters-row {
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+        }
+
+        .btn-filter {
+            width: auto !important;
+            min-width: 0 !important;
+        }
+
+        .astra-search-bar-wrapper {
+            max-width: 350px !important;
+        }
+
+        .astra-top-actions {
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+        }
+
+        .astra-modal-card {
+            padding: 25px !important;
+        }
+    }
+
+
+    /* =========================================================
+       TABLETTE
+       ========================================================= */
+
+    @media (min-width: 768px) {
+
+        .astra-clients-wrapper {
+            padding: 30px 24px !important;
+        }
+
+        .astra-title {
+            font-size: 2rem !important;
+        }
+
+        .astra-stats-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            gap: 20px !important;
+
+            margin-bottom: 30px !important;
+        }
+
+        .astra-card {
+            min-height: 110px !important;
+            padding: 20px 24px !important;
+        }
+
+        .astra-card h3 {
+            font-size: 1.05rem !important;
+        }
+
+        .astra-card p {
+            font-size: 2.2rem !important;
+        }
+
+        .astra-content-box {
+            padding: 25px !important;
+            border-radius: 16px !important;
+        }
+
+        .astra-content-box > h2 {
+            font-size: 1.5rem !important;
+        }
+
+        .astra-table th {
+            padding: 14px 16px !important;
+            font-size: 0.9rem !important;
+        }
+
+        .astra-table td {
+            padding: 14px 16px !important;
+            font-size: 0.95rem !important;
+        }
+    }
+
+
+    /* =========================================================
+       MODE SOMBRE
+       ========================================================= */
+
+    html.dark body,
+    html.dark .app-layout,
     html.dark .app-main {
         background-color: #0f172a !important;
         background: #0f172a !important;
+
         color: #f1f5f9 !important;
     }
 
-    /* Titres principaux et textes de la page */
     html.dark .astra-title {
         color: #f1f5f9 !important;
     }
 
-    /* Boîte de contenu principale (qui était blanche) */
     html.dark .astra-content-box {
         background-color: #1e293b !important;
+
         border-color: #334155 !important;
+
         color: #f1f5f9 !important;
+
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
     }
 
-    /* Tableaux en mode nuit */
     html.dark .astra-table {
         background-color: transparent !important;
         color: #f1f5f9 !important;
@@ -278,6 +874,7 @@
     html.dark .astra-table th {
         background-color: #0f172a !important;
         color: #f1f5f9 !important;
+
         border-bottom: 2px solid #334155 !important;
     }
 
@@ -290,10 +887,11 @@
         background-color: rgba(51, 65, 85, 0.4) !important;
     }
 
-    /* Champs de recherche et filtres en mode nuit */
     html.dark .astra-search-input {
         background-color: #0f172a !important;
+
         border-color: #334155 !important;
+
         color: #ffffff !important;
     }
 
@@ -303,24 +901,33 @@
 
     html.dark .btn-filter {
         background-color: #1e293b !important;
+
         border-color: #334155 !important;
+
         color: #cbd5e1 !important;
     }
 
     html.dark .btn-filter.active {
         background-color: #4338ca !important;
+
         color: white !important;
+
         border-color: #4338ca !important;
     }
 
-    /* Modales éventuelles */
     html.dark .astra-modal-card {
         background: #1e293b !important;
+
         color: #f1f5f9 !important;
+
         border: 1px solid #334155 !important;
     }
 
-    html.dark .astra-modal-card p, 
+    html.dark .astra-modal-card h2 {
+        color: #f1f5f9 !important;
+    }
+
+    html.dark .astra-modal-card p,
     html.dark .astra-modal-card div,
     html.dark .astra-form-group label {
         color: #cbd5e1 !important;
@@ -328,255 +935,759 @@
 
     html.dark .astra-form-group input {
         background-color: #0f172a !important;
+
         border-color: #334155 !important;
+
         color: #ffffff !important;
     }
+
+    html.dark .astra-form-group input::placeholder {
+        color: #64748b !important;
+    }
+
+    html.dark .close-modal-x {
+        color: #cbd5e1 !important;
+    }
+
+
+    /* =========================================================
+       RÉDUCTION DES ANIMATIONS
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .btn-astra-orange,
+        .btn-filter,
+        .astra-search-input {
+            transition: none !important;
+        }
+
+        .btn-astra-orange:hover {
+            transform: none !important;
+        }
+    }
+
 </style>
+
 {% endblock %}
 
 {% block content %}
-<div class="astra-clients-wrapper">
 
-    <!-- En-tête -->
-    <div class="astra-header-bar">
-        <h1 class="astra-title"><span>Gestion</span> des Clients</h1>
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="{% url 'astra:client_register' %}" style="font-size: 0.85rem; color: #4338ca; font-weight: 700; text-decoration: underline;">Créer un compte client</a>
-            <button id="add-client-btn" type="button" class="btn-astra-orange">
-                <i class="fa-solid fa-plus"></i> Ajouter un client
+<div class="astra-clients-wrapper clients-page">
+
+```
+<!-- =====================================================
+     EN-TÊTE
+     ===================================================== -->
+
+<div class="astra-header-bar">
+
+    <h1 class="astra-title">
+        <span>Gestion</span> des Clients
+    </h1>
+
+    <div>
+
+        <a href="{% url 'astra:client_register' %}"
+           style="font-size: 0.85rem;
+                  color: #4338ca;
+                  font-weight: 700;
+                  text-decoration: underline;">
+            Créer un compte client
+        </a>
+
+        <button id="add-client-btn"
+                type="button"
+                class="btn-astra-orange">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Ajouter un client
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CARTES DE STATISTIQUES
+     ===================================================== -->
+
+<div class="astra-stats-grid">
+
+    <div class="astra-card astra-card-indigo">
+
+        <h3>Total Clients</h3>
+
+        <p>{{ total_clients }}</p>
+
+    </div>
+
+
+    <div class="astra-card astra-card-orange">
+
+        <h3>Nouveaux clients (jour)</h3>
+
+        <p>{{ new_clients_count }}</p>
+
+    </div>
+
+
+    <div class="astra-card astra-card-indigo">
+
+        <h3>Clients fidèles</h3>
+
+        <p>{{ loyal_clients_count }}</p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TABLEAU & FILTRES
+     ===================================================== -->
+
+<div class="astra-content-box">
+
+    <h2 style="font-size: 1.5rem;
+               font-weight: 700;
+               color: #1e1b4b;
+               margin-bottom: 15px;">
+
+        <span style="color: #4338ca;">
+            Liste
+        </span>
+
+        Complète
+
+    </h2>
+
+
+    <div class="astra-top-actions">
+
+        <!-- FILTRES -->
+
+        <div class="astra-filters-row">
+
+            <a href="{% url 'astra:clients' %}?filter=all"
+               class="btn-filter {% if current_filter == 'all' or not current_filter %}active{% endif %}">
+                Tous les clients
+            </a>
+
+            <a href="{% url 'astra:clients' %}?filter=loyal"
+               class="btn-filter {% if current_filter == 'loyal' %}active{% endif %}">
+                Clients fidèles
+            </a>
+
+            <a href="{% url 'astra:clients' %}?filter=new"
+               class="btn-filter {% if current_filter == 'new' %}active{% endif %}">
+                Nouveaux clients
+            </a>
+
+        </div>
+
+
+        <!-- RECHERCHE -->
+
+        <div class="astra-search-bar-wrapper">
+
+            <i class="fa-solid fa-magnifying-glass astra-search-icon"></i>
+
+            <input type="text"
+                   id="client-search-input"
+                   class="astra-search-input"
+                   placeholder="Rechercher par nom, email, tél...">
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         TABLEAU
+         ================================================= -->
+
+    <div class="astra-table-container">
+
+        <table class="astra-table" id="clients-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Dernier Achat</th>
+                    <th>Total dépensé</th>
+                    <th style="text-align: center;">
+                        Cahier Privé
+                    </th>
+                    <th style="text-align: center;">
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for client in clients %}
+
+                <tr class="client-row"
+                    data-search="{{ client.nom|lower }} {{ client.email|default:''|lower }} {{ client.telephone|lower }}">
+
+                    <td style="font-weight: 600;">
+                        {{ client.nom }}
+                    </td>
+
+                    <td>
+                        {{ client.email|default:"N/A" }}
+                    </td>
+
+                    <td>
+                        {{ client.telephone }}
+                    </td>
+
+                    <td>
+
+                        {% if client.dernier_achat %}
+
+                            <span style="font-weight: 600;
+                                         color: #4338ca;">
+                                {{ client.dernier_achat|date:"d/m/Y H:i" }}
+                            </span>
+
+                        {% else %}
+
+                            <span style="color: #94a3b8;
+                                         font-style: italic;">
+                                Aucun achat
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td style="font-weight: 700;
+                               color: {% if client.total_depenses_calcule > 100000 %}#16a34a{% else %}#334155{% endif %};">
+
+                        {{ client.total_depenses_calcule|default:0|floatformat:0 }}
+                        FCFA
+
+                    </td>
+
+                    <td style="text-align: center;">
+
+                        <a href="{% url 'astra:client_login' client.id %}"
+                           style="display: inline-flex;
+                                  align-items: center;
+                                  gap: 5px;
+                                  background-color: #e0e7ff;
+                                  color: #3730a3;
+                                  padding: 6px 12px;
+                                  border-radius: 6px;
+                                  font-size: 0.85rem;
+                                  font-weight: 600;
+                                  text-decoration: none;"
+                           title="Accéder au cahier sécurisé">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            Accès Cahier
+
+                        </a>
+
+                    </td>
+
+                    <td style="text-align: center;
+                               white-space: nowrap;">
+
+                        <button type="button"
+                                class="details-btn"
+                                data-id="{{ client.id }}"
+                                data-nom="{{ client.nom }}"
+                                data-email="{{ client.email|default:'' }}"
+                                data-telephone="{{ client.telephone }}"
+                                data-adresse="{{ client.adresse|default:'N/A' }}"
+                                data-total="{{ client.total_depenses_calcule|default:0|floatformat:0 }}"
+                                data-achats="{{ client.nombre_achats|default:0 }}"
+                                data-inscription="{{ client.date_inscription|date:'d/m/Y'|default:'N/A' }}"
+                                style="background: none;
+                                       border: none;
+                                       color: #2563eb;
+                                       font-weight: 600;
+                                       cursor: pointer;
+                                       margin-right: 12px;">
+
+                            Détails
+
+                        </button>
+
+
+                        <a href="{% url 'astra:supprimer_client' client.id %}"
+                           class="delete-link"
+                           onclick="return confirm('Voulez-vous archiver / désactiver le client {{ client.nom }} ?');"
+                           style="background: none;
+                                  border: none;
+                                  color: #dc2626;
+                                  font-weight: 600;
+                                  cursor: pointer;
+                                  text-decoration: none;">
+
+                            Archiver
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="7"
+                        style="text-align: center;
+                               padding: 20px;
+                               color: #94a3b8;">
+
+                        Aucun client trouvé dans la base de données.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+
+                <tr id="no-search-results"
+                    style="display: none;">
+
+                    <td colspan="7"
+                        style="text-align: center;
+                               padding: 20px;
+                               color: #94a3b8;">
+
+                        Aucun résultat ne correspond à votre recherche.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<!-- =========================================================
+     MODALE AJOUT DE CLIENT
+     ========================================================= -->
+
+<div id="add-client-modal"
+     class="astra-modal hidden">
+
+```
+<div class="astra-modal-card">
+
+    <button type="button"
+            id="close-add-modal-btn"
+            class="close-modal-x">
+
+        &times;
+
+    </button>
+
+
+    <h2 style="font-size: 1.25rem;
+               font-weight: 700;
+               margin-bottom: 20px;
+               color: #1e1b4b;">
+
+        Ajouter un nouveau client
+
+    </h2>
+
+
+    <form method="POST"
+          action="">
+
+        {% csrf_token %}
+
+
+        <div class="astra-form-group">
+
+            <label for="id_nom">
+                Nom complet *
+            </label>
+
+            <input type="text"
+                   id="id_nom"
+                   name="nom"
+                   required
+                   placeholder="Ex: Jean Dupont">
+
+        </div>
+
+
+        <div class="astra-form-group">
+
+            <label for="id_email">
+                Email
+            </label>
+
+            <input type="email"
+                   id="id_email"
+                   name="email"
+                   placeholder="Ex: jean@example.com">
+
+        </div>
+
+
+        <div class="astra-form-group">
+
+            <label for="id_telephone">
+                Téléphone *
+            </label>
+
+            <input type="text"
+                   id="id_telephone"
+                   name="telephone"
+                   required
+                   placeholder="Ex: +237 ...">
+
+        </div>
+
+
+        <div class="astra-form-group">
+
+            <label for="id_adresse">
+                Adresse
+            </label>
+
+            <input type="text"
+                   id="id_adresse"
+                   name="adresse"
+                   placeholder="Ex: Akwa, Douala">
+
+        </div>
+
+
+        <div class="astra-form-group">
+
+            <label for="id_password">
+                Mot de passe privé *
+            </label>
+
+            <input type="password"
+                   id="id_password"
+                   name="password"
+                   required
+                   placeholder="Mot de passe sécurisé du client">
+
+        </div>
+
+
+        <div style="margin-top: 25px;
+                    text-align: right;">
+
+            <button type="submit"
+                    class="btn-astra-orange"
+                    style="width: 100%;
+                           justify-content: center;">
+
+                Enregistrer le client
+
             </button>
-        </div>
-    </div>
 
-    <!-- Cartes de Statistiques -->
-    <div class="astra-stats-grid">
-        <div class="astra-card astra-card-indigo">
-            <h3>Total Clients</h3>
-            <p>{{ total_clients }}</p>
-        </div>
-        <div class="astra-card astra-card-orange">
-            <h3>Nouveaux clients (jour)</h3>
-            <p>{{ new_clients_count }}</p>
-        </div>
-        <div class="astra-card astra-card-indigo">
-            <h3>Clients fidèles</h3>
-            <p>{{ loyal_clients_count }}</p>
-        </div>
-    </div>
-
-    <!-- Tableau & Filtres -->
-    <div class="astra-content-box">
-        <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e1b4b; margin-bottom: 15px;">
-            <span style="color: #4338ca;">Liste</span> Complète
-        </h2>
-
-        <div class="astra-top-actions">
-            <!-- FILTRES AVEC URL ABSOLUE VERS LA VUE DJANGO -->
-            <div class="astra-filters-row">
-               
-<a href="{% url 'astra:clients' %}?filter=all"
-   class="btn-filter {% if current_filter == 'all' or not current_filter %}active{% endif %}">
-    Tous les clients
-</a>
-
-<a href="{% url 'astra:clients' %}?filter=loyal"
-   class="btn-filter {% if current_filter == 'loyal' %}active{% endif %}">
-    Clients fidèles
-</a>
-
-<a href="{% url 'astra:clients' %}?filter=new"
-   class="btn-filter {% if current_filter == 'new' %}active{% endif %}">
-    Nouveaux clients
-</a>
-   
-            </div>
-
-            <div class="astra-search-bar-wrapper">
-                <i class="fa-solid fa-magnifying-glass astra-search-icon"></i>
-                <input type="text" id="client-search-input" class="astra-search-input" placeholder="Rechercher par nom, email, tél...">
-            </div>
         </div>
 
-        <div class="astra-table-container">
-            <table class="astra-table" id="clients-table">
-                <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Email</th>
-                        <th>Téléphone</th>
-                        <th>Dernier Achat</th>
-                        <th>Total dépensé</th>
-                        <th style="text-align: center;">Cahier Privé</th>
-                        <th style="text-align: center;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for client in clients %}
-                    <tr class="client-row" data-search="{{ client.nom|lower }} {{ client.email|default:''|lower }} {{ client.telephone|lower }}">
-                        <td style="font-weight: 600;">{{ client.nom }}</td>
-                        <td>{{ client.email|default:"N/A" }}</td>
-                        <td>{{ client.telephone }}</td>
-                        <td>
-                            {% if client.dernier_achat %}
-                                <span style="font-weight: 600; color: #4338ca;">{{ client.dernier_achat|date:"d/m/Y H:i" }}</span>
-                            {% else %}
-                                <span style="color: #94a3b8; font-style: italic;">Aucun achat</span>
-                            {% endif %}
-                        </td>
-                        <td style="font-weight: 700; color: {% if client.total_depenses_calcule > 100000 %}#16a34a{% else %}#334155{% endif %};">{{ client.total_depenses_calcule|default:0|floatformat:0 }} FCFA</td>
-                        <td style="text-align: center;">
-                            <a href="{% url 'astra:client_login' client.id %}" style="display: inline-flex; align-items: center; gap: 5px; background-color: #e0e7ff; color: #3730a3; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; text-decoration: none;" title="Accéder au cahier sécurisé">
-                                <i class="fa-solid fa-lock"></i> Accès Cahier
-                            </a>
-                        </td>
-                        <td style="text-align: center; white-space: nowrap;">
-                            <button type="button" class="details-btn" data-id="{{ client.id }}" 
-                                    data-nom="{{ client.nom }}" 
-                                    data-email="{{ client.email|default:'' }}" 
-                                    data-telephone="{{ client.telephone }}" 
-                                    data-adresse="{{ client.adresse|default:'N/A' }}"
-                                    data-total="{{ client.total_depenses_calcule|default:0|floatformat:0 }}" 
-                                    data-achats="{{ client.nombre_achats|default:0 }}"
-                                    data-inscription="{{ client.date_inscription|date:'d/m/Y'|default:'N/A' }}"
-                                    style="background: none; border: none; color: #2563eb; font-weight: 600; cursor: pointer; margin-right: 12px;">Détails</button>
+    </form>
 
-                            <a href="{% url 'astra:supprimer_client' client.id %}" class="delete-link" onclick="return confirm('Voulez-vous archiver / désactiver le client {{ client.nom }} ?');" style="background: none; border: none; color: #dc2626; font-weight: 600; cursor: pointer; text-decoration: none;">Archiver</a>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 20px; color: #94a3b8;">Aucun client trouvé dans la base de données.</td>
-                    </tr>
-                    {% endfor %}
-                    <tr id="no-search-results" style="display: none;">
-                        <td colspan="7" style="text-align: center; padding: 20px; color: #94a3b8;">Aucun résultat ne correspond à votre recherche.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+</div>
+```
 
 </div>
 
-<!-- MODALE AJOUT DE CLIENT -->
-<div id="add-client-modal" class="astra-modal hidden">
-    <div class="astra-modal-card">
-        <button type="button" id="close-add-modal-btn" class="close-modal-x">&times;</button>
-        <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 20px; color: #1e1b4b;">Ajouter un nouveau client</h2>
-        
-        <form method="POST" action="">
-            {% csrf_token %}
-            <div class="astra-form-group">
-                <label for="id_nom">Nom complet *</label>
-                <input type="text" id="id_nom" name="nom" required placeholder="Ex: Jean Dupont">
-            </div>
-            <div class="astra-form-group">
-                <label for="id_email">Email</label>
-                <input type="email" id="id_email" name="email" placeholder="Ex: jean@example.com">
-            </div>
-            <div class="astra-form-group">
-                <label for="id_telephone">Téléphone *</label>
-                <input type="text" id="id_telephone" name="telephone" required placeholder="Ex: +237 ...">
-            </div>
-            <div class="astra-form-group">
-                <label for="id_adresse">Adresse</label>
-                <input type="text" id="id_adresse" name="adresse" placeholder="Ex: Akwa, Douala">
-            </div>
-            <div class="astra-form-group">
-                <label for="id_password">Mot de passe privé *</label>
-                <input type="password" id="id_password" name="password" required placeholder="Mot de passe sécurisé du client">
-            </div>
+<!-- =========================================================
+     MODALE DÉTAILS DU CLIENT
+     ========================================================= -->
 
-            <div style="margin-top: 25px; text-align: right;">
-                <button type="submit" class="btn-astra-orange" style="width: 100%; justify-content: center;">Enregistrer le client</button>
-            </div>
-        </form>
+<div id="details-client-modal"
+     class="astra-modal hidden">
+
+```
+<div class="astra-modal-card">
+
+    <button type="button"
+            id="close-details-modal-btn"
+            class="close-modal-x">
+
+        &times;
+
+    </button>
+
+
+    <h2 style="font-size: 1.25rem;
+               font-weight: 700;
+               margin-bottom: 20px;
+               color: #1e1b4b;">
+
+        Détails du Client
+
+    </h2>
+
+
+    <div id="client-details-content"
+         style="line-height: 1.6;">
     </div>
+
 </div>
+```
 
-<!-- MODALE DÉTAILS DU CLIENT -->
-<div id="details-client-modal" class="astra-modal hidden">
-    <div class="astra-modal-card">
-        <button type="button" id="close-details-modal-btn" class="close-modal-x">&times;</button>
-        <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 20px; color: #1e1b4b;">Détails du Client</h2>
-        <div id="client-details-content" style="line-height: 1.6;"></div>
-    </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const addClientBtn = document.getElementById('add-client-btn');
-        const addClientModal = document.getElementById('add-client-modal');
-        const closeAddModalBtn = document.getElementById('close-add-modal-btn');
 
-        const detailsClientModal = document.getElementById('details-client-modal');
-        const closeDetailsModalBtn = document.getElementById('close-details-modal-btn');
-        const clientDetailsContent = document.getElementById('client-details-content');
+document.addEventListener('DOMContentLoaded', () => {
 
-        if(addClientBtn) {
-            addClientBtn.addEventListener('click', () => addClientModal.classList.remove('hidden'));
-        }
-        if(closeAddModalBtn) {
-            closeAddModalBtn.addEventListener('click', () => addClientModal.classList.add('hidden'));
-        }
+    /* =====================================================
+       MODALE AJOUT CLIENT
+       ===================================================== */
 
-        document.querySelectorAll('.details-btn').forEach(button => {
+    const addClientBtn =
+        document.getElementById('add-client-btn');
+
+    const addClientModal =
+        document.getElementById('add-client-modal');
+
+    const closeAddModalBtn =
+        document.getElementById('close-add-modal-btn');
+
+
+    /* =====================================================
+       MODALE DÉTAILS
+       ===================================================== */
+
+    const detailsClientModal =
+        document.getElementById('details-client-modal');
+
+    const closeDetailsModalBtn =
+        document.getElementById('close-details-modal-btn');
+
+    const clientDetailsContent =
+        document.getElementById('client-details-content');
+
+
+    if (addClientBtn) {
+
+        addClientBtn.addEventListener('click', () => {
+
+            addClientModal.classList.remove('hidden');
+
+        });
+
+    }
+
+
+    if (closeAddModalBtn) {
+
+        closeAddModalBtn.addEventListener('click', () => {
+
+            addClientModal.classList.add('hidden');
+
+        });
+
+    }
+
+
+    /* =====================================================
+       DÉTAILS CLIENT
+       ===================================================== */
+
+    document.querySelectorAll('.details-btn')
+        .forEach(button => {
+
             button.addEventListener('click', (e) => {
+
                 const btn = e.currentTarget;
-                const nom = btn.getAttribute('data-nom');
-                const email = btn.getAttribute('data-email');
-                const telephone = btn.getAttribute('data-telephone');
-                const adresse = btn.getAttribute('data-adresse');
-                const total = btn.getAttribute('data-total');
-                const achats = btn.getAttribute('data-achats');
-                const inscription = btn.getAttribute('data-inscription');
+
+                const nom =
+                    btn.getAttribute('data-nom');
+
+                const email =
+                    btn.getAttribute('data-email');
+
+                const telephone =
+                    btn.getAttribute('data-telephone');
+
+                const adresse =
+                    btn.getAttribute('data-adresse');
+
+                const total =
+                    btn.getAttribute('data-total');
+
+                const achats =
+                    btn.getAttribute('data-achats');
+
+                const inscription =
+                    btn.getAttribute('data-inscription');
+
 
                 clientDetailsContent.innerHTML = `
-                    <p><strong>Nom :</strong> ${nom}</p>
-                    <p><strong>Email :</strong> ${email ? email : 'N/A'}</p>
-                    <p><strong>Téléphone :</strong> ${telephone}</p>
-                    <p><strong>Adresse :</strong> ${adresse}</p>
-                    <p><strong>Date d'inscription :</strong> ${inscription}</p>
-                    <p><strong>Nombre d'achats :</strong> ${achats}</p>
-                    <p><strong>Total dépensé :</strong> ${total} FCFA</p>
+
+                    <p>
+                        <strong>Nom :</strong>
+                        ${nom}
+                    </p>
+
+                    <p>
+                        <strong>Email :</strong>
+                        ${email ? email : 'N/A'}
+                    </p>
+
+                    <p>
+                        <strong>Téléphone :</strong>
+                        ${telephone}
+                    </p>
+
+                    <p>
+                        <strong>Adresse :</strong>
+                        ${adresse}
+                    </p>
+
+                    <p>
+                        <strong>Date d'inscription :</strong>
+                        ${inscription}
+                    </p>
+
+                    <p>
+                        <strong>Nombre d'achats :</strong>
+                        ${achats}
+                    </p>
+
+                    <p>
+                        <strong>Total dépensé :</strong>
+                        ${total} FCFA
+                    </p>
+
                 `;
+
                 detailsClientModal.classList.remove('hidden');
+
             });
+
         });
 
-        if(closeDetailsModalBtn) {
-            closeDetailsModalBtn.addEventListener('click', () => detailsClientModal.classList.add('hidden'));
-        }
 
-        window.addEventListener('click', (e) => {
-            if (e.target === addClientModal) addClientModal.classList.add('hidden');
-            if (e.target === detailsClientModal) detailsClientModal.classList.add('hidden');
+    /* =====================================================
+       FERMETURE MODALE DÉTAILS
+       ===================================================== */
+
+    if (closeDetailsModalBtn) {
+
+        closeDetailsModalBtn.addEventListener('click', () => {
+
+            detailsClientModal.classList.add('hidden');
+
         });
 
-        const searchInput = document.getElementById('client-search-input');
-        const clientRows = document.querySelectorAll('.client-row');
-        const noResultsRow = document.getElementById('no-search-results');
+    }
 
-        if(searchInput) {
-            searchInput.addEventListener('input', (e) => {
-                const query = e.target.value.toLowerCase().trim();
-                let visibleCount = 0;
 
-                clientRows.forEach(row => {
-                    const searchData = row.getAttribute('data-search') || '';
-                    if(searchData.includes(query)) {
-                        row.style.display = '';
-                        visibleCount++;
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
+    /* =====================================================
+       FERMETURE EN CLIQUANT À L'EXTÉRIEUR
+       ===================================================== */
 
-                if(noResultsRow) {
-                    noResultsRow.style.display = (visibleCount === 0 && clientRows.length > 0) ? '' : 'none';
-                }
-            });
+    window.addEventListener('click', (e) => {
+
+        if (e.target === addClientModal) {
+
+            addClientModal.classList.add('hidden');
+
         }
+
+        if (e.target === detailsClientModal) {
+
+            detailsClientModal.classList.add('hidden');
+
+        }
+
     });
+
+
+    /* =====================================================
+       RECHERCHE CLIENT
+       ===================================================== */
+
+    const searchInput =
+        document.getElementById('client-search-input');
+
+    const clientRows =
+        document.querySelectorAll('.client-row');
+
+    const noResultsRow =
+        document.getElementById('no-search-results');
+
+
+    if (searchInput) {
+
+        searchInput.addEventListener('input', (e) => {
+
+            const query =
+                e.target.value.toLowerCase().trim();
+
+            let visibleCount = 0;
+
+
+            clientRows.forEach(row => {
+
+                const searchData =
+                    row.getAttribute('data-search') || '';
+
+
+                if (searchData.includes(query)) {
+
+                    row.style.display = '';
+
+                    visibleCount++;
+
+                } else {
+
+                    row.style.display = 'none';
+
+                }
+
+            });
+
+
+            if (noResultsRow) {
+
+                noResultsRow.style.display =
+                    (visibleCount === 0 &&
+                     clientRows.length > 0)
+                    ? ''
+                    : 'none';
+
+            }
+
+        });
+
+    }
+
+});
+
 </script>
+
 {% endblock %}

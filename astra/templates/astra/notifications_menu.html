@@ -1,41 +1,555 @@
-<div class="notification-container" style="position: relative; display: inline-block; cursor: pointer;">
-    <div class="notification-icon" id="notificationIcon" onclick="toggleNotificationDropdown()" style="font-size: 1.2rem; padding: 8px; color: white;">
+```html
+<style>
+/* =========================================================
+   NOTIFICATIONS — MOBILE FIRST
+   ========================================================= */
+
+.notification-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.notification-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+
+    color: white;
+    font-size: 1.1rem;
+
+    border-radius: 50%;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.notification-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.notification-icon:active {
+    transform: scale(0.95);
+}
+
+/* Badge */
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    min-width: 17px;
+    height: 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ff4d4d;
+    color: white;
+
+    font-size: 0.6rem;
+    line-height: 1;
+
+    padding: 2px 4px;
+    border-radius: 50%;
+
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   PANNEAU DES NOTIFICATIONS
+   ========================================================= */
+
+.notification-panel {
+    display: none;
+
+    position: absolute;
+    top: 45px;
+    right: 0;
+
+    width: calc(100vw - 20px);
+    max-width: 340px;
+
+    background: white;
+    color: black;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+
+    z-index: 9999;
+
+    padding: 12px;
+
+    text-align: left;
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+/* =========================================================
+   EN-TÊTE
+   ========================================================= */
+
+.notification-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.notification-panel-title {
+    margin: 0;
+
+    font-weight: bold;
+    font-size: 0.85rem;
+    line-height: 1.3;
+
+    color: #222;
+    overflow-wrap: anywhere;
+}
+
+.notification-mark-read {
+    flex-shrink: 0;
+
+    background: none;
+    border: none;
+
+    color: #007bff;
+
+    font-size: 0.68rem;
+    line-height: 1.3;
+
+    cursor: pointer;
+    font-weight: bold;
+
+    text-decoration: underline;
+
+    padding: 2px 0;
+}
+
+.notification-mark-read:hover {
+    color: #0056b3;
+}
+
+/* =========================================================
+   LISTE
+   ========================================================= */
+
+.notification-list {
+    width: 100%;
+    max-height: 260px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    font-size: 0.78rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    box-sizing: border-box;
+
+    scrollbar-width: thin;
+}
+
+/* =========================================================
+   LIEN NOTIFICATION
+   ========================================================= */
+
+.notification-link {
+    display: block;
+
+    width: 100%;
+
+    color: inherit;
+    text-decoration: none;
+
+    box-sizing: border-box;
+
+    min-width: 0;
+}
+
+/* =========================================================
+   CARTE NOTIFICATION
+   ========================================================= */
+
+.notification-item {
+    width: 100%;
+
+    padding: 9px;
+
+    background: #f8f9fa;
+
+    border-radius: 6px;
+    border-left: 4px solid #007bff;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 8px;
+
+    box-sizing: border-box;
+
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.notification-item:hover {
+    background: #eef5ff;
+    transform: translateX(2px);
+}
+
+/* =========================================================
+   ICÔNE
+   ========================================================= */
+
+.notification-item-icon {
+    color: #007bff;
+
+    font-size: 1rem;
+
+    margin-top: 2px;
+
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   CONTENU
+   ========================================================= */
+
+.notification-item-content {
+    width: 100%;
+    min-width: 0;
+}
+
+.notification-item-title {
+    display: block;
+
+    color: #0056b3;
+
+    font-size: 0.82rem;
+    line-height: 1.3;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.notification-item-message {
+    margin: 3px 0;
+
+    color: #333;
+
+    font-size: 0.76rem;
+    line-height: 1.35;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.notification-item-date {
+    display: block;
+
+    font-size: 0.62rem;
+    line-height: 1.3;
+
+    color: #888;
+
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   ÉTAT VIDE
+   ========================================================= */
+
+.notification-empty {
+    width: 100%;
+
+    text-align: center;
+
+    color: #666;
+
+    margin: 18px 0;
+
+    padding: 0 8px;
+
+    line-height: 1.4;
+
+    box-sizing: border-box;
+}
+
+.notification-empty-icon {
+    color: #28a745;
+
+    font-size: 1.2rem;
+
+    display: block;
+
+    margin-bottom: 5px;
+}
+
+/* =========================================================
+   TRÈS PETITS ÉCRANS
+   ========================================================= */
+
+@media (max-width: 359px) {
+
+    .notification-icon {
+        width: 36px;
+        height: 36px;
+
+        font-size: 1rem;
+    }
+
+    .notification-badge {
+        min-width: 15px;
+        height: 15px;
+
+        font-size: 0.55rem;
+    }
+
+    .notification-panel {
+        top: 42px;
+        right: -5px;
+
+        width: calc(100vw - 16px);
+        max-width: calc(100vw - 16px);
+
+        padding: 10px;
+
+        border-radius: 9px;
+    }
+
+    .notification-panel-title {
+        font-size: 0.8rem;
+    }
+
+    .notification-mark-read {
+        font-size: 0.62rem;
+    }
+
+    .notification-item {
+        padding: 8px;
+        gap: 7px;
+    }
+
+    .notification-item-icon {
+        font-size: 0.9rem;
+    }
+
+    .notification-item-title {
+        font-size: 0.78rem;
+    }
+
+    .notification-item-message {
+        font-size: 0.7rem;
+    }
+
+    .notification-item-date {
+        font-size: 0.58rem;
+    }
+}
+
+/* =========================================================
+   PETITS MOBILES
+   ========================================================= */
+
+@media (min-width: 360px) and (max-width: 575px) {
+
+    .notification-panel {
+        width: min(340px, calc(100vw - 18px));
+        max-width: calc(100vw - 18px);
+
+        right: -2px;
+    }
+}
+
+/* =========================================================
+   TABLETTES
+   ========================================================= */
+
+@media (min-width: 576px) {
+
+    .notification-icon {
+        width: 40px;
+        height: 40px;
+
+        font-size: 1.2rem;
+    }
+
+    .notification-panel {
+        width: 340px;
+        max-width: 340px;
+
+        padding: 15px;
+    }
+
+    .notification-panel-title {
+        font-size: 0.9rem;
+    }
+
+    .notification-mark-read {
+        font-size: 0.75rem;
+    }
+
+    .notification-list {
+        font-size: 0.8rem;
+    }
+
+    .notification-item {
+        padding: 10px;
+    }
+
+    .notification-item-icon {
+        font-size: 1.1rem;
+    }
+
+    .notification-item-title {
+        font-size: 0.85rem;
+    }
+
+    .notification-item-message {
+        font-size: 0.8rem;
+    }
+
+    .notification-item-date {
+        font-size: 0.65rem;
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITÉ
+   ========================================================= */
+
+.notification-icon:focus-visible,
+.notification-mark-read:focus-visible,
+.notification-link:focus-visible {
+    outline: 2px solid #f97316;
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .notification-icon,
+    .notification-item {
+        transition: none;
+    }
+}
+</style>
+
+
+<div class="notification-container">
+
+    <!-- ICÔNE NOTIFICATION -->
+    <div
+        class="notification-icon"
+        id="notificationIcon"
+        onclick="toggleNotificationDropdown()"
+        aria-label="Notifications"
+        role="button"
+        tabindex="0"
+    >
         <i class="fas fa-bell"></i>
+
         {% if nombre_notifications and nombre_notifications > 0 %}
-            <span class="notification-badge" id="notifBadge" style="position: absolute; top: 2px; right: 2px; background: #ff4d4d; color: white; font-size: 0.65rem; padding: 2px 5px; border-radius: 50%; font-weight: bold;">
+            <span
+                class="notification-badge"
+                id="notifBadge"
+            >
                 {{ nombre_notifications }}
             </span>
         {% endif %}
     </div>
 
-    <div id="notificationDropdown" style="display: none; position: absolute; right: 0; top: 45px; width: 340px; background: white; color: black; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border-radius: 10px; z-index: 9999; padding: 15px; text-align: left;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
-            <h6 style="margin: 0; font-weight: bold; font-size: 0.9rem;">Notifications importantes</h6>
+
+    <!-- PANNEAU DES NOTIFICATIONS -->
+    <div
+        id="notificationDropdown"
+        class="notification-panel"
+    >
+
+        <!-- EN-TÊTE -->
+        <div class="notification-panel-header">
+
+            <h6 class="notification-panel-title">
+                Notifications importantes
+            </h6>
+
             {% if nombre_notifications and nombre_notifications > 0 %}
-                <button onclick="marquerToutCommeLu()" style="background: none; border: none; color: #007bff; font-size: 0.75rem; cursor: pointer; font-weight: bold; text-decoration: underline;">
+                <button
+                    type="button"
+                    class="notification-mark-read"
+                    onclick="marquerToutCommeLu()"
+                >
                     Tout marquer comme lu
                 </button>
             {% endif %}
+
         </div>
-        
-        <div id="notifListContainer" style="max-height: 260px; overflow-y: auto; font-size: 0.8rem; display: flex; flex-direction: column; gap: 8px;">
+
+
+        <!-- LISTE -->
+        <div
+            id="notifListContainer"
+            class="notification-list"
+        >
+
             {% for notif in notifications_non_lues %}
-                <a href="{% url 'astra:detail_notification' notif.id %}" style="text-decoration: none; color: inherit; display: block;">
-                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px; display: flex; gap: 8px; align-items: flex-start; border-left: 4px solid #007bff;">
-                        <i class="fas fa-envelope-open-text" style="color: #007bff; font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
-                        <div style="width: 100%;">
-                            <strong style="display: block; color: #0056b3; font-size: 0.85rem;">{{ notif.titre }}</strong>
-                            <p style="margin: 2px 0; color: #333; line-height: 1.2;">{{ notif.message }}</p>
-                            <span style="font-size: 0.65rem; color: #888;">{{ notif.date_creation|date:"d/m/Y H:i" }}</span>
+
+                <a
+                    href="{% url 'astra:detail_notification' notif.id %}"
+                    class="notification-link"
+                >
+
+                    <div class="notification-item">
+
+                        <i class="fas fa-envelope-open-text notification-item-icon"></i>
+
+                        <div class="notification-item-content">
+
+                            <strong class="notification-item-title">
+                                {{ notif.titre }}
+                            </strong>
+
+                            <p class="notification-item-message">
+                                {{ notif.message }}
+                            </p>
+
+                            <span class="notification-item-date">
+                                {{ notif.date_creation|date:"d/m/Y H:i" }}
+                            </span>
+
                         </div>
+
                     </div>
+
                 </a>
+
             {% empty %}
-                <div style="text-align: center; color: #666; margin: 20px 0;">
-                    <i class="fas fa-check-circle" style="color: #28a745; font-size: 1.2rem; display: block; margin-bottom: 5px;"></i>
+
+                <div class="notification-empty">
+
+                    <i class="fas fa-check-circle notification-empty-icon"></i>
+
                     Aucune nouvelle notification.
+
                 </div>
+
             {% endfor %}
+
         </div>
+
     </div>
+
 </div>
+```

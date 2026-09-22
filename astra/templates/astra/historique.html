@@ -1,15 +1,19 @@
+```html
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
     <title>ASTRA TECH - Journal d'Activités Global</title>
-    
+
     <script>
         (function() {
             const savedDarkMode = localStorage.getItem('astra_dark_mode');
+
             if (savedDarkMode === 'true') {
                 document.documentElement.classList.add('dark');
             } else {
@@ -19,9 +23,12 @@
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
         :root {
             --tech-blue: #0078D7;
             --tech-dark-blue: #004E8C;
@@ -36,308 +43,1357 @@
             --radius-md: 10px;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
+        /* =========================================================
+           BASE — MOBILE FIRST
+        ========================================================= */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--tech-light-gray);
             color: var(--tech-dark-gray);
-            display: flex;
             min-height: 100vh;
-            margin: 0;
-            overflow-x: hidden;
         }
 
-        
-        html.dark .card, html.dark .bg-white, html.dark .header-banner, html.dark .module-card { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
-        html.dark .log-item { background-color: #0f172a !important; border-color: #334155 !important; }
-        
-             
-        html.dark .card-custom { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
+        /* =========================================================
+           MODE NUIT
+        ========================================================= */
 
-
-        /* --- MODE NUIT GLOBAL --- */
         html.dark body {
             background-color: #0f172a !important;
             color: #f1f5f9 !important;
         }
-        html.dark .card {
+
+        html.dark .card,
+        html.dark .bg-white,
+        html.dark .header-banner,
+        html.dark .module-card {
             background-color: #1e293b !important;
             border-color: #334155 !important;
             color: #f1f5f9 !important;
         }
-        html.dark h1, html.dark h2, html.dark h3, html.dark label, html.dark span, html.dark div {
+
+        html.dark .log-item {
+            background-color: #0f172a !important;
+            border-color: #334155 !important;
+        }
+
+        html.dark .card-custom {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+            color: #f1f5f9 !important;
+        }
+
+        html.dark h1,
+        html.dark h2,
+        html.dark h3,
+        html.dark label,
+        html.dark span,
+        html.dark div {
             color: inherit;
         }
-        html.dark input, html.dark select {
+
+        html.dark input,
+        html.dark select {
             background-color: #0f172a !important;
             border-color: #334155 !important;
             color: #ffffff !important;
         }
+
         html.dark .role-card {
             background-color: #1e293b;
             border-color: #334155;
         }
+
         html.dark .role-card.border-orange-500 {
             border-color: #f97316 !important;
             background-color: rgba(249, 115, 22, 0.1) !important;
         }
- 
 
-        /* SIDEBAR ORIGINALE INCHANGÉE */
+        /* =========================================================
+           SIDEBAR — MOBILE
+        ========================================================= */
+
         .sidebar {
-            width: var(--sidebar-width);
-            background: linear-gradient(180deg, var(--tech-dark-blue) 0%, #003366 100%);
+            width: 100%;
+            height: auto;
+            min-height: auto;
+
+            background: linear-gradient(
+                180deg,
+                var(--tech-dark-blue) 0%,
+                #003366 100%
+            );
+
             color: #fff;
+
             display: flex;
             flex-direction: column;
-            position: fixed;
-            top: 0; bottom: 0; left: 0;
+
+            position: relative;
+            top: auto;
+            bottom: auto;
+            left: auto;
+
             z-index: 100;
-            box-shadow: 4px 0 25px rgba(0, 0, 0, 0.08);
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
+
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+
+            border-right: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+        /* LOGO */
+
         .sidebar-brand {
-            padding: 30px 24px;
+            width: 100%;
+            padding: 18px 16px;
+
             display: flex;
             align-items: center;
+
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+            flex-shrink: 0;
         }
 
         .sidebar-logo {
-            width: 40px; height: 40px; background: #ffffff; border-radius: 8px;
-            transform: rotate(45deg); display: flex; justify-content: center; align-items: center;
-            margin-right: 15px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            width: 36px;
+            height: 36px;
+
+            background: #ffffff;
+            border-radius: 8px;
+
+            transform: rotate(45deg);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            margin-right: 13px;
+
+            flex-shrink: 0;
+
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
         .sidebar-logo-inner {
-            width: 28px; height: 28px; border: 2px solid var(--tech-orange);
-            border-radius: 5px; transform: rotate(-45deg);
+            width: 25px;
+            height: 25px;
+
+            border: 2px solid var(--tech-orange);
+            border-radius: 5px;
+
+            transform: rotate(-45deg);
         }
 
-        .sidebar-title { font-weight: bold; font-size: 20px; letter-spacing: 1px; color: #ffffff; }
-        .sidebar-title span { color: var(--tech-orange); }
+        .sidebar-title {
+            font-weight: bold;
+            font-size: 19px;
+            letter-spacing: 1px;
+            color: #ffffff;
+
+            white-space: nowrap;
+        }
+
+        .sidebar-title span {
+            color: var(--tech-orange);
+        }
+
+        /* =========================================================
+           MENU MOBILE
+        ========================================================= */
 
         .nav-menu {
-            list-style: none; padding: 24px 16px; margin: 0; flex: 1;
-            display: flex; flex-direction: column; gap: 6px; overflow-y: auto;
+            list-style: none;
+
+            padding: 12px 12px;
+            margin: 0;
+
+            display: flex;
+            flex-direction: row;
+
+            gap: 7px;
+
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            flex: none;
+
+            scrollbar-width: none;
+
+            -webkit-overflow-scrolling: touch;
         }
 
-        .nav-menu li a, .nav-menu a.back-link {
-            display: flex; align-items: center; padding: 14px 18px;
-            color: rgba(255, 255, 255, 0.8); text-decoration: none; font-weight: 500; font-size: 14px;
-            border-radius: var(--radius-md); transition: all 0.25s ease;
+        .nav-menu::-webkit-scrollbar {
+            display: none;
         }
 
-        .nav-menu li a i, .nav-menu a.back-link i { margin-right: 14px; font-size: 16px; width: 22px; text-align: center; }
-        .nav-menu li a:hover, .nav-menu a.back-link:hover { color: #ffffff; background-color: rgba(255, 255, 255, 0.08); }
-        .nav-menu li a.active { color: #ffffff; background-color: rgba(255, 255, 255, 0.12); border-left: 4px solid var(--tech-orange); font-weight: 600; }
-        .nav-menu a.back-link { margin-top: auto; background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .nav-menu li {
+            flex: 0 0 auto;
+        }
 
-        /* FOOTER SIDEBAR & BOUTON DÉCONNEXION */
+        .nav-menu li a,
+        .nav-menu a.back-link {
+            display: flex;
+            align-items: center;
+
+            min-height: 44px;
+
+            padding: 10px 13px;
+
+            color: rgba(255, 255, 255, 0.8);
+
+            text-decoration: none;
+
+            font-weight: 500;
+            font-size: 12px;
+
+            border-radius: var(--radius-md);
+
+            transition: all 0.25s ease;
+
+            white-space: nowrap;
+        }
+
+        .nav-menu li a i,
+        .nav-menu a.back-link i {
+            margin-right: 7px;
+            font-size: 14px;
+            width: 18px;
+            text-align: center;
+        }
+
+        .nav-menu li a:hover,
+        .nav-menu a.back-link:hover {
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-menu li a.active {
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.12);
+
+            border-left: 3px solid var(--tech-orange);
+
+            font-weight: 600;
+        }
+
+        .nav-menu a.back-link {
+            margin-top: 0;
+
+            background-color: rgba(255, 255, 255, 0.05);
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* =========================================================
+           FOOTER SIDEBAR MOBILE
+        ========================================================= */
+
         .sidebar-footer {
-            padding: 20px 24px;
+            padding: 12px 16px 16px;
+
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .btn-logout {
             width: 100%;
+
+            min-height: 44px;
+
             background-color: rgba(255, 77, 77, 0.15);
+
             color: #ff8080;
+
             border: 1px solid rgba(255, 77, 77, 0.3);
-            padding: 12px;
+
+            padding: 10px 12px;
+
             border-radius: var(--radius-md);
+
             cursor: pointer;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             gap: 10px;
+
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
+
             transition: all 0.2s ease;
+
             text-decoration: none;
         }
 
         .btn-logout:hover {
             background-color: #ff4d4d;
             color: #ffffff;
+
             box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
+
             border-color: #ff4d4d;
         }
 
-        /* CONTENU PRINCIPAL */
+        /* =========================================================
+           CONTENU PRINCIPAL MOBILE
+        ========================================================= */
+
         .main-content {
-            margin-left: var(--sidebar-width);
-            flex: 1;
-            padding: 40px;
-            max-width: calc(100% - var(--sidebar-width));
+            width: 100%;
+            max-width: 100%;
+
+            margin-left: 0;
+
+            padding: 16px 12px 24px;
+
             box-sizing: border-box;
         }
 
+        /* =========================================================
+           BANNIÈRE
+        ========================================================= */
+
+        .header-banner {
+            width: 100%;
+
+            padding: 20px 16px !important;
+
+            margin-bottom: 20px !important;
+
+            border-radius: 20px !important;
+
+            gap: 16px !important;
+        }
+
+        .header-banner > div:first-child {
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+
+            gap: 13px !important;
+        }
+
+        .header-banner > div:first-child > div:first-child {
+            width: 46px !important;
+            height: 46px !important;
+
+            min-width: 46px !important;
+
+            border-radius: 14px !important;
+
+            font-size: 18px !important;
+        }
+
+        .header-banner h1 {
+            font-size: 20px !important;
+            line-height: 1.25 !important;
+
+            overflow-wrap: anywhere;
+        }
+
+        .header-banner p {
+            font-size: 12px !important;
+            line-height: 1.5 !important;
+
+            margin-top: 5px !important;
+        }
+
+        /* =========================================================
+           GRILLE MODULES
+        ========================================================= */
+
+        .main-content > .grid {
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns: 1fr !important;
+
+            gap: 18px !important;
+        }
+
+        /* =========================================================
+           CARTES MODULES
+        ========================================================= */
+
         .module-card {
-            background: white; border-radius: 20px; border: 1px solid #E2E8F0;
-            height: 440px; display: flex; flex-direction: column; overflow: hidden;
+            width: 100%;
+            min-width: 0;
+
+            height: 400px;
+
+            background: white;
+
+            border-radius: 18px;
+
+            border: 1px solid #E2E8F0;
+
+            display: flex;
+            flex-direction: column;
+
+            overflow: hidden;
+
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
         }
-        
-        .scroll-area { flex: 1; overflow-y: auto; padding: 1.25rem; }
-        .scroll-area::-webkit-scrollbar { width: 6px; }
-        .scroll-area::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
 
-        /* STYLE AMÉLIORÉ DES ITEMS DE LOG (DESIGN CARTES MODERNES) */
+        /* En mobile, le bloc administration reste dans une seule colonne */
+        .module-card.xl\:col-span-2 {
+            grid-column: auto !important;
+        }
+
+        /* =========================================================
+           EN-TÊTE DES MODULES
+        ========================================================= */
+
+        .module-card > div:first-child {
+            min-height: 68px;
+
+            padding: 14px 15px !important;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+        .module-card > div:first-child h2 {
+            font-size: 14px;
+
+            line-height: 1.4;
+
+            min-width: 0;
+
+            overflow-wrap: anywhere;
+        }
+
+        .module-card > div:first-child h2 i {
+            flex-shrink: 0;
+        }
+
+        .module-card > div:first-child span {
+            font-size: 10px !important;
+
+            padding: 5px 9px !important;
+
+            white-space: nowrap;
+        }
+
+        /* =========================================================
+           ZONE SCROLLABLE
+        ========================================================= */
+
+        .scroll-area {
+            flex: 1;
+
+            min-height: 0;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            padding: 12px !important;
+
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .scroll-area::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .scroll-area::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 10px;
+        }
+
+        /* =========================================================
+           ITEMS DE LOG
+        ========================================================= */
+
         .log-item {
+            width: 100%;
+            min-width: 0;
+
             background: #f8fafc;
+
             border: 1px solid #edf2f7;
             border-left-width: 4px;
+
             border-radius: 12px;
-            padding: 12px 16px;
+
+            padding: 11px 12px;
+
             transition: all 0.2s ease;
         }
+
         .log-item:hover {
-            transform: translateX(3px);
+            transform: translateX(2px);
+
             background: #ffffff;
+
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+
             border-color: #e2e8f0;
         }
-        .log-item.appro { border-left-color: #3b82f6; }
-        .log-item.vente { border-left-color: #10b981; }
-        .log-item.admin { border-left-color: #8b5cf6; }
+
+        .log-item.appro {
+            border-left-color: #3b82f6;
+        }
+
+        .log-item.vente {
+            border-left-color: #10b981;
+        }
+
+        .log-item.admin {
+            border-left-color: #8b5cf6;
+        }
+
+        .log-item > div:first-child {
+            font-size: 12px !important;
+
+            line-height: 1.5;
+
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .log-item > div:last-child {
+            font-size: 10px !important;
+
+            line-height: 1.5;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+        }
+
+        .log-item > div:last-child > span {
+            max-width: 100%;
+
+            overflow-wrap: anywhere;
+        }
+
+        .log-item > div:last-child > span:last-child {
+            text-align: right;
+        }
+
+        /* =========================================================
+           MESSAGE VIDE
+        ========================================================= */
+
+        .scroll-area > .text-center {
+            padding-top: 50px !important;
+            padding-bottom: 50px !important;
+
+            padding-left: 10px;
+            padding-right: 10px;
+
+            line-height: 1.5;
+        }
+
+        /* =========================================================
+           TRÈS PETITS ÉCRANS
+        ========================================================= */
+
+        @media (max-width: 359px) {
+
+            .sidebar-brand {
+                padding: 15px 12px;
+            }
+
+            .sidebar-logo {
+                width: 32px;
+                height: 32px;
+
+                margin-right: 11px;
+            }
+
+            .sidebar-logo-inner {
+                width: 22px;
+                height: 22px;
+            }
+
+            .sidebar-title {
+                font-size: 17px;
+            }
+
+            .nav-menu {
+                padding: 10px 8px;
+            }
+
+            .nav-menu li a,
+            .nav-menu a.back-link {
+                padding: 9px 10px;
+                font-size: 11px;
+            }
+
+            .nav-menu li a i,
+            .nav-menu a.back-link i {
+                margin-right: 5px;
+                font-size: 12px;
+                width: 16px;
+            }
+
+            .main-content {
+                padding: 12px 8px 20px;
+            }
+
+            .header-banner {
+                padding: 16px 12px !important;
+                border-radius: 17px !important;
+            }
+
+            .header-banner h1 {
+                font-size: 18px !important;
+            }
+
+            .header-banner p {
+                font-size: 11px !important;
+            }
+
+            .header-banner > div:first-child > div:first-child {
+                width: 40px !important;
+                height: 40px !important;
+                min-width: 40px !important;
+
+                font-size: 16px !important;
+            }
+
+            .module-card {
+                height: 380px;
+                border-radius: 16px;
+            }
+
+            .module-card > div:first-child {
+                padding: 12px !important;
+            }
+
+            .module-card > div:first-child h2 {
+                font-size: 13px;
+            }
+
+            .log-item {
+                padding: 10px;
+            }
+        }
+
+        /* =========================================================
+           TABLETTE
+        ========================================================= */
+
+        @media (min-width: 576px) {
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .sidebar-brand {
+                padding: 20px 24px;
+            }
+
+            .sidebar-logo {
+                width: 40px;
+                height: 40px;
+                margin-right: 15px;
+            }
+
+            .sidebar-logo-inner {
+                width: 28px;
+                height: 28px;
+            }
+
+            .sidebar-title {
+                font-size: 20px;
+            }
+
+            .nav-menu {
+                padding: 14px 16px;
+                gap: 8px;
+            }
+
+            .nav-menu li a,
+            .nav-menu a.back-link {
+                padding: 11px 15px;
+                font-size: 13px;
+            }
+
+            .nav-menu li a i,
+            .nav-menu a.back-link i {
+                margin-right: 8px;
+                font-size: 14px;
+            }
+
+            .sidebar-footer {
+                padding: 15px 24px 20px;
+            }
+
+            .btn-logout {
+                font-size: 14px;
+                min-height: 46px;
+            }
+
+            .main-content {
+                padding: 24px 20px 30px;
+            }
+
+            .header-banner {
+                padding: 26px 24px !important;
+                margin-bottom: 24px !important;
+            }
+
+            .header-banner h1 {
+                font-size: 24px !important;
+            }
+
+            .header-banner p {
+                font-size: 13px !important;
+            }
+
+            .header-banner > div:first-child > div:first-child {
+                width: 52px !important;
+                height: 52px !important;
+                min-width: 52px !important;
+
+                font-size: 21px !important;
+            }
+
+            .main-content > .grid {
+                gap: 22px !important;
+            }
+
+            .module-card {
+                height: 420px;
+            }
+
+            .module-card > div:first-child {
+                padding: 16px 18px !important;
+            }
+
+            .module-card > div:first-child h2 {
+                font-size: 15px;
+            }
+
+            .scroll-area {
+                padding: 16px !important;
+            }
+
+            .log-item {
+                padding: 12px 15px;
+            }
+
+            .log-item > div:first-child {
+                font-size: 13px !important;
+            }
+
+            .log-item > div:last-child {
+                font-size: 11px !important;
+            }
+        }
+
+        /* =========================================================
+           TABLETTE LARGE
+        ========================================================= */
+
+        @media (min-width: 768px) {
+
+            .main-content {
+                padding: 30px 28px 35px;
+            }
+
+            .header-banner {
+                padding: 30px !important;
+                margin-bottom: 28px !important;
+            }
+
+            .header-banner h1 {
+                font-size: 28px !important;
+            }
+
+            .header-banner p {
+                font-size: 14px !important;
+            }
+
+            .main-content > .grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 26px !important;
+            }
+
+            .module-card.xl\:col-span-2 {
+                grid-column: span 2 !important;
+            }
+
+            .module-card {
+                height: 440px;
+            }
+
+            .nav-menu {
+                justify-content: flex-start;
+            }
+        }
+
+        /* =========================================================
+           DESKTOP
+        ========================================================= */
+
+        @media (min-width: 992px) {
+
+            body {
+                display: flex;
+                min-height: 100vh;
+            }
+
+            .sidebar {
+                width: var(--sidebar-width);
+
+                min-height: 100vh;
+
+                position: fixed;
+
+                top: 0;
+                bottom: 0;
+                left: 0;
+
+                flex-direction: column;
+
+                border-right: 1px solid rgba(255, 255, 255, 0.05);
+                border-bottom: none;
+
+                box-shadow: 4px 0 25px rgba(0, 0, 0, 0.08);
+            }
+
+            .sidebar-brand {
+                padding: 30px 24px;
+            }
+
+            .nav-menu {
+                list-style: none;
+
+                padding: 24px 16px;
+
+                margin: 0;
+
+                flex: 1;
+
+                display: flex;
+                flex-direction: column;
+
+                gap: 6px;
+
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            .nav-menu li {
+                flex: none;
+            }
+
+            .nav-menu li a,
+            .nav-menu a.back-link {
+                display: flex;
+                align-items: center;
+
+                padding: 14px 18px;
+
+                font-size: 14px;
+
+                white-space: normal;
+            }
+
+            .nav-menu li a i,
+            .nav-menu a.back-link i {
+                margin-right: 14px;
+                font-size: 16px;
+                width: 22px;
+            }
+
+            .nav-menu li a.active {
+                border-left: 4px solid var(--tech-orange);
+            }
+
+            .nav-menu a.back-link {
+                margin-top: auto;
+            }
+
+            .sidebar-footer {
+                padding: 20px 24px;
+            }
+
+            .btn-logout {
+                min-height: auto;
+                padding: 12px;
+            }
+
+            .main-content {
+                width: auto;
+
+                margin-left: var(--sidebar-width);
+
+                flex: 1;
+
+                padding: 40px;
+
+                max-width: calc(100% - var(--sidebar-width));
+            }
+
+            .header-banner {
+                padding: 32px !important;
+                margin-bottom: 32px !important;
+            }
+
+            .header-banner h1 {
+                font-size: 30px !important;
+            }
+
+            .header-banner p {
+                font-size: 14px !important;
+            }
+
+            .main-content > .grid {
+                gap: 32px !important;
+            }
+
+            .module-card {
+                height: 440px;
+                border-radius: 20px;
+            }
+
+            .module-card > div:first-child {
+                padding: 20px !important;
+            }
+
+            .module-card > div:first-child h2 {
+                font-size: 16px;
+            }
+
+            .scroll-area {
+                padding: 1.25rem !important;
+            }
+
+            .log-item {
+                padding: 12px 16px;
+            }
+
+            .log-item > div:first-child {
+                font-size: 14px !important;
+            }
+
+            .log-item > div:last-child {
+                font-size: 11px !important;
+            }
+        }
+
+        /* =========================================================
+           GRAND ÉCRAN
+        ========================================================= */
+
+        @media (min-width: 1200px) {
+
+            .main-content {
+                padding: 40px;
+            }
+
+            .header-banner h1 {
+                font-size: 30px !important;
+            }
+        }
+
+        /* =========================================================
+           ACCESSIBILITÉ
+        ========================================================= */
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 3px solid rgba(255, 140, 0, 0.6);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+
+            .log-item:hover {
+                transform: none;
+            }
+        }
     </style>
+
+    <!-- responsive.css chargé une seule fois -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 </head>
+
 <body>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-brand">
-            <div class="sidebar-logo"><div class="sidebar-logo-inner"></div></div>
-            <div class="sidebar-title">ASTRA <span>TECH</span></div>
-        </div>
-        <ul class="nav-menu">
-            <li><a href="{% url 'astra:token_accueil' %}"><i class="fas fa-key"></i> Gestion des Tokens</a></li>
-            <li><a href="{% url 'astra:page_utilisateurs' %}"><i class="fas fa-users"></i> Utilisateurs</a></li>
-            <li><a href="{% url 'astra:permissions_page' %}"><i class="fas fa-shield-alt"></i> Permissions</a></li>
-            <li><a href="{% url 'astra:historiques_page' %}" class="active"><i class="fas fa-history"></i> Historique</a></li>
-            <li><a href="{% url 'astra:parametres_page' %}"><i class="fas fa-cog"></i> Paramètres</a></li>
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================= -->
 
-            <a href="#" onclick="history.back(); return false;" class="back-link">
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-inner"></div>
+            </div>
+
+            <div class="sidebar-title">
+                ASTRA <span>TECH</span>
+            </div>
+
+        </div>
+
+        <ul class="nav-menu">
+
+            <li>
+                <a href="{% url 'astra:token_accueil' %}">
+                    <i class="fas fa-key"></i>
+                    Gestion des Tokens
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'astra:page_utilisateurs' %}">
+                    <i class="fas fa-users"></i>
+                    Utilisateurs
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'astra:permissions_page' %}">
+                    <i class="fas fa-shield-alt"></i>
+                    Permissions
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'astra:historiques_page' %}" class="active">
+                    <i class="fas fa-history"></i>
+                    Historique
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'astra:parametres_page' %}">
+                    <i class="fas fa-cog"></i>
+                    Paramètres
+                </a>
+            </li>
+
+            <a href="#"
+               onclick="history.back(); return false;"
+               class="back-link">
+
                 <i class="fas fa-arrow-left text-white text-lg"></i>
+
                 <span>Retour</span>
+
             </a>
+
         </ul>
 
         <div class="sidebar-footer">
-            <a href="{% url 'astra:login' %}" class="btn-logout" id="loginBtn">
-                <i class="fas fa-sign-out-alt"></i> Déconnexion
+
+            <a href="{% url 'astra:login' %}"
+               class="btn-logout"
+               id="loginBtn">
+
+                <i class="fas fa-sign-out-alt"></i>
+
+                Déconnexion
+
             </a>
+
         </div>
+
     </aside>
 
-    <!-- CONTENU PRINCIPAL -->
+
+    <!-- =========================================================
+         CONTENU PRINCIPAL
+    ========================================================= -->
+
     <main class="main-content">
+
         <!-- BANNIÈRE EN-TÊTE -->
-        <div class="header-banner bg-white border border-slate-200/80 rounded-3xl p-8 mb-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div class="flex items-center gap-5">
-                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-2xl shadow-lg shadow-blue-500/20">
+
+        <div class="header-banner bg-white border border-slate-200/80 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center">
+
+            <div class="flex items-center">
+
+                <div class="rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20">
+
                     <i class="fas fa-layer-group"></i>
+
                 </div>
+
                 <div>
-                    <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Tableau de Bord des Activités</h1>
-                    <p class="text-slate-500 text-sm mt-1">Supervision centralisée et structurée par module de la boutique.</p>
+
+                    <h1 class="font-extrabold text-slate-900 tracking-tight">
+                        Tableau de Bord des Activités
+                    </h1>
+
+                    <p class="text-slate-500 mt-1">
+                        Supervision centralisée et structurée par module de la boutique.
+                    </p>
+
                 </div>
+
             </div>
-            
+
         </div>
 
-        <!-- GRILLE DES BLOCS DE MODULES -->
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            
-            <!-- BLOC 1 : APPROVISIONNEMENT -->
+
+        <!-- =====================================================
+             GRILLE DES BLOCS DE MODULES
+        ===================================================== -->
+
+        <div class="grid grid-cols-1 xl:grid-cols-2">
+
+            <!-- =================================================
+                 BLOC 1 : APPROVISIONNEMENT
+            ================================================== -->
+
             <div class="module-card">
-                <div class="p-5 border-b flex justify-between items-center bg-slate-50/70">
+
+                <div class="border-b flex justify-between items-center bg-slate-50/70">
+
                     <h2 class="font-bold text-slate-700 flex items-center gap-2">
-                        <i class="fas fa-truck-loading text-blue-600"></i> Approvisionnement
+
+                        <i class="fas fa-truck-loading text-blue-600"></i>
+
+                        Approvisionnement
+
                     </h2>
-                    <span class="text-[11px] bg-blue-100 text-blue-700 font-semibold px-3 py-1 rounded-full">Entrées stock</span>
+
+                    <span class="bg-blue-100 text-blue-700 font-semibold rounded-full">
+                        Entrées stock
+                    </span>
+
                 </div>
+
                 <div class="scroll-area space-y-3">
+
                     {% for log in logs_approvisionnement %}
+
                     <div class="log-item appro">
-                        <div class="font-bold text-slate-800 text-sm flex items-center justify-between">
-                            <span>{{ log.details }}</span>
+
+                        <div class="font-bold text-slate-800 flex items-center justify-between">
+
+                            <span>
+                                {{ log.details }}
+                            </span>
+
                         </div>
-                        <div class="text-[11px] text-slate-500 mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60">
-                            <span class="flex items-center gap-1.5"><i class="far fa-clock text-blue-500"></i> {{ log.date }}</span>
-                            <span class="font-medium text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-md"><i class="fas fa-user-shield text-[10px] mr-1"></i> {{ log.utilisateur }}</span>
+
+                        <div class="text-slate-500 mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60">
+
+                            <span class="flex items-center gap-1.5">
+
+                                <i class="far fa-clock text-blue-500"></i>
+
+                                {{ log.date }}
+
+                            </span>
+
+                            <span class="font-medium text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-md">
+
+                                <i class="fas fa-user-shield text-[10px] mr-1"></i>
+
+                                {{ log.utilisateur }}
+
+                            </span>
+
                         </div>
+
                     </div>
+
                     {% empty %}
-                    <div class="text-center py-20 text-slate-400 text-sm flex flex-col items-center gap-2">
+
+                    <div class="text-center py-20 text-slate-400 flex flex-col items-center gap-2">
+
                         <i class="fas fa-box-open text-2xl text-slate-300"></i>
+
                         Aucun approvisionnement enregistré.
+
                     </div>
+
                     {% endfor %}
+
                 </div>
+
             </div>
 
-            <!-- BLOC 2 : VENTES -->
+
+            <!-- =================================================
+                 BLOC 2 : VENTES
+            ================================================== -->
+
             <div class="module-card">
-                <div class="p-5 border-b flex justify-between items-center bg-slate-50/70">
+
+                <div class="border-b flex justify-between items-center bg-slate-50/70">
+
                     <h2 class="font-bold text-slate-700 flex items-center gap-2">
-                        <i class="fas fa-shopping-cart text-emerald-600"></i> Ventes
+
+                        <i class="fas fa-shopping-cart text-emerald-600"></i>
+
+                        Ventes
+
                     </h2>
-                    <span class="text-[11px] bg-emerald-100 text-emerald-700 font-semibold px-3 py-1 rounded-full">Transactions</span>
+
+                    <span class="bg-emerald-100 text-emerald-700 font-semibold rounded-full">
+                        Transactions
+                    </span>
+
                 </div>
+
                 <div class="scroll-area space-y-3">
+
                     {% for log in logs_ventes %}
+
                     <div class="log-item vente">
-                        <div class="font-bold text-slate-800 text-sm">
+
+                        <div class="font-bold text-slate-800">
+
                             {{ log.details }}
+
                         </div>
-                        <div class="text-[11px] text-slate-500 mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60">
-                            <span class="flex items-center gap-1.5"><i class="far fa-clock text-emerald-500"></i> {{ log.date }}</span>
-                            <span class="font-medium text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-md"><i class="fas fa-user-shield text-[10px] mr-1"></i> {{ log.utilisateur }}</span>
+
+                        <div class="text-slate-500 mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60">
+
+                            <span class="flex items-center gap-1.5">
+
+                                <i class="far fa-clock text-emerald-500"></i>
+
+                                {{ log.date }}
+
+                            </span>
+
+                            <span class="font-medium text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-md">
+
+                                <i class="fas fa-user-shield text-[10px] mr-1"></i>
+
+                                {{ log.utilisateur }}
+
+                            </span>
+
                         </div>
+
                     </div>
+
                     {% empty %}
-                    <div class="text-center py-20 text-slate-400 text-sm flex flex-col items-center gap-2">
+
+                    <div class="text-center py-20 text-slate-400 flex flex-col items-center gap-2">
+
                         <i class="fas fa-receipt text-2xl text-slate-300"></i>
+
                         Aucune vente enregistrée.
+
                     </div>
+
                     {% endfor %}
+
                 </div>
+
             </div>
 
-            <!-- BLOC 3 : GESTION & ADMIN (Clients & Produits) -->
+
+            <!-- =================================================
+                 BLOC 3 : GESTION & ADMIN
+            ================================================== -->
+
             <div class="module-card xl:col-span-2">
-                <div class="p-5 border-b flex justify-between items-center bg-slate-50/70">
+
+                <div class="border-b flex justify-between items-center bg-slate-50/70">
+
                     <h2 class="font-bold text-slate-700 flex items-center gap-2">
-                        <i class="fas fa-users-cog text-purple-600"></i> Gestion et Catalogue (Clients & Produits)
+
+                        <i class="fas fa-users-cog text-purple-600"></i>
+
+                        Gestion et Catalogue (Clients & Produits)
+
                     </h2>
-                    <span class="text-[11px] bg-purple-100 text-purple-700 font-semibold px-3 py-1 rounded-full">Système</span>
+
+                    <span class="bg-purple-100 text-purple-700 font-semibold rounded-full">
+                        Système
+                    </span>
+
                 </div>
+
                 <div class="scroll-area space-y-3">
+
                     {% for log in logs_admin %}
+
                     <div class="log-item admin">
-                        <div class="font-bold text-slate-800 text-sm">
+
+                        <div class="font-bold text-slate-800">
+
                             {{ log.details }}
+
                         </div>
-                        <div class="text-[11px] text-slate-500 mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60">
-                            <span class="flex items-center gap-1.5"><i class="far fa-clock text-purple-500"></i> {{ log.date }}</span>
-                            <span class="font-medium text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-md"><i class="fas fa-user-shield text-[10px] mr-1"></i> {{ log.utilisateur }}</span>
+
+                        <div class="text-slate-500 mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60">
+
+                            <span class="flex items-center gap-1.5">
+
+                                <i class="far fa-clock text-purple-500"></i>
+
+                                {{ log.date }}
+
+                            </span>
+
+                            <span class="font-medium text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-md">
+
+                                <i class="fas fa-user-shield text-[10px] mr-1"></i>
+
+                                {{ log.utilisateur }}
+
+                            </span>
+
                         </div>
+
                     </div>
+
                     {% empty %}
-                    <div class="text-center py-20 text-slate-400 text-sm flex flex-col items-center gap-2">
+
+                    <div class="text-center py-20 text-slate-400 flex flex-col items-center gap-2">
+
                         <i class="fas fa-folder-open text-2xl text-slate-300"></i>
+
                         Aucune activité administrative récente.
+
                     </div>
+
                     {% endfor %}
+
                 </div>
+
             </div>
 
         </div>
+
     </main>
 
 </body>
 </html>
+```

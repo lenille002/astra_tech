@@ -4,7 +4,19 @@
 {% block title %}Cahier d'activités - Astra Tech{% endblock %}
 
 {% block content %}
+
 <style>
+    /* =========================================================
+       RESET LOCAL — MOBILE FIRST
+       ========================================================= */
+
+    .astra-dashboard,
+    .astra-dashboard *,
+    .astra-dashboard *::before,
+    .astra-dashboard *::after {
+        box-sizing: border-box;
+    }
+
     body,
     .app-layout,
     .app-main,
@@ -14,24 +26,57 @@
     }
 
     .astra-dashboard {
-        padding: 2.5rem 1.5rem;
+        width: 100%;
         max-width: 1200px;
         margin: 0 auto;
+        padding: 16px 10px;
+        overflow: hidden;
+    }
+
+
+    /* =========================================================
+       ACTIONS — MOBILE
+       ========================================================= */
+
+    .page-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 22px;
+    }
+
+    .btn-retour,
+    .btn-espace-client {
+        width: 100%;
+        min-height: 46px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        padding: 11px 14px;
+
+        border-radius: 50px;
+
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.86rem;
+        line-height: 1.3;
+
+        text-align: center;
+
+        transition:
+            transform 0.2s ease,
+            background-color 0.2s ease,
+            box-shadow 0.2s ease;
     }
 
     .btn-retour {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
         background-color: #3730a3;
         color: white;
-        padding: 10px 20px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.9rem;
         box-shadow: 0 4px 12px rgba(55, 48, 163, 0.2);
-        transition: all 0.2s ease;
     }
 
     .btn-retour:hover {
@@ -41,18 +86,9 @@
     }
 
     .btn-espace-client {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
         background-color: #059669;
         color: white;
-        padding: 10px 20px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.9rem;
         box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
-        transition: all 0.2s ease;
     }
 
     .btn-espace-client:hover {
@@ -61,75 +97,236 @@
         color: white;
     }
 
+    .btn-retour i,
+    .btn-espace-client i {
+        flex-shrink: 0;
+    }
+
+
+    /* =========================================================
+       TITRE — MOBILE
+       ========================================================= */
+
+    .client-heading {
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    .client-heading h1 {
+        width: 100%;
+        margin: 0 0 7px;
+
+        color: #1e1b4b;
+
+        font-size: 1.3rem;
+        line-height: 1.35;
+        font-weight: 800;
+
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .client-heading h1 span {
+        color: #4338ca;
+    }
+
+    .client-heading p {
+        width: 100%;
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 0.88rem;
+        line-height: 1.5;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+       GRILLE — UNE SEULE COLONNE SUR MOBILE
+       ========================================================= */
+
     .layout-grid {
+        width: 100%;
+
         display: grid;
-        grid-template-columns: 320px 1fr;
-        gap: 25px;
+        grid-template-columns: 1fr;
+
+        gap: 14px;
+
         align-items: start;
     }
 
-    @media (max-width: 900px) {
-        .layout-grid {
-            grid-template-columns: 1fr;
-        }
-    }
+
+    /* =========================================================
+       CARTES
+       ========================================================= */
 
     .card {
+        width: 100%;
+        min-width: 0;
+
         background: #ffffff;
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+
+        border-radius: 15px;
+
+        padding: 16px;
+
+        box-shadow:
+            0 10px 25px -5px rgba(0, 0, 0, 0.05);
+
         border: 1px solid #e2e8f0;
-        border-left: 5px solid #3730a3;
+        border-left: 4px solid #3730a3;
+
+        overflow: hidden;
     }
 
     .card.orange-accent {
         border-left-color: #f97316;
     }
 
+
+    /* =========================================================
+       TITRE DES CARTES
+       ========================================================= */
+
     .card-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #1e1b4b;
-        margin-bottom: 1.2rem;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #f8fafc;
+        width: 100%;
+        min-width: 0;
+
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+
         gap: 8px;
+
+        margin: 0 0 1rem;
+        padding-bottom: 10px;
+
+        border-bottom: 2px solid #f8fafc;
+
+        color: #1e1b4b;
+
+        font-size: 0.98rem;
+        line-height: 1.4;
+        font-weight: 700;
+
+        overflow-wrap: anywhere;
     }
 
+    .card-title i {
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .card-title span {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =========================================================
+       RÉSUMÉ CLIENT
+       ========================================================= */
+
     .summary-item {
-        margin-bottom: 15px;
+        width: 100%;
+        min-width: 0;
+
+        margin-bottom: 14px;
+    }
+
+    .summary-item:last-child {
+        margin-bottom: 0;
     }
 
     .summary-item label {
         display: block;
-        font-size: 0.75rem;
+
+        margin-bottom: 4px;
+
         color: #64748b;
+
+        font-size: 0.7rem;
+        line-height: 1.4;
+
         text-transform: uppercase;
         font-weight: 700;
-        margin-bottom: 3px;
+
+        overflow-wrap: anywhere;
     }
 
     .summary-item span {
-        font-size: 1rem;
-        font-weight: 600;
+        display: inline-block;
+
+        max-width: 100%;
+
         color: #1e293b;
+
+        font-size: 0.94rem;
+        line-height: 1.4;
+        font-weight: 600;
+
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .summary-orders {
+        display: inline-block !important;
+
+        padding: 3px 10px;
+
+        border-radius: 12px;
+
+        background: #e0e7ff;
+        color: #3730a3 !important;
+    }
+
+    .summary-total {
+        color: #059669 !important;
+
+        font-size: 1.05rem !important;
+        font-weight: 700 !important;
+    }
+
+
+    /* =========================================================
+       TABLEAU
+       ========================================================= */
+
+    .table-container {
+        width: 100%;
+        max-width: 100%;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        -webkit-overflow-scrolling: touch;
+
+        scrollbar-width: thin;
     }
 
     .astra-table {
         width: 100%;
+        min-width: 520px;
+
         border-collapse: collapse;
     }
 
     .astra-table th {
-        text-align: left;
-        padding: 14px 16px;
+        padding: 11px 12px;
+
         background-color: #3730a3;
         color: white;
-        font-size: 0.85rem;
+
+        text-align: left;
+
+        font-size: 0.72rem;
+        line-height: 1.3;
+
         text-transform: uppercase;
+
+        white-space: nowrap;
     }
 
     .astra-table th:first-child {
@@ -141,103 +338,606 @@
     }
 
     .astra-table td {
-        padding: 16px;
+        padding: 12px;
+
         border-bottom: 1px solid #f1f5f9;
+
         color: #334155;
-        font-size: 0.95rem;
+
+        font-size: 0.84rem;
+        line-height: 1.4;
+
+        white-space: nowrap;
     }
 
     .astra-table tbody tr:hover {
         background-color: #f8fafc;
     }
+
+    .vente-reference {
+        color: #3730a3 !important;
+        font-weight: 700;
+    }
+
+    .vente-montant {
+        color: #059669 !important;
+        font-weight: 700;
+    }
+
+    .empty-message {
+        padding: 2rem 0.8rem !important;
+
+        color: #94a3b8 !important;
+
+        text-align: center !important;
+        font-style: italic;
+
+        white-space: normal !important;
+
+        line-height: 1.5;
+    }
+
+
+    /* =========================================================
+       TRÈS PETITS TÉLÉPHONES — <= 360px
+       ========================================================= */
+
+    @media (max-width: 360px) {
+
+        .astra-dashboard {
+            padding: 12px 8px;
+        }
+
+        .page-actions {
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .btn-retour,
+        .btn-espace-client {
+            min-height: 44px;
+            padding: 10px 11px;
+            font-size: 0.8rem;
+        }
+
+        .client-heading {
+            margin-bottom: 1.2rem;
+        }
+
+        .client-heading h1 {
+            font-size: 1.18rem;
+        }
+
+        .client-heading p {
+            font-size: 0.82rem;
+        }
+
+        .layout-grid {
+            gap: 11px;
+        }
+
+        .card {
+            padding: 14px;
+            border-radius: 12px;
+            border-left-width: 4px;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .summary-item {
+            margin-bottom: 12px;
+        }
+
+        .summary-item label {
+            font-size: 0.66rem;
+        }
+
+        .summary-item span {
+            font-size: 0.88rem;
+        }
+
+        .summary-total {
+            font-size: 0.98rem !important;
+        }
+
+        .astra-table {
+            min-width: 500px;
+        }
+
+        .astra-table th,
+        .astra-table td {
+            padding: 10px;
+        }
+
+        .astra-table th {
+            font-size: 0.68rem;
+        }
+
+        .astra-table td {
+            font-size: 0.8rem;
+        }
+    }
+
+
+    /* =========================================================
+       SMARTPHONE LARGE / TABLETTE PETITE — >= 576px
+       ========================================================= */
+
+    @media (min-width: 576px) {
+
+        .astra-dashboard {
+            padding: 24px 20px;
+        }
+
+        .page-actions {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 26px;
+        }
+
+        .btn-retour,
+        .btn-espace-client {
+            width: auto;
+            min-width: 0;
+            flex: 0 1 auto;
+
+            min-height: 44px;
+
+            padding: 10px 18px;
+
+            font-size: 0.88rem;
+        }
+
+        .client-heading h1 {
+            font-size: 1.6rem;
+        }
+
+        .client-heading p {
+            font-size: 0.92rem;
+        }
+
+        .layout-grid {
+            gap: 18px;
+        }
+
+        .card {
+            padding: 21px;
+            border-radius: 16px;
+        }
+
+        .card-title {
+            font-size: 1rem;
+        }
+
+        .astra-table {
+            min-width: 550px;
+        }
+
+        .astra-table th {
+            padding: 13px 15px;
+            font-size: 0.78rem;
+        }
+
+        .astra-table td {
+            padding: 15px;
+            font-size: 0.9rem;
+        }
+    }
+
+
+    /* =========================================================
+       TABLETTE — >= 768px
+       ========================================================= */
+
+    @media (min-width: 768px) {
+
+        .astra-dashboard {
+            padding: 30px 24px;
+        }
+
+        .client-heading {
+            margin-bottom: 2rem;
+        }
+
+        .client-heading h1 {
+            font-size: 1.85rem;
+        }
+
+        .client-heading p {
+            font-size: 0.95rem;
+        }
+
+        .layout-grid {
+            grid-template-columns: 280px minmax(0, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            padding: 23px;
+        }
+
+        .astra-table th {
+            padding: 14px 16px;
+            font-size: 0.8rem;
+        }
+
+        .astra-table td {
+            padding: 16px;
+            font-size: 0.92rem;
+        }
+    }
+
+
+    /* =========================================================
+       PETIT DESKTOP — >= 900px
+       ========================================================= */
+
+    @media (min-width: 900px) {
+
+        .layout-grid {
+            grid-template-columns: 320px minmax(0, 1fr);
+            gap: 25px;
+        }
+    }
+
+
+    /* =========================================================
+       DESKTOP — >= 1024px
+       ========================================================= */
+
+    @media (min-width: 1024px) {
+
+        .astra-dashboard {
+            padding: 32px 24px;
+        }
+
+        .client-heading h1 {
+            font-size: 1.95rem;
+        }
+
+        .card {
+            padding: 24px;
+        }
+    }
+
+
+    /* =========================================================
+       GRAND ÉCRAN — >= 1200px
+       ========================================================= */
+
+    @media (min-width: 1200px) {
+
+        .astra-dashboard {
+            padding: 2.5rem 1.5rem;
+        }
+    }
+
+
+    /* =========================================================
+       MODE SOMBRE
+       ========================================================= */
+
+    html.dark .astra-dashboard {
+        background: transparent;
+    }
+
+    html.dark .card {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+    }
+
+    html.dark .card {
+        border-left-color: #3730a3 !important;
+    }
+
+    html.dark .card.orange-accent {
+        border-left-color: #f97316 !important;
+    }
+
+    html.dark .card-title {
+        color: #f1f5f9 !important;
+        border-bottom-color: #334155;
+    }
+
+    html.dark .summary-item label {
+        color: #94a3b8;
+    }
+
+    html.dark .summary-item span {
+        color: #f1f5f9;
+    }
+
+    html.dark .summary-orders {
+        background: rgba(99, 102, 241, 0.2);
+        color: #a5b4fc !important;
+    }
+
+    html.dark .summary-total {
+        color: #34d399 !important;
+    }
+
+    html.dark .client-heading h1 {
+        color: #f1f5f9;
+    }
+
+    html.dark .client-heading h1 span {
+        color: #818cf8;
+    }
+
+    html.dark .client-heading p {
+        color: #94a3b8;
+    }
+
+    html.dark .astra-table td {
+        color: #cbd5e1;
+        border-bottom-color: #334155;
+    }
+
+    html.dark .astra-table tbody tr:hover {
+        background-color: #334155;
+    }
+
+
+    /* =========================================================
+       ACCESSIBILITÉ
+       ========================================================= */
+
+    .btn-retour:focus-visible,
+    .btn-espace-client:focus-visible {
+        outline: 2px solid #f97316;
+        outline-offset: 3px;
+    }
+
+
+    /* =========================================================
+       RÉDUCTION DES ANIMATIONS
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .btn-retour,
+        .btn-espace-client {
+            transition: none;
+        }
+    }
 </style>
 
 <div class="astra-dashboard">
-    <div
-        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
-        <a href="{% url 'astra:clients' %}" class="btn-retour">
-            <i class="fa-solid fa-arrow-left"></i> Retour à la liste des clients
-        </a>
-        <!-- Remplacez ceci : -->
-        <!-- <a href="{% url 'astra:espace_client' client.id %}" class="btn-espace-client"> -->
 
-        <!-- Par ceci (si la vue de connexion/espace s'appelle client_login) : -->
-        <a href="{% url 'astra:client_login' client.id %}" class="btn-espace-client">
-            <i class="fa-solid fa-user-gear"></i> Voir l'Espace Client
-        </a>
-    </div>
+```
+<!-- =====================================================
+     ACTIONS
+     ===================================================== -->
 
-    <div style="margin-bottom: 2rem;">
-        <h1 style="color: #1e1b4b; font-size: 2rem; font-weight: 800; margin-bottom: 5px;">
-            Cahier d'activités du client : <span style="color: #4338ca;">{{ client.nom }}</span>
-        </h1>
-        <p style="color: #64748b;">Suivi complet des transactions et des ventes de ce client.</p>
-    </div>
+<div class="page-actions">
 
-    <div class="layout-grid">
-        <div class="card">
-            <h2 class="card-title"><i class="fa-solid fa-address-card" style="color: #3730a3;"></i> Résumé du client
-            </h2>
-            <div class="summary-item">
-                <label>Nom complet</label>
-                <span>{{ client.nom }}</span>
-            </div>
-            <div class="summary-item">
-                <label>Téléphone</label>
-                <span>{{ client.telephone|default:"N/A" }}</span>
-            </div>
-            <div class="summary-item">
-                <label>Email</label>
-                <span>{{ client.email|default:"N/A" }}</span>
-            </div>
-            <div class="summary-item">
-                <label>Commandes totales</label>
-                <span
-                    style="background: #e0e7ff; color: #3730a3; padding: 3px 10px; border-radius: 12px; display: inline-block;">
-                    {{ nombre_achats }}
-                </span>
-            </div>
-            <div class="summary-item" style="margin-bottom: 0;">
-                <label>Total dépensé</label>
-                <span style="color: #059669; font-size: 1.1rem; font-weight: 700;">
-                    {{ total_depenses|floatformat:0 }} FCFA
-                </span>
-            </div>
-        </div>
+    <a
+        href="{% url 'astra:clients' %}"
+        class="btn-retour"
+    >
+        <i class="fa-solid fa-arrow-left"></i>
 
-        <div class="card orange-accent">
-            <h2 class="card-title" style="color: #c2410c;"><i class="fa-solid fa-receipt" style="color: #f97316;"></i>
-                Ventes enregistrées</h2>
+        <span>Retour à la liste des clients</span>
+    </a>
 
-            <div style="overflow-x: auto;">
-                <table class="astra-table">
-                    <thead>
-                        <tr>
-                            <th>Référence Vente</th>
-                            <th>Date</th>
-                            <th>Montant</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for vente in historique_achats %}
-                        <tr>
-                            <td style="font-weight: 700; color: #3730a3;">{{ vente.reference }}</td>
-                            <td>{{ vente.date_vente|date:"d/m/Y H:i" }}</td>
-                            <td style="font-weight: 700; color: #059669;">{{ vente.montant_total|floatformat:0 }} FCFA
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="3"
-                                style="text-align: center; padding: 2.5rem; color: #94a3b8; font-style: italic;">
-                                Aucun achat enregistré dans le cahier de ce client.
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+
+    <a
+        href="{% url 'astra:client_login' client.id %}"
+        class="btn-espace-client"
+    >
+        <i class="fa-solid fa-user-gear"></i>
+
+        <span>Voir l'Espace Client</span>
+    </a>
+
 </div>
+
+
+<!-- =====================================================
+     TITRE
+     ===================================================== -->
+
+<div class="client-heading">
+
+    <h1>
+        Cahier d'activités du client :
+        <span>{{ client.nom }}</span>
+    </h1>
+
+    <p>
+        Suivi complet des transactions et des ventes de ce client.
+    </p>
+
+</div>
+
+
+<!-- =====================================================
+     CONTENU
+     ===================================================== -->
+
+<div class="layout-grid">
+
+
+    <!-- =================================================
+         RÉSUMÉ CLIENT
+         ================================================= -->
+
+    <div class="card">
+
+        <h2 class="card-title">
+
+            <i
+                class="fa-solid fa-address-card"
+                style="color: #3730a3;"
+            ></i>
+
+            <span>Résumé du client</span>
+
+        </h2>
+
+
+        <div class="summary-item">
+
+            <label>Nom complet</label>
+
+            <span>
+                {{ client.nom }}
+            </span>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <label>Téléphone</label>
+
+            <span>
+                {{ client.telephone|default:"N/A" }}
+            </span>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <label>Email</label>
+
+            <span>
+                {{ client.email|default:"N/A" }}
+            </span>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <label>Commandes totales</label>
+
+            <span class="summary-orders">
+                {{ nombre_achats }}
+            </span>
+
+        </div>
+
+
+        <div class="summary-item">
+
+            <label>Total dépensé</label>
+
+            <span class="summary-total">
+                {{ total_depenses|floatformat:0 }} FCFA
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         VENTES
+         ================================================= -->
+
+    <div class="card orange-accent">
+
+        <h2
+            class="card-title"
+            style="color: #c2410c;"
+        >
+
+            <i
+                class="fa-solid fa-receipt"
+                style="color: #f97316;"
+            ></i>
+
+            <span>Ventes enregistrées</span>
+
+        </h2>
+
+
+        <!--
+            Le tableau conserve une largeur minimale.
+            Sur téléphone, le conteneur permet un
+            défilement horizontal uniquement si nécessaire.
+        -->
+
+        <div class="table-container">
+
+            <table class="astra-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Référence Vente
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Montant
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for vente in historique_achats %}
+
+                    <tr>
+
+                        <td class="vente-reference">
+                            {{ vente.reference }}
+                        </td>
+
+                        <td>
+                            {{ vente.date_vente|date:"d/m/Y H:i" }}
+                        </td>
+
+                        <td class="vente-montant">
+                            {{ vente.montant_total|floatformat:0 }} FCFA
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="3"
+                            class="empty-message"
+                        >
+                            Aucun achat enregistré dans le cahier de ce client.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
 {% endblock %}

@@ -1,34 +1,593 @@
-{% extends 'base.html' %} <!-- Remplacez par votre layout principal si nécessaire -->
+```html
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
-<div class="main-container" style="padding: 30px; max-width: 800px; margin: 40px auto;">
-    <div style="background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 6px solid #f97316;">
-        
+
+<div class="notification-page">
+
+    <div class="notification-card">
+
         <!-- En-tête de la notification -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <i class="fas fa-bell" style="font-size: 1.5rem; color: #f97316;"></i>
-                <h1 style="margin: 0; font-size: 1.4rem; font-weight: bold; color: #0f172a;">{{ notif.titre }}</h1>
+        <div class="notification-header">
+
+            <div class="notification-title">
+
+                <i class="fas fa-bell"></i>
+
+                <h1>{{ notif.titre }}</h1>
+
             </div>
-            <span style="font-size: 0.85rem; color: #64748b; background: #f1f5f9; padding: 5px 10px; border-radius: 20px;">
-                <i class="far fa-clock me-1"></i> {{ notif.date_creation|date:"d/m/Y à H:i" }}
+
+            <span class="notification-date">
+
+                <i class="far fa-clock me-1"></i>
+
+                {{ notif.date_creation|date:"d/m/Y à H:i" }}
+
             </span>
+
         </div>
+
 
         <!-- Message complet -->
-        <div style="margin-bottom: 30px;">
-            <p style="font-size: 1rem; color: #334155; line-height: 1.6; white-space: pre-line;">
+        <div class="notification-message">
+
+            <p>
                 {{ notif.message }}
             </p>
+
         </div>
 
+
         <!-- Actions / Bouton de retour -->
-        <div style="display: flex; justify-content: flex-end; gap: 10px;">
-            <a href="javascript:history.back()" class="btn btn-secondary px-4 py-2" style="background: #e2e8f0; color: #334155; border: none; border-radius: 8px; text-decoration: none; font-weight: 500;">
-                <i class="fas fa-arrow-left me-2"></i> Retour
+        <div class="notification-actions">
+
+            <a
+                href="javascript:history.back()"
+                class="btn btn-secondary notification-back-btn"
+            >
+
+                <i class="fas fa-arrow-left me-2"></i>
+
+                Retour
+
             </a>
+
         </div>
+
     </div>
+
 </div>
+
+
+<style>
+
+/* =========================================================
+   NOTIFICATION — MOBILE FIRST
+   Design original conservé
+   ========================================================= */
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+.notification-page,
+.notification-page * {
+    box-sizing: border-box;
+}
+
+.notification-page {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    padding: 12px 10px;
+    margin: 16px auto;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CARTE
+   ========================================================= */
+
+.notification-card {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    padding: 18px 16px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.05);
+
+    border-left: 5px solid #f97316;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   EN-TÊTE
+   ========================================================= */
+
+.notification-header {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+
+    border-bottom: 1px solid #eeeeee;
+
+    padding-bottom: 14px;
+}
+
+
+/* =========================================================
+   TITRE
+   ========================================================= */
+
+.notification-title {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+}
+
+.notification-title i {
+    flex-shrink: 0;
+
+    font-size: 1.35rem;
+
+    color: #f97316;
+
+    margin-top: 3px;
+}
+
+.notification-title h1 {
+    min-width: 0;
+
+    margin: 0;
+
+    font-size: 1.15rem;
+
+    font-weight: bold;
+
+    color: #0f172a;
+
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+.notification-date {
+    display: inline-flex;
+
+    align-items: center;
+
+    max-width: 100%;
+    min-width: 0;
+
+    box-sizing: border-box;
+
+    font-size: 0.75rem;
+
+    color: #64748b;
+
+    background: #f1f5f9;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    white-space: normal;
+
+    overflow-wrap: anywhere;
+}
+
+.notification-date i {
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+.notification-message {
+    width: 100%;
+    min-width: 0;
+
+    margin-bottom: 22px;
+}
+
+.notification-message p {
+    width: 100%;
+
+    margin: 0;
+
+    font-size: 0.95rem;
+
+    color: #334155;
+
+    line-height: 1.65;
+
+    white-space: pre-line;
+
+    overflow-wrap: anywhere;
+
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.notification-actions {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: stretch;
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   BOUTON RETOUR
+   ========================================================= */
+
+.notification-back-btn {
+    width: 100%;
+
+    min-height: 46px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 4px;
+
+    background: #e2e8f0;
+
+    color: #334155;
+
+    border: none;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-weight: 500;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+
+    padding: 10px 15px;
+
+    box-sizing: border-box;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+.notification-back-btn:hover {
+    background: #cbd5e1;
+
+    color: #1e293b;
+}
+
+.notification-back-btn:active {
+    transform: scale(0.98);
+}
+
+.notification-back-btn:focus-visible {
+    outline: 3px solid rgba(249, 115, 22, 0.3);
+
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   TRÈS PETITS TÉLÉPHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .notification-page {
+        padding: 8px;
+
+        margin: 10px auto;
+    }
+
+    .notification-card {
+        padding: 14px 12px;
+
+        border-left-width: 4px;
+
+        border-radius: 10px;
+    }
+
+    .notification-header {
+        gap: 10px;
+
+        margin-bottom: 16px;
+
+        padding-bottom: 12px;
+    }
+
+    .notification-title {
+        gap: 8px;
+    }
+
+    .notification-title i {
+        font-size: 1.2rem;
+
+        margin-top: 2px;
+    }
+
+    .notification-title h1 {
+        font-size: 1.05rem;
+
+        line-height: 1.35;
+    }
+
+    .notification-date {
+        font-size: 0.7rem;
+
+        padding: 4px 8px;
+    }
+
+    .notification-message {
+        margin-bottom: 18px;
+    }
+
+    .notification-message p {
+        font-size: 0.9rem;
+
+        line-height: 1.6;
+    }
+
+    .notification-back-btn {
+        min-height: 44px;
+
+        padding: 9px 12px;
+
+        font-size: 13px;
+    }
+}
+
+
+/* =========================================================
+   SMARTPHONES LARGES
+   ========================================================= */
+
+@media (min-width: 361px) {
+
+    .notification-card {
+        padding: 20px 18px;
+    }
+
+    .notification-title h1 {
+        font-size: 1.2rem;
+    }
+
+    .notification-message p {
+        font-size: 0.98rem;
+    }
+}
+
+
+/* =========================================================
+   TABLETTE
+   ========================================================= */
+
+@media (min-width: 576px) {
+
+    .notification-page {
+        padding: 20px;
+
+        margin: 30px auto;
+    }
+
+    .notification-card {
+        padding: 25px;
+
+        border-left-width: 6px;
+    }
+
+    .notification-header {
+        flex-direction: row;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 20px;
+
+        margin-bottom: 20px;
+
+        padding-bottom: 15px;
+    }
+
+    .notification-title {
+        width: auto;
+
+        flex: 1;
+
+        min-width: 0;
+    }
+
+    .notification-title h1 {
+        font-size: 1.25rem;
+    }
+
+    .notification-title i {
+        font-size: 1.5rem;
+    }
+
+    .notification-date {
+        flex-shrink: 0;
+
+        font-size: 0.8rem;
+    }
+
+    .notification-message {
+        margin-bottom: 25px;
+    }
+
+    .notification-message p {
+        font-size: 1rem;
+    }
+
+    .notification-actions {
+        justify-content: flex-end;
+    }
+
+    .notification-back-btn {
+        width: auto;
+
+        min-width: 110px;
+
+        padding-left: 24px;
+
+        padding-right: 24px;
+    }
+}
+
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+@media (min-width: 768px) {
+
+    .notification-page {
+        max-width: 800px;
+
+        padding: 30px;
+
+        margin: 40px auto;
+    }
+
+    .notification-card {
+        padding: 30px;
+
+        border-left-width: 6px;
+    }
+
+    .notification-title h1 {
+        font-size: 1.4rem;
+    }
+
+    .notification-date {
+        font-size: 0.85rem;
+    }
+
+    .notification-message p {
+        font-size: 1rem;
+
+        line-height: 1.6;
+    }
+}
+
+
+/* =========================================================
+   GRAND ÉCRAN
+   ========================================================= */
+
+@media (min-width: 1200px) {
+
+    .notification-page {
+        max-width: 800px;
+    }
+}
+
+
+/* =========================================================
+   MODE SOMBRE
+   Compatible avec html.dark
+   ========================================================= */
+
+html.dark .notification-card {
+    background-color: #1e293b !important;
+
+    border-left-color: #f97316;
+}
+
+html.dark .notification-title h1 {
+    color: #f1f5f9;
+}
+
+html.dark .notification-message p {
+    color: #cbd5e1;
+}
+
+html.dark .notification-header {
+    border-bottom-color: #334155;
+}
+
+html.dark .notification-date {
+    background-color: #334155;
+
+    color: #cbd5e1;
+}
+
+html.dark .notification-back-btn {
+    background-color: #334155;
+
+    color: #f1f5f9;
+}
+
+html.dark .notification-back-btn:hover {
+    background-color: #475569;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   RÉDUCTION DES ANIMATIONS
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .notification-back-btn {
+        transition: none;
+    }
+}
+
+</style>
+
 {% endblock %}
+```

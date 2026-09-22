@@ -1,96 +1,613 @@
 {% load static %}
 
-<header class="app-header" style="display: flex; align-items: center; justify-content: space-between; padding: 0 24px; width: 100%; box-sizing: border-box;">
+<style>
+    /* =========================================================
+       HEADER ASTRA TECH — MOBILE FIRST
+       Design original conservé
+       ========================================================= */
 
-    <!-- LOGO -->
-    <div class="logo-container" style="display: flex; align-items: center;">
-        <img src="{% static 'image/logoo.png' %}" alt="ASTRA TECH" style="height: 38px; width: auto;">
-    </div>
+    .header-mobile {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 1000;
 
-    <!-- NAVIGATION -->
-    <nav class="nav-menu" style="display: flex; align-items: center; gap: 24px;">
-        <a href="{% url 'astra:ventes' %}" class="nav-item {% if request.resolver_match.url_name == 'ventes' %}active{% endif %}">Ventes</a>
-         <a href="{% url 'astra:stocks' %}" class="nav-item {% if request.resolver_match.url_name == 'stocks' %}active{% endif %}">Stocks</a>
-        <a href="{% url 'astra:approvisionnement' %}" class="nav-item {% if request.resolver_match.url_name == 'approvisionnement' or request.resolver_match.url_name == 'approvisionnements' %}active{% endif %}">Approvisionnement</a>
-        <a href="{% url 'astra:clients' %}" class="nav-item {% if request.resolver_match.url_name == 'gestion_clients' %}active{% endif %}">Clients</a>
-        <a href="{% url 'astra:fournisseurs' %}" class="nav-item {% if request.resolver_match.url_name == 'fournisseurs' %}active{% endif %}">Fournisseurs</a>
-        <a href="{% url 'astra:rapports' %}" class="nav-item {% if request.resolver_match.url_name == 'rapports' %}active{% endif %}">Rapports</a>
-    </nav>
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-    <!-- USER MENU & NOTIFICATIONS -->
-    <div class="user-menu" style="display: flex; align-items: center; gap: 16px;">
-        
-        <div class="notification-container" style="position: relative; display: inline-block; cursor: pointer;">
-    <div class="notification-icon" id="notificationIcon" onclick="toggleNotificationDropdown()" style="font-size: 1.2rem; padding: 8px; color: white;">
-        <i class="fas fa-bell"></i>
-        {% if nombre_notifications and nombre_notifications > 0 %}
-            <span class="notification-badge" style="position: absolute; top: 2px; right: 2px; background: #ff4d4d; color: white; font-size: 0.65rem; padding: 2px 5px; border-radius: 50%; font-weight: bold;">
-                {{ nombre_notifications }}
-            </span>
-        {% endif %}
-    </div>
+        padding: 10px 12px !important;
+        gap: 10px;
 
-    <!-- Menu déroulant dynamique -->
-    <div id="notificationDropdown" style="display: none; position: absolute; right: 0; top: 45px; width: 320px; background: white; color: black; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border-radius: 10px; z-index: 9999; padding: 15px; text-align: left;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
-            <h6 style="margin: 0; font-weight: bold; font-size: 0.9rem;">Notifications système</h6>
-            {% if nombre_notifications and nombre_notifications > 0 %}
-                <button type="button" onclick="marquerToutCommeLu(event)" style="background: none; border: none; color: #007bff; font-size: 0.75rem; cursor: pointer; font-weight: bold; text-decoration: underline;">Tout marquer comme lu</button>
-            {% endif %}
-        </div>
-        <div style="max-height: 220px; overflow-y: auto; font-size: 0.8rem;">
-            {% for notification in notifications_non_lues %}
-                <a href="{% url 'astra:detail_notification' notification.id %}" style="text-decoration: none; color: inherit; display: block; margin-bottom: 8px;">
-                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid #007bff;">
-                        <strong style="display: block; color: #0056b3;">{{ notification.titre }}</strong>
-                        <span style="color: #333;">{{ notification.message }}</span>
-                        <small style="display: block; color: #888; margin-top: 4px;">{{ notification.date_creation|date:"d/m/Y H:i" }}</small>
-                    </div>
-                </a>
-            {% empty %}
-                <div style="text-align: center; color: #666; margin: 15px 0;">
-                    <i class="fas fa-check-circle" style="color: #28a745; font-size: 1.2rem; display: block; margin-bottom: 5px;"></i>
-                    Aucune nouvelle notification.
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+        overflow: visible;
+    }
+
+    /* =========================================================
+       LOGO
+       ========================================================= */
+
+    .header-mobile .logo-container {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        min-width: 0;
+    }
+
+    .header-mobile .logo-container img {
+        height: 32px !important;
+        width: auto;
+        max-width: 130px;
+        object-fit: contain;
+    }
+
+    /* =========================================================
+       NAVIGATION
+       ========================================================= */
+
+    .header-mobile .nav-menu {
+        display: flex !important;
+        align-items: center;
+        gap: 16px !important;
+
+        flex: 1 1 auto;
+        min-width: 0;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+
+        scrollbar-width: none;
+        padding: 3px 2px;
+    }
+
+    .header-mobile .nav-menu::-webkit-scrollbar {
+        display: none;
+    }
+
+    .header-mobile .nav-item {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+
+    /* =========================================================
+       MENU UTILISATEUR
+       ========================================================= */
+
+    .header-mobile .user-menu {
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end;
+
+        gap: 8px !important;
+
+        flex-shrink: 0;
+        min-width: 0;
+    }
+
+    /* =========================================================
+       NOTIFICATIONS
+       ========================================================= */
+
+    .header-mobile .notification-container {
+        position: relative;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+
+    .header-mobile .notification-icon {
+        font-size: 1.05rem !important;
+        padding: 7px !important;
+        min-width: 36px;
+        min-height: 36px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header-mobile .notification-badge {
+        top: 0 !important;
+        right: 0 !important;
+        min-width: 16px;
+        min-height: 16px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 0.58rem !important;
+        padding: 2px 4px !important;
+    }
+
+    /* =========================================================
+       PANNEAU NOTIFICATIONS
+       ========================================================= */
+
+    .header-mobile .notification-panel {
+        position: fixed !important;
+
+        top: 58px !important;
+        right: 10px !important;
+        left: auto !important;
+
+        width: min(320px, calc(100vw - 20px)) !important;
+        max-width: calc(100vw - 20px);
+
+        max-height: calc(100vh - 80px);
+        overflow: hidden;
+
+        padding: 12px !important;
+    }
+
+    .header-mobile .notification-panel > div:first-child {
+        gap: 8px;
+    }
+
+    .header-mobile .notification-panel h6 {
+        font-size: 0.82rem !important;
+    }
+
+    .header-mobile .notification-panel button {
+        font-size: 0.68rem !important;
+        white-space: nowrap;
+    }
+
+    .header-mobile .notification-panel > div:nth-child(2) {
+        max-height: calc(100vh - 160px) !important;
+        overflow-y: auto;
+    }
+
+    /* =========================================================
+       BOUTON RETOUR
+       ========================================================= */
+
+    .header-mobile .btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+        font-size: 12px;
+        padding: 7px 12px !important;
+    }
+
+    .header-mobile .btn .me-2 {
+        margin-right: 5px !important;
+    }
+
+    /* =========================================================
+       PETITS TÉLÉPHONES
+       ========================================================= */
+
+    @media (max-width: 360px) {
+
+        .header-mobile {
+            padding: 8px 8px !important;
+            gap: 6px;
+        }
+
+        .header-mobile .logo-container img {
+            height: 28px !important;
+            max-width: 110px;
+        }
+
+        .header-mobile .nav-menu {
+            gap: 12px !important;
+        }
+
+        .header-mobile .nav-item {
+            font-size: 12px;
+        }
+
+        .header-mobile .user-menu {
+            gap: 4px !important;
+        }
+
+        .header-mobile .notification-icon {
+            min-width: 32px;
+            min-height: 32px;
+            font-size: 0.95rem !important;
+            padding: 5px !important;
+        }
+
+        .header-mobile .btn {
+            font-size: 11px;
+            padding: 6px 9px !important;
+        }
+
+        .header-mobile .btn .me-2 {
+            display: none;
+        }
+
+        .header-mobile .notification-panel {
+            top: 50px !important;
+            right: 8px !important;
+            width: calc(100vw - 16px) !important;
+            max-width: calc(100vw - 16px);
+        }
+    }
+
+    /* =========================================================
+       TABLETTES
+       ========================================================= */
+
+    @media (min-width: 576px) {
+
+        .header-mobile {
+            padding: 10px 18px !important;
+            gap: 14px;
+        }
+
+        .header-mobile .logo-container img {
+            height: 35px !important;
+            max-width: 140px;
+        }
+
+        .header-mobile .nav-menu {
+            gap: 18px !important;
+        }
+
+        .header-mobile .nav-item {
+            font-size: 13px;
+        }
+
+        .header-mobile .notification-icon {
+            font-size: 1.15rem !important;
+            padding: 8px !important;
+        }
+
+        .header-mobile .btn {
+            font-size: 13px;
+            padding: 8px 16px !important;
+        }
+
+        .header-mobile .notification-panel {
+            position: absolute !important;
+            top: 45px !important;
+            right: 0 !important;
+            left: auto !important;
+            width: 320px !important;
+            max-width: 320px;
+        }
+    }
+
+    /* =========================================================
+       TABLETTE LARGE
+       ========================================================= */
+
+    @media (min-width: 768px) {
+
+        .header-mobile {
+            padding: 0 20px !important;
+            gap: 18px;
+        }
+
+        .header-mobile .logo-container img {
+            height: 38px !important;
+            max-width: none;
+        }
+
+        .header-mobile .nav-menu {
+            gap: 20px !important;
+        }
+
+        .header-mobile .nav-item {
+            font-size: 14px;
+        }
+
+        .header-mobile .user-menu {
+            gap: 12px !important;
+        }
+
+        .header-mobile .btn {
+            font-size: 14px;
+            padding: 8px 18px !important;
+        }
+    }
+
+    /* =========================================================
+       DESKTOP
+       ========================================================= */
+
+    @media (min-width: 992px) {
+
+        .header-mobile {
+            padding: 0 24px !important;
+            gap: 20px;
+        }
+
+        .header-mobile .nav-menu {
+            gap: 24px !important;
+            overflow-x: visible;
+            overflow-y: visible;
+            padding: 0;
+        }
+
+        .header-mobile .user-menu {
+            gap: 16px !important;
+        }
+
+        .header-mobile .notification-icon {
+            font-size: 1.2rem !important;
+            padding: 8px !important;
+        }
+
+        .header-mobile .btn {
+            font-size: 14px;
+            padding: 8px 16px !important;
+        }
+    }
+
+    /* =========================================================
+       ACCESSIBILITÉ
+       ========================================================= */
+
+    .header-mobile .nav-item:focus-visible,
+    .header-mobile .btn:focus-visible,
+    .header-mobile button:focus-visible {
+        outline: 3px solid rgba(59, 130, 246, 0.35);
+        outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .header-mobile *,
+        .header-mobile *::before,
+        .header-mobile *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+    }
+</style>
+
+<header class="app-header header-mobile">
+
+<!-- =====================================================
+     LOGO
+     ===================================================== -->
+
+<div class="logo-container">
+
+    <img src="{% static 'image/logoo.png' %}"
+         alt="ASTRA TECH">
+
 </div>
 
-        <!-- 2. Bouton Retour -->
-        <a href="{% url 'astra:accueil' %}" class="btn btn-primary rounded-pill px-4" style="white-space: nowrap;">
-            <i class="fas fa-arrow-left me-2"></i> Retour
-        </a>
+
+<!-- =====================================================
+     NAVIGATION
+     ===================================================== -->
+
+<nav class="nav-menu">
+
+    <a href="{% url 'astra:ventes' %}"
+       class="nav-item {% if request.resolver_match.url_name == 'ventes' %}active{% endif %}">
+        Ventes
+    </a>
+
+    <a href="{% url 'astra:stocks' %}"
+       class="nav-item {% if request.resolver_match.url_name == 'stocks' %}active{% endif %}">
+        Stocks
+    </a>
+
+    <a href="{% url 'astra:approvisionnement' %}"
+       class="nav-item {% if request.resolver_match.url_name == 'approvisionnement' or request.resolver_match.url_name == 'approvisionnements' %}active{% endif %}">
+        Approvisionnement
+    </a>
+
+    <a href="{% url 'astra:clients' %}"
+       class="nav-item {% if request.resolver_match.url_name == 'gestion_clients' %}active{% endif %}">
+        Clients
+    </a>
+
+    <a href="{% url 'astra:fournisseurs' %}"
+       class="nav-item {% if request.resolver_match.url_name == 'fournisseurs' %}active{% endif %}">
+        Fournisseurs
+    </a>
+
+    <a href="{% url 'astra:rapports' %}"
+       class="nav-item {% if request.resolver_match.url_name == 'rapports' %}active{% endif %}">
+        Rapports
+    </a>
+
+</nav>
+
+
+<!-- =====================================================
+     MENU UTILISATEUR & NOTIFICATIONS
+     ===================================================== -->
+
+<div class="user-menu">
+
+    <!-- Notifications -->
+
+    <div class="notification-container">
+
+        <div class="notification-icon"
+             id="notificationIcon"
+             onclick="toggleNotificationDropdown()">
+
+            <i class="fas fa-bell"></i>
+
+            {% if nombre_notifications and nombre_notifications > 0 %}
+
+                <span class="notification-badge">
+
+                    {{ nombre_notifications }}
+
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Menu déroulant dynamique -->
+
+        <div id="notificationDropdown"
+             class="notification-panel"
+             style="display: none; background: white; color: black; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border-radius: 10px; z-index: 9999; text-align: left;">
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+
+                <h6 style="margin: 0; font-weight: bold; font-size: 0.9rem;">
+                    Notifications système
+                </h6>
+
+                {% if nombre_notifications and nombre_notifications > 0 %}
+
+                    <button type="button"
+                            onclick="marquerToutCommeLu(event)"
+                            style="background: none; border: none; color: #007bff; font-size: 0.75rem; cursor: pointer; font-weight: bold; text-decoration: underline;">
+
+                        Tout marquer comme lu
+
+                    </button>
+
+                {% endif %}
+
+            </div>
+
+
+            <div style="max-height: 220px; overflow-y: auto; font-size: 0.8rem;">
+
+                {% for notification in notifications_non_lues %}
+
+                    <a href="{% url 'astra:detail_notification' notification.id %}"
+                       style="text-decoration: none; color: inherit; display: block; margin-bottom: 8px;">
+
+                        <div style="padding: 10px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid #007bff;">
+
+                            <strong style="display: block; color: #0056b3;">
+                                {{ notification.titre }}
+                            </strong>
+
+                            <span style="color: #333;">
+                                {{ notification.message }}
+                            </span>
+
+                            <small style="display: block; color: #888; margin-top: 4px;">
+                                {{ notification.date_creation|date:"d/m/Y H:i" }}
+                            </small>
+
+                        </div>
+
+                    </a>
+
+                {% empty %}
+
+                    <div style="text-align: center; color: #666; margin: 15px 0;">
+
+                        <i class="fas fa-check-circle"
+                           style="color: #28a745; font-size: 1.2rem; display: block; margin-bottom: 5px;">
+                        </i>
+
+                        Aucune nouvelle notification.
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
     </div>
+
+
+    <!-- =================================================
+         BOUTON RETOUR
+         ================================================= -->
+
+    <a href="{% url 'astra:accueil' %}"
+       class="btn btn-primary rounded-pill px-4">
+
+        <i class="fas fa-arrow-left me-2"></i>
+
+        Retour
+
+    </a>
+
+</div>
+
 
 </header>
 
 <script>
+
     function toggleNotificationDropdown() {
-        const dropdown = document.getElementById('notificationDropdown');
-        dropdown.style.display = (dropdown.style.display === 'none' || dropdown.style.display === '') ? 'block' : 'none';
+
+        const dropdown =
+            document.getElementById('notificationDropdown');
+
+        if (!dropdown) {
+            return;
+        }
+
+        dropdown.style.display =
+            (
+                dropdown.style.display === 'none' ||
+                dropdown.style.display === ''
+            )
+                ? 'block'
+                : 'none';
     }
 
+
     function marquerToutCommeLu(event) {
+
         event.stopPropagation();
+
         fetch("{% url 'astra:marquer_lues' %}", {
+
             method: 'POST',
+
             headers: {
                 'X-CSRFToken': '{{ csrf_token }}',
                 'X-Requested-With': 'XMLHttpRequest'
             }
-        }).then(function(response) {
+
+        })
+        .then(function(response) {
+
             if (response.ok) {
                 window.location.reload();
             }
+
+        })
+        .catch(function(error) {
+
+            console.error(
+                'Erreur lors du marquage des notifications :',
+                error
+            );
+
         });
+
     }
 
+
     window.addEventListener('click', function(e) {
-        const container = document.querySelector('.notification-container');
-        const dropdown = document.getElementById('notificationDropdown');
-        if (container && dropdown && !container.contains(e.target)) {
+
+        const container =
+            document.querySelector('.notification-container');
+
+        const dropdown =
+            document.getElementById('notificationDropdown');
+
+        if (
+            container &&
+            dropdown &&
+            !container.contains(e.target)
+        ) {
+
             dropdown.style.display = 'none';
+
         }
+
     });
+
 </script>
+
