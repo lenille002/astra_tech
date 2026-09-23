@@ -2493,7 +2493,7 @@ def detail_client_activites(request, client_id):
         "astra/detail_client_activites.html",
         context
     )
-    
+
 @verifier_acces_strict
 def supprimer_client(request, client_id):
     client = get_object_or_404(Client, id=client_id)

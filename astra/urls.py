@@ -272,11 +272,15 @@ urlpatterns = [
     # Le clic sur "Cahier" ouvre maintenant espace_client.html
     # ---------------------------------------------------------
 
-    path(
-        "client/<int:client_id>/cahier/",
-        views.espace_client,
-        name="detail_client_activites"
-    ),
+    # ---------------------------------------------------------
+# CAHIER CLIENT
+# ---------------------------------------------------------
+
+path(
+    "client/<int:client_id>/cahier/",
+    views.detail_client_activites,
+    name="detail_client_activites"
+),
 
     # ---------------------------------------------------------
     # ESPACE CLIENT
