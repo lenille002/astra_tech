@@ -9,43 +9,65 @@ urlpatterns = [
     # AUTHENTIFICATION & PAGES PRINCIPALES
     # =========================================================
 
-     path("", views.login_view, name="login"),
-    path("connexion/", views.login_view, name="connexion"),
+    path("", views.login_view, name="login"),
+
+    path(
+        "connexion/",
+        views.login_view,
+        name="connexion"
+    ),
+
     path(
         "connexion-admin/",
         views.connexion_admin_page,
         name="connexion_admin"
     ),
 
-   path("accueil/", views.accueil, name="accueil"),
-    path("logout/", views.deconnexion, name="logout"),
+    path(
+        "accueil/",
+        views.accueil,
+        name="accueil"
+    ),
+
+    path(
+        "logout/",
+        views.deconnexion,
+        name="logout"
+    ),
+
+    path(
+        "tokens/",
+        views.token_accueil,
+        name="token_accueil"
+    ),
 
 
-   path("tokens/", views.token_accueil, name="token_accueil"),
+    # =========================================================
+    # FOURNISSEURS
+    # =========================================================
 
-    
+    path(
+        "fournisseurs/",
+        views.fournisseurs,
+        name="fournisseurs"
+    ),
 
-path(
-    "fournisseurs/",
-    views.fournisseurs,
-    name="fournisseurs"
-),
+    path(
+        "fournisseurs/supprimer/<int:pk>/",
+        views.supprimer_fournisseur,
+        name="supprimer_fournisseur"
+    ),
 
-path(
-    "fournisseurs/supprimer/<int:pk>/",
-    views.supprimer_fournisseur,
-    name="supprimer_fournisseur"
-),
+    path(
+        "fournisseurs/email/<int:fournisseur_id>/",
+        views.envoyer_email_fournisseur,
+        name="envoyer_email_fournisseur"
+    ),
 
-path(
-    "fournisseurs/email/<int:fournisseur_id>/",
-    views.envoyer_email_fournisseur,
-    name="envoyer_email_fournisseur"
-),
 
-# ==============================
-# ESPACE FOURNISSEUR
-# ==============================
+    # =========================================================
+    # ESPACE FOURNISSEUR
+    # =========================================================
 
     path(
         "fournisseur/",
@@ -53,38 +75,46 @@ path(
         name="fournisseur_dashboard"
     ),
 
-  path(
+    path(
         "fournisseur/<int:pk>/",
         views.espace_fournisseur,
         name="espace_fournisseur"
     ),
 
-# ==============================
-# CONNEXION FOURNISSEUR
-# ==============================
 
-path(
-    "fournisseur/<int:fournisseur_id>/connexion/",
-    views.connexion_fournisseur,
-    name="connexion_fournisseur"
-),
+    # =========================================================
+    # CONNEXION FOURNISSEUR
+    # =========================================================
 
-path(
-    "fournisseur/<int:fournisseur_id>/verification-app/",
-    views.verification_mot_de_passe_app,
-    name="verifier_mot_de_passe_app"
-),
+    path(
+        "fournisseur/<int:fournisseur_id>/connexion/",
+        views.connexion_fournisseur,
+        name="connexion_fournisseur"
+    ),
 
-path(
-    "fournisseur/<int:pk>/deconnexion/",
-    views.deconnexion_fournisseur,
-    name="deconnexion_fournisseur"
-),
+    path(
+        "fournisseur/<int:fournisseur_id>/verification-app/",
+        views.verification_mot_de_passe_app,
+        name="verifier_mot_de_passe_app"
+    ),
+
+    path(
+        "fournisseur/<int:pk>/deconnexion/",
+        views.deconnexion_fournisseur,
+        name="deconnexion_fournisseur"
+    ),
+
+
     # =========================================================
     # VENTES
     # =========================================================
 
-    path("ventes/", views.ventes_view, name="ventes"),
+    path(
+        "ventes/",
+        views.ventes_view,
+        name="ventes"
+    ),
+
     path(
         "vente/details/<int:vente_id>/",
         views.details_vente,
@@ -114,9 +144,11 @@ path(
     # STOCK
     # =========================================================
 
-    # Dans astra/urls.py
-    
-    path("stocks/", views.stock_view, name="stocks"),
+    path(
+        "stocks/",
+        views.stock_view,
+        name="stocks"
+    ),
 
     path(
         "stock/ajouter/",
@@ -140,8 +172,8 @@ path(
     # =========================================================
     # APPROVISIONNEMENTS
     # =========================================================
-    
-     path(
+
+    path(
         "approvisionnement/",
         views.approvisionnements_view,
         name="approvisionnement"
@@ -188,6 +220,11 @@ path(
         name="reset_page_rapports"
     ),
 
+
+    # =========================================================
+    # À PROPOS
+    # =========================================================
+
     path(
         "propos/",
         views.propos,
@@ -198,7 +235,7 @@ path(
     # =========================================================
     # CLIENTS
     # =========================================================
-    
+
     path(
         "clients/",
         views.gestion_clients,
@@ -211,12 +248,16 @@ path(
         name="client_register"
     ),
 
-    # Conserve l'alias 'register' pointant sur la même vue pour éviter les erreurs dans les templates existants
+    # Alias conservé pour les anciens templates
     path(
         "client/register/",
         views.client_register,
         name="register"
     ),
+
+    # ---------------------------------------------------------
+    # CONNEXION CLIENT
+    # ---------------------------------------------------------
 
     path(
         "client/<int:client_id>/connexion/",
@@ -224,11 +265,32 @@ path(
         name="client_login"
     ),
 
+    # ---------------------------------------------------------
+    # CAHIER CLIENT
+    #
+    # IMPORTANT :
+    # Le clic sur "Cahier" ouvre maintenant espace_client.html
+    # ---------------------------------------------------------
+
     path(
         "client/<int:client_id>/cahier/",
-        views.detail_client_activites,
+        views.espace_client,
         name="detail_client_activites"
     ),
+
+    # ---------------------------------------------------------
+    # ESPACE CLIENT
+    # ---------------------------------------------------------
+
+    path(
+        "client/<int:client_id>/espace/",
+        views.espace_client,
+        name="espace_client"
+    ),
+
+    # ---------------------------------------------------------
+    # SUPPRESSION CLIENT
+    # ---------------------------------------------------------
 
     path(
         "client/<int:client_id>/supprimer/",
@@ -236,17 +298,19 @@ path(
         name="supprimer_client"
     ),
 
+    # ---------------------------------------------------------
+    # MODIFICATION CLIENT
+    # ---------------------------------------------------------
+
     path(
         "client/<int:client_id>/modifier/",
         views.modifier_client,
         name="modifier_client"
     ),
-    
-    path(
-        "client/<int:client_id>/espace/",
-        views.espace_client,
-        name="espace_client"
-    ),
+
+    # ---------------------------------------------------------
+    # MOT DE PASSE CLIENT
+    # ---------------------------------------------------------
 
     path(
         "client/mot-de-passe-oublie/",
