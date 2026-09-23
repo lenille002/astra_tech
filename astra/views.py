@@ -781,64 +781,145 @@ class LoginWithTokenView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 # ==========================================================
 # CONNEXION
+# ==========================================================
+
 @ensure_csrf_cookie
 def login_view(request):
+
     print("\n" + "=" * 80)
     print("🔥 LOGIN_VIEW APPELÉE")
     print("METHOD :", request.method)
     print("PATH   :", request.path)
     print("=" * 80)
 
+    # ==========================================================
+    # CRÉATION AUTOMATIQUE DE L'ADMIN INITIAL
+    # ==========================================================
+
     creer_admin_initial_si_necessaire()
 
+    # ==========================================================
+    # AFFICHAGE DE LA PAGE DE CONNEXION
+    # ==========================================================
+
     if request.method != "POST":
-        return render(request, "astra/login.html")
+
+        return render(
+            request,
+            "astra/login.html"
+        )
 
     # ==========================================================
     # RÉCUPÉRATION DES CHAMPS
     # ==========================================================
 
     identifiant = " ".join(
-        request.POST.get("identifiant", request.POST.get("nom", "")).split()
+        request.POST.get(
+            "identifiant",
+            request.POST.get("nom", "")
+        ).split()
     )
-    prenom = " ".join(request.POST.get("prenom", "").split())
-    password = request.POST.get("password", "")
 
-    print("Identifiant reçu :", repr(identifiant))
-    print("Prénom reçu   :", repr(prenom))
-    print("Password reçu :", "*" * len(password))
+    prenom = " ".join(
+        request.POST.get(
+            "prenom",
+            ""
+        ).split()
+    )
+
+    password = request.POST.get(
+        "password",
+        ""
+    )
+
+    print(
+        "Identifiant reçu :",
+        repr(identifiant)
+    )
+
+    print(
+        "Prénom reçu   :",
+        repr(prenom)
+    )
+
+    print(
+        "Password reçu :",
+        "*" * len(password)
+    )
 
     # ==========================================================
     # VÉRIFICATION DES CHAMPS
     # ==========================================================
 
     if not identifiant or not password:
+
         messages.error(
             request,
             "Veuillez remplir tous les champs."
         )
-        return render(request, "astra/login.html")
+
+        return render(
+            request,
+            "astra/login.html"
+        )
 
     # ==========================================================
     # RECHERCHE DE L'UTILISATEUR
     # ==========================================================
 
     utilisateur = Utilisateur.objects.annotate(
-        nom_normalise=Lower(Trim("nom")),
-        prenom_normalise=Lower(Trim("prenom")),
-        email_normalise=Lower(Trim("email")),
+
+        nom_normalise=Lower(
+            Trim("nom")
+        ),
+
+        prenom_normalise=Lower(
+            Trim("prenom")
+        ),
+
+        email_normalise=Lower(
+            Trim("email")
+        ),
+
     ).filter(
-        Q(nom_normalise=identifiant.lower(), prenom_normalise=prenom.lower())
-        | Q(nom_normalise=prenom.lower(), prenom_normalise=identifiant.lower())
-        | Q(email_normalise=identifiant.lower())
+
+        Q(
+            nom_normalise=identifiant.lower(),
+            prenom_normalise=prenom.lower()
+        )
+
+        |
+
+        Q(
+            nom_normalise=prenom.lower(),
+            prenom_normalise=identifiant.lower()
+        )
+
+        |
+
+        Q(
+            email_normalise=identifiant.lower()
+        )
+
     ).first()
 
-    print("Utilisateur trouvé :", utilisateur)
+    print(
+        "Utilisateur trouvé :",
+        utilisateur
+    )
+
+    # ==========================================================
+    # UTILISATEUR INEXISTANT
+    # ==========================================================
 
     if utilisateur is None:
-        print("❌ Aucun utilisateur trouvé")
+
+        print(
+            "❌ Aucun utilisateur trouvé"
+        )
 
         messages.error(
             request,
@@ -850,11 +931,34 @@ def login_view(request):
             "astra/login.html"
         )
 
-    print("ID utilisateur :", utilisateur.id)
-    print("Nom            :", utilisateur.nom)
-    print("Prénom         :", utilisateur.prenom)
-    print("Rôle            :", utilisateur.role)
-    print("Compte actif    :", utilisateur.is_active)
+    # ==========================================================
+    # INFORMATIONS UTILISATEUR
+    # ==========================================================
+
+    print(
+        "ID utilisateur :",
+        utilisateur.id
+    )
+
+    print(
+        "Nom            :",
+        utilisateur.nom
+    )
+
+    print(
+        "Prénom         :",
+        utilisateur.prenom
+    )
+
+    print(
+        "Rôle            :",
+        utilisateur.role
+    )
+
+    print(
+        "Compte actif    :",
+        utilisateur.is_active
+    )
 
     # ==========================================================
     # VÉRIFICATION DU COMPTE
@@ -876,7 +980,9 @@ def login_view(request):
     # VÉRIFICATION DU MOT DE PASSE
     # ==========================================================
 
-    password_correct = utilisateur.check_password(password)
+    password_correct = utilisateur.check_password(
+        password
+    )
 
     print(
         "Mot de passe correct :",
@@ -885,7 +991,9 @@ def login_view(request):
 
     if not password_correct:
 
-        print("❌ Mot de passe incorrect")
+        print(
+            "❌ Mot de passe incorrect"
+        )
 
         messages.error(
             request,
@@ -901,17 +1009,24 @@ def login_view(request):
     # AUTHENTIFICATION RÉUSSIE
     # ==========================================================
 
-    print("✅ AUTHENTIFICATION RÉUSSIE")
+    print(
+        "✅ AUTHENTIFICATION RÉUSSIE"
+    )
 
     # ==========================================================
-    # SESSION
+    # ENREGISTREMENT DE LA SESSION
     # ==========================================================
 
     request.session["utilisateur_id"] = utilisateur.id
+
     request.session["user_id"] = utilisateur.id
+
     request.session["user_role"] = utilisateur.role
+
     request.session["user_nom"] = utilisateur.nom
+
     request.session["user_prenom"] = utilisateur.prenom
+
     request.session["connecte"] = True
 
     request.session.modified = True
@@ -920,12 +1035,17 @@ def login_view(request):
     # NORMALISATION DU RÔLE
     # ==========================================================
 
-    role = (utilisateur.role or "").strip().lower()
+    role = (
+        utilisateur.role or ""
+    ).strip().lower()
 
-    print("Rôle normalisé :", repr(role))
+    print(
+        "Rôle normalisé :",
+        repr(role)
+    )
 
     # ==========================================================
-    # ADMIN
+    # ADMINISTRATEUR
     # ==========================================================
 
     if role in [
@@ -934,10 +1054,12 @@ def login_view(request):
         "administrateurs"
     ]:
 
-        print("➡️ REDIRECTION ADMIN")
+        print(
+            "➡️ REDIRECTION ADMIN → ACCUEIL"
+        )
 
         return redirect(
-            "astra:token_accueil"
+            "astra:accueil"
         )
 
     # ==========================================================
@@ -949,9 +1071,14 @@ def login_view(request):
         "clients"
     ]:
 
-        print("➡️ REDIRECTION CLIENT")
+        print(
+            "➡️ REDIRECTION CLIENT"
+        )
 
+        # ------------------------------------------------------
         # Recherche du profil Client correspondant
+        # ------------------------------------------------------
+
         client = Client.objects.filter(
             email__iexact=utilisateur.email
         ).first()
@@ -963,12 +1090,22 @@ def login_view(request):
                 client.id
             )
 
+            # IMPORTANT :
+            # La connexion générale d'un utilisateur ayant
+            # le rôle "client" ne doit pas automatiquement
+            # créer une session privée de cahier client.
+            #
+            # On conserve ici la logique générale ASTRA.
+            # Le cahier privé utilise client_login().
+
             return redirect(
-                "astra:espace_client",
-                client_id=client.id
+                "astra:ventes"
             )
 
-        # Si aucun profil Client n'existe
+        # ------------------------------------------------------
+        # Aucun profil client
+        # ------------------------------------------------------
+
         print(
             "⚠️ Aucun profil Client trouvé pour :",
             utilisateur.email
@@ -976,11 +1113,12 @@ def login_view(request):
 
         messages.warning(
             request,
-            "Votre compte est connecté, mais votre profil client n'a pas encore été créé."
+            "Votre compte est connecté, mais votre profil client "
+            "n'a pas encore été créé."
         )
 
         return redirect(
-            "astra:accueil"
+            "astra:ventes"
         )
 
     # ==========================================================
@@ -992,7 +1130,9 @@ def login_view(request):
         "fournisseurs"
     ]:
 
-        print("➡️ REDIRECTION FOURNISSEUR")
+        print(
+            "➡️ REDIRECTION FOURNISSEUR"
+        )
 
         return redirect(
             "astra:fournisseur_dashboard"
@@ -1009,7 +1149,9 @@ def login_view(request):
         "caissier"
     ]:
 
-        print("➡️ REDIRECTION VENTE")
+        print(
+            "➡️ REDIRECTION VENTE"
+        )
 
         return redirect(
             "astra:ventes"
@@ -1025,10 +1167,29 @@ def login_view(request):
         "approvisionneur"
     ]:
 
-        print("➡️ REDIRECTION APPROVISIONNEMENT")
+        print(
+            "➡️ REDIRECTION APPROVISIONNEMENT"
+        )
 
         return redirect(
             "astra:approvisionnement"
+        )
+
+    # ==========================================================
+    # STOCKS
+    # ==========================================================
+
+    elif role in [
+        "stock",
+        "stocks"
+    ]:
+
+        print(
+            "➡️ REDIRECTION STOCKS"
+        )
+
+        return redirect(
+            "astra:stocks"
         )
 
     # ==========================================================
@@ -1040,7 +1201,9 @@ def login_view(request):
         "rapports"
     ]:
 
-        print("➡️ REDIRECTION RAPPORTS")
+        print(
+            "➡️ REDIRECTION RAPPORTS"
+        )
 
         return redirect(
             "astra:rapports"
@@ -1065,29 +1228,27 @@ def login_view(request):
         return redirect(
             "astra:accueil"
         )
+
+
 # ==========================================================
 # DÉCONNEXION
 # ==========================================================
 
 def deconnexion(request):
-    logout(request)
-    request.session.flush()
-    return redirect("astra:login")
 
-# ==========================
-# ACCUEIL & INSCRIPTION
-# ==========================
-@verifier_acces_strict(
-    allowed_roles=[
-        "admin",
-        "client",
-        "fournisseur",
-        "approvisionnement",
-        "vente",
-        "stocks",
-        "rapports",
-    ]
-)
+    print(
+        "🚪 DÉCONNEXION"
+    )
+
+    logout(request)
+
+    request.session.flush()
+
+    return redirect(
+        "astra:login"
+    )
+
+
 def accueil(request):
     aujourd_hui = timezone.now().date()
     debut_mois = aujourd_hui.replace(day=1)
