@@ -1702,24 +1702,27 @@ def ventes_view(request):
     }
     return render(request, 'astra/vente.html', context)
 
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect, render
 
 
 def client_login(request, client_id=None):
     """
-    Vue de connexion dédiée aux clients ASTRA TECH.
+    Connexion d'un client ASTRA TECH.
 
-    Accepte éventuellement un client_id transmis par l'URL :
+    URL :
         /client/<client_id>/connexion/
 
-    Le client_id peut être utilisé pour identifier le client concerné,
-    sans empêcher la connexion si celui-ci n'est pas fourni.
+    Après connexion, le client est redirigé vers la page des ventes.
     """
 
-    # Si l'utilisateur est déjà connecté
+    # Si l'utilisateur Django est déjà connecté
     if request.user.is_authenticated:
-        return redirect('dashboard')
+        return redirect('astra:ventes')
 
     if request.method == 'POST':
+
         username = request.POST.get('username', '').strip()
         password = request.POST.get('password', '')
 
@@ -1739,7 +1742,7 @@ def client_login(request, client_id=None):
                 }
             )
 
-        # Authentification Django
+        # Authentification
         user = authenticate(
             request,
             username=username,
@@ -1748,8 +1751,8 @@ def client_login(request, client_id=None):
 
         if user is not None:
 
-            # Vérification du compte
             if user.is_active:
+
                 login(request, user)
 
                 messages.success(
@@ -1757,14 +1760,14 @@ def client_login(request, client_id=None):
                     f"Bienvenue, {user.username} !"
                 )
 
-                # Récupération de l'URL de destination
+                # Si une URL de destination est fournie
                 next_url = request.POST.get('next') or request.GET.get('next')
 
                 if next_url:
                     return redirect(next_url)
 
-                # Redirection après connexion
-                return redirect('dashboard')
+                # Redirection réelle d'ASTRA TECH
+                return redirect('astra:ventes')
 
             messages.error(
                 request,
