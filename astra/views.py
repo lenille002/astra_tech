@@ -1703,46 +1703,87 @@ def ventes_view(request):
     return render(request, 'astra/vente.html', context)
 
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib import messages
 
-def client_login(request):
+def client_login(request, client_id=None):
     """
-    Vue de connexion dédiée pour l'application ASTRA TECH.
-    Gère l'authentification et redirige l'utilisateur selon son rôle ou vers le tableau de bord.
+    Vue de connexion dédiée aux clients ASTRA TECH.
+
+    Accepte éventuellement un client_id transmis par l'URL :
+        /client/<client_id>/connexion/
+
+    Le client_id peut être utilisé pour identifier le client concerné,
+    sans empêcher la connexion si celui-ci n'est pas fourni.
     """
+
+    # Si l'utilisateur est déjà connecté
     if request.user.is_authenticated:
-        return redirect('dashboard') # Redirige si déjà connecté
+        return redirect('dashboard')
 
     if request.method == 'POST':
-        # Récupération des champs du formulaire (adapte 'username' et 'password' si tu utilises un champ 'email')
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
 
+        # Vérification des champs
         if not username or not password:
-            messages.error(request, "Veuillez remplir tous les champs.")
-            return render(request, 'astra/login.html')
+            messages.error(
+                request,
+                "Veuillez remplir tous les champs."
+            )
 
-        # Authentification de l'utilisateur
-        user = authenticate(request, username=username, password=password)
+            return render(
+                request,
+                'astra/login.html',
+                {
+                    'client_id': client_id,
+                    'username': username,
+                }
+            )
+
+        # Authentification Django
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
 
         if user is not None:
+
+            # Vérification du compte
             if user.is_active:
                 login(request, user)
-                messages.success(request, f"Bienvenue, {user.username} !")
-                
-                # Récupération de l'URL 'next' s'il y en a une, sinon redirection par défaut
-                next_url = request.GET.get('next')
+
+                messages.success(
+                    request,
+                    f"Bienvenue, {user.username} !"
+                )
+
+                # Récupération de l'URL de destination
+                next_url = request.POST.get('next') or request.GET.get('next')
+
                 if next_url:
                     return redirect(next_url)
-                return redirect('dashboard') # Remplace par le nom de ta route principale (ex: 'accueil', 'ventes', etc.)
-            else:
-                messages.error(request, "Ce compte utilisateur est désactivé.")
-        else:
-            messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
 
-    return render(request, 'astra/login.html')
+                # Redirection après connexion
+                return redirect('dashboard')
+
+            messages.error(
+                request,
+                "Ce compte utilisateur est désactivé."
+            )
+
+        else:
+            messages.error(
+                request,
+                "Nom d'utilisateur ou mot de passe incorrect."
+            )
+
+    return render(
+        request,
+        'astra/login.html',
+        {
+            'client_id': client_id,
+        }
+    )
 
 
 @csrf_exempt
