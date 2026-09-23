@@ -1702,92 +1702,156 @@ def ventes_view(request):
     }
     return render(request, 'astra/vente.html', context)
 
-from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.shortcuts import redirect, render
-
-
-def client_login(request, client_id=None):
+def client_login(request, client_id):
     """
-    Connexion d'un client ASTRA TECH.
-
-    URL :
-        /client/<client_id>/connexion/
-
-    Après connexion, le client est redirigé vers la page des ventes.
+    Connexion sécurisée au cahier privé d'un client.
+    Le client doit fournir son mot de passe.
     """
 
-    # Si l'utilisateur Django est déjà connecté
-    if request.user.is_authenticated:
-        return redirect('astra:ventes')
+    client = get_object_or_404(
+        Client,
+        id=client_id,
+        is_active=True
+    )
 
-    if request.method == 'POST':
+    # --------------------------------------------------
+    # Vérifier si ce client est déjà connecté
+    # --------------------------------------------------
 
-        username = request.POST.get('username', '').strip()
-        password = request.POST.get('password', '')
+    client_connecte_id = request.session.get("client_connecte_id")
 
-        # Vérification des champs
-        if not username or not password:
+    if client_connecte_id:
+
+        try:
+            if int(client_connecte_id) == int(client.id):
+                return redirect(
+                    "astra:espace_client",
+                    client_id=client.id
+                )
+        except (TypeError, ValueError):
+            request.session.pop(
+                "client_connecte_id",
+                None
+            )
+
+    # --------------------------------------------------
+    # CONNEXION
+    # --------------------------------------------------
+
+    if request.method == "POST":
+
+        password = request.POST.get(
+            "password",
+            ""
+        ).strip()
+
+        if not password:
+
             messages.error(
                 request,
-                "Veuillez remplir tous les champs."
+                "Veuillez saisir votre mot de passe."
             )
 
             return render(
                 request,
-                'astra/login.html',
+                "astra/client_login.html",
                 {
-                    'client_id': client_id,
-                    'username': username,
+                    "client": client,
+                    "client_id": client.id,
                 }
             )
 
-        # Authentification
-        user = authenticate(
-            request,
-            username=username,
-            password=password
-        )
+        # --------------------------------------------------
+        # Vérification du mot de passe
+        # --------------------------------------------------
 
-        if user is not None:
+        mot_de_passe_correct = False
 
-            if user.is_active:
+        # Si le mot de passe Client est hashé
+        try:
+            mot_de_passe_correct = check_password(
+                password,
+                client.mot_de_passe
+            )
+        except Exception:
+            mot_de_passe_correct = False
 
-                login(request, user)
+        # --------------------------------------------------
+        # Compatibilité avec les anciens mots de passe
+        # stockés temporairement en clair
+        # --------------------------------------------------
 
-                messages.success(
-                    request,
-                    f"Bienvenue, {user.username} !"
+        if not mot_de_passe_correct:
+
+            if str(client.mot_de_passe) == password:
+                mot_de_passe_correct = True
+
+                # On transforme immédiatement l'ancien
+                # mot de passe en mot de passe hashé.
+                client.mot_de_passe = make_password(
+                    password
                 )
 
-                # Si une URL de destination est fournie
-                next_url = request.POST.get('next') or request.GET.get('next')
+                client.save(
+                    update_fields=["mot_de_passe"]
+                )
 
-                if next_url:
-                    return redirect(next_url)
+        # --------------------------------------------------
+        # Mot de passe incorrect
+        # --------------------------------------------------
 
-                # Redirection réelle d'ASTRA TECH
-                return redirect('astra:ventes')
+        if not mot_de_passe_correct:
 
             messages.error(
                 request,
-                "Ce compte utilisateur est désactivé."
+                "Mot de passe incorrect."
             )
 
-        else:
-            messages.error(
+            return render(
                 request,
-                "Nom d'utilisateur ou mot de passe incorrect."
+                "astra/client_login.html",
+                {
+                    "client": client,
+                    "client_id": client.id,
+                }
             )
+
+        # --------------------------------------------------
+        # CONNEXION RÉUSSIE
+        # --------------------------------------------------
+
+        request.session["client_connecte_id"] = client.id
+        request.session["client_connecte_nom"] = client.nom
+        request.session["client_connecte_email"] = client.email
+
+        request.session.modified = True
+
+        messages.success(
+            request,
+            f"Bienvenue {client.nom}."
+        )
+
+        # --------------------------------------------------
+        # REDIRECTION VERS L'ESPACE CLIENT
+        # --------------------------------------------------
+
+        return redirect(
+            "astra:espace_client",
+            client_id=client.id
+        )
+
+    # --------------------------------------------------
+    # AFFICHAGE DU FORMULAIRE
+    # --------------------------------------------------
 
     return render(
         request,
-        'astra/login.html',
+        "astra/client_login.html",
         {
-            'client_id': client_id,
+            "client": client,
+            "client_id": client.id,
         }
     )
-
 
 @csrf_exempt
 @verifier_acces_strict
@@ -2291,19 +2355,104 @@ def login_view(request):
         )
         return redirect("astra:accueil")
 
-
 def espace_client(request, client_id):
-    client_user = get_object_or_404(Client, id=client_id)
-    
-    request.session['client_connecte_id'] = client_user.id
-    
-    historique_achats = Vente.objects.filter(client=client_user, est_archive=False).order_by('-date_vente')
+    """
+    Espace privé du client.
+    Accessible uniquement après authentification
+    du client correspondant.
+    """
+
+    client = get_object_or_404(
+        Client,
+        id=client_id,
+        is_active=True
+    )
+
+    # --------------------------------------------------
+    # Vérification de la session client
+    # --------------------------------------------------
+
+    client_connecte_id = request.session.get(
+        "client_connecte_id"
+    )
+
+    if not client_connecte_id:
+
+        messages.warning(
+            request,
+            "Veuillez vous connecter pour accéder à votre espace."
+        )
+
+        return redirect(
+            "astra:client_login",
+            client_id=client.id
+        )
+
+    # --------------------------------------------------
+    # Vérifier que la session correspond au bon client
+    # --------------------------------------------------
+
+    try:
+        client_connecte_id = int(
+            client_connecte_id
+        )
+    except (TypeError, ValueError):
+
+        request.session.pop(
+            "client_connecte_id",
+            None
+        )
+
+        return redirect(
+            "astra:client_login",
+            client_id=client.id
+        )
+
+    if client_connecte_id != client.id:
+
+        messages.error(
+            request,
+            "Vous n'êtes pas autorisé à accéder à cet espace."
+        )
+
+        return redirect(
+            "astra:client_login",
+            client_id=client.id
+        )
+
+    # --------------------------------------------------
+    # HISTORIQUE DES ACHATS
+    # --------------------------------------------------
+
+    historique_achats = Vente.objects.filter(
+        client=client,
+        est_archive=False
+    ).order_by(
+        "-date_vente"
+    )
+
+    nombre_achats = historique_achats.count()
+
+    total_depenses = (
+        historique_achats.aggregate(
+            total=Sum("montant_total")
+        )["total"]
+        or 0
+    )
 
     context = {
-        'client_user': client_user,
-        'historique_achats': historique_achats,
+        "client": client,
+        "client_user": client,
+        "historique_achats": historique_achats,
+        "nombre_achats": nombre_achats,
+        "total_depenses": total_depenses,
     }
-    return render(request, 'astra/espace_client.html', context)
+
+    return render(
+        request,
+        "astra/espace_client.html",
+        context
+    )
 
 def detail_client_activites(request, client_id):
     session_id = request.session.get('client_connecte_id')
