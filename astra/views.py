@@ -2455,53 +2455,8 @@ def espace_client(request, client_id):
     )
 
 def detail_client_activites(request, client_id):
-    """
-    Affiche le cahier d'activités privé d'un client.
-    """
+    client = get_object_or_404(Client, id=client_id)
 
-    # Vérifier que le client existe
-    client = get_object_or_404(
-        Client,
-        id=client_id
-    )
-
-    # Vérifier que le client est connecté à son espace
-    session_id = request.session.get("client_connecte_id")
-
-    if not session_id:
-        messages.warning(
-            request,
-            "Veuillez vous connecter pour accéder au cahier d'activités."
-        )
-
-        return redirect(
-            "astra:client_login",
-            client_id=client.id
-        )
-
-    # Vérifier que le client connecté correspond
-    try:
-        session_id = int(session_id)
-    except (TypeError, ValueError):
-        request.session.pop("client_connecte_id", None)
-
-        return redirect(
-            "astra:client_login",
-            client_id=client.id
-        )
-
-    if session_id != client.id:
-        messages.error(
-            request,
-            "Vous n'êtes pas autorisé à consulter ce cahier d'activités."
-        )
-
-        return redirect(
-            "astra:client_login",
-            client_id=client.id
-        )
-
-    # Historique des achats
     historique_achats = (
         Vente.objects
         .filter(
