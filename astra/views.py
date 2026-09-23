@@ -2158,208 +2158,12 @@ def gestion_clients(request):
     
     return render(request, 'astra/clients.html', context)
 
-@ensure_csrf_cookie
-def login_view(request):
-    print("\n" + "=" * 80)
-    print("🔥 LOGIN_VIEW APPELÉE")
-    print("METHOD :", request.method)
-    print("PATH   :", request.path)
-    print("=" * 80)
-
-    if request.method != "POST":
-        return render(request, "astra/login.html")
-
-    # Récupération des champs du formulaire
-    identifiant = " ".join(
-        request.POST.get("identifiant", request.POST.get("nom", "")).split()
-    )
-    prenom = " ".join(request.POST.get("prenom", "").split())
-    password = request.POST.get("password", "")
-
-    print("Identifiant reçu :", repr(identifiant))
-    print("Prénom reçu   :", repr(prenom))
-    print("Password reçu :", "*" * len(password))
-
-    # Vérification des champs
-    if not identifiant or not password:
-        messages.error(request, "Veuillez remplir tous les champs.")
-        return render(request, "astra/login.html")
-
-    # Priorité aux comptes Django autorisés, notamment les superutilisateurs
-    # créés avec createsuperuser sur Vercel.
-    compte_django = authenticate(
-        request,
-        username=identifiant,
-        password=password,
-    )
-
-    if compte_django is None:
-        compte_django = User.objects.filter(
-            email__iexact=identifiant
-        ).first()
-
-        if compte_django is not None:
-            compte_django = authenticate(
-                request,
-                username=compte_django.get_username(),
-                password=password,
-            )
-
-    if (
-        compte_django is not None
-        and compte_django.is_active
-        and (compte_django.is_superuser or compte_django.is_staff)
-    ):
-        login(request, compte_django)
-        request.session["user_id"] = compte_django.id
-        request.session["user_role"] = "admin"
-        request.session["user_nom"] = compte_django.last_name or compte_django.username
-        request.session["user_prenom"] = compte_django.first_name or ""
-        request.session["connecte"] = True
-        request.session.modified = True
-        print("✅ AUTHENTIFICATION DJANGO ADMIN RÉUSSIE")
-        return redirect("astra:accueil")
-
-    # Recherche dans NOTRE table Utilisateur
-    utilisateur = Utilisateur.objects.annotate(
-        nom_normalise=Lower(Trim("nom")),
-        prenom_normalise=Lower(Trim("prenom")),
-        email_normalise=Lower(Trim("email")),
-    ).filter(
-        Q(nom_normalise=identifiant.lower(), prenom_normalise=prenom.lower())
-        | Q(nom_normalise=prenom.lower(), prenom_normalise=identifiant.lower())
-        | Q(email_normalise=identifiant.lower())
-    ).first()
-
-    print("Utilisateur trouvé :", utilisateur)
-
-    # Utilisateur inexistant
-    if utilisateur is None:
-        # Les comptes créés avec createsuperuser sont dans auth.User,
-        # et non dans la table métier Utilisateur.
-        compte_django = authenticate(
-            request,
-            username=identifiant,
-            password=password,
-        )
-
-        if compte_django is None:
-            compte_django = User.objects.filter(
-                email__iexact=identifiant
-            ).first()
-
-            if compte_django is not None:
-                compte_django = authenticate(
-                    request,
-                    username=compte_django.get_username(),
-                    password=password,
-                )
-
-        if compte_django is None or not compte_django.is_active:
-            print("❌ Aucun compte ASTRA ou Django trouvé")
-            messages.error(
-                request,
-                "Aucun compte ne correspond à cet identifiant."
-            )
-            return render(request, "astra/login.html")
-
-        if not compte_django.is_superuser and not compte_django.is_staff:
-            messages.error(
-                request,
-                "Ce compte Django n'est pas autorisé à accéder à ASTRA."
-            )
-            return render(request, "astra/login.html")
-
-        login(request, compte_django)
-        request.session["user_id"] = compte_django.id
-        request.session["user_role"] = "admin"
-        request.session["user_nom"] = compte_django.last_name or compte_django.username
-        request.session["user_prenom"] = compte_django.first_name or ""
-        request.session["connecte"] = True
-        request.session.modified = True
-
-        print("✅ AUTHENTIFICATION DJANGO ADMIN RÉUSSIE")
-        return redirect("astra:accueil")
-
-    print("ID utilisateur :", utilisateur.id)
-    print("Rôle           :", utilisateur.role)
-    print("Compte actif   :", utilisateur.is_active)
-
-    # Vérification du compte
-    if not utilisateur.is_active:
-        messages.error(
-            request,
-            "Votre compte est désactivé. Contactez l'administrateur."
-        )
-        return render(request, "astra/login.html")
-
-    # Vérification du mot de passe hashé
-    password_correct = utilisateur.check_password(password)
-
-    print("Mot de passe correct :", password_correct)
-
-    if not password_correct:
-        print("❌ Mot de passe incorrect")
-        messages.error(request, "Le mot de passe est incorrect.")
-        return render(request, "astra/login.html")
-
-    # ==========================================================
-    # AUTHENTIFICATION RÉUSSIE
-    # ==========================================================
-
-    print("✅ AUTHENTIFICATION RÉUSSIE")
-
-    # Enregistrement des informations dans la session
-    request.session["utilisateur_id"] = utilisateur.id
-    request.session["user_id"] = utilisateur.id
-    request.session["user_role"] = utilisateur.role
-    request.session["user_nom"] = utilisateur.nom
-    request.session["user_prenom"] = utilisateur.prenom
-    request.session["connecte"] = True
-    request.session.modified = True
-
-    # Normalisation du rôle
-    role = normaliser_role(utilisateur.role)
-
-    print("Rôle normalisé :", repr(role))
-
-    # ==========================================================
-    # REDIRECTION SELON LE RÔLE
-    # ==========================================================
-
-    if role == "admin":
-        return redirect("astra:accueil")
-
-    elif role == "client":
-        return redirect("astra:ventes")
-
-    elif role == "fournisseur":
-        return redirect("astra:fournisseurs")
-
-    elif role == "vente":
-        return redirect("astra:ventes")
-
-    elif role == "approvisionnement":
-        return redirect("astra:approvisionnement")
-
-    elif role == "stocks":
-        return redirect("astra:stocks")
-
-    elif role == "rapports":
-        return redirect("astra:rapports")
-
-    else:
-        messages.warning(
-            request,
-            "Connexion réussie, mais votre rôle n'est pas configuré."
-        )
-        return redirect("astra:accueil")
-
-def espace_client(request, client_id):
+def client_login(request, client_id):
     """
-    Espace privé du client.
-    Accessible uniquement après authentification
-    du client correspondant.
+    Connexion privée d'un client à son espace personnel.
+
+    Le client connecté est strictement lié au client_id
+    présent dans l'URL.
     """
 
     client = get_object_or_404(
@@ -2368,15 +2172,200 @@ def espace_client(request, client_id):
         is_active=True
     )
 
-    # --------------------------------------------------
-    # Vérification de la session client
-    # --------------------------------------------------
+    # ==========================================================
+    # SI CE CLIENT EST DÉJÀ CONNECTÉ
+    # ==========================================================
+
+    client_connecte_id = request.session.get("client_connecte_id")
+
+    if client_connecte_id is not None:
+
+        try:
+            client_connecte_id = int(client_connecte_id)
+        except (TypeError, ValueError):
+
+            request.session.pop("client_connecte_id", None)
+
+            client_connecte_id = None
+
+        if client_connecte_id == client.id:
+            return redirect(
+                "astra:espace_client",
+                client_id=client.id
+            )
+
+    # ==========================================================
+    # TRAITEMENT DU FORMULAIRE
+    # ==========================================================
+
+    if request.method == "POST":
+
+        identifiant = request.POST.get(
+            "identifiant",
+            request.POST.get("username", "")
+        ).strip()
+
+        password = request.POST.get(
+            "password",
+            ""
+        )
+
+        # ------------------------------------------------------
+        # Vérification des champs
+        # ------------------------------------------------------
+
+        if not identifiant or not password:
+
+            messages.error(
+                request,
+                "Veuillez remplir tous les champs."
+            )
+
+            return render(
+                request,
+                "astra/login.html",
+                {
+                    "client": client,
+                    "client_id": client.id,
+                }
+            )
+
+        # ======================================================
+        # VÉRIFICATION DE L'IDENTITÉ DU CLIENT
+        # ======================================================
+
+        identifiant_correct = (
+            identifiant.lower() == (client.email or "").strip().lower()
+            or identifiant.lower() == (client.telephone or "").strip().lower()
+        )
+
+        if not identifiant_correct:
+
+            messages.error(
+                request,
+                "Cet identifiant ne correspond pas à ce client."
+            )
+
+            return render(
+                request,
+                "astra/login.html",
+                {
+                    "client": client,
+                    "client_id": client.id,
+                }
+            )
+
+        # ======================================================
+        # VÉRIFICATION DU MOT DE PASSE DU CLIENT
+        # ======================================================
+
+        password_correct = False
+
+        mot_de_passe_client = client.mot_de_passe or ""
+
+        if mot_de_passe_client:
+
+            # Mot de passe hashé Django
+            password_correct = check_password(
+                password,
+                mot_de_passe_client
+            )
+
+            # Compatibilité temporaire avec les anciens
+            # mots de passe enregistrés en clair.
+            if not password_correct:
+                password_correct = (
+                    password == mot_de_passe_client
+                )
+
+        if not password_correct:
+
+            messages.error(
+                request,
+                "Mot de passe incorrect."
+            )
+
+            return render(
+                request,
+                "astra/login.html",
+                {
+                    "client": client,
+                    "client_id": client.id,
+                }
+            )
+
+        # ======================================================
+        # CONNEXION DU CLIENT
+        # ======================================================
+
+        # IMPORTANT :
+        # On ne fait PAS :
+        #
+        # login(request, user)
+        #
+        # car le cahier client utilise son propre système
+        # de session.
+
+        request.session["client_connecte_id"] = client.id
+        request.session["client_connecte_nom"] = client.nom
+        request.session["client_connecte_email"] = client.email
+
+        request.session.modified = True
+
+        print("========================================")
+        print("✅ CLIENT CONNECTÉ")
+        print("CLIENT ID :", client.id)
+        print("CLIENT NOM :", client.nom)
+        print("CLIENT EMAIL :", client.email)
+        print("SESSION CLIENT :", request.session.get(
+            "client_connecte_id"
+        ))
+        print("========================================")
+
+        messages.success(
+            request,
+            f"Bienvenue {client.nom} !"
+        )
+
+        return redirect(
+            "astra:espace_client",
+            client_id=client.id
+        )
+
+    # ==========================================================
+    # AFFICHAGE DE LA PAGE DE CONNEXION
+    # ==========================================================
+
+    return render(
+        request,
+        "astra/login.html",
+        {
+            "client": client,
+            "client_id": client.id,
+        }
+    )
+
+def espace_client(request, client_id):
+    """
+    Espace privé du client.
+    Accessible uniquement au client correspondant.
+    """
+
+    client = get_object_or_404(
+        Client,
+        id=client_id,
+        is_active=True
+    )
+
+    # ==========================================================
+    # RÉCUPÉRATION DE LA SESSION CLIENT
+    # ==========================================================
 
     client_connecte_id = request.session.get(
         "client_connecte_id"
     )
 
-    if not client_connecte_id:
+    if client_connecte_id is None:
 
         messages.warning(
             request,
@@ -2388,14 +2377,13 @@ def espace_client(request, client_id):
             client_id=client.id
         )
 
-    # --------------------------------------------------
-    # Vérifier que la session correspond au bon client
-    # --------------------------------------------------
+    # ==========================================================
+    # CONVERSION DE L'ID
+    # ==========================================================
 
     try:
-        client_connecte_id = int(
-            client_connecte_id
-        )
+        client_connecte_id = int(client_connecte_id)
+
     except (TypeError, ValueError):
 
         request.session.pop(
@@ -2403,10 +2391,24 @@ def espace_client(request, client_id):
             None
         )
 
+        request.session.pop(
+            "client_connecte_nom",
+            None
+        )
+
+        request.session.pop(
+            "client_connecte_email",
+            None
+        )
+
         return redirect(
             "astra:client_login",
             client_id=client.id
         )
+
+    # ==========================================================
+    # VÉRIFICATION CLIENT X ≠ CLIENT Y
+    # ==========================================================
 
     if client_connecte_id != client.id:
 
@@ -2420,15 +2422,17 @@ def espace_client(request, client_id):
             client_id=client.id
         )
 
-    # --------------------------------------------------
-    # HISTORIQUE DES ACHATS
-    # --------------------------------------------------
+    # ==========================================================
+    # HISTORIQUE
+    # ==========================================================
 
-    historique_achats = Vente.objects.filter(
-        client=client,
-        est_archive=False
-    ).order_by(
-        "-date_vente"
+    historique_achats = (
+        Vente.objects
+        .filter(
+            client=client,
+            est_archive=False
+        )
+        .order_by("-date_vente")
     )
 
     nombre_achats = historique_achats.count()
@@ -2436,8 +2440,7 @@ def espace_client(request, client_id):
     total_depenses = (
         historique_achats.aggregate(
             total=Sum("montant_total")
-        )["total"]
-        or 0
+        )["total"] or 0
     )
 
     context = {
