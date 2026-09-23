@@ -1863,11 +1863,31 @@ def ventes_view(request):
     }
     return render(request, 'astra/vente.html', context)
 
+# ==========================================================
+# CONNEXION PRIVÉE DU CLIENT
+# ==========================================================
+
 def client_login(request, client_id):
     """
-    Connexion sécurisée au cahier privé d'un client.
-    Le client doit fournir son mot de passe.
+    Connexion privée au cahier d'activités d'un client.
+
+    Exemple :
+        /client/3/connexion/
+
+    Cette connexion est indépendante de la connexion générale
+    ASTRA (/).
     """
+
+    print("\n" + "=" * 80)
+    print("🔐 CLIENT_LOGIN APPELÉE")
+    print("CLIENT ID :", client_id)
+    print("METHOD    :", request.method)
+    print("PATH      :", request.path)
+    print("=" * 80)
+
+    # ==========================================================
+    # RÉCUPÉRER LE CLIENT
+    # ==========================================================
 
     client = get_object_or_404(
         Client,
@@ -1875,93 +1895,205 @@ def client_login(request, client_id):
         is_active=True
     )
 
-    # --------------------------------------------------
-    # Vérifier si ce client est déjà connecté
-    # --------------------------------------------------
+    print("👤 CLIENT :", client.nom)
+    print("📧 EMAIL  :", client.email)
 
-    client_connecte_id = request.session.get("client_connecte_id")
+    # ==========================================================
+    # VÉRIFIER SI CE CLIENT EST DÉJÀ CONNECTÉ
+    # ==========================================================
 
-    if client_connecte_id:
+    client_connecte_id = request.session.get(
+        "client_connecte_id"
+    )
+
+    if client_connecte_id is not None:
 
         try:
-            if int(client_connecte_id) == int(client.id):
-                return redirect(
-                    "astra:espace_client",
-                    client_id=client.id
-                )
+            client_connecte_id = int(
+                client_connecte_id
+            )
+
         except (TypeError, ValueError):
+
             request.session.pop(
                 "client_connecte_id",
                 None
             )
 
-    # --------------------------------------------------
-    # CONNEXION
-    # --------------------------------------------------
+            client_connecte_id = None
+
+        # ------------------------------------------------------
+        # LE BON CLIENT EST DÉJÀ CONNECTÉ
+        # ------------------------------------------------------
+
+        if client_connecte_id == client.id:
+
+            print(
+                "✅ CLIENT DÉJÀ CONNECTÉ"
+            )
+
+            return redirect(
+                "astra:espace_client",
+                client_id=client.id
+            )
+
+        # ------------------------------------------------------
+        # UN AUTRE CLIENT EST CONNECTÉ
+        # ------------------------------------------------------
+
+        elif client_connecte_id is not None:
+
+            print(
+                "⚠️ AUTRE CLIENT DÉJÀ CONNECTÉ"
+            )
+
+            request.session.pop(
+                "client_connecte_id",
+                None
+            )
+
+            request.session.pop(
+                "client_connecte_nom",
+                None
+            )
+
+            request.session.pop(
+                "client_connecte_email",
+                None
+            )
+
+    # ==========================================================
+    # TRAITEMENT DU FORMULAIRE
+    # ==========================================================
 
     if request.method == "POST":
+
+        identifiant = request.POST.get(
+            "identifiant",
+            request.POST.get(
+                "username",
+                ""
+            )
+        ).strip()
 
         password = request.POST.get(
             "password",
             ""
-        ).strip()
+        )
 
-        if not password:
+        print(
+            "Identifiant client :",
+            repr(identifiant)
+        )
+
+        print(
+            "Mot de passe reçu :",
+            "*" * len(password)
+        )
+
+        # ======================================================
+        # VÉRIFICATION DES CHAMPS
+        # ======================================================
+
+        if not identifiant or not password:
 
             messages.error(
                 request,
-                "Veuillez saisir votre mot de passe."
+                "Veuillez remplir tous les champs."
             )
 
             return render(
                 request,
-                "astra/client_login.html",
+                "astra/login.html",
                 {
                     "client": client,
                     "client_id": client.id,
+                    "connexion_client": True,
                 }
             )
 
-        # --------------------------------------------------
-        # Vérification du mot de passe
-        # --------------------------------------------------
+        # ======================================================
+        # VÉRIFICATION DE L'IDENTIFIANT
+        # ======================================================
 
-        mot_de_passe_correct = False
+        email_client = (
+            client.email or ""
+        ).strip().lower()
 
-        # Si le mot de passe Client est hashé
-        try:
-            mot_de_passe_correct = check_password(
-                password,
-                client.mot_de_passe
+        telephone_client = (
+            client.telephone or ""
+        ).strip()
+
+        identifiant_normalise = (
+            identifiant.lower()
+        )
+
+        identifiant_correct = (
+            identifiant_normalise == email_client
+            or identifiant == telephone_client
+        )
+
+        if not identifiant_correct:
+
+            print(
+                "❌ Identifiant ne correspondant pas au client"
             )
-        except Exception:
-            mot_de_passe_correct = False
 
-        # --------------------------------------------------
-        # Compatibilité avec les anciens mots de passe
-        # stockés temporairement en clair
-        # --------------------------------------------------
+            messages.error(
+                request,
+                "Cet identifiant ne correspond pas à ce client."
+            )
 
-        if not mot_de_passe_correct:
+            return render(
+                request,
+                "astra/login.html",
+                {
+                    "client": client,
+                    "client_id": client.id,
+                    "connexion_client": True,
+                }
+            )
 
-            if str(client.mot_de_passe) == password:
-                mot_de_passe_correct = True
+        # ======================================================
+        # VÉRIFICATION DU MOT DE PASSE
+        # ======================================================
 
-                # On transforme immédiatement l'ancien
-                # mot de passe en mot de passe hashé.
-                client.mot_de_passe = make_password(
-                    password
+        mot_de_passe_client = (
+            client.mot_de_passe or ""
+        )
+
+        password_correct = False
+
+        if mot_de_passe_client:
+
+            # Mot de passe hashé
+            password_correct = check_password(
+                password,
+                mot_de_passe_client
+            )
+
+            # Compatibilité avec les anciens mots de passe
+            # éventuellement encore enregistrés en clair.
+            if not password_correct:
+
+                password_correct = (
+                    password == mot_de_passe_client
                 )
 
-                client.save(
-                    update_fields=["mot_de_passe"]
-                )
+        print(
+            "Mot de passe correct :",
+            password_correct
+        )
 
-        # --------------------------------------------------
-        # Mot de passe incorrect
-        # --------------------------------------------------
+        # ======================================================
+        # MOT DE PASSE INCORRECT
+        # ======================================================
 
-        if not mot_de_passe_correct:
+        if not password_correct:
+
+            print(
+                "❌ MOT DE PASSE CLIENT INCORRECT"
+            )
 
             messages.error(
                 request,
@@ -1970,47 +2102,88 @@ def client_login(request, client_id):
 
             return render(
                 request,
-                "astra/client_login.html",
+                "astra/login.html",
                 {
                     "client": client,
                     "client_id": client.id,
+                    "connexion_client": True,
                 }
             )
 
-        # --------------------------------------------------
-        # CONNEXION RÉUSSIE
-        # --------------------------------------------------
+        # ======================================================
+        # CONNEXION CLIENT RÉUSSIE
+        # ======================================================
+
+        print(
+            "✅ CONNEXION DU CLIENT RÉUSSIE"
+        )
+
+        # IMPORTANT :
+        # On utilise une session propre au cahier client.
+        #
+        # NE PAS utiliser :
+        #
+        # authenticate()
+        # login()
+        #
+        # car cette connexion est indépendante de la
+        # connexion générale ASTRA.
 
         request.session["client_connecte_id"] = client.id
-        request.session["client_connecte_nom"] = client.nom
-        request.session["client_connecte_email"] = client.email
+
+        request.session["client_connecte_nom"] = (
+            client.nom
+        )
+
+        request.session["client_connecte_email"] = (
+            client.email
+        )
 
         request.session.modified = True
 
-        messages.success(
-            request,
-            f"Bienvenue {client.nom}."
+        print(
+            "🆔 SESSION CLIENT :",
+            request.session.get(
+                "client_connecte_id"
+            )
         )
 
-        # --------------------------------------------------
-        # REDIRECTION VERS L'ESPACE CLIENT
-        # --------------------------------------------------
+        print(
+            "👤 NOM SESSION :",
+            request.session.get(
+                "client_connecte_nom"
+            )
+        )
+
+        # ======================================================
+        # MESSAGE DE BIENVENUE
+        # ======================================================
+
+        messages.success(
+            request,
+            f"Bienvenue {client.nom} !"
+        )
+
+        # ======================================================
+        # REDIRECTION VERS L'ESPACE DU MÊME CLIENT
+        # ======================================================
 
         return redirect(
             "astra:espace_client",
             client_id=client.id
         )
 
-    # --------------------------------------------------
-    # AFFICHAGE DU FORMULAIRE
-    # --------------------------------------------------
+    # ==========================================================
+    # AFFICHAGE DE LA PAGE DE CONNEXION CLIENT
+    # ==========================================================
 
     return render(
         request,
-        "astra/client_login.html",
+        "astra/login.html",
         {
             "client": client,
             "client_id": client.id,
+            "connexion_client": True,
         }
     )
 
