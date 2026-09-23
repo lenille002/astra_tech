@@ -3,7 +3,6 @@
 <style>
     /* =========================================================
        HEADER ASTRA TECH — MOBILE FIRST
-       Design original conservé
        ========================================================= */
 
     .header-mobile {
@@ -40,6 +39,7 @@
         width: auto;
         max-width: 130px;
         object-fit: contain;
+        display: block;
     }
 
     /* =========================================================
@@ -59,8 +59,8 @@
 
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
-
         scrollbar-width: none;
+
         padding: 3px 2px;
     }
 
@@ -108,6 +108,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        cursor: pointer;
     }
 
     .header-mobile .notification-badge {
@@ -139,9 +141,11 @@
         max-width: calc(100vw - 20px);
 
         max-height: calc(100vh - 80px);
-        overflow: hidden;
 
+        overflow: hidden;
         padding: 12px !important;
+
+        box-sizing: border-box;
     }
 
     .header-mobile .notification-panel > div:first-child {
@@ -184,7 +188,7 @@
     @media (max-width: 360px) {
 
         .header-mobile {
-            padding: 8px 8px !important;
+            padding: 8px !important;
             gap: 6px;
         }
 
@@ -364,6 +368,7 @@
 
 <header class="app-header header-mobile">
 
+```
 <!-- =====================================================
      LOGO
      ===================================================== -->
@@ -427,16 +432,17 @@
 
         <div class="notification-icon"
              id="notificationIcon"
-             onclick="toggleNotificationDropdown()">
+             onclick="toggleNotificationDropdown()"
+             role="button"
+             tabindex="0"
+             aria-label="Notifications">
 
             <i class="fas fa-bell"></i>
 
             {% if nombre_notifications and nombre_notifications > 0 %}
 
                 <span class="notification-badge">
-
                     {{ nombre_notifications }}
-
                 </span>
 
             {% endif %}
@@ -531,12 +537,11 @@
     </a>
 
 </div>
-
+```
 
 </header>
 
 <script>
-
     function toggleNotificationDropdown() {
 
         const dropdown =
@@ -609,5 +614,23 @@
 
     });
 
-</script>
 
+    /* Activation du menu notification avec le clavier */
+    const notificationIcon =
+        document.getElementById('notificationIcon');
+
+    if (notificationIcon) {
+
+        notificationIcon.addEventListener('keydown', function(event) {
+
+            if (event.key === 'Enter' || event.key === ' ') {
+
+                event.preventDefault();
+                toggleNotificationDropdown();
+
+            }
+
+        });
+
+    }
+</script>
