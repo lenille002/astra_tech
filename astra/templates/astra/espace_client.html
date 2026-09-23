@@ -780,25 +780,22 @@
 
 <div class="astra-dashboard client-space-page">
 
-```
+
 <!-- =====================================================
      BOUTON RETOUR
      ===================================================== -->
-
 <div class="client-back-wrapper">
 
     <a
         href="{% url 'astra:detail_client_activites' client_user.id %}"
         class="btn-retour"
+        aria-label="Retour au cahier d'activités de {{ client_user.nom }}"
     >
         <i class="fa-solid fa-arrow-left"></i>
-
         <span>Retour au cahier d'activités</span>
     </a>
 
 </div>
-
-
 <!-- =====================================================
      EN-TÊTE
      ===================================================== -->

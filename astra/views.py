@@ -2455,28 +2455,83 @@ def espace_client(request, client_id):
     )
 
 def detail_client_activites(request, client_id):
-    session_id = request.session.get('client_connecte_id')
+    """
+    Affiche le cahier d'activités privé d'un client.
+    """
+
+    # Vérifier que le client existe
+    client = get_object_or_404(
+        Client,
+        id=client_id
+    )
+
+    # Vérifier que le client est connecté à son espace
+    session_id = request.session.get("client_connecte_id")
+
     if not session_id:
-        return redirect('astra:client_login', client_id=client_id)
+        messages.warning(
+            request,
+            "Veuillez vous connecter pour accéder au cahier d'activités."
+        )
 
-    client = get_object_or_404(Client, id=client_id)
-    
-    if int(session_id) != int(client.id):
-        return redirect('astra:detail_client_activites', client_id=session_id)
+        return redirect(
+            "astra:client_login",
+            client_id=client.id
+        )
 
-    historique_achats = Vente.objects.filter(client=client, est_archive=False).order_by('-date_vente')
+    # Vérifier que le client connecté correspond
+    try:
+        session_id = int(session_id)
+    except (TypeError, ValueError):
+        request.session.pop("client_connecte_id", None)
+
+        return redirect(
+            "astra:client_login",
+            client_id=client.id
+        )
+
+    if session_id != client.id:
+        messages.error(
+            request,
+            "Vous n'êtes pas autorisé à consulter ce cahier d'activités."
+        )
+
+        return redirect(
+            "astra:client_login",
+            client_id=client.id
+        )
+
+    # Historique des achats
+    historique_achats = (
+        Vente.objects
+        .filter(
+            client=client,
+            est_archive=False
+        )
+        .order_by("-date_vente")
+    )
+
     nombre_achats = historique_achats.count()
-    total_depenses = historique_achats.aggregate(total=Sum('montant_total'))['total'] or 0
+
+    total_depenses = (
+        historique_achats.aggregate(
+            total=Sum("montant_total")
+        )["total"] or 0
+    )
 
     context = {
-        'client': client,
-        'historique_achats': historique_achats,
-        'nombre_achats': nombre_achats,
-        'total_depenses': total_depenses,
+        "client": client,
+        "historique_achats": historique_achats,
+        "nombre_achats": nombre_achats,
+        "total_depenses": total_depenses,
     }
-    
-    return render(request, 'astra/detail_client_activites.html', context)
 
+    return render(
+        request,
+        "astra/detail_client_activites.html",
+        context
+    )
+    
 @verifier_acces_strict
 def supprimer_client(request, client_id):
     client = get_object_or_404(Client, id=client_id)
