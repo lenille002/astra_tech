@@ -2455,6 +2455,13 @@ def espace_client(request, client_id):
     )
 
 def detail_client_activites(request, client_id):
+
+    print("########################################")
+    print("DETAIL CLIENT ACTIVITES")
+    print("CLIENT ID :", client_id)
+    print("PATH :", request.path)
+    print("########################################")
+
     client = get_object_or_404(Client, id=client_id)
 
     historique_achats = (
