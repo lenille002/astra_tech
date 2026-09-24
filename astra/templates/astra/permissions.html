@@ -8,13 +8,12 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     >
 
-    <!-- CSS RESPONSIVE : UN SEUL CHARGEMENT -->
-    <link
-        rel="stylesheet"
-        href="{% static 'css/responsive.css' %}"
+    <meta
+        name="theme-color"
+        content="#003366"
     >
 
     <title>
@@ -23,24 +22,32 @@
 
 
     <!-- =====================================================
-         INITIALISATION MODE NUIT
+         INITIALISATION MODE SOMBRE
          ===================================================== -->
 
     <script>
         (function () {
-
-            if (
-                localStorage.getItem("astra_dark_mode")
-                === "true"
-            ) {
-
-                document.documentElement
-                    .classList.add("dark");
-
+            try {
+                if (
+                    localStorage.getItem("astra_dark_mode") === "true"
+                ) {
+                    document.documentElement.classList.add("dark");
+                }
+            } catch (error) {
+                console.warn("Mode sombre indisponible :", error);
             }
-
         })();
     </script>
+
+
+    <!-- =====================================================
+         CSS RESPONSIVE
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/responsive.css' %}"
+    >
 
 
     <!-- =====================================================
@@ -50,11 +57,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
-
         tailwind.config = {
             darkMode: "class"
         };
-
     </script>
 
 
@@ -67,6 +72,10 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     >
 
+
+    <!-- =====================================================
+         POLICE
+         ===================================================== -->
 
     <style>
 
@@ -81,17 +90,30 @@
 
         :root {
 
-            --tech-dark-blue: #004E8C;
+            --tech-blue: #0078D7;
+            --tech-blue-dark: #004E8C;
             --tech-sidebar-bg: #003366;
+
             --tech-orange: #FF8C00;
+            --tech-orange-light: #FFA726;
 
             --sidebar-width: 280px;
+
+            --page-bg: #f8fafc;
+            --card-bg: #ffffff;
+
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+
+            --border-light: #e2e8f0;
+
+            --mobile-header-height: 64px;
 
         }
 
 
         /* =====================================================
-           RESET GLOBAL — MOBILE FIRST
+           RESET GLOBAL
            ===================================================== */
 
         *,
@@ -103,45 +125,81 @@
         }
 
 
-        html,
+        html {
+
+            width: 100%;
+            max-width: 100%;
+
+            min-height: 100%;
+
+            overflow-x: hidden;
+
+            scroll-behavior: smooth;
+
+        }
+
+
         body {
 
             width: 100%;
             max-width: 100%;
 
+            min-width: 0;
+            min-height: 100vh;
+
             margin: 0;
             padding: 0;
 
+            font-family: "Inter", sans-serif;
+
+            background-color: var(--page-bg);
+
+            color: var(--text-main);
+
             overflow-x: hidden;
+
+            display: block;
 
         }
 
 
-        body {
-
-            font-family: 'Inter', sans-serif;
-
-            background-color: #f8fafc;
-
-            color: #1e293b;
-
-            min-height: 100vh;
-
-            /*
-             * IMPORTANT :
-             * Sur mobile, le body ne doit PAS être flex
-             * avec une sidebar de 280px.
-             */
+        img {
 
             display: block;
 
-            overflow-x: hidden;
+            max-width: 100%;
+
+            height: auto;
+
+        }
+
+
+        button,
+        input,
+        select,
+        textarea {
+
+            font: inherit;
+
+        }
+
+
+        a {
+
+            text-decoration: none;
+
+        }
+
+
+        body.menu-open {
+
+            overflow: hidden;
 
         }
 
 
         /* =====================================================
-           MODE NUIT GLOBAL
+           MODE SOMBRE
            ===================================================== */
 
         html.dark body {
@@ -153,7 +211,13 @@
         }
 
 
-        html.dark .card,
+        html.dark .main-content {
+
+            background-color: #0f172a;
+
+        }
+
+
         html.dark .card-custom {
 
             background-color: #1e293b !important;
@@ -165,67 +229,302 @@
         }
 
 
-        html.dark h1,
-        html.dark h2,
-        html.dark h3,
-        html.dark label,
-        html.dark span,
-        html.dark div {
+        html.dark .card-custom > div:first-child {
 
-            color: inherit;
+            background-color: rgba(15, 23, 42, 0.45) !important;
+
+            border-color: #334155 !important;
 
         }
 
 
-        html.dark input,
-        html.dark select {
+        html.dark .card-custom form > div:last-child {
+
+            background-color: rgba(15, 23, 42, 0.45) !important;
+
+            border-color: #334155 !important;
+
+        }
+
+
+        html.dark table {
+
+            color: #f1f5f9;
+
+        }
+
+
+        html.dark thead tr {
 
             background-color: #0f172a !important;
 
             border-color: #334155 !important;
 
-            color: #ffffff !important;
+        }
+
+
+        html.dark tbody tr {
+
+            border-color: #334155 !important;
 
         }
 
 
-        html.dark .role-card {
+        html.dark tbody tr:hover {
 
-            background-color: #1e293b;
-
-            border-color: #334155;
+            background-color: rgba(51, 65, 85, 0.45) !important;
 
         }
 
 
-        html.dark .role-card.border-orange-500 {
+        html.dark .text-slate-900,
+        html.dark .text-slate-800,
+        html.dark .text-slate-700 {
 
-            border-color: #f97316 !important;
+            color: #f1f5f9 !important;
 
-            background-color:
-                rgba(249, 115, 22, 0.1) !important;
+        }
+
+
+        html.dark .text-slate-500,
+        html.dark .text-slate-400 {
+
+            color: #94a3b8 !important;
 
         }
 
 
         /* =====================================================
-           SIDEBAR — MOBILE FIRST
+           HEADER MOBILE
+           ===================================================== */
+
+        .mobile-header {
+
+            position: sticky;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+
+            min-height: var(--mobile-header-height);
+
+            padding:
+                max(10px, env(safe-area-inset-top))
+                12px
+                10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--tech-dark-blue),
+                    var(--tech-sidebar-bg)
+                );
+
+            color: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 12px;
+
+            z-index: 1500;
+
+            box-shadow:
+                0 3px 15px rgba(0, 0, 0, 0.15);
+
+        }
+
+
+        .mobile-brand {
+
+            min-width: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+
+        .mobile-brand-logo {
+
+            width: 32px;
+            height: 32px;
+
+            flex: 0 0 32px;
+
+            background: #ffffff;
+
+            border-radius: 7px;
+
+            transform: rotate(45deg);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+
+        .mobile-brand-logo-inner {
+
+            width: 22px;
+            height: 22px;
+
+            border: 2px solid var(--tech-orange);
+
+            border-radius: 5px;
+
+            transform: rotate(-45deg);
+
+        }
+
+
+        .mobile-brand-title {
+
+            min-width: 0;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.7px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+        }
+
+
+        .mobile-brand-title span {
+
+            color: var(--tech-orange);
+
+        }
+
+
+        .mobile-menu-btn {
+
+            width: 42px;
+            height: 42px;
+
+            flex: 0 0 42px;
+
+            border: 1px solid
+                rgba(255, 255, 255, 0.20);
+
+            border-radius: 10px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            color: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            cursor: pointer;
+
+            transition:
+                background-color 0.2s ease,
+                transform 0.2s ease;
+
+        }
+
+
+        .mobile-menu-btn:hover {
+
+            background:
+                rgba(255, 255, 255, 0.16);
+
+        }
+
+
+        .mobile-menu-btn:active {
+
+            transform: scale(0.96);
+
+        }
+
+
+        /* =====================================================
+           OVERLAY MOBILE
+           ===================================================== */
+
+        .sidebar-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background:
+                rgba(2, 6, 23, 0.65);
+
+            backdrop-filter: blur(2px);
+
+            -webkit-backdrop-filter: blur(2px);
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            pointer-events: none;
+
+            z-index: 1800;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0.25s ease;
+
+        }
+
+
+        .sidebar-overlay.active {
+
+            opacity: 1;
+
+            visibility: visible;
+
+            pointer-events: auto;
+
+        }
+
+
+        /* =====================================================
+           SIDEBAR MOBILE FIRST
            ===================================================== */
 
         .sidebar {
 
-            position: relative;
+            position: fixed;
 
-            top: auto;
-            left: auto;
-            right: auto;
-            bottom: auto;
+            top: 0;
+            left: 0;
 
-            width: 100%;
-            max-width: 100%;
+            width: min(86vw, 320px);
 
-            height: auto;
-            min-height: 0;
+            height: 100vh;
+            height: 100dvh;
+
+            max-height: 100vh;
+            max-height: 100dvh;
 
             margin: 0;
             padding: 0;
@@ -237,42 +536,98 @@
                     var(--tech-sidebar-bg) 100%
                 );
 
-            color: #fff;
+            color: #ffffff;
 
             display: flex;
 
             flex-direction: column;
 
-            overflow: hidden;
+            overflow-x: hidden;
 
-            z-index: 100;
+            overflow-y: auto;
+
+            -webkit-overflow-scrolling: touch;
+
+            z-index: 2000;
+
+            transform: translateX(-105%);
+
+            transition:
+                transform 0.28s ease;
 
             box-shadow:
-                0 4px 20px rgba(0, 0, 0, 0.10);
+                8px 0 30px rgba(0, 0, 0, 0.20);
 
-            border-right: none;
+        }
 
-            border-bottom:
-                1px solid rgba(255, 255, 255, 0.05);
+
+        .sidebar.active {
+
+            transform: translateX(0);
 
         }
 
 
         /* =====================================================
-           BRAND — MOBILE
+           FERMETURE SIDEBAR
+           ===================================================== */
+
+        .sidebar-close {
+
+            width: 38px;
+            height: 38px;
+
+            flex: 0 0 38px;
+
+            border: 1px solid
+                rgba(255, 255, 255, 0.18);
+
+            border-radius: 9px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            color: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            cursor: pointer;
+
+        }
+
+
+        .sidebar-close:hover {
+
+            background:
+                rgba(255, 255, 255, 0.16);
+
+        }
+
+
+        /* =====================================================
+           BRAND SIDEBAR
            ===================================================== */
 
         .sidebar-brand {
 
             width: 100%;
 
-            min-height: 58px;
+            min-height: 68px;
 
-            padding: 12px 14px;
+            padding:
+                14px 14px;
 
             display: flex;
 
             align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
 
             flex-shrink: 0;
 
@@ -282,12 +637,25 @@
         }
 
 
+        .sidebar-brand-left {
+
+            min-width: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
         .sidebar-logo {
 
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
 
-            flex-shrink: 0;
+            flex: 0 0 36px;
 
             background: #ffffff;
 
@@ -297,22 +665,20 @@
 
             display: flex;
 
-            justify-content: center;
-
             align-items: center;
 
-            margin-right: 13px;
+            justify-content: center;
 
             box-shadow:
-                0 4px 10px rgba(0, 0, 0, 0.15);
+                0 4px 12px rgba(0, 0, 0, 0.15);
 
         }
 
 
         .sidebar-logo-inner {
 
-            width: 24px;
-            height: 24px;
+            width: 25px;
+            height: 25px;
 
             border:
                 2px solid var(--tech-orange);
@@ -326,15 +692,21 @@
 
         .sidebar-title {
 
-            font-weight: bold;
+            min-width: 0;
+
+            font-weight: 700;
 
             font-size: 18px;
 
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
 
             color: #ffffff !important;
 
             white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
 
         }
 
@@ -347,54 +719,44 @@
 
 
         /* =====================================================
-           MENU — MOBILE
+           NAVIGATION
            ===================================================== */
 
         .nav-menu {
 
             width: 100%;
 
-            height: auto;
+            flex: 1;
 
-            min-height: 54px;
+            min-height: 0;
 
             list-style: none;
 
-            padding: 7px 10px;
+            padding:
+                14px 12px;
 
             margin: 0;
 
             display: flex;
 
-            flex-direction: row;
+            flex-direction: column;
 
-            align-items: center;
+            align-items: stretch;
 
-            gap: 6px;
+            gap: 5px;
 
-            flex: none;
+            overflow-x: hidden;
 
-            overflow-x: auto;
-
-            overflow-y: hidden;
-
-            scrollbar-width: none;
-
-            -webkit-overflow-scrolling: touch;
-
-        }
-
-
-        .nav-menu::-webkit-scrollbar {
-
-            display: none;
+            overflow-y: auto;
 
         }
 
 
         .nav-link {
 
-            min-height: 40px;
+            width: 100%;
+
+            min-height: 46px;
 
             flex: 0 0 auto;
 
@@ -402,39 +764,45 @@
 
             align-items: center;
 
-            padding: 10px 13px;
+            gap: 11px;
+
+            padding:
+                11px 13px;
 
             color:
-                rgba(255, 255, 255, 0.80);
+                rgba(255, 255, 255, 0.82);
 
             text-decoration: none;
 
             font-weight: 500;
 
-            font-size: 12px;
+            font-size: 13px;
+
+            line-height: 1.3;
 
             border-radius: 10px;
 
-            white-space: nowrap;
+            white-space: normal;
+
+            overflow-wrap: anywhere;
 
             transition:
-                background-color 0.25s ease,
-                color 0.25s ease;
+                background-color 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease;
 
         }
 
 
         .nav-link i {
 
-            margin-right: 7px;
+            width: 20px;
 
-            font-size: 14px;
-
-            width: 18px;
-
-            flex-shrink: 0;
+            flex: 0 0 20px;
 
             text-align: center;
+
+            font-size: 15px;
 
         }
 
@@ -459,6 +827,8 @@
             border-left:
                 3px solid var(--tech-orange);
 
+            padding-left: 10px;
+
             font-weight: 600;
 
         }
@@ -466,7 +836,7 @@
 
         .nav-link.back-link {
 
-            margin-top: 0;
+            margin-top: auto;
 
             background-color:
                 rgba(255, 255, 255, 0.05);
@@ -478,14 +848,19 @@
 
 
         /* =====================================================
-           FOOTER SIDEBAR — MOBILE
+           FOOTER SIDEBAR
            ===================================================== */
 
         .sidebar-footer {
 
             width: 100%;
 
-            padding: 10px 12px;
+            flex-shrink: 0;
+
+            padding:
+                12px
+                12px
+                calc(12px + env(safe-area-inset-bottom));
 
             border-top:
                 1px solid rgba(255, 255, 255, 0.10);
@@ -497,17 +872,18 @@
 
             width: 100%;
 
-            min-height: 42px;
+            min-height: 44px;
 
-            background-color:
-                rgba(255, 77, 77, 0.15);
+            background:
+                rgba(255, 77, 77, 0.14);
 
-            color: #ff8080;
+            color: #ff9090;
 
             border:
                 1px solid rgba(255, 77, 77, 0.30);
 
-            padding: 10px 12px;
+            padding:
+                10px 12px;
 
             border-radius: 10px;
 
@@ -550,7 +926,7 @@
 
 
         /* =====================================================
-           CONTENU PRINCIPAL — MOBILE FIRST
+           CONTENU PRINCIPAL MOBILE FIRST
            ===================================================== */
 
         .main-content {
@@ -566,11 +942,10 @@
             margin: 0 !important;
 
             padding:
-                18px 12px 30px !important;
+                18px 12px
+                calc(30px + env(safe-area-inset-bottom)) !important;
 
             display: block;
-
-            box-sizing: border-box;
 
             overflow-x: hidden;
 
@@ -585,8 +960,6 @@
 
             min-width: 0;
 
-            box-sizing: border-box;
-
         }
 
 
@@ -594,43 +967,42 @@
            EN-TÊTE
            ===================================================== */
 
-        .main-content > .flex {
+        .page-header {
 
             width: 100%;
 
             min-width: 0;
 
-            margin-bottom: 22px !important;
+            margin-bottom: 20px;
 
         }
 
 
-        .main-content h1 {
+        .page-header h1 {
 
             width: 100%;
 
-            font-size: 1.35rem !important;
+            margin: 0;
+
+            font-size:
+                clamp(1.25rem, 5vw, 1.875rem) !important;
 
             line-height: 1.3;
 
             overflow-wrap: anywhere;
 
-        }
-
-
-        .main-content h1,
-        .main-content h1 * {
-
-            min-width: 0;
+            word-break: normal;
 
         }
 
 
-        .main-content h1 + p {
+        .page-header p {
 
             width: 100%;
 
-            line-height: 1.5;
+            margin-top: 7px;
+
+            line-height: 1.55;
 
             overflow-wrap: anywhere;
 
@@ -647,6 +1019,8 @@
 
             max-width: 100%;
 
+            margin-bottom: 18px;
+
             overflow-wrap: anywhere;
 
             word-break: break-word;
@@ -655,7 +1029,7 @@
 
 
         /* =====================================================
-           CARTE MATRICE
+           CARTE PRINCIPALE
            ===================================================== */
 
         .card-custom {
@@ -674,18 +1048,23 @@
 
 
         /* =====================================================
-           EN-TÊTE DE CARTE
+           HEADER CARTE
            ===================================================== */
 
-        .card-custom > div:first-child {
+        .card-header-custom {
 
-            padding:
-                18px !important;
+            width: 100%;
+
+            padding: 16px !important;
+
+            min-width: 0;
 
         }
 
 
-        .card-custom h2 {
+        .card-header-custom h2 {
+
+            width: 100%;
 
             font-size: 1rem;
 
@@ -696,7 +1075,9 @@
         }
 
 
-        .card-custom h2 + p {
+        .card-header-custom p {
+
+            width: 100%;
 
             line-height: 1.5;
 
@@ -706,10 +1087,10 @@
 
 
         /* =====================================================
-           TABLEAU — SCROLL HORIZONTAL MOBILE
+           ZONE TABLEAU
            ===================================================== */
 
-        .card-custom .overflow-x-auto {
+        .permissions-table-wrapper {
 
             width: 100%;
 
@@ -723,61 +1104,87 @@
 
             scrollbar-width: thin;
 
+            overscroll-behavior-x: contain;
+
         }
 
 
-        .card-custom table {
+        .permissions-table-wrapper::-webkit-scrollbar {
+
+            height: 7px;
+
+        }
+
+
+        .permissions-table {
 
             width: 100%;
 
             min-width: 760px;
+
+            border-collapse: collapse;
 
             table-layout: auto;
 
         }
 
 
-        .card-custom th,
-        .card-custom td {
-
-            white-space: normal;
-
-        }
-
-
-        .card-custom th {
-
-            min-width: 130px;
-
-            font-size: 10px;
-
-        }
-
-
-        .card-custom th:first-child {
-
-            min-width: 260px;
-
-        }
-
-
-        .card-custom td {
-
-            min-width: 110px;
+        .permissions-table th,
+        .permissions-table td {
 
             vertical-align: middle;
 
         }
 
 
-        .card-custom td:first-child {
+        .permissions-table th {
 
-            min-width: 260px;
+            min-width: 130px;
+
+            font-size: 10px;
+
+            line-height: 1.4;
+
+            white-space: normal;
 
         }
 
 
-        .card-custom td input[type="checkbox"] {
+        .permissions-table th:first-child {
+
+            min-width: 255px;
+
+        }
+
+
+        .permissions-table td {
+
+            min-width: 110px;
+
+            font-size: 13px;
+
+        }
+
+
+        .permissions-table td:first-child {
+
+            min-width: 255px;
+
+            line-height: 1.5;
+
+            overflow-wrap: anywhere;
+
+        }
+
+
+        .permissions-table td:first-child > div {
+
+            overflow-wrap: anywhere;
+
+        }
+
+
+        .permissions-table input[type="checkbox"] {
 
             width: 20px !important;
 
@@ -787,36 +1194,24 @@
 
             min-height: 20px;
 
+            margin: 0 auto;
+
             cursor: pointer;
 
-        }
-
-
-        /* =====================================================
-           TEXTE DES LIGNES DU TABLEAU
-           ===================================================== */
-
-        .card-custom td:first-child {
-
-            line-height: 1.45;
-
-            overflow-wrap: anywhere;
-
-            word-break: normal;
+            accent-color: var(--tech-orange);
 
         }
 
 
         /* =====================================================
-           PIED DE LA CARTE
+           PIED DE CARTE
            ===================================================== */
 
-        .card-custom form > div:last-child {
+        .card-footer-custom {
 
             width: 100%;
 
-            padding:
-                16px !important;
+            padding: 16px !important;
 
             display: flex;
 
@@ -831,9 +1226,11 @@
         }
 
 
-        .card-custom form > div:last-child p {
+        .card-footer-custom p {
 
             width: 100%;
+
+            min-width: 0;
 
             margin: 0;
 
@@ -861,6 +1258,8 @@
 
             line-height: 1.35;
 
+            flex-shrink: 0;
+
         }
 
 
@@ -874,35 +1273,93 @@
 
 
         /* =====================================================
-           PETITS ÉCRANS
+           TRÈS PETITS ÉCRANS
            ===================================================== */
 
         @media (max-width: 359px) {
 
+            .mobile-header {
+
+                padding-left: 9px;
+
+                padding-right: 9px;
+
+            }
+
+
+            .mobile-brand {
+
+                gap: 8px;
+
+            }
+
+
+            .mobile-brand-logo {
+
+                width: 29px;
+                height: 29px;
+
+                flex-basis: 29px;
+
+            }
+
+
+            .mobile-brand-logo-inner {
+
+                width: 20px;
+                height: 20px;
+
+            }
+
+
+            .mobile-brand-title {
+
+                font-size: 14px;
+
+            }
+
+
+            .mobile-menu-btn {
+
+                width: 38px;
+                height: 38px;
+
+                flex-basis: 38px;
+
+            }
+
+
+            .sidebar {
+
+                width: min(90vw, 300px);
+
+            }
+
+
             .sidebar-brand {
 
-                min-height: 54px;
+                min-height: 62px;
 
                 padding:
-                    10px 12px;
+                    12px;
 
             }
 
 
             .sidebar-logo {
 
-                width: 30px;
-                height: 30px;
+                width: 32px;
+                height: 32px;
 
-                margin-right: 11px;
+                flex-basis: 32px;
 
             }
 
 
             .sidebar-logo-inner {
 
-                width: 21px;
-                height: 21px;
+                width: 22px;
+                height: 22px;
 
             }
 
@@ -914,74 +1371,56 @@
             }
 
 
-            .nav-menu {
-
-                min-height: 50px;
-
-                padding:
-                    6px 8px;
-
-            }
-
-
-            .nav-link {
-
-                min-height: 38px;
-
-                padding:
-                    9px 10px;
-
-                font-size: 11px;
-
-            }
-
-
-            .nav-link i {
-
-                width: 16px;
-
-                margin-right: 6px;
-
-                font-size: 12px;
-
-            }
-
-
             .main-content {
 
                 padding:
-                    15px 10px 25px !important;
+                    15px 9px
+                    calc(25px + env(safe-area-inset-bottom))
+                    !important;
 
             }
 
 
-            .main-content h1 {
+            .page-header h1 {
 
                 font-size:
-                    1.22rem !important;
+                    1.18rem !important;
 
             }
 
 
-            .card-custom > div:first-child {
+            .card-custom {
 
-                padding:
-                    14px !important;
-
-            }
-
-
-            .card-custom form > div:last-child {
-
-                padding:
-                    14px !important;
+                border-radius: 11px;
 
             }
 
 
-            .card-custom table {
+            .card-header-custom {
+
+                padding: 14px !important;
+
+            }
+
+
+            .card-footer-custom {
+
+                padding: 14px !important;
+
+            }
+
+
+            .permissions-table {
 
                 min-width: 720px;
+
+            }
+
+
+            .permissions-table th:first-child,
+            .permissions-table td:first-child {
+
+                min-width: 235px;
 
             }
 
@@ -989,68 +1428,56 @@
 
 
         /* =====================================================
-           MOBILE LARGE / PETITE TABLETTE
+           MOBILE LARGE
+           ===================================================== */
+
+        @media (min-width: 480px) {
+
+            .main-content {
+
+                padding-left: 16px !important;
+
+                padding-right: 16px !important;
+
+            }
+
+
+            .card-header-custom {
+
+                padding: 20px !important;
+
+            }
+
+
+            .card-footer-custom {
+
+                padding: 18px !important;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           TABLETTE
            ===================================================== */
 
         @media (min-width: 576px) {
 
-            .sidebar-brand {
+            .mobile-header {
 
-                min-height: 62px;
+                min-height: 68px;
 
-                padding:
-                    14px 20px;
+                padding-left: 18px;
 
-            }
-
-
-            .sidebar-logo {
-
-                width: 38px;
-                height: 38px;
+                padding-right: 18px;
 
             }
 
 
-            .sidebar-logo-inner {
+            .mobile-brand-title {
 
-                width: 26px;
-                height: 26px;
-
-            }
-
-
-            .sidebar-title {
-
-                font-size: 19px;
-
-            }
-
-
-            .nav-menu {
-
-                min-height: 56px;
-
-                padding:
-                    8px 14px;
-
-            }
-
-
-            .nav-link {
-
-                padding:
-                    11px 14px;
-
-                font-size: 13px;
-
-            }
-
-
-            .sidebar-footer {
-
-                padding:
-                    12px 16px;
+                font-size: 18px;
 
             }
 
@@ -1058,12 +1485,21 @@
             .main-content {
 
                 padding:
-                    25px 20px 35px !important;
+                    25px 20px
+                    calc(35px + env(safe-area-inset-bottom))
+                    !important;
 
             }
 
 
-            .main-content h1 {
+            .page-header {
+
+                margin-bottom: 24px;
+
+            }
+
+
+            .page-header h1 {
 
                 font-size:
                     1.6rem !important;
@@ -1071,18 +1507,43 @@
             }
 
 
-            .card-custom > div:first-child {
+            .card-custom {
 
-                padding:
-                    22px !important;
+                border-radius: 16px;
 
             }
 
 
-            .card-custom form > div:last-child {
+            .card-header-custom {
 
-                padding:
-                    18px !important;
+                padding: 22px !important;
+
+            }
+
+
+            .card-footer-custom {
+
+                padding: 18px 22px !important;
+
+            }
+
+
+            .card-footer-custom {
+
+                flex-direction: row;
+
+                align-items: center;
+
+                justify-content: space-between;
+
+            }
+
+
+            .card-footer-custom p {
+
+                flex: 1;
+
+                padding-right: 15px;
 
             }
 
@@ -1095,35 +1556,11 @@
 
             }
 
-
-            .card-custom form > div:last-child {
-
-                flex-direction: row;
-
-                align-items: center;
-
-                justify-content: space-between;
-
-            }
-
-
-            .card-custom form > div:last-child p {
-
-                width: auto;
-
-                flex: 1;
-
-                min-width: 0;
-
-                padding-right: 16px;
-
-            }
-
         }
 
 
         /* =====================================================
-           TABLETTE
+           TABLETTE LARGE
            ===================================================== */
 
         @media (min-width: 768px) {
@@ -1131,20 +1568,21 @@
             .main-content {
 
                 padding:
-                    30px 24px 40px !important;
+                    30px 24px
+                    calc(40px + env(safe-area-inset-bottom))
+                    !important;
 
             }
 
 
-            .main-content > .flex {
+            .page-header {
 
-                margin-bottom:
-                    28px !important;
+                margin-bottom: 28px;
 
             }
 
 
-            .main-content h1 {
+            .page-header h1 {
 
                 font-size:
                     1.75rem !important;
@@ -1152,15 +1590,14 @@
             }
 
 
-            .card-custom > div:first-child {
+            .card-header-custom {
 
-                padding:
-                    24px !important;
+                padding: 24px !important;
 
             }
 
 
-            .card-custom form > div:last-child {
+            .card-footer-custom {
 
                 padding:
                     20px 24px !important;
@@ -1168,7 +1605,7 @@
             }
 
 
-            .card-custom table {
+            .permissions-table {
 
                 min-width: 850px;
 
@@ -1178,14 +1615,14 @@
 
 
         /* =====================================================
-           DESKTOP — RETOUR SIDEBAR FIXE
+           DESKTOP
            ===================================================== */
 
         @media (min-width: 992px) {
 
             body {
 
-                display: flex;
+                display: block;
 
                 min-height: 100vh;
 
@@ -1195,7 +1632,25 @@
 
 
             /* -------------------------------------------------
-               SIDEBAR DESKTOP
+               HEADER MOBILE CACHÉ
+               ------------------------------------------------- */
+
+            .mobile-header {
+
+                display: none;
+
+            }
+
+
+            .sidebar-overlay {
+
+                display: none;
+
+            }
+
+
+            /* -------------------------------------------------
+               SIDEBAR FIXE
                ------------------------------------------------- */
 
             .sidebar {
@@ -1211,13 +1666,15 @@
 
                 height: 100vh;
 
-                min-height: 100vh;
+                max-height: 100vh;
 
-                display: flex;
+                transform: none;
 
-                flex-direction: column;
+                transition: none;
 
-                overflow: visible;
+                overflow-x: hidden;
+
+                overflow-y: auto;
 
                 box-shadow:
                     4px 0 25px rgba(0, 0, 0, 0.08);
@@ -1225,17 +1682,22 @@
                 border-right:
                     1px solid rgba(255, 255, 255, 0.05);
 
-                border-bottom: none;
-
             }
 
 
             .sidebar-brand {
 
-                min-height: auto;
+                min-height: 86px;
 
                 padding:
-                    30px 24px;
+                    24px;
+
+            }
+
+
+            .sidebar-brand-left {
+
+                gap: 14px;
 
             }
 
@@ -1245,7 +1707,7 @@
                 width: 40px;
                 height: 40px;
 
-                margin-right: 15px;
+                flex-basis: 40px;
 
             }
 
@@ -1265,26 +1727,21 @@
             }
 
 
+            .sidebar-close {
+
+                display: none;
+
+            }
+
+
             /* -------------------------------------------------
                MENU DESKTOP
                ------------------------------------------------- */
 
             .nav-menu {
 
-                height: auto;
-
-                min-height: 0;
-
                 padding:
                     24px 16px;
-
-                margin: 0;
-
-                flex: 1;
-
-                flex-direction: column;
-
-                align-items: stretch;
 
                 gap: 6px;
 
@@ -1292,21 +1749,15 @@
 
                 overflow-x: hidden;
 
-                scrollbar-width: thin;
-
             }
 
 
             .nav-link {
 
-                width: 100%;
-
-                min-height: auto;
-
-                flex: none;
+                min-height: 48px;
 
                 padding:
-                    14px 18px;
+                    13px 18px;
 
                 font-size: 14px;
 
@@ -1317,11 +1768,11 @@
 
             .nav-link i {
 
-                margin-right: 14px;
+                width: 22px;
+
+                flex-basis: 22px;
 
                 font-size: 16px;
-
-                width: 22px;
 
             }
 
@@ -1329,6 +1780,8 @@
             .nav-link.active {
 
                 border-left-width: 4px;
+
+                padding-left: 14px;
 
             }
 
@@ -1347,17 +1800,16 @@
             .sidebar-footer {
 
                 padding:
-                    20px 24px;
+                    20px
+                    24px
+                    calc(20px + env(safe-area-inset-bottom));
 
             }
 
 
             .btn-logout {
 
-                min-height: auto;
-
-                padding:
-                    12px;
+                min-height: 44px;
 
                 font-size: 14px;
 
@@ -1370,7 +1822,8 @@
 
             .main-content {
 
-                width: auto;
+                width:
+                    calc(100% - var(--sidebar-width));
 
                 max-width:
                     calc(100% - var(--sidebar-width));
@@ -1383,14 +1836,12 @@
                 padding:
                     40px !important;
 
-                flex: 1;
-
                 overflow-x: hidden;
 
             }
 
 
-            .main-content h1 {
+            .page-header h1 {
 
                 font-size:
                     1.875rem !important;
@@ -1400,21 +1851,19 @@
 
             .card-custom {
 
-                border-radius:
-                    16px;
+                border-radius: 16px;
 
             }
 
 
-            .card-custom > div:first-child {
+            .card-header-custom {
 
-                padding:
-                    24px !important;
+                padding: 24px !important;
 
             }
 
 
-            .card-custom form > div:last-child {
+            .card-footer-custom {
 
                 padding:
                     20px 24px !important;
@@ -1422,40 +1871,67 @@
             }
 
 
-            .card-custom table {
+            /* -------------------------------------------------
+               TABLEAU DESKTOP
+               ------------------------------------------------- */
+
+            .permissions-table-wrapper {
+
+                overflow-x: auto;
+
+            }
+
+
+            .permissions-table {
 
                 width: 100%;
 
                 min-width: 0;
 
+                table-layout: fixed;
+
             }
 
 
-            .card-custom th,
-            .card-custom td {
+            .permissions-table th,
+            .permissions-table td {
 
                 white-space: normal;
 
+                overflow-wrap: anywhere;
+
             }
 
 
-            .card-custom th:first-child,
-            .card-custom td:first-child {
+            .permissions-table th:first-child,
+            .permissions-table td:first-child {
+
+                width: 40%;
 
                 min-width: 0;
 
             }
 
 
-            .card-custom td input[type="checkbox"] {
+            .permissions-table th:not(:first-child),
+            .permissions-table td:not(:first-child) {
 
-                width: 16px !important;
+                width: 15%;
 
-                min-width: 16px;
+                min-width: 0;
 
-                height: 16px;
+            }
 
-                min-height: 16px;
+
+            .permissions-table input[type="checkbox"] {
+
+                width: 17px !important;
+
+                min-width: 17px;
+
+                height: 17px;
+
+                min-height: 17px;
 
             }
 
@@ -1472,7 +1948,7 @@
 
 
         /* =====================================================
-           GRAND DESKTOP
+           GRAND ÉCRAN
            ===================================================== */
 
         @media (min-width: 1200px) {
@@ -1488,7 +1964,35 @@
 
 
         /* =====================================================
-           FOCUS ACCESSIBILITÉ
+           TRÈS GRAND ÉCRAN
+           ===================================================== */
+
+        @media (min-width: 1600px) {
+
+            .main-content {
+
+                padding:
+                    45px 55px !important;
+
+            }
+
+
+            .page-header,
+            .card-custom {
+
+                max-width: 1700px;
+
+                margin-left: auto;
+
+                margin-right: auto;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           ACCESSIBILITÉ
            ===================================================== */
 
         button:focus-visible,
@@ -1510,11 +2014,16 @@
 
         @media (prefers-reduced-motion: reduce) {
 
+            html {
+
+                scroll-behavior: auto;
+
+            }
+
+
             *,
             *::before,
             *::after {
-
-                scroll-behavior: auto !important;
 
                 transition: none !important;
 
@@ -1533,22 +2042,20 @@
 
 
     <!-- =====================================================
-         SIDEBAR
+         HEADER MOBILE
          ===================================================== -->
 
-    <aside class="sidebar">
+    <header class="mobile-header">
 
+        <div class="mobile-brand">
 
-        <div class="sidebar-brand">
+            <div class="mobile-brand-logo">
 
-            <div class="sidebar-logo">
-
-                <div class="sidebar-logo-inner"></div>
+                <div class="mobile-brand-logo-inner"></div>
 
             </div>
 
-
-            <div class="sidebar-title">
+            <div class="mobile-brand-title">
 
                 ASTRA <span>TECH</span>
 
@@ -1557,7 +2064,85 @@
         </div>
 
 
-        <nav class="nav-menu">
+        <button
+            type="button"
+            class="mobile-menu-btn"
+            id="mobileMenuBtn"
+            aria-label="Ouvrir le menu"
+            aria-controls="sidebar"
+            aria-expanded="false"
+        >
+
+            <i class="fas fa-bars"></i>
+
+        </button>
+
+    </header>
+
+
+    <!-- =====================================================
+         OVERLAY
+         ===================================================== -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+        aria-hidden="true"
+    ></div>
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+
+        <!-- BRAND -->
+
+        <div class="sidebar-brand">
+
+            <div class="sidebar-brand-left">
+
+                <div class="sidebar-logo">
+
+                    <div class="sidebar-logo-inner"></div>
+
+                </div>
+
+
+                <div class="sidebar-title">
+
+                    ASTRA <span>TECH</span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="sidebar-close"
+                id="sidebarClose"
+                aria-label="Fermer le menu"
+            >
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav
+            class="nav-menu"
+            aria-label="Navigation administration"
+        >
 
 
             <a
@@ -1567,7 +2152,9 @@
 
                 <i class="fas fa-key"></i>
 
-                Gestion des Tokens
+                <span>
+                    Gestion des Tokens
+                </span>
 
             </a>
 
@@ -1579,7 +2166,9 @@
 
                 <i class="fas fa-users"></i>
 
-                Utilisateurs
+                <span>
+                    Utilisateurs
+                </span>
 
             </a>
 
@@ -1587,11 +2176,14 @@
             <a
                 href="{% url 'astra:permissions_page' %}"
                 class="nav-link active"
+                aria-current="page"
             >
 
                 <i class="fas fa-shield-alt"></i>
 
-                Permissions
+                <span>
+                    Permissions
+                </span>
 
             </a>
 
@@ -1603,7 +2195,9 @@
 
                 <i class="fas fa-history"></i>
 
-                Historique
+                <span>
+                    Historique
+                </span>
 
             </a>
 
@@ -1615,7 +2209,9 @@
 
                 <i class="fas fa-cog"></i>
 
-                Paramètres
+                <span>
+                    Paramètres
+                </span>
 
             </a>
 
@@ -1626,7 +2222,7 @@
                 class="nav-link back-link"
             >
 
-                <i class="fas fa-arrow-left text-white"></i>
+                <i class="fas fa-arrow-left"></i>
 
                 <span>
                     Retour
@@ -1638,6 +2234,8 @@
         </nav>
 
 
+        <!-- FOOTER -->
+
         <div class="sidebar-footer">
 
             <a
@@ -1648,7 +2246,9 @@
 
                 <i class="fas fa-sign-out-alt"></i>
 
-                Déconnexion
+                <span>
+                    Déconnexion
+                </span>
 
             </a>
 
@@ -1668,31 +2268,25 @@
              EN-TÊTE
              ================================================= -->
 
-        <div
-            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8"
-        >
+        <div class="page-header">
 
-            <div class="min-w-0">
+            <h1
+                class="font-bold tracking-tight text-slate-900 dark:text-white"
+            >
 
-                <h1
-                    class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white"
-                >
+                Matrice des Rôles & Sécurité
 
-                    Matrice des Rôles & Sécurité
-
-                </h1>
+            </h1>
 
 
-                <p
-                    class="text-slate-500 dark:text-slate-400 text-sm mt-1"
-                >
+            <p
+                class="text-slate-500 dark:text-slate-400 text-sm"
+            >
 
-                    Contrôlez les autorisations d'accès aux modules
-                    de gestion de matériel informatique.
+                Contrôlez les autorisations d'accès aux modules
+                de gestion de matériel informatique.
 
-                </p>
-
-            </div>
+            </p>
 
         </div>
 
@@ -1716,10 +2310,12 @@
         >
 
 
-            <!-- EN-TÊTE -->
+            <!-- =================================================
+                 EN-TÊTE CARTE
+                 ================================================= -->
 
             <div
-                class="p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40"
+                class="card-header-custom border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40"
             >
 
                 <h2
@@ -1732,7 +2328,7 @@
 
 
                 <p
-                    class="text-xs text-slate-500 dark:text-slate-400 mt-0.5"
+                    class="text-xs text-slate-500 dark:text-slate-400 mt-1"
                 >
 
                     Enregistrez vos choix pour valider les droits
@@ -1743,7 +2339,9 @@
             </div>
 
 
-            <!-- FORMULAIRE -->
+            <!-- =================================================
+                 FORMULAIRE
+                 ================================================= -->
 
             <form
                 id="real-permissions-form"
@@ -1757,10 +2355,10 @@
                      TABLEAU
                      ================================================= -->
 
-                <div class="overflow-x-auto">
+                <div class="permissions-table-wrapper">
 
                     <table
-                        class="w-full text-left border-collapse"
+                        class="permissions-table w-full text-left"
                     >
 
                         <thead>
@@ -1814,7 +2412,9 @@
                         >
 
 
-                            <!-- VENTES -->
+                            <!-- =================================================
+                                 VENTES
+                                 ================================================= -->
 
                             <tr
                                 class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition"
@@ -1845,7 +2445,7 @@
                                         type="checkbox"
                                         name="admin_vente"
                                         checked
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Administrateur - Ventes"
                                     >
 
                                 </td>
@@ -1856,7 +2456,7 @@
                                     <input
                                         type="checkbox"
                                         name="stock_vente"
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Gestionnaire Stock - Ventes"
                                     >
 
                                 </td>
@@ -1868,7 +2468,7 @@
                                         type="checkbox"
                                         name="vendeur_vente"
                                         checked
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Commercial Vendeur - Ventes"
                                     >
 
                                 </td>
@@ -1880,7 +2480,7 @@
                                         type="checkbox"
                                         name="caissier_vente"
                                         checked
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Caissier - Ventes"
                                     >
 
                                 </td>
@@ -1888,7 +2488,9 @@
                             </tr>
 
 
-                            <!-- STOCK -->
+                            <!-- =================================================
+                                 STOCK
+                                 ================================================= -->
 
                             <tr
                                 class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition"
@@ -1920,7 +2522,7 @@
                                         type="checkbox"
                                         name="admin_stock"
                                         checked
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Administrateur - Stock"
                                     >
 
                                 </td>
@@ -1932,7 +2534,7 @@
                                         type="checkbox"
                                         name="stock_stock"
                                         checked
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Gestionnaire Stock - Stock"
                                     >
 
                                 </td>
@@ -1943,7 +2545,7 @@
                                     <input
                                         type="checkbox"
                                         name="vendeur_stock"
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Commercial Vendeur - Stock"
                                     >
 
                                 </td>
@@ -1954,7 +2556,7 @@
                                     <input
                                         type="checkbox"
                                         name="caissier_stock"
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Caissier - Stock"
                                     >
 
                                 </td>
@@ -1962,7 +2564,9 @@
                             </tr>
 
 
-                            <!-- ADMINISTRATION -->
+                            <!-- =================================================
+                                 ADMINISTRATION
+                                 ================================================= -->
 
                             <tr
                                 class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition"
@@ -1993,7 +2597,7 @@
                                         type="checkbox"
                                         name="admin_tokens"
                                         checked
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Administrateur - Administration"
                                     >
 
                                 </td>
@@ -2004,7 +2608,7 @@
                                     <input
                                         type="checkbox"
                                         name="stock_tokens"
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Gestionnaire Stock - Administration"
                                     >
 
                                 </td>
@@ -2015,7 +2619,7 @@
                                     <input
                                         type="checkbox"
                                         name="vendeur_tokens"
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Commercial Vendeur - Administration"
                                     >
 
                                 </td>
@@ -2026,7 +2630,7 @@
                                     <input
                                         type="checkbox"
                                         name="caissier_tokens"
-                                        class="w-4 h-4 accent-orange-500 rounded cursor-pointer"
+                                        aria-label="Caissier - Administration"
                                     >
 
                                 </td>
@@ -2042,11 +2646,11 @@
 
 
                 <!-- =================================================
-                     PIED
+                     PIED DE CARTE
                      ================================================= -->
 
                 <div
-                    class="p-6 bg-slate-50/50 dark:bg-slate-900/40 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center"
+                    class="card-footer-custom bg-slate-50/50 dark:bg-slate-900/40 border-t border-slate-100 dark:border-slate-800"
                 >
 
                     <p
@@ -2055,8 +2659,10 @@
 
                         <i class="fas fa-server text-blue-500"></i>
 
-                        Communication active avec la base de données
-                        de l'application.
+                        <span>
+                            Communication active avec la base de données
+                            de l'application.
+                        </span>
 
                     </p>
 
@@ -2069,7 +2675,9 @@
 
                         <i class="fas fa-save text-xs"></i>
 
-                        Enregistrer les permissions
+                        <span>
+                            Enregistrer les permissions
+                        </span>
 
                     </button>
 
@@ -2087,6 +2695,206 @@
          ===================================================== -->
 
     <script>
+
+        /* =====================================================
+           SIDEBAR MOBILE
+           ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const sidebar =
+                    document.getElementById(
+                        "sidebar"
+                    );
+
+                const overlay =
+                    document.getElementById(
+                        "sidebarOverlay"
+                    );
+
+                const menuBtn =
+                    document.getElementById(
+                        "mobileMenuBtn"
+                    );
+
+                const closeBtn =
+                    document.getElementById(
+                        "sidebarClose"
+                    );
+
+
+                function openSidebar() {
+
+                    if (!sidebar) {
+                        return;
+                    }
+
+                    sidebar.classList.add("active");
+
+                    if (overlay) {
+                        overlay.classList.add("active");
+                    }
+
+                    document.body.classList.add(
+                        "menu-open"
+                    );
+
+                    if (menuBtn) {
+                        menuBtn.setAttribute(
+                            "aria-expanded",
+                            "true"
+                        );
+
+                        menuBtn.setAttribute(
+                            "aria-label",
+                            "Fermer le menu"
+                        );
+                    }
+
+                }
+
+
+                function closeSidebar() {
+
+                    if (!sidebar) {
+                        return;
+                    }
+
+                    sidebar.classList.remove(
+                        "active"
+                    );
+
+                    if (overlay) {
+                        overlay.classList.remove(
+                            "active"
+                        );
+                    }
+
+                    document.body.classList.remove(
+                        "menu-open"
+                    );
+
+                    if (menuBtn) {
+                        menuBtn.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                        menuBtn.setAttribute(
+                            "aria-label",
+                            "Ouvrir le menu"
+                        );
+                    }
+
+                }
+
+
+                if (menuBtn) {
+
+                    menuBtn.addEventListener(
+                        "click",
+                        openSidebar
+                    );
+
+                }
+
+
+                if (closeBtn) {
+
+                    closeBtn.addEventListener(
+                        "click",
+                        closeSidebar
+                    );
+
+                }
+
+
+                if (overlay) {
+
+                    overlay.addEventListener(
+                        "click",
+                        closeSidebar
+                    );
+
+                }
+
+
+                document.addEventListener(
+                    "keydown",
+                    function (event) {
+
+                        if (
+                            event.key === "Escape"
+                        ) {
+
+                            closeSidebar();
+
+                        }
+
+                    }
+                );
+
+
+                /*
+                 * Fermer automatiquement
+                 * le menu après sélection
+                 * sur mobile.
+                 */
+
+                document
+                    .querySelectorAll(
+                        ".sidebar .nav-link"
+                    )
+                    .forEach(
+                        function (link) {
+
+                            link.addEventListener(
+                                "click",
+                                function () {
+
+                                    if (
+                                        window.innerWidth <
+                                        992
+                                    ) {
+
+                                        closeSidebar();
+
+                                    }
+
+                                }
+                            );
+
+                        }
+                    );
+
+
+                /*
+                 * Sur desktop :
+                 * le sidebar doit toujours
+                 * être visible.
+                 */
+
+                window.addEventListener(
+                    "resize",
+                    function () {
+
+                        if (
+                            window.innerWidth >=
+                            992
+                        ) {
+
+                            closeSidebar();
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
 
         /* =====================================================
            NOTIFICATION
@@ -2127,19 +2935,25 @@
                 `;
 
 
+            const icon =
+                isSuccess
+                    ? "fa-check-circle"
+                    : "fa-exclamation-circle";
+
+
             box.innerHTML =
                 `
-                <i
-                    class="fas ${
-                        isSuccess
-                            ?
-                            "fa-check-circle"
-                            :
-                            "fa-exclamation-circle"
-                    } mr-2"
-                ></i>
+                <div class="flex items-start gap-2">
 
-                ${message}
+                    <i
+                        class="fas ${icon} mt-0.5 flex-shrink-0"
+                    ></i>
+
+                    <span class="min-w-0 break-words">
+                        ${message}
+                    </span>
+
+                </div>
                 `;
 
 
@@ -2148,16 +2962,22 @@
             );
 
 
-            setTimeout(
-                () => {
-
-                    box.classList.add(
-                        "hidden"
-                    );
-
-                },
-                4000
+            clearTimeout(
+                window.astraNotificationTimer
             );
+
+
+            window.astraNotificationTimer =
+                setTimeout(
+                    function () {
+
+                        box.classList.add(
+                            "hidden"
+                        );
+
+                    },
+                    4000
+                );
 
         }
 
@@ -2189,7 +3009,9 @@
                 `
                 <i class="fas fa-spinner fa-spin text-xs"></i>
 
-                Enregistrement en cours...
+                <span>
+                    Enregistrement en cours...
+                </span>
                 `;
 
 
@@ -2201,18 +3023,19 @@
                     "#real-permissions-form input[type='checkbox']"
                 )
                 .forEach(
-                    cb => {
+                    function (checkbox) {
 
-                        dataObj[cb.name] =
-                            cb.checked;
+                        dataObj[
+                            checkbox.name
+                        ] =
+                            checkbox.checked;
 
                     }
                 );
 
 
             /*
-             * On récupère le token CSRF
-             * directement depuis le formulaire.
+             * Récupération CSRF.
              */
 
             const csrfInput =
@@ -2225,6 +3048,29 @@
                 csrfInput
                     ? csrfInput.value
                     : "";
+
+
+            if (!csrfToken) {
+
+                btn.disabled = false;
+
+                btn.innerHTML =
+                    `
+                    <i class="fas fa-save text-xs"></i>
+
+                    <span>
+                        Enregistrer les permissions
+                    </span>
+                    `;
+
+                showNotification(
+                    "Jeton CSRF introuvable. Rechargez la page.",
+                    false
+                );
+
+                return;
+
+            }
 
 
             fetch(
@@ -2258,14 +3104,7 @@
             )
 
             .then(
-                async response => {
-
-                    /*
-                     * Évite l'erreur
-                     * "Unexpected token <"
-                     * lorsqu'une page HTML est renvoyée
-                     * par Django.
-                     */
+                async function (response) {
 
                     const contentType =
                         response.headers.get(
@@ -2284,18 +3123,24 @@
 
 
                         return {
+
                             ok:
                                 response.ok,
 
                             data:
                                 json
+
                         };
 
                     }
 
 
-                    const text =
-                        await response.text();
+                    /*
+                     * Django a renvoyé du HTML
+                     * au lieu du JSON attendu.
+                     */
+
+                    await response.text();
 
 
                     throw new Error(
@@ -2306,7 +3151,7 @@
             )
 
             .then(
-                result => {
+                function (result) {
 
                     btn.disabled = false;
 
@@ -2315,12 +3160,14 @@
                         `
                         <i class="fas fa-save text-xs"></i>
 
-                        Enregistrer les permissions
+                        <span>
+                            Enregistrer les permissions
+                        </span>
                         `;
 
 
                     const resData =
-                        result.data;
+                        result.data || {};
 
 
                     if (
@@ -2349,7 +3196,7 @@
             )
 
             .catch(
-                error => {
+                function (error) {
 
                     console.error(
                         "Erreur permissions :",
@@ -2364,7 +3211,9 @@
                         `
                         <i class="fas fa-save text-xs"></i>
 
-                        Enregistrer les permissions
+                        <span>
+                            Enregistrer les permissions
+                        </span>
                         `;
 
 
@@ -2386,7 +3235,7 @@
 
         document.addEventListener(
             "DOMContentLoaded",
-            () => {
+            function () {
 
                 const loginBtn =
                     document.getElementById(
@@ -2398,7 +3247,7 @@
 
                     loginBtn.addEventListener(
                         "click",
-                        event => {
+                        function (event) {
 
                             const confirmed =
                                 confirm(
@@ -2424,4 +3273,5 @@
 
 
 </body>
+
 </html>

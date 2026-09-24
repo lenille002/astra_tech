@@ -1,35 +1,59 @@
+
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#003366"
+    >
 
     <title>ASTRA TECH - Gestion des Tokens</title>
+
 
     <!-- =========================================================
          DARK MODE PRELOAD
     ========================================================== -->
+
     <script>
         if (localStorage.getItem('astra_dark_mode') === 'true') {
-            document.documentElement.classList.add('dark-mode-preload');
+            document.documentElement.classList.add('dark');
         }
     </script>
+
 
     <!-- =========================================================
          GOOGLE FONT
     ========================================================== -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
     >
 
+
     <!-- =========================================================
          FONT AWESOME
     ========================================================== -->
+
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -37,308 +61,476 @@
         referrerpolicy="no-referrer"
     >
 
+
     <!-- =========================================================
          CSS RESPONSIVE EXTERNE
     ========================================================== -->
+
     <link
         rel="stylesheet"
         href="{% static 'css/responsive.css' %}"
     >
 
+
     <!-- =========================================================
          EMAILJS
     ========================================================== -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
-
-   
-   <style>
-/* =========================================================
-   VARIABLES
-========================================================= */
 
-:root {
-    --tech-dark-blue: #004E8C;
-    --tech-sidebar-bg: #003366;
-    --tech-blue: #0078D7;
-    --tech-blue-light: #2196F3;
-
-    --tech-orange: #FF8C00;
-    --tech-orange-light: #FFA726;
-
-    --tech-white: #ffffff;
-
-    --bg-light: #f8fafc;
-    --text-dark: #1e293b;
-    --text-muted: #64748b;
-
-    --border-light: #e2e8f0;
-
-    --success-bg: #dcfce7;
-    --success-text: #15803d;
+    <script
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
 
-    --danger-bg: #fee2e2;
-    --danger-text: #b91c1c;
 
-    --warning-bg: #fef3c7;
-    --warning-text: #b45309;
-
-    --sidebar-width: 280px;
+    <!-- =========================================================
+         CSS
+    ========================================================== -->
 
-    --radius: 14px;
-}
+    <style>
 
+        /* =========================================================
+           VARIABLES
+        ========================================================= */
 
-/* =========================================================
-   RESET
-========================================================= */
+        :root {
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
+            --tech-dark-blue: #004E8C;
+            --tech-sidebar-bg: #003366;
 
-html,
-body {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
+            --tech-blue: #0078D7;
+            --tech-blue-light: #2196F3;
 
-body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg-light);
-    color: var(--text-dark);
-    min-height: 100vh;
-}
+            --tech-orange: #FF8C00;
+            --tech-orange-light: #FFA726;
 
+            --tech-white: #ffffff;
 
-/* =========================================================
-   DARK MODE
-========================================================= */
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
 
-html.dark body {
-    background: #0f172a !important;
-    color: #f1f5f9 !important;
-}
+            --border-light: #e2e8f0;
 
-html.dark .card {
-    background: #1e293b;
-    border-color: #334155;
-}
+            --success-bg: #dcfce7;
+            --success-text: #15803d;
 
-html.dark .card-header {
-    background: #1e293b;
-    border-color: #334155;
-    color: #f8fafc;
-}
+            --danger-bg: #fee2e2;
+            --danger-text: #b91c1c;
 
-html.dark .card-body {
-    color: #f1f5f9;
-}
+            --warning-bg: #fef3c7;
+            --warning-text: #b45309;
 
-html.dark .form-control,
-html.dark .form-select {
-    background: #0f172a;
-    border-color: #475569;
-    color: #ffffff;
-}
+            --sidebar-width: 280px;
 
-html.dark .form-control::placeholder {
-    color: #94a3b8;
-}
+            --radius: 14px;
 
-html.dark .tokens-table {
-    color: #f1f5f9;
-}
+            --shadow-sm:
+                0 4px 15px rgba(15, 23, 42, .06);
 
-html.dark .tokens-table th {
-    background: #0f172a;
-}
+            --shadow-md:
+                0 8px 25px rgba(15, 23, 42, .08);
 
-html.dark .tokens-table td,
-html.dark .tokens-table th {
-    border-color: #334155;
-}
+            --transition:
+                .25s ease;
+        }
 
-html.dark .page-subtitle {
-    color: #94a3b8;
-}
 
-html.dark .token-result {
-    background: rgba(34, 197, 94, 0.08);
-    border-color: rgba(34, 197, 94, 0.30);
-}
+        /* =========================================================
+           RESET GLOBAL
+        ========================================================== */
 
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
 
-/* =========================================================
-   HEADER MOBILE
-========================================================= */
 
-.mobile-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+        html {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
 
-    width: 100%;
-    min-height: 64px;
 
-    padding: 10px 15px;
-
-    background: linear-gradient(
-        135deg,
-        var(--tech-dark-blue),
-        var(--tech-sidebar-bg)
-    );
-
-    color: white;
-
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
-
-    position: relative;
-    z-index: 1000;
-}
-
-.mobile-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    font-size: 18px;
-    font-weight: 800;
-
-    letter-spacing: .5px;
-}
-
-.mobile-brand img {
-    width: 38px;
-    height: 38px;
-
-    object-fit: contain;
-}
-
-.brand-orange {
-    color: var(--tech-orange);
-}
-
-.mobile-menu-btn {
-    width: 42px;
-    height: 42px;
-
-    border: 1px solid rgba(255,255,255,.20);
-    border-radius: 10px;
-
-    background: rgba(255,255,255,.08);
-    color: #ffffff;
-
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 18px;
-}
-
-.mobile-menu-btn:hover {
-    background: rgba(255,255,255,.16);
-}
-
-
-/* =========================================================
-   OVERLAY MOBILE
-========================================================= */
-
-.sidebar-overlay {
-    position: fixed;
-
-    inset: 0;
-
-    background: rgba(0,0,0,.55);
-
-    opacity: 0;
-    visibility: hidden;
-
-    transition: .25s ease;
-
-    z-index: 1998;
-}
-
-.sidebar-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-        .sidebar {
-            position: relative;
-
-            top: auto;
-            left: auto;
-            right: auto;
-            bottom: auto;
+        body {
 
             width: 100%;
-            max-width: 100%;
-
-            height: auto;
-            min-height: 0;
+            min-width: 0;
+            min-height: 100vh;
 
             margin: 0;
             padding: 0;
 
-            background: linear-gradient(
-                180deg,
-                var(--tech-dark-blue) 0%,
-                #003366 100%
-            );
+            overflow-x: hidden;
+
+            font-family: 'Inter', sans-serif;
+
+            background: var(--bg-light);
+            color: var(--text-dark);
+
+            line-height: 1.5;
+        }
+
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+
+        img,
+        svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+
+        a {
+            color: inherit;
+        }
+
+
+        /* =========================================================
+           DARK MODE
+        ========================================================== */
+
+        html.dark body {
+            background: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+
+
+        html.dark .card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+
+        html.dark .card-header {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f8fafc;
+        }
+
+
+        html.dark .card-body {
+            color: #f1f5f9;
+        }
+
+
+        html.dark .form-label {
+            color: #e2e8f0;
+        }
+
+
+        html.dark .form-control,
+        html.dark .form-select {
+
+            background: #0f172a;
+
+            border-color: #475569;
+
+            color: #ffffff;
+        }
+
+
+        html.dark .form-control::placeholder {
+            color: #94a3b8;
+        }
+
+
+        html.dark .tokens-table {
+            color: #f1f5f9;
+        }
+
+
+        html.dark .tokens-table th {
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+
+
+        html.dark .tokens-table td,
+        html.dark .tokens-table th {
+            border-color: #334155;
+        }
+
+
+        html.dark .tokens-table tr:hover td {
+            background: #172033;
+        }
+
+
+        html.dark .tokens-table code {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+
+        html.dark .page-title {
+            color: #f8fafc;
+        }
+
+
+        html.dark .page-subtitle {
+            color: #94a3b8;
+        }
+
+
+        html.dark .token-result {
+            background: rgba(34, 197, 94, .08);
+            border-color: rgba(34, 197, 94, .30);
+        }
+
+
+        html.dark .token-value {
+            background: #0f172a;
+            color: #86efac;
+        }
+
+
+        /* =========================================================
+           STRUCTURE MOBILE FIRST
+        ========================================================== */
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /* =========================================================
+           HEADER MOBILE
+        ========================================================== */
+
+        .mobile-header {
+
+            width: 100%;
+
+            min-height: 64px;
+
+            padding:
+                10px
+                max(15px, env(safe-area-inset-right))
+                10px
+                max(15px, env(safe-area-inset-left));
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--tech-dark-blue),
+                    var(--tech-sidebar-bg)
+                );
+
+            color: #ffffff;
+
+            box-shadow:
+                0 4px 18px rgba(0, 0, 0, .12);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 2000;
+        }
+
+
+        .mobile-menu-btn {
+
+            width: 44px;
+            height: 44px;
+
+            flex-shrink: 0;
+
+            border:
+                1px solid rgba(255, 255, 255, .20);
+
+            border-radius: 10px;
+
+            background:
+                rgba(255, 255, 255, .08);
+
+            color: #ffffff;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 18px;
+
+            transition:
+                background var(--transition),
+                transform var(--transition);
+        }
+
+
+        .mobile-menu-btn:hover {
+            background: rgba(255, 255, 255, .16);
+        }
+
+
+        .mobile-menu-btn:active {
+            transform: scale(.95);
+        }
+
+
+        /* =========================================================
+           OVERLAY MOBILE
+        ========================================================== */
+
+        .sidebar-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background:
+                rgba(0, 0, 0, .58);
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            pointer-events: none;
+
+            transition:
+                opacity var(--transition),
+                visibility var(--transition);
+
+            z-index: 2998;
+        }
+
+
+        .sidebar-overlay.active {
+
+            opacity: 1;
+
+            visibility: visible;
+
+            pointer-events: auto;
+        }
+
+
+        /* =========================================================
+           SIDEBAR MOBILE
+        ========================================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            bottom: 0;
+
+            width:
+                min(
+                    var(--sidebar-width),
+                    88vw
+                );
+
+            max-width: 100%;
+
+            height: 100dvh;
+
+            min-height: 100vh;
+
+            margin: 0;
+
+            padding: 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--tech-dark-blue) 0%,
+                    var(--tech-sidebar-bg) 100%
+                );
 
             color: var(--tech-white);
 
             display: flex;
+
             flex-direction: column;
 
-            overflow: hidden;
+            overflow-y: auto;
 
-            z-index: 100;
+            overflow-x: hidden;
+
+            -webkit-overflow-scrolling: touch;
+
+            transform:
+                translateX(-105%);
+
+            visibility: hidden;
+
+            transition:
+                transform .30s ease,
+                visibility .30s ease;
+
+            z-index: 2999;
 
             box-shadow:
-                0 4px 15px rgba(0, 0, 0, 0.08);
-
-            border-right: none;
+                10px 0 35px rgba(0, 0, 0, .20);
         }
 
 
-        /* =====================================================
-           BRAND MOBILE
-           ===================================================== */
+        .sidebar.active {
+
+            transform: translateX(0);
+
+            visibility: visible;
+        }
+
+
+        /* =========================================================
+           BRAND SIDEBAR
+        ========================================================== */
 
         .sidebar-brand {
+
             width: 100%;
 
-            min-height: 58px;
+            min-height: 70px;
 
-            padding: 12px 14px;
+            padding:
+                14px
+                50px
+                14px
+                16px;
 
             display: flex;
+
             align-items: center;
 
             flex-shrink: 0;
 
             border-bottom:
-                1px solid rgba(255, 255, 255, 0.1);
+                1px solid rgba(255, 255, 255, .10);
         }
 
+
         .sidebar-logo {
-            width: 34px;
-            height: 34px;
+
+            width: 36px;
+            height: 36px;
 
             flex-shrink: 0;
 
@@ -349,18 +541,22 @@ html.dark .token-result {
             transform: rotate(45deg);
 
             display: flex;
+
             justify-content: center;
+
             align-items: center;
 
-            margin-right: 13px;
+            margin-right: 14px;
 
             box-shadow:
-                0 4px 10px rgba(0, 0, 0, 0.15);
+                0 4px 10px rgba(0, 0, 0, .15);
         }
 
+
         .sidebar-logo-inner {
-            width: 24px;
-            height: 24px;
+
+            width: 25px;
+            height: 25px;
 
             border:
                 2px solid var(--tech-orange);
@@ -370,8 +566,13 @@ html.dark .token-result {
             transform: rotate(-45deg);
         }
 
+
         .sidebar-title {
-            font-weight: bold;
+
+            min-width: 0;
+
+            font-weight: 800;
+
             font-size: 18px;
 
             letter-spacing: 1px;
@@ -379,942 +580,1701 @@ html.dark .token-result {
             color: #ffffff !important;
 
             white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
         }
+
 
         .sidebar-title span {
             color: var(--tech-orange);
         }
 
-/* =========================================================
-   BOUTON FERMER
-========================================================= */
 
-.sidebar-close {
-    position: absolute;
+        /* =========================================================
+           BOUTON FERMER
+        ========================================================== */
 
-    top: 18px;
-    right: 15px;
+        .sidebar-close {
 
-    width: 35px;
-    height: 35px;
+            position: absolute;
 
-    border: 0;
-    border-radius: 8px;
+            top: 14px;
 
-    background: rgba(255,255,255,.08);
+            right: 14px;
 
-    color: #ffffff;
+            width: 38px;
+            height: 38px;
 
-    cursor: pointer;
+            border: 0;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+            border-radius: 9px;
 
-.sidebar-close:hover {
-    background: rgba(255,255,255,.18);
-}
+            background:
+                rgba(255, 255, 255, .08);
 
+            color: #ffffff;
 
-/* =========================================================
-   MENU
-========================================================= */
+            cursor: pointer;
 
-.sidebar-menu {
-    flex: 1;
+            display: flex;
 
-    padding: 22px 14px;
+            align-items: center;
 
-    display: flex;
-    flex-direction: column;
+            justify-content: center;
 
-    gap: 6px;
-}
+            transition:
+                background var(--transition);
+        }
 
-.sidebar-menu-title {
-    padding: 0 12px 10px;
 
-    font-size: 11px;
-    font-weight: 700;
+        .sidebar-close:hover {
+            background:
+                rgba(255, 255, 255, .18);
+        }
 
-    text-transform: uppercase;
-    letter-spacing: 1px;
 
-    color: rgba(255,255,255,.55);
-}
+        /* =========================================================
+           MENU SIDEBAR
+        ========================================================== */
 
+        .sidebar-menu {
 
-/* =========================================================
-   LIENS SIDEBAR
-========================================================= */
+            flex: 1;
 
-.sidebar-link {
-    width: 100%;
+            width: 100%;
 
-    min-height: 48px;
+            padding:
+                22px
+                14px;
 
-    padding: 12px 15px;
+            display: flex;
 
-    display: flex;
-    align-items: center;
+            flex-direction: column;
 
-    gap: 12px;
+            gap: 6px;
+        }
 
-    border-radius: 10px;
 
-    color: rgba(255,255,255,.82);
+        .sidebar-menu-title {
 
-    text-decoration: none;
+            padding:
+                0
+                12px
+                10px;
 
-    font-size: 14px;
-    font-weight: 500;
+            font-size: 11px;
 
-    transition:
-        background .20s ease,
-        color .20s ease,
-        transform .20s ease;
-}
+            font-weight: 700;
 
-.sidebar-link i {
-    width: 21px;
+            text-transform: uppercase;
 
-    text-align: center;
+            letter-spacing: 1px;
 
-    font-size: 16px;
+            color:
+                rgba(255, 255, 255, .55);
+        }
 
-    flex-shrink: 0;
-}
 
-.sidebar-link:hover {
-    background: rgba(255,255,255,.09);
-    color: #ffffff;
+        /* =========================================================
+           LIENS SIDEBAR
+        ========================================================== */
 
-    transform: translateX(2px);
-}
+        .sidebar-link {
 
-.sidebar-link.active {
-    background: rgba(255,255,255,.12);
+            width: 100%;
 
-    color: #ffffff;
+            min-height: 48px;
 
-    border-left: 4px solid var(--tech-orange);
+            padding:
+                12px
+                15px;
 
-    padding-left: 11px;
+            display: flex;
 
-    font-weight: 700;
-}
+            align-items: center;
 
+            gap: 12px;
 
-/* =========================================================
-   FOOTER SIDEBAR
-========================================================= */
+            border-radius: 10px;
 
-.sidebar-footer {
-    padding: 16px;
+            color:
+                rgba(255, 255, 255, .82);
 
-    border-top: 1px solid rgba(255,255,255,.10);
-}
+            text-decoration: none;
 
-.logout-link {
-    color: #ffb4b4;
-    background: rgba(255,77,77,.08);
-}
+            font-size: 14px;
 
-.logout-link:hover {
-    background: #dc2626;
-    color: #ffffff;
-}
+            font-weight: 500;
 
+            transition:
+                background .20s ease,
+                color .20s ease,
+                transform .20s ease;
+        }
 
-/* =========================================================
-   CONTENU PRINCIPAL
-========================================================= */
 
-.main-content {
-    width: 100%;
+        .sidebar-link i {
 
-    min-width: 0;
+            width: 21px;
 
-    padding: 25px 15px 40px;
+            text-align: center;
 
-    overflow-x: hidden;
-}
+            font-size: 16px;
 
+            flex-shrink: 0;
+        }
 
-/* =========================================================
-   HEADER PAGE
-========================================================= */
 
-.page-header {
-    margin-bottom: 25px;
-}
+        .sidebar-link span {
 
-.page-title {
-    margin: 0;
+            min-width: 0;
 
-    display: flex;
-    align-items: center;
+            overflow: hidden;
 
-    gap: 12px;
+            text-overflow: ellipsis;
 
-    font-size: 1.55rem;
-    line-height: 1.3;
+            white-space: nowrap;
+        }
 
-    color: var(--text-dark);
-}
 
-.page-title i {
-    color: var(--tech-orange);
+        .sidebar-link:hover {
 
-    flex-shrink: 0;
-}
+            background:
+                rgba(255, 255, 255, .09);
 
-.page-subtitle {
-    margin: 9px 0 0;
+            color: #ffffff;
 
-    color: var(--text-muted);
+            transform: translateX(2px);
+        }
 
-    font-size: .95rem;
 
-    line-height: 1.6;
-}
+        .sidebar-link.active {
 
+            background:
+                rgba(255, 255, 255, .12);
 
-/* =========================================================
-   CARDS
-========================================================= */
+            color: #ffffff;
 
-.card {
-    width: 100%;
+            border-left:
+                4px solid var(--tech-orange);
 
-    margin-bottom: 25px;
+            padding-left: 11px;
 
-    background: #ffffff;
+            font-weight: 700;
+        }
 
-    border: 1px solid var(--border-light);
 
-    border-radius: var(--radius);
+        /* =========================================================
+           FOOTER SIDEBAR
+        ========================================================== */
 
-    box-shadow:
-        0 8px 25px rgba(15,23,42,.06);
+        .sidebar-footer {
 
-    overflow: hidden;
-}
+            width: 100%;
 
-.card-header {
-    min-height: 60px;
+            padding: 16px;
 
-    padding: 18px 20px;
+            padding-bottom:
+                max(
+                    16px,
+                    env(safe-area-inset-bottom)
+                );
 
-    display: flex;
-    align-items: center;
+            border-top:
+                1px solid rgba(255, 255, 255, .10);
+        }
 
-    gap: 10px;
 
-    border-bottom: 1px solid var(--border-light);
+        .logout-link {
 
-    font-size: 16px;
-    font-weight: 700;
+            color: #ffb4b4;
 
-    color: #1e293b;
-}
+            background:
+                rgba(255, 77, 77, .08);
+        }
 
-.card-header i {
-    color: var(--tech-orange);
-}
 
-.card-body {
-    padding: 20px;
-}
+        .logout-link:hover {
 
+            background: #dc2626;
 
-/* =========================================================
-   FORMULAIRE
-========================================================= */
+            color: #ffffff;
+        }
 
-.form-row {
-    width: 100%;
 
-    display: grid;
+        /* =========================================================
+           CONTENU PRINCIPAL
+        ========================================================== */
 
-    grid-template-columns: 1fr;
+        .main-content {
 
-    gap: 18px;
+            width: 100%;
 
-    margin-bottom: 18px;
-}
+            max-width: 100%;
 
-.form-group {
-    width: 100%;
+            min-width: 0;
 
-    margin-bottom: 18px;
-}
+            margin: 0;
 
-.form-label {
-    display: flex;
-    align-items: center;
+            padding:
+                22px
+                15px
+                35px;
 
-    gap: 8px;
+            overflow-x: hidden;
 
-    margin-bottom: 8px;
+            flex: 1;
+        }
 
-    font-size: 13px;
-    font-weight: 600;
 
-    color: #334155;
-}
+        /* =========================================================
+           HEADER PAGE
+        ========================================================== */
 
-.form-label i {
-    color: var(--tech-orange);
-}
+        .page-header {
 
-.form-control,
-.form-select {
-    width: 100%;
+            width: 100%;
 
-    min-height: 46px;
+            margin-bottom: 22px;
+        }
 
-    padding: 11px 13px;
 
-    border: 1px solid #cbd5e1;
+        .page-title {
 
-    border-radius: 9px;
+            margin: 0;
 
-    background: #ffffff;
+            display: flex;
 
-    color: #1e293b;
+            align-items: flex-start;
 
-    font-family: inherit;
+            gap: 10px;
 
-    font-size: 14px;
+            font-size:
+                clamp(
+                    1.35rem,
+                    5vw,
+                    1.9rem
+                );
 
-    outline: none;
+            line-height: 1.3;
 
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease;
-}
+            color: var(--text-dark);
 
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--tech-blue);
+            overflow-wrap: anywhere;
+        }
 
-    box-shadow:
-        0 0 0 3px rgba(0,120,215,.12);
-}
 
+        .page-title i {
 
-/* =========================================================
-   BOUTON
-========================================================= */
+            color: var(--tech-orange);
 
-.btn {
-    min-height: 48px;
+            flex-shrink: 0;
 
-    padding: 12px 20px;
+            margin-top: 4px;
+        }
 
-    border: 0;
 
-    border-radius: 9px;
+        .page-title span {
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+            min-width: 0;
+        }
 
-    gap: 9px;
 
-    font-family: inherit;
+        .page-subtitle {
 
-    font-size: 14px;
-    font-weight: 700;
+            margin:
+                9px
+                0
+                0;
 
-    cursor: pointer;
+            color: var(--text-muted);
 
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        opacity .2s ease;
-}
+            font-size:
+                clamp(
+                    .84rem,
+                    3.5vw,
+                    .95rem
+                );
 
-.btn-primary {
-    width: 100%;
+            line-height: 1.6;
 
-    background: linear-gradient(
-        135deg,
-        var(--tech-blue),
-        var(--tech-dark-blue)
-    );
+            overflow-wrap: anywhere;
+        }
 
-    color: #ffffff;
 
-    box-shadow:
-        0 5px 14px rgba(0,78,140,.20);
-}
+        /* =========================================================
+           CARDS
+        ========================================================== */
 
-.btn-primary:hover {
-    transform: translateY(-1px);
+        .card {
 
-    box-shadow:
-        0 8px 20px rgba(0,78,140,.28);
-}
+            width: 100%;
 
-.btn-primary:disabled {
-    opacity: .65;
+            max-width: 100%;
 
-    cursor: not-allowed;
+            margin-bottom: 20px;
 
-    transform: none;
-}
+            background: #ffffff;
 
+            border:
+                1px solid var(--border-light);
 
-/* =========================================================
-   MESSAGE STATUS
-========================================================= */
+            border-radius: var(--radius);
 
-.status-message {
-    display: none;
+            box-shadow: var(--shadow-md);
 
-    margin-top: 15px;
+            overflow: hidden;
+        }
 
-    padding: 13px 15px;
 
-    border-radius: 9px;
+        .card-header {
 
-    align-items: center;
+            width: 100%;
 
-    gap: 9px;
+            min-height: 58px;
 
-    font-size: 13px;
-    line-height: 1.5;
-}
+            padding:
+                15px;
 
-.status-message.show {
-    display: flex;
-}
+            display: flex;
 
-.status-success {
-    background: var(--success-bg);
-    color: var(--success-text);
-}
+            align-items: center;
 
-.status-warning {
-    background: var(--warning-bg);
-    color: var(--warning-text);
-}
+            gap: 9px;
 
-.status-error {
-    background: var(--danger-bg);
-    color: var(--danger-text);
-}
+            border-bottom:
+                1px solid var(--border-light);
 
+            font-size:
+                clamp(
+                    .9rem,
+                    3.8vw,
+                    1rem
+                );
 
-/* =========================================================
-   TOKEN RESULT
-========================================================= */
+            font-weight: 700;
 
-.token-result {
-    display: none;
+            color: #1e293b;
+        }
 
-    margin-top: 18px;
 
-    padding: 18px;
+        .card-header i {
 
-    background: #f0fdf4;
+            color: var(--tech-orange);
 
-    border: 1px solid #bbf7d0;
+            flex-shrink: 0;
+        }
 
-    border-radius: 10px;
 
-    text-align: center;
-}
+        .card-header span {
 
-.token-result.show {
-    display: block;
-}
+            min-width: 0;
 
-.token-success-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            overflow-wrap: anywhere;
+        }
 
-    gap: 8px;
 
-    margin-bottom: 12px;
+        .card-body {
 
-    color: #15803d;
+            width: 100%;
 
-    font-weight: 700;
-}
+            padding: 15px;
 
-.token-value {
-    display: inline-block;
+            min-width: 0;
+        }
 
-    padding: 10px 16px;
 
-    background: #ffffff;
+        /* =========================================================
+           FORMULAIRE
+        ========================================================== */
 
-    border: 1px dashed #22c55e;
+        .form-row {
 
-    border-radius: 8px;
+            width: 100%;
 
-    font-family: monospace;
+            display: grid;
 
-    font-size: 18px;
-    font-weight: 700;
+            grid-template-columns: minmax(0, 1fr);
 
-    letter-spacing: 2px;
+            gap: 0;
 
-    color: #166534;
+            margin: 0;
+        }
 
-    word-break: break-all;
-}
 
+        .form-group {
 
-/* =========================================================
-   TABLEAU
-========================================================= */
+            width: 100%;
 
-.table-wrapper {
-    width: 100%;
+            min-width: 0;
 
-    overflow-x: auto;
+            margin-bottom: 17px;
+        }
 
-    -webkit-overflow-scrolling: touch;
-}
 
-.tokens-table {
-    width: 100%;
+        .form-label {
 
-    min-width: 850px;
+            display: flex;
 
-    border-collapse: collapse;
+            align-items: center;
 
-    font-size: 13px;
-}
+            gap: 8px;
 
-.tokens-table th {
-    padding: 13px 14px;
+            margin-bottom: 8px;
 
-    background: #f1f5f9;
+            font-size: 13px;
 
-    color: #334155;
+            font-weight: 600;
 
-    text-align: left;
+            color: #334155;
 
-    font-size: 12px;
-    font-weight: 700;
+            overflow-wrap: anywhere;
+        }
 
-    white-space: nowrap;
-}
 
-.tokens-table td {
-    padding: 13px 14px;
+        .form-label i {
 
-    border-top: 1px solid #e2e8f0;
+            color: var(--tech-orange);
 
-    vertical-align: middle;
+            flex-shrink: 0;
+        }
 
-    color: #475569;
-}
 
-.tokens-table tr:hover td {
-    background: #f8fafc;
-}
+        .form-control,
+        .form-select {
 
-.tokens-table code {
-    display: inline-block;
+            display: block;
 
-    padding: 5px 8px;
+            width: 100%;
 
-    border-radius: 6px;
+            max-width: 100%;
 
-    background: #f1f5f9;
+            min-height: 46px;
 
-    color: #334155;
+            padding:
+                11px
+                13px;
 
-    font-family: monospace;
+            border:
+                1px solid #cbd5e1;
 
-    font-size: 12px;
+            border-radius: 9px;
 
-    word-break: break-all;
-}
+            background: #ffffff;
 
+            color: #1e293b;
 
-/* =========================================================
-   BADGES
-========================================================= */
+            font-family: inherit;
 
-.badge {
-    display: inline-flex;
+            font-size: 14px;
 
-    align-items: center;
+            outline: none;
 
-    gap: 6px;
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease;
+        }
 
-    padding: 5px 9px;
 
-    border-radius: 999px;
+        .form-control:focus,
+        .form-select:focus {
 
-    font-size: 11px;
+            border-color:
+                var(--tech-blue);
 
-    font-weight: 700;
+            box-shadow:
+                0 0 0 3px
+                rgba(0, 120, 215, .12);
+        }
 
-    white-space: nowrap;
-}
 
-.badge-admin {
-    background: #ede9fe;
-    color: #6d28d9;
-}
+        /* =========================================================
+           BOUTON
+        ========================================================== */
 
-.badge-vente {
-    background: #dbeafe;
-    color: #1d4ed8;
-}
+        .btn {
 
-.badge-client {
-    background: #dcfce7;
-    color: #15803d;
-}
+            width: 100%;
 
-.badge-fournisseur {
-    background: #ffedd5;
-    color: #c2410c;
-}
+            min-height: 48px;
 
+            padding:
+                12px
+                16px;
 
-/* =========================================================
-   EMPTY STATE
-========================================================= */
+            border: 0;
 
-.empty-state {
-    padding: 45px 20px;
+            border-radius: 9px;
 
-    text-align: center;
+            display: inline-flex;
 
-    color: #64748b;
-}
+            align-items: center;
 
-.empty-state i {
-    margin-bottom: 12px;
+            justify-content: center;
 
-    font-size: 40px;
+            gap: 9px;
 
-    color: #94a3b8;
-}
+            font-family: inherit;
 
-.empty-state p {
-    margin: 0;
+            font-size: 14px;
 
-    font-size: 14px;
-}
+            font-weight: 700;
 
+            cursor: pointer;
 
-/* =========================================================
-   TOAST
-========================================================= */
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease,
+                opacity .2s ease;
+        }
 
-.toast-message {
-    position: fixed;
 
-    left: 50%;
-    bottom: 25px;
+        .btn-primary {
 
-    transform: translate(-50%, 20px);
+            width: 100%;
 
-    width: calc(100% - 30px);
-    max-width: 420px;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--tech-blue),
+                    var(--tech-dark-blue)
+                );
 
-    padding: 13px 17px;
+            color: #ffffff;
 
-    border-radius: 10px;
+            box-shadow:
+                0 5px 14px
+                rgba(0, 78, 140, .20);
+        }
 
-    background: #0f172a;
 
-    color: #ffffff;
+        .btn-primary:hover {
 
-    text-align: center;
+            transform:
+                translateY(-1px);
 
-    font-size: 13px;
-    font-weight: 600;
+            box-shadow:
+                0 8px 20px
+                rgba(0, 78, 140, .28);
+        }
 
-    opacity: 0;
-    visibility: hidden;
 
-    z-index: 3000;
+        .btn-primary:disabled {
 
-    transition: .25s ease;
+            opacity: .65;
 
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.25);
-}
+            cursor: not-allowed;
 
-.toast-message.show {
-    opacity: 1;
-    visibility: visible;
+            transform: none;
+        }
 
-    transform: translate(-50%, 0);
-}
 
+        /* =========================================================
+           STATUS
+        ========================================================== */
 
-/* =========================================================
-   TABLETTE
-========================================================= */
+        .status-message {
 
-@media (min-width: 576px) {
+            width: 100%;
 
-    .main-content {
-        padding: 30px 22px 45px;
-    }
+            display: none;
 
-    .page-title {
-        font-size: 1.75rem;
-    }
+            margin-top: 15px;
 
-    .card-body {
-        padding: 24px;
-    }
+            padding:
+                13px
+                15px;
 
-    .form-row {
-        grid-template-columns: 1fr 1fr;
-    }
+            border-radius: 9px;
 
-    .btn-primary {
-        width: auto;
-        min-width: 250px;
-    }
-}
+            align-items: flex-start;
 
+            gap: 9px;
 
-/* =========================================================
-   DESKTOP
-========================================================= */
+            font-size: 13px;
 
-@media (min-width: 992px) {
+            line-height: 1.5;
 
-    body {
-        padding: 0;
-    }
+            overflow-wrap: anywhere;
+        }
 
-    .mobile-header {
-        display: none;
-    }
 
-    .sidebar {
-        left: 0;
+        .status-message.show {
+            display: flex;
+        }
 
-        width: var(--sidebar-width);
 
-        transition: none;
-    }
+        .status-message i {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
 
-    .sidebar-close {
-        display: none;
-    }
 
-    .sidebar-overlay {
-        display: none;
-    }
+        .status-success {
 
-    .main-content {
-        width: calc(100% - var(--sidebar-width));
+            background:
+                var(--success-bg);
 
-        margin-left: var(--sidebar-width);
+            color:
+                var(--success-text);
+        }
 
-        padding: 40px !important;
-    }
 
-    .page-title {
-        font-size: 1.9rem;
-    }
+        .status-warning {
 
-    .card {
-        border-radius: 16px;
-    }
+            background:
+                var(--warning-bg);
 
-    .card-header {
-        padding: 20px 24px;
-    }
+            color:
+                var(--warning-text);
+        }
 
-    .card-body {
-        padding: 25px;
-    }
 
-    .btn-primary {
-        width: auto;
-    }
-}
+        .status-error {
 
+            background:
+                var(--danger-bg);
 
-/* =========================================================
-   GRAND ÉCRAN
-========================================================= */
+            color:
+                var(--danger-text);
+        }
 
-@media (min-width: 1200px) {
 
-    .main-content {
-        padding: 40px 50px !important;
-    }
-}
+        /* =========================================================
+           TOKEN RESULT
+        ========================================================== */
 
+        .token-result {
 
-/* =========================================================
-   ACCESSIBILITÉ
-========================================================= */
+            width: 100%;
 
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible {
-    outline: 2px solid var(--tech-orange);
-    outline-offset: 2px;
-}
+            display: none;
 
+            margin-top: 18px;
 
-/* =========================================================
-   RÉDUCTION ANIMATIONS
-========================================================= */
+            padding: 15px;
 
-@media (prefers-reduced-motion: reduce) {
+            background:
+                #f0fdf4;
 
-    *,
-    *::before,
-    *::after {
-        animation: none !important;
-        transition: none !important;
-        scroll-behavior: auto !important;
-    }
-}
-</style>
+            border:
+                1px solid #bbf7d0;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            overflow: hidden;
+        }
+
+
+        .token-result.show {
+            display: block;
+        }
+
+
+        .token-success-title {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            margin-bottom: 12px;
+
+            color: #15803d;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .token-value {
+
+            display: inline-block;
+
+            max-width: 100%;
+
+            padding:
+                10px
+                14px;
+
+            background: #ffffff;
+
+            border:
+                1px dashed #22c55e;
+
+            border-radius: 8px;
+
+            font-family: monospace;
+
+            font-size:
+                clamp(
+                    14px,
+                    4vw,
+                    18px
+                );
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
+            color: #166534;
+
+            word-break: break-all;
+
+            overflow-wrap: anywhere;
+        }
+
+
+        /* =========================================================
+           TABLEAU
+        ========================================================== */
+
+        .table-wrapper {
+
+            width: 100%;
+
+            max-width: 100%;
+
+            overflow-x: auto;
+
+            overflow-y: hidden;
+
+            -webkit-overflow-scrolling: touch;
+
+            scrollbar-width: thin;
+
+            border-radius: 8px;
+        }
+
+
+        .tokens-table {
+
+            width: 100%;
+
+            min-width: 760px;
+
+            border-collapse: collapse;
+
+            font-size: 13px;
+        }
+
+
+        .tokens-table th {
+
+            padding:
+                12px
+                13px;
+
+            background: #f1f5f9;
+
+            color: #334155;
+
+            text-align: left;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+
+        .tokens-table td {
+
+            padding:
+                12px
+                13px;
+
+            border-top:
+                1px solid #e2e8f0;
+
+            vertical-align: middle;
+
+            color: #475569;
+
+            white-space: nowrap;
+        }
+
+
+        .tokens-table tr:hover td {
+            background: #f8fafc;
+        }
+
+
+        .tokens-table code {
+
+            display: inline-block;
+
+            max-width: 240px;
+
+            padding:
+                5px
+                8px;
+
+            border-radius: 6px;
+
+            background: #f1f5f9;
+
+            color: #334155;
+
+            font-family: monospace;
+
+            font-size: 12px;
+
+            word-break: break-all;
+
+            overflow-wrap: anywhere;
+        }
+
+
+        /* =========================================================
+           BADGES
+        ========================================================== */
+
+        .badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 6px;
+
+            padding:
+                5px
+                9px;
+
+            border-radius: 999px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+
+        .badge-admin {
+
+            background: #ede9fe;
+
+            color: #6d28d9;
+        }
+
+
+        .badge-vente {
+
+            background: #dbeafe;
+
+            color: #1d4ed8;
+        }
+
+
+        .badge-client {
+
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+
+        .badge-fournisseur {
+
+            background: #ffedd5;
+
+            color: #c2410c;
+        }
+
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================== */
+
+        .empty-state {
+
+            width: 100%;
+
+            padding:
+                40px
+                15px;
+
+            text-align: center;
+
+            color: #64748b;
+        }
+
+
+        .empty-state i {
+
+            display: block;
+
+            margin-bottom: 12px;
+
+            font-size: 40px;
+
+            color: #94a3b8;
+        }
+
+
+        .empty-state p {
+
+            margin: 0;
+
+            font-size: 14px;
+
+            overflow-wrap: anywhere;
+        }
+
+
+        /* =========================================================
+           TOAST
+        ========================================================== */
+
+        .toast-message {
+
+            position: fixed;
+
+            left: 50%;
+
+            bottom:
+                max(
+                    20px,
+                    env(safe-area-inset-bottom)
+                );
+
+            transform:
+                translate(-50%, 20px);
+
+            width:
+                calc(100% - 30px);
+
+            max-width: 420px;
+
+            padding:
+                13px
+                17px;
+
+            border-radius: 10px;
+
+            background: #0f172a;
+
+            color: #ffffff;
+
+            text-align: center;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            pointer-events: none;
+
+            z-index: 4000;
+
+            transition: .25s ease;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, .25);
+
+            overflow-wrap: anywhere;
+        }
+
+
+        .toast-message.show {
+
+            opacity: 1;
+
+            visibility: visible;
+
+            transform:
+                translate(-50%, 0);
+        }
+
+
+        /* =========================================================
+           PETIT MOBILE
+        ========================================================== */
+
+        @media (max-width: 359px) {
+
+            .mobile-header {
+                min-height: 58px;
+                padding: 8px 10px;
+            }
+
+
+            .mobile-menu-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+
+            .main-content {
+                padding:
+                    18px
+                    10px
+                    30px;
+            }
+
+
+            .card-body {
+                padding: 12px;
+            }
+
+
+            .card-header {
+                padding: 13px 12px;
+            }
+
+
+            .page-title {
+                font-size: 1.25rem;
+            }
+
+
+            .page-subtitle {
+                font-size: .82rem;
+            }
+
+
+            .btn {
+                font-size: 13px;
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE LARGE
+        ========================================================== */
+
+        @media (min-width: 480px) {
+
+            .main-content {
+                padding:
+                    25px
+                    20px
+                    40px;
+            }
+
+
+            .card-body {
+                padding: 20px;
+            }
+
+
+            .card-header {
+                padding:
+                    17px
+                    20px;
+            }
+        }
+
+
+        /* =========================================================
+           TABLETTE
+        ========================================================== */
+
+        @media (min-width: 576px) {
+
+            .main-content {
+
+                padding:
+                    30px
+                    25px
+                    45px;
+            }
+
+
+            .page-header {
+                margin-bottom: 25px;
+            }
+
+
+            .card-body {
+                padding: 24px;
+            }
+
+
+            .form-row {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
+
+                gap: 18px;
+            }
+
+
+            .form-row .form-group {
+                margin-bottom: 0;
+            }
+
+
+            .btn-primary {
+
+                width: auto;
+
+                min-width: 250px;
+            }
+        }
+
+
+        /* =========================================================
+           TABLETTE LARGE
+        ========================================================== */
+
+        @media (min-width: 768px) {
+
+            .main-content {
+
+                padding:
+                    35px
+                    30px
+                    50px;
+            }
+
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+
+            .card {
+                margin-bottom: 25px;
+            }
+
+
+            .card-header {
+                padding:
+                    19px
+                    24px;
+            }
+
+
+            .card-body {
+                padding: 25px;
+            }
+
+
+            .tokens-table {
+                min-width: 820px;
+            }
+        }
+
+
+        /* =========================================================
+           DESKTOP
+        ========================================================== */
+
+        @media (min-width: 992px) {
+
+            body {
+                display: block;
+            }
+
+
+            .mobile-header {
+                display: none;
+            }
+
+
+            .sidebar {
+
+                position: fixed;
+
+                top: 0;
+                left: 0;
+                bottom: 0;
+
+                width: var(--sidebar-width);
+
+                max-width: var(--sidebar-width);
+
+                height: 100vh;
+                height: 100dvh;
+
+                transform: translateX(0);
+
+                visibility: visible;
+
+                overflow-y: auto;
+
+                box-shadow:
+                    4px 0 18px
+                    rgba(0, 0, 0, .10);
+            }
+
+
+            .sidebar-close {
+                display: none;
+            }
+
+
+            .sidebar-overlay {
+                display: none;
+            }
+
+
+            .main-content {
+
+                width:
+                    calc(
+                        100% - var(--sidebar-width)
+                    );
+
+                max-width: none;
+
+                margin-left:
+                    var(--sidebar-width);
+
+                padding:
+                    40px !important;
+            }
+
+
+            .page-title {
+                font-size: 1.9rem;
+            }
+
+
+            .card {
+                border-radius: 16px;
+            }
+
+
+            .card-header {
+                padding:
+                    20px
+                    24px;
+            }
+
+
+            .card-body {
+                padding: 25px;
+            }
+
+
+            .btn-primary {
+                width: auto;
+            }
+
+
+            .tokens-table {
+                min-width: 850px;
+            }
+        }
+
+
+        /* =========================================================
+           GRAND ÉCRAN
+        ========================================================== */
+
+        @media (min-width: 1200px) {
+
+            .main-content {
+
+                padding:
+                    40px
+                    50px !important;
+            }
+        }
+
+
+        @media (min-width: 1440px) {
+
+            .main-content {
+
+                padding:
+                    45px
+                    60px !important;
+            }
+        }
+
+
+        /* =========================================================
+           ÉCRANS TRÈS LARGES
+        ========================================================== */
+
+        @media (min-width: 1800px) {
+
+            .main-content {
+
+                padding:
+                    50px
+                    70px !important;
+            }
+
+
+            .card {
+                max-width: 100%;
+            }
+        }
+
+
+        /* =========================================================
+           PAYSAGE MOBILE
+        ========================================================== */
+
+        @media (
+            max-width: 991px
+        ) and (
+            orientation: landscape
+        ) {
+
+            .mobile-header {
+                min-height: 56px;
+            }
+
+
+            .sidebar {
+                width:
+                    min(
+                        320px,
+                        75vw
+                    );
+            }
+
+
+            .main-content {
+                padding:
+                    20px
+                    15px
+                    30px;
+            }
+
+
+            .card-body {
+                padding: 18px;
+            }
+        }
+
+
+        /* =========================================================
+           HAUTEUR ÉCRAN RÉDUITE
+        ========================================================== */
+
+        @media (
+            max-height: 600px
+        ) and (
+            max-width: 991px
+        ) {
+
+            .sidebar-menu {
+                padding-top: 12px;
+                padding-bottom: 12px;
+            }
+
+
+            .sidebar-link {
+                min-height: 44px;
+                padding-top: 9px;
+                padding-bottom: 9px;
+            }
+
+
+            .sidebar-brand {
+                min-height: 58px;
+            }
+        }
+
+
+        /* =========================================================
+           ACCESSIBILITÉ
+        ========================================================== */
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+
+            outline:
+                2px solid
+                var(--tech-orange);
+
+            outline-offset: 2px;
+        }
+
+
+        /* =========================================================
+           RÉDUCTION DES ANIMATIONS
+        ========================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation: none !important;
+
+                transition: none !important;
+
+                scroll-behavior: auto !important;
+            }
+        }
+
+    </style>
+
 </head>
 
 
 <body>
-<header class="mobile-header">
-    
 
-    <button
-        type="button"
-        class="mobile-menu-btn"
-        id="mobileMenuBtn"
-        aria-label="Ouvrir le menu"
-        aria-expanded="false"
+
+    <!-- =========================================================
+         HEADER MOBILE
+    ========================================================== -->
+
+    <header class="mobile-header">
+
+        <button
+            type="button"
+            class="mobile-menu-btn"
+            id="mobileMenuBtn"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+            aria-controls="sidebar"
+        >
+
+            <i
+                class="fa-solid fa-bars"
+                aria-hidden="true"
+            ></i>
+
+        </button>
+
+    </header>
+
+
+    <!-- =========================================================
+         OVERLAY MOBILE
+    ========================================================== -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+        aria-label="Navigation principale"
     >
-        <i class="fa-solid fa-bars"></i>
-    </button>
-</header>
 
 
-<div
-    class="sidebar-overlay"
-    id="sidebarOverlay"
-></div>
+        <!-- =====================================================
+             BRAND
+        ====================================================== -->
 
-
-<aside
-    class="sidebar"
-    id="sidebar"
-    aria-label="Navigation principale"
->
-
-  <div class="sidebar-brand">
+        <div class="sidebar-brand">
 
             <div class="sidebar-logo">
+
                 <div class="sidebar-logo-inner"></div>
+
             </div>
 
+
             <div class="sidebar-title">
-                ASTRA <span>TECH</span>
+
+                ASTRA
+                <span>TECH</span>
+
             </div>
 
         </div>
 
 
-    <button
-        type="button"
-        class="sidebar-close"
-        id="sidebarClose"
-        aria-label="Fermer le menu"
-    >
-        <i class="fa-solid fa-xmark"></i>
-    </button>
+        <!-- =====================================================
+             BOUTON FERMER
+        ====================================================== -->
 
-
-    <nav class="sidebar-menu">
-
-        
-
-        <a
-            href="{% url 'astra:token_accueil' %}"
-            class="sidebar-link active"
+        <button
+            type="button"
+            class="sidebar-close"
+            id="sidebarClose"
+            aria-label="Fermer le menu"
         >
-            <i class="fa-solid fa-key"></i>
-            <span>Gestion des Tokens</span>
-        </a>
+
+            <i
+                class="fa-solid fa-xmark"
+                aria-hidden="true"
+            ></i>
+
+        </button>
 
 
-        <a
-            href="{% url 'astra:page_utilisateurs' %}"
-            class="sidebar-link"
-        >
-            <i class="fa-solid fa-users"></i>
-            <span>Utilisateurs</span>
-        </a>
+        <!-- =====================================================
+             MENU
+        ====================================================== -->
+
+        <nav class="sidebar-menu">
 
 
-        <a
-            href="{% url 'astra:permissions_page' %}"
-            class="sidebar-link"
-        >
-            <i class="fa-solid fa-shield-halved"></i>
-            <span>Permissions</span>
-        </a>
+            <!-- TOKENS -->
+
+            <a
+                href="{% url 'astra:token_accueil' %}"
+                class="sidebar-link active"
+            >
+
+                <i
+                    class="fa-solid fa-key"
+                    aria-hidden="true"
+                ></i>
+
+                <span>
+                    Gestion des Tokens
+                </span>
+
+            </a>
 
 
-        <a
-            href="{% url 'astra:historiques_page' %}"
-            class="sidebar-link"
-        >
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            <span>Historique</span>
-        </a>
+            <!-- UTILISATEURS -->
+
+            <a
+                href="{% url 'astra:page_utilisateurs' %}"
+                class="sidebar-link"
+            >
+
+                <i
+                    class="fa-solid fa-users"
+                    aria-hidden="true"
+                ></i>
+
+                <span>
+                    Utilisateurs
+                </span>
+
+            </a>
 
 
-        <a
-            href="{% url 'astra:parametres_page' %}"
-            class="sidebar-link"
-        >
-            <i class="fa-solid fa-gear"></i>
-            <span>Paramètres</span>
-        </a>
+            <!-- PERMISSIONS -->
+
+            <a
+                href="{% url 'astra:permissions_page' %}"
+                class="sidebar-link"
+            >
+
+                <i
+                    class="fa-solid fa-shield-halved"
+                    aria-hidden="true"
+                ></i>
+
+                <span>
+                    Permissions
+                </span>
+
+            </a>
 
 
-        <a
-            href="#"
-            onclick="history.back(); return false;"
-            class="sidebar-link"
-        >
-            <i class="fa-solid fa-arrow-left"></i>
-            <span>Retour</span>
-        </a>
+            <!-- HISTORIQUE -->
 
-    </nav>
+            <a
+                href="{% url 'astra:historiques_page' %}"
+                class="sidebar-link"
+            >
+
+                <i
+                    class="fa-solid fa-clock-rotate-left"
+                    aria-hidden="true"
+                ></i>
+
+                <span>
+                    Historique
+                </span>
+
+            </a>
 
 
-    <div class="sidebar-footer">
+            <!-- PARAMÈTRES -->
 
-        <a
-            href="{% url 'astra:login' %}"
-            class="sidebar-link logout-link"
-        >
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>Déconnexion</span>
-        </a>
+            <a
+                href="{% url 'astra:parametres_page' %}"
+                class="sidebar-link"
+            >
 
-    </div>
+                <i
+                    class="fa-solid fa-gear"
+                    aria-hidden="true"
+                ></i>
 
-</aside>
+                <span>
+                    Paramètres
+                </span>
+
+            </a>
+
+
+            <!-- RETOUR -->
+
+            <a
+                href="#"
+                onclick="history.back(); return false;"
+                class="sidebar-link"
+            >
+
+                <i
+                    class="fa-solid fa-arrow-left"
+                    aria-hidden="true"
+                ></i>
+
+                <span>
+                    Retour
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- =====================================================
+             FOOTER SIDEBAR
+        ====================================================== -->
+
+        <div class="sidebar-footer">
+
+            <a
+                href="{% url 'astra:login' %}"
+                class="sidebar-link logout-link"
+            >
+
+                <i
+                    class="fa-solid fa-right-from-bracket"
+                    aria-hidden="true"
+                ></i>
+
+                <span>
+                    Déconnexion
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
     <!-- =========================================================
          MAIN
     ========================================================== -->
@@ -1323,7 +2283,7 @@ select:focus-visible {
 
 
         <!-- =====================================================
-             HEADER
+             HEADER PAGE
         ====================================================== -->
 
         <section class="page-header">
@@ -1350,7 +2310,6 @@ select:focus-visible {
             </p>
 
         </section>
-
 
 
         <!-- =====================================================
@@ -1384,7 +2343,9 @@ select:focus-visible {
                     {% csrf_token %}
 
 
-                    <!-- LIGNE FORMULAIRE -->
+                    <!-- =================================================
+                         EMAIL + ROLE
+                    ================================================== -->
 
                     <div class="form-row">
 
@@ -1416,11 +2377,12 @@ select:focus-visible {
                                 name="email"
                                 class="form-control"
                                 placeholder="exemple@email.com"
+                                autocomplete="email"
+                                inputmode="email"
                                 required
                             >
 
                         </div>
-
 
 
                         <!-- ROLE -->
@@ -1475,12 +2437,12 @@ select:focus-visible {
 
                         </div>
 
-
                     </div>
 
 
-
-                    <!-- VALIDITÉ -->
+                    <!-- =================================================
+                         VALIDITÉ
+                    ================================================== -->
 
                     <div class="form-group">
 
@@ -1529,8 +2491,9 @@ select:focus-visible {
                     </div>
 
 
-
-                    <!-- BOUTON -->
+                    <!-- =================================================
+                         BOUTON
+                    ================================================== -->
 
                     <button
                         type="submit"
@@ -1550,16 +2513,21 @@ select:focus-visible {
                     </button>
 
 
-                    <!-- STATUS -->
+                    <!-- =================================================
+                         STATUS
+                    ================================================== -->
 
                     <div
                         id="statusMessage"
                         class="status-message"
+                        role="alert"
+                        aria-live="polite"
                     ></div>
 
 
-
-                    <!-- TOKEN -->
+                    <!-- =================================================
+                         TOKEN RESULT
+                    ================================================== -->
 
                     <div
                         id="tokenResult"
@@ -1596,9 +2564,8 @@ select:focus-visible {
         </section>
 
 
-
         <!-- =====================================================
-             HISTORIQUE DES TOKENS
+             HISTORIQUE
         ====================================================== -->
 
         <section class="card">
@@ -1662,116 +2629,144 @@ select:focus-visible {
 
                                 {% for token in tokens %}
 
-                                <tr>
+                                    <tr>
 
-                                    <td>
-                                        {{ token.email }}
-                                    </td>
-
-
-                                    <td>
-
-                                        {% if token.role == "admin" %}
-
-                                            <span class="badge badge-admin">
-                                                <i class="fa-solid fa-shield"></i>
-                                                Admin
-                                            </span>
-
-                                        {% elif token.role == "vente" %}
-
-                                            <span class="badge badge-vente">
-                                                <i class="fa-solid fa-cart-shopping"></i>
-                                                Vente
-                                            </span>
-
-                                        {% elif token.role == "client" %}
-
-                                            <span class="badge badge-client">
-                                                <i class="fa-solid fa-user"></i>
-                                                Client
-                                            </span>
-
-                                        {% elif token.role == "fournisseur" %}
-
-                                            <span class="badge badge-fournisseur">
-                                                <i class="fa-solid fa-truck"></i>
-                                                Fournisseur
-                                            </span>
-
-                                        {% else %}
-
-                                            <span class="badge">
-                                                {{ token.role }}
-                                            </span>
-
-                                        {% endif %}
-
-                                    </td>
+                                        <td>
+                                            {{ token.email }}
+                                        </td>
 
 
-                                    <td>
+                                        <td>
 
-                                        <code>
-                                            {{ token.token }}
-                                        </code>
+                                            {% if token.role == "admin" %}
 
-                                    </td>
+                                                <span class="badge badge-admin">
+
+                                                    <i
+                                                        class="fa-solid fa-shield"
+                                                        aria-hidden="true"
+                                                    ></i>
+
+                                                    Admin
+
+                                                </span>
+
+                                            {% elif token.role == "vente" %}
+
+                                                <span class="badge badge-vente">
+
+                                                    <i
+                                                        class="fa-solid fa-cart-shopping"
+                                                        aria-hidden="true"
+                                                    ></i>
+
+                                                    Vente
+
+                                                </span>
+
+                                            {% elif token.role == "client" %}
+
+                                                <span class="badge badge-client">
+
+                                                    <i
+                                                        class="fa-solid fa-user"
+                                                        aria-hidden="true"
+                                                    ></i>
+
+                                                    Client
+
+                                                </span>
+
+                                            {% elif token.role == "fournisseur" %}
+
+                                                <span class="badge badge-fournisseur">
+
+                                                    <i
+                                                        class="fa-solid fa-truck"
+                                                        aria-hidden="true"
+                                                    ></i>
+
+                                                    Fournisseur
+
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="badge">
+
+                                                    {{ token.role }}
+
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
 
 
-                                    <td>
-                                        {{ token.created_at|date:"d/m/Y H:i" }}
-                                    </td>
+                                        <td>
+
+                                            <code>
+                                                {{ token.token }}
+                                            </code>
+
+                                        </td>
 
 
-                                    <td>
-                                        {{ token.expires_at|date:"d/m/Y H:i" }}
-                                    </td>
+                                        <td>
+                                            {{ token.created_at|date:"d/m/Y H:i" }}
+                                        </td>
 
 
-                                    <td>
+                                        <td>
+                                            {{ token.expires_at|date:"d/m/Y H:i" }}
+                                        </td>
 
-                                        {% if token.is_valid %}
 
-                                            <span
-                                                class="badge"
-                                                style="
-                                                    background:#dcfce7;
-                                                    color:#15803d;
-                                                "
-                                            >
+                                        <td>
 
-                                                <i
-                                                    class="fa-solid fa-circle-check"
-                                                ></i>
+                                            {% if token.is_valid %}
 
-                                                Valide
+                                                <span
+                                                    class="badge"
+                                                    style="
+                                                        background:#dcfce7;
+                                                        color:#15803d;
+                                                    "
+                                                >
 
-                                            </span>
+                                                    <i
+                                                        class="fa-solid fa-circle-check"
+                                                        aria-hidden="true"
+                                                    ></i>
 
-                                        {% else %}
+                                                    Valide
 
-                                            <span
-                                                class="badge"
-                                                style="
-                                                    background:#fee2e2;
-                                                    color:#b91c1c;
-                                                "
-                                            >
+                                                </span>
 
-                                                <i
-                                                    class="fa-solid fa-circle-xmark"
-                                                ></i>
+                                            {% else %}
 
-                                                Expiré
+                                                <span
+                                                    class="badge"
+                                                    style="
+                                                        background:#fee2e2;
+                                                        color:#b91c1c;
+                                                    "
+                                                >
 
-                                            </span>
+                                                    <i
+                                                        class="fa-solid fa-circle-xmark"
+                                                        aria-hidden="true"
+                                                    ></i>
 
-                                        {% endif %}
+                                                    Expiré
 
-                                    </td>
+                                                </span>
 
-                                </tr>
+                                            {% endif %}
+
+                                        </td>
+
+                                    </tr>
 
                                 {% endfor %}
 
@@ -1781,9 +2776,7 @@ select:focus-visible {
 
                     </div>
 
-
                 {% else %}
-
 
                     <div class="empty-state">
 
@@ -1798,16 +2791,13 @@ select:focus-visible {
 
                     </div>
 
-
                 {% endif %}
 
             </div>
 
         </section>
 
-
     </main>
-
 
 
     <!-- =========================================================
@@ -1820,7 +2810,6 @@ select:focus-visible {
         role="alert"
         aria-live="polite"
     ></div>
-
 
 
     <!-- =========================================================
@@ -1843,15 +2832,18 @@ select:focus-visible {
                         'mobileMenuBtn'
                     );
 
+
                 const sidebar =
                     document.getElementById(
                         'sidebar'
                     );
 
+
                 const sidebarOverlay =
                     document.getElementById(
                         'sidebarOverlay'
                     );
+
 
                 const sidebarClose =
                     document.getElementById(
@@ -1864,20 +2856,24 @@ select:focus-visible {
                         'tokenForm'
                     );
 
+
                 const generateBtn =
                     document.getElementById(
                         'generateBtn'
                     );
+
 
                 const statusMessage =
                     document.getElementById(
                         'statusMessage'
                     );
 
+
                 const tokenResult =
                     document.getElementById(
                         'tokenResult'
                     );
+
 
                 const tokenValue =
                     document.getElementById(
@@ -1895,18 +2891,28 @@ select:focus-visible {
                         return;
                     }
 
-                    sidebar.classList.add('active');
+
+                    sidebar.classList.add(
+                        'active'
+                    );
+
 
                     if (sidebarOverlay) {
-                        sidebarOverlay.classList.add('active');
+
+                        sidebarOverlay.classList.add(
+                            'active'
+                        );
                     }
 
+
                     if (mobileMenuBtn) {
+
                         mobileMenuBtn.setAttribute(
                             'aria-expanded',
                             'true'
                         );
                     }
+
 
                     document.body.style.overflow =
                         'hidden';
@@ -1916,19 +2922,29 @@ select:focus-visible {
                 function closeSidebar() {
 
                     if (sidebar) {
-                        sidebar.classList.remove('active');
+
+                        sidebar.classList.remove(
+                            'active'
+                        );
                     }
+
 
                     if (sidebarOverlay) {
-                        sidebarOverlay.classList.remove('active');
+
+                        sidebarOverlay.classList.remove(
+                            'active'
+                        );
                     }
 
+
                     if (mobileMenuBtn) {
+
                         mobileMenuBtn.setAttribute(
                             'aria-expanded',
                             'false'
                         );
                     }
+
 
                     document.body.style.overflow =
                         '';
@@ -1941,7 +2957,6 @@ select:focus-visible {
                         'click',
                         openSidebar
                     );
-
                 }
 
 
@@ -1951,7 +2966,6 @@ select:focus-visible {
                         'click',
                         closeSidebar
                     );
-
                 }
 
 
@@ -1961,34 +2975,36 @@ select:focus-visible {
                         'click',
                         closeSidebar
                     );
-
                 }
 
 
                 /* =================================================
-                   FERMER LE MENU APRÈS UN CLIC
+                   FERMER APRÈS CLIC
                 ================================================== */
 
                 document
-                    .querySelectorAll('.sidebar-link')
-                    .forEach(function (link) {
+                    .querySelectorAll(
+                        '.sidebar-link'
+                    )
+                    .forEach(
+                        function (link) {
 
-                        link.addEventListener(
-                            'click',
-                            function () {
+                            link.addEventListener(
+                                'click',
+                                function () {
 
-                                if (
-                                    window.innerWidth < 992
-                                ) {
+                                    if (
+                                        window.innerWidth < 992
+                                    ) {
 
-                                    closeSidebar();
+                                        closeSidebar();
+                                    }
 
                                 }
+                            );
 
-                            }
-                        );
-
-                    });
+                        }
+                    );
 
 
                 /* =================================================
@@ -2004,7 +3020,6 @@ select:focus-visible {
                         ) {
 
                             closeSidebar();
-
                         }
 
                     }
@@ -2024,7 +3039,6 @@ select:focus-visible {
                         ) {
 
                             closeSidebar();
-
                         }
 
                     }
@@ -2040,7 +3054,13 @@ select:focus-visible {
                     type
                 ) {
 
-                    statusMessage.innerHTML = '';
+                    if (!statusMessage) {
+                        return;
+                    }
+
+
+                    statusMessage.innerHTML =
+                        '';
 
 
                     const icon =
@@ -2049,20 +3069,26 @@ select:focus-visible {
                         );
 
 
-                    if (type === 'success') {
+                    if (
+                        type === 'success'
+                    ) {
 
                         icon.className =
                             'fa-solid fa-circle-check';
+
 
                         statusMessage.className =
                             'status-message show status-success';
 
                     }
 
-                    else if (type === 'warning') {
+                    else if (
+                        type === 'warning'
+                    ) {
 
                         icon.className =
                             'fa-solid fa-triangle-exclamation';
+
 
                         statusMessage.className =
                             'status-message show status-warning';
@@ -2074,9 +3100,9 @@ select:focus-visible {
                         icon.className =
                             'fa-solid fa-circle-exclamation';
 
+
                         statusMessage.className =
                             'status-message show status-error';
-
                     }
 
 
@@ -2094,10 +3120,10 @@ select:focus-visible {
                         icon
                     );
 
+
                     statusMessage.appendChild(
                         span
                     );
-
                 }
 
 
@@ -2105,7 +3131,9 @@ select:focus-visible {
                    TOAST
                 ================================================== */
 
-                function showToast(message) {
+                function showToast(
+                    message
+                ) {
 
                     const toast =
                         document.getElementById(
@@ -2137,7 +3165,6 @@ select:focus-visible {
                         },
                         3500
                     );
-
                 }
 
 
@@ -2147,16 +3174,22 @@ select:focus-visible {
 
                 function resetMessages() {
 
-                    statusMessage.className =
-                        'status-message';
+                    if (statusMessage) {
 
-                    statusMessage.innerHTML =
-                        '';
+                        statusMessage.className =
+                            'status-message';
 
-                    tokenResult.classList.remove(
-                        'show'
-                    );
+                        statusMessage.innerHTML =
+                            '';
+                    }
 
+
+                    if (tokenResult) {
+
+                        tokenResult.classList.remove(
+                            'show'
+                        );
+                    }
                 }
 
 
@@ -2213,7 +3246,6 @@ select:focus-visible {
                                 );
 
                                 return;
-
                             }
 
 
@@ -2241,6 +3273,7 @@ select:focus-visible {
 
                             try {
 
+
                                 /* =================================
                                    URL DJANGO
                                 ================================== */
@@ -2253,12 +3286,22 @@ select:focus-visible {
                                    CSRF
                                 ================================== */
 
+                                const csrfElement =
+                                    document.querySelector(
+                                        '[name=csrfmiddlewaretoken]'
+                                    );
+
+
+                                if (!csrfElement) {
+
+                                    throw new Error(
+                                        'Token CSRF introuvable.'
+                                    );
+                                }
+
+
                                 const csrfToken =
-                                    document
-                                        .querySelector(
-                                            '[name=csrfmiddlewaretoken]'
-                                        )
-                                        .value;
+                                    csrfElement.value;
 
 
                                 /* =================================
@@ -2282,8 +3325,10 @@ select:focus-visible {
 
                                                 'X-Requested-With':
                                                     'XMLHttpRequest'
-
                                             },
+
+                                            credentials:
+                                                'same-origin',
 
                                             body:
                                                 JSON.stringify({
@@ -2307,8 +3352,22 @@ select:focus-visible {
                                    RÉPONSE
                                 ================================== */
 
-                                const data =
-                                    await response.json();
+                                let data;
+
+
+                                try {
+
+                                    data =
+                                        await response.json();
+
+                                }
+
+                                catch (jsonError) {
+
+                                    throw new Error(
+                                        'Le serveur a retourné une réponse invalide.'
+                                    );
+                                }
 
 
                                 if (
@@ -2320,7 +3379,6 @@ select:focus-visible {
                                         data.message ||
                                         'Une erreur est survenue lors de la génération du token.'
                                     );
-
                                 }
 
 
@@ -2328,13 +3386,19 @@ select:focus-visible {
                                    TOKEN
                                 ================================== */
 
-                                tokenValue.textContent =
-                                    data.token;
+                                if (tokenValue) {
+
+                                    tokenValue.textContent =
+                                        data.token;
+                                }
 
 
-                                tokenResult.classList.add(
-                                    'show'
-                                );
+                                if (tokenResult) {
+
+                                    tokenResult.classList.add(
+                                        'show'
+                                    );
+                                }
 
 
                                 showStatus(
@@ -2353,25 +3417,43 @@ select:focus-visible {
                                    RESET FORM
                                 ================================== */
 
-                                document
-                                    .getElementById(
+                                const emailInput =
+                                    document.getElementById(
                                         'email'
-                                    )
-                                    .value = '';
+                                    );
 
 
-                                document
-                                    .getElementById(
+                                const roleInput =
+                                    document.getElementById(
                                         'role'
-                                    )
-                                    .value = '';
+                                    );
 
 
-                                document
-                                    .getElementById(
+                                const validityInput =
+                                    document.getElementById(
                                         'validity'
-                                    )
-                                    .value = '30';
+                                    );
+
+
+                                if (emailInput) {
+
+                                    emailInput.value =
+                                        '';
+                                }
+
+
+                                if (roleInput) {
+
+                                    roleInput.value =
+                                        '';
+                                }
+
+
+                                if (validityInput) {
+
+                                    validityInput.value =
+                                        '30';
+                                }
 
                             }
 
@@ -2415,12 +3497,10 @@ select:focus-visible {
                                     </span>
 
                                 `;
-
                             }
 
                         }
                     );
-
                 }
 
 
@@ -2457,9 +3537,28 @@ select:focus-visible {
                         'Font weight :',
                         iconStyle.fontWeight
                     );
-
                 }
 
+
+                /* =================================================
+                   ACCESSIBILITÉ
+                ================================================== */
+
+                document.addEventListener(
+                    'keydown',
+                    function (event) {
+
+                        if (
+                            event.key === 'Tab'
+                        ) {
+
+                            document.body.classList.add(
+                                'keyboard-navigation'
+                            );
+                        }
+
+                    }
+                );
 
             }
         );
@@ -2468,4 +3567,6 @@ select:focus-visible {
 
 
 </body>
+
 </html>
+

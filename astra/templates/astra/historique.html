@@ -1,18 +1,28 @@
-```html
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
 
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link
+        rel="stylesheet"
+        href="{% static 'css/responsive.css' %}"
+    >
 
     <title>ASTRA TECH - Journal d'Activités Global</title>
 
+    <!-- =========================================================
+         DARK MODE AVANT AFFICHAGE
+    ========================================================== -->
     <script>
-        (function() {
-            const savedDarkMode = localStorage.getItem('astra_dark_mode');
+        (function () {
+            const savedDarkMode =
+                localStorage.getItem('astra_dark_mode');
 
             if (savedDarkMode === 'true') {
                 document.documentElement.classList.add('dark');
@@ -22,30 +32,52 @@
         })();
     </script>
 
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        };
+    </script>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url(
+            'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap'
+        );
+
+        /* =========================================================
+           VARIABLES
+        ========================================================== */
 
         :root {
             --tech-blue: #0078D7;
             --tech-dark-blue: #004E8C;
             --tech-sidebar-bg: #003366;
+
             --tech-orange: #FF8C00;
+
             --tech-light-gray: #F4F6F9;
             --tech-card-bg: #ffffff;
             --tech-dark-gray: #333333;
             --tech-border: #E0E0E0;
+
             --sidebar-width: 280px;
             --radius-lg: 16px;
             --radius-md: 10px;
+
+            --mobile-header-height: 64px;
         }
 
         /* =========================================================
            BASE — MOBILE FIRST
-        ========================================================= */
+        ========================================================== */
 
         *,
         *::before,
@@ -53,25 +85,43 @@
             box-sizing: border-box;
         }
 
-        html,
+        html {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
         body {
             width: 100%;
-            min-height: 100%;
+            max-width: 100%;
+
+            min-height: 100vh;
+            min-height: 100dvh;
+
             margin: 0;
             padding: 0;
+
+            font-family: 'Inter', sans-serif;
+
+            background-color: var(--tech-light-gray);
+            color: var(--tech-dark-gray);
+
             overflow-x: hidden;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--tech-light-gray);
-            color: var(--tech-dark-gray);
-            min-height: 100vh;
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* =========================================================
-           MODE NUIT
-        ========================================================= */
+           DARK MODE
+        ========================================================== */
 
         html.dark body {
             background-color: #0f172a !important;
@@ -92,90 +142,252 @@
             border-color: #334155 !important;
         }
 
-        html.dark .card-custom {
-            background-color: #1e293b !important;
+        html.dark .module-header {
+            background-color: #172033 !important;
             border-color: #334155 !important;
-            color: #f1f5f9 !important;
         }
 
-        html.dark h1,
-        html.dark h2,
-        html.dark h3,
-        html.dark label,
-        html.dark span,
-        html.dark div {
-            color: inherit;
+        html.dark .module-title {
+            color: #e2e8f0 !important;
         }
 
-        html.dark input,
-        html.dark select {
-            background-color: #0f172a !important;
+        html.dark .log-details {
+            color: #e2e8f0 !important;
+        }
+
+        html.dark .log-meta {
+            color: #94a3b8 !important;
             border-color: #334155 !important;
-            color: #ffffff !important;
         }
 
-        html.dark .role-card {
-            background-color: #1e293b;
-            border-color: #334155;
+        html.dark .user-badge {
+            background-color: #334155 !important;
+            color: #cbd5e1 !important;
         }
 
-        html.dark .role-card.border-orange-500 {
-            border-color: #f97316 !important;
-            background-color: rgba(249, 115, 22, 0.1) !important;
+        html.dark .empty-message {
+            color: #94a3b8 !important;
         }
 
         /* =========================================================
-           SIDEBAR — MOBILE
-        ========================================================= */
+           HEADER MOBILE
+        ========================================================== */
+
+        .mobile-header {
+            position: sticky;
+            top: 0;
+
+            z-index: 1100;
+
+            width: 100%;
+            min-height: var(--mobile-header-height);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding:
+                10px
+                max(14px, env(safe-area-inset-right))
+                10px
+                max(14px, env(safe-area-inset-left));
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--tech-dark-blue),
+                    var(--tech-sidebar-bg)
+                );
+
+            box-shadow:
+                0 4px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .mobile-brand {
+            min-width: 0;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-brand-logo {
+            width: 34px;
+            height: 34px;
+
+            flex: 0 0 34px;
+
+            background: #ffffff;
+
+            border-radius: 7px;
+
+            transform: rotate(45deg);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-right: 12px;
+        }
+
+        .mobile-brand-logo-inner {
+            width: 23px;
+            height: 23px;
+
+            border: 2px solid var(--tech-orange);
+
+            border-radius: 4px;
+
+            transform: rotate(-45deg);
+        }
+
+        .mobile-brand-title {
+            color: #ffffff;
+
+            font-size: 17px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .mobile-brand-title span {
+            color: var(--tech-orange);
+        }
+
+        .mobile-menu-toggle {
+            width: 44px;
+            height: 44px;
+
+            flex: 0 0 44px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid rgba(255, 255, 255, 0.2);
+
+            border-radius: 10px;
+
+            background: rgba(255, 255, 255, 0.1);
+
+            color: #ffffff;
+
+            transition: 0.25s ease;
+        }
+
+        .mobile-menu-toggle:hover,
+        .mobile-menu-toggle:focus-visible {
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+        }
+
+        .mobile-menu-toggle i {
+            font-size: 20px;
+        }
+
+        /* =========================================================
+           OVERLAY
+        ========================================================== */
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+
+            z-index: 1990;
+
+            background: rgba(15, 23, 42, 0.65);
+
+            backdrop-filter: blur(2px);
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0.25s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* =========================================================
+           SIDEBAR — MOBILE OFFCANVAS
+        ========================================================== */
 
         .sidebar {
-            width: 100%;
-            height: auto;
-            min-height: auto;
+            position: fixed;
 
-            background: linear-gradient(
-                180deg,
-                var(--tech-dark-blue) 0%,
-                #003366 100%
-            );
+            top: 0;
+            left: 0;
+            bottom: 0;
 
-            color: #fff;
+            z-index: 2000;
+
+            width: min(86vw, 320px);
+
+            height: 100vh;
+            height: 100dvh;
 
             display: flex;
             flex-direction: column;
 
-            position: relative;
-            top: auto;
-            bottom: auto;
-            left: auto;
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--tech-dark-blue) 0%,
+                    var(--tech-sidebar-bg) 100%
+                );
 
-            z-index: 100;
+            color: #ffffff;
 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+            overflow-x: hidden;
+            overflow-y: auto;
 
-            border-right: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transform: translateX(-105%);
+
+            transition:
+                transform 0.28s ease;
+
+            box-shadow:
+                10px 0 30px rgba(0, 0, 0, 0.22);
         }
 
-        /* LOGO */
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        /* =========================================================
+           SIDEBAR BRAND
+        ========================================================== */
 
         .sidebar-brand {
+            position: relative;
+
             width: 100%;
-            padding: 18px 16px;
+            min-height: 90px;
+
+            padding: 24px 20px;
 
             display: flex;
             align-items: center;
 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.1);
 
             flex-shrink: 0;
         }
 
         .sidebar-logo {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
+
+            flex: 0 0 40px;
 
             background: #ffffff;
+
             border-radius: 8px;
 
             transform: rotate(45deg);
@@ -184,28 +396,33 @@
             justify-content: center;
             align-items: center;
 
-            margin-right: 13px;
+            margin-right: 15px;
 
-            flex-shrink: 0;
-
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .sidebar-logo-inner {
-            width: 25px;
-            height: 25px;
+            width: 28px;
+            height: 28px;
 
-            border: 2px solid var(--tech-orange);
+            border:
+                2px solid var(--tech-orange);
+
             border-radius: 5px;
 
             transform: rotate(-45deg);
         }
 
         .sidebar-title {
-            font-weight: bold;
-            font-size: 19px;
-            letter-spacing: 1px;
-            color: #ffffff;
+            min-width: 0;
+
+            font-weight: 800;
+            font-size: 20px;
+
+            letter-spacing: 0.5px;
+
+            color: #ffffff !important;
 
             white-space: nowrap;
         }
@@ -214,119 +431,150 @@
             color: var(--tech-orange);
         }
 
+        .sidebar-close {
+            position: absolute;
+
+            top: 18px;
+            right: 14px;
+
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.18);
+
+            border-radius: 9px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            color: #ffffff;
+
+            transition: 0.25s ease;
+        }
+
+        .sidebar-close:hover,
+        .sidebar-close:focus-visible {
+            background:
+                rgba(255, 255, 255, 0.18);
+
+            outline: none;
+        }
+
         /* =========================================================
-           MENU MOBILE
-        ========================================================= */
+           MENU
+        ========================================================== */
 
         .nav-menu {
             list-style: none;
 
-            padding: 12px 12px;
+            width: 100%;
+
+            padding: 22px 14px;
             margin: 0;
 
+            flex: 1;
+
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
 
-            gap: 7px;
-
-            overflow-x: auto;
-            overflow-y: hidden;
-
-            flex: none;
-
-            scrollbar-width: none;
-
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .nav-menu::-webkit-scrollbar {
-            display: none;
+            gap: 6px;
         }
 
         .nav-menu li {
-            flex: 0 0 auto;
+            width: 100%;
         }
 
         .nav-menu li a,
         .nav-menu a.back-link {
+            width: 100%;
+
             display: flex;
             align-items: center;
 
-            min-height: 44px;
+            min-height: 46px;
 
-            padding: 10px 13px;
+            padding: 13px 16px;
 
-            color: rgba(255, 255, 255, 0.8);
+            color:
+                rgba(255, 255, 255, 0.82);
 
             text-decoration: none;
 
             font-weight: 500;
-            font-size: 12px;
+            font-size: 14px;
 
             border-radius: var(--radius-md);
 
-            transition: all 0.25s ease;
-
-            white-space: nowrap;
+            transition:
+                background-color 0.25s ease,
+                color 0.25s ease,
+                transform 0.2s ease;
         }
 
         .nav-menu li a i,
         .nav-menu a.back-link i {
-            margin-right: 7px;
-            font-size: 14px;
-            width: 18px;
+            width: 24px;
+
+            flex: 0 0 24px;
+
+            margin-right: 13px;
+
             text-align: center;
         }
 
         .nav-menu li a:hover,
         .nav-menu a.back-link:hover {
             color: #ffffff;
-            background-color: rgba(255, 255, 255, 0.08);
+
+            background:
+                rgba(255, 255, 255, 0.1);
         }
 
         .nav-menu li a.active {
             color: #ffffff;
-            background-color: rgba(255, 255, 255, 0.12);
 
-            border-left: 3px solid var(--tech-orange);
+            background:
+                rgba(255, 255, 255, 0.13);
 
-            font-weight: 600;
+            border-left:
+                4px solid var(--tech-orange);
+
+            padding-left: 12px;
+
+            font-weight: 700;
         }
 
         .nav-menu a.back-link {
-            margin-top: 0;
+            margin-top: auto;
 
-            background-color: rgba(255, 255, 255, 0.05);
+            background:
+                rgba(255, 255, 255, 0.05);
 
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border:
+                1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* =========================================================
-           FOOTER SIDEBAR MOBILE
-        ========================================================= */
+           FOOTER SIDEBAR
+        ========================================================== */
 
         .sidebar-footer {
-            padding: 12px 16px 16px;
+            padding: 14px 16px 18px;
 
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top:
+                1px solid rgba(255, 255, 255, 0.1);
+
+            flex-shrink: 0;
         }
 
         .btn-logout {
             width: 100%;
-
-            min-height: 44px;
-
-            background-color: rgba(255, 77, 77, 0.15);
-
-            color: #ff8080;
-
-            border: 1px solid rgba(255, 77, 77, 0.3);
-
-            padding: 10px 12px;
-
-            border-radius: var(--radius-md);
-
-            cursor: pointer;
+            min-height: 46px;
 
             display: flex;
             align-items: center;
@@ -334,44 +582,63 @@
 
             gap: 10px;
 
+            padding: 11px 12px;
+
+            background:
+                rgba(255, 77, 77, 0.15);
+
+            color: #ff8080;
+
+            border:
+                1px solid rgba(255, 77, 77, 0.3);
+
+            border-radius: var(--radius-md);
+
+            text-decoration: none;
+
             font-weight: 600;
             font-size: 13px;
 
-            transition: all 0.2s ease;
-
-            text-decoration: none;
+            transition: 0.2s ease;
         }
 
         .btn-logout:hover {
-            background-color: #ff4d4d;
+            background: #ff4d4d;
             color: #ffffff;
 
-            box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
-
             border-color: #ff4d4d;
+
+            box-shadow:
+                0 4px 12px rgba(255, 77, 77, 0.3);
         }
 
         /* =========================================================
-           CONTENU PRINCIPAL MOBILE
-        ========================================================= */
+           CONTENU PRINCIPAL
+        ========================================================== */
 
         .main-content {
             width: 100%;
             max-width: 100%;
 
+            min-width: 0;
+
             margin-left: 0;
 
-            padding: 16px 12px 24px;
-
-            box-sizing: border-box;
+            padding:
+                18px
+                max(12px, env(safe-area-inset-right))
+                calc(28px + env(safe-area-inset-bottom))
+                max(12px, env(safe-area-inset-left));
         }
 
         /* =========================================================
            BANNIÈRE
-        ========================================================= */
+        ========================================================== */
 
         .header-banner {
             width: 100%;
+
+            min-width: 0;
 
             padding: 20px 16px !important;
 
@@ -385,6 +652,8 @@
         .header-banner > div:first-child {
             width: 100%;
 
+            min-width: 0;
+
             display: flex;
             align-items: center;
 
@@ -397,12 +666,16 @@
 
             min-width: 46px !important;
 
+            flex: 0 0 46px;
+
             border-radius: 14px !important;
 
             font-size: 18px !important;
         }
 
         .header-banner h1 {
+            min-width: 0;
+
             font-size: 20px !important;
             line-height: 1.25 !important;
 
@@ -411,28 +684,33 @@
 
         .header-banner p {
             font-size: 12px !important;
+
             line-height: 1.5 !important;
 
             margin-top: 5px !important;
+
+            overflow-wrap: anywhere;
         }
 
         /* =========================================================
-           GRILLE MODULES
-        ========================================================= */
+           GRILLE
+        ========================================================== */
 
-        .main-content > .grid {
+        .activity-grid {
             width: 100%;
+
+            min-width: 0;
 
             display: grid;
 
-            grid-template-columns: 1fr !important;
+            grid-template-columns: 1fr;
 
-            gap: 18px !important;
+            gap: 18px;
         }
 
         /* =========================================================
            CARTES MODULES
-        ========================================================= */
+        ========================================================== */
 
         .module-card {
             width: 100%;
@@ -440,64 +718,91 @@
 
             height: 400px;
 
-            background: white;
-
-            border-radius: 18px;
-
-            border: 1px solid #E2E8F0;
-
             display: flex;
             flex-direction: column;
 
             overflow: hidden;
 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            background: #ffffff;
+
+            border:
+                1px solid #E2E8F0;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 4px 6px -1px rgba(0, 0, 0, 0.02);
         }
 
-        /* En mobile, le bloc administration reste dans une seule colonne */
-        .module-card.xl\:col-span-2 {
-            grid-column: auto !important;
+        .module-card.admin-card {
+            grid-column: auto;
         }
 
         /* =========================================================
-           EN-TÊTE DES MODULES
-        ========================================================= */
+           EN-TÊTE MODULE
+        ========================================================== */
 
-        .module-card > div:first-child {
+        .module-header {
             min-height: 68px;
 
-            padding: 14px 15px !important;
+            padding: 14px 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
             gap: 10px;
 
             flex-wrap: wrap;
+
+            background:
+                rgba(248, 250, 252, 0.75);
+
+            border-bottom:
+                1px solid #e2e8f0;
+
+            flex-shrink: 0;
         }
 
-        .module-card > div:first-child h2 {
-            font-size: 14px;
+        .module-title {
+            min-width: 0;
 
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 14px;
             line-height: 1.4;
 
-            min-width: 0;
+            font-weight: 700;
+
+            color: #475569;
 
             overflow-wrap: anywhere;
         }
 
-        .module-card > div:first-child h2 i {
+        .module-title i {
             flex-shrink: 0;
         }
 
-        .module-card > div:first-child span {
+        .module-badge {
+            flex-shrink: 0;
+
+            padding: 5px 9px;
+
+            border-radius: 999px;
+
             font-size: 10px !important;
 
-            padding: 5px 9px !important;
+            font-weight: 700;
 
             white-space: nowrap;
         }
 
         /* =========================================================
            ZONE SCROLLABLE
-        ========================================================= */
+        ========================================================== */
 
         .scroll-area {
             flex: 1;
@@ -507,7 +812,7 @@
             overflow-y: auto;
             overflow-x: hidden;
 
-            padding: 12px !important;
+            padding: 12px;
 
             -webkit-overflow-scrolling: touch;
         }
@@ -518,27 +823,44 @@
 
         .scroll-area::-webkit-scrollbar-thumb {
             background: #CBD5E1;
+
             border-radius: 10px;
         }
 
+        .scroll-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
         /* =========================================================
-           ITEMS DE LOG
-        ========================================================= */
+           LOG ITEMS
+        ========================================================== */
+
+        .log-list {
+            display: flex;
+            flex-direction: column;
+
+            gap: 12px;
+        }
 
         .log-item {
             width: 100%;
             min-width: 0;
 
+            padding: 11px 12px;
+
             background: #f8fafc;
 
-            border: 1px solid #edf2f7;
+            border:
+                1px solid #edf2f7;
+
             border-left-width: 4px;
 
             border-radius: 12px;
 
-            padding: 11px 12px;
-
-            transition: all 0.2s ease;
+            transition:
+                transform 0.2s ease,
+                background-color 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
         .log-item:hover {
@@ -546,7 +868,8 @@
 
             background: #ffffff;
 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.04);
 
             border-color: #e2e8f0;
         }
@@ -563,98 +886,153 @@
             border-left-color: #8b5cf6;
         }
 
-        .log-item > div:first-child {
-            font-size: 12px !important;
+        .log-details {
+            min-width: 0;
 
+            font-size: 12px !important;
             line-height: 1.5;
 
             overflow-wrap: anywhere;
             word-break: break-word;
         }
 
-        .log-item > div:last-child {
-            font-size: 10px !important;
+        .log-meta {
+            min-width: 0;
 
-            line-height: 1.5;
+            margin-top: 8px;
+
+            padding-top: 6px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
             gap: 8px;
 
             flex-wrap: wrap;
+
+            font-size: 10px !important;
+            line-height: 1.5;
+
+            color: #64748b;
+
+            border-top:
+                1px solid rgba(226, 232, 240, 0.6);
         }
 
-        .log-item > div:last-child > span {
-            max-width: 100%;
+        .log-date {
+            min-width: 0;
+
+            display: flex;
+            align-items: center;
+
+            gap: 6px;
 
             overflow-wrap: anywhere;
         }
 
-        .log-item > div:last-child > span:last-child {
-            text-align: right;
+        .user-badge {
+            max-width: 100%;
+
+            padding: 2px 8px;
+
+            background:
+                rgba(226, 232, 240, 0.6);
+
+            border-radius: 6px;
+
+            font-weight: 500;
+
+            color: #475569;
+
+            overflow-wrap: anywhere;
+            word-break: break-word;
         }
 
         /* =========================================================
            MESSAGE VIDE
-        ========================================================= */
+        ========================================================== */
 
-        .scroll-area > .text-center {
-            padding-top: 50px !important;
-            padding-bottom: 50px !important;
+        .empty-message {
+            min-height: 200px;
 
-            padding-left: 10px;
-            padding-right: 10px;
+            padding: 40px 10px;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            text-align: center;
+
+            color: #94a3b8;
 
             line-height: 1.5;
         }
 
+        .empty-message i {
+            font-size: 24px;
+
+            color: #cbd5e1;
+        }
+
         /* =========================================================
-           TRÈS PETITS ÉCRANS
-        ========================================================= */
+           PETITS ÉCRANS
+        ========================================================== */
 
         @media (max-width: 359px) {
 
+            .mobile-brand-title {
+                font-size: 15px;
+            }
+
+            .mobile-brand-logo {
+                width: 31px;
+                height: 31px;
+
+                flex-basis: 31px;
+
+                margin-right: 10px;
+            }
+
+            .mobile-brand-logo-inner {
+                width: 21px;
+                height: 21px;
+            }
+
             .sidebar-brand {
-                padding: 15px 12px;
+                padding: 18px 14px;
             }
 
             .sidebar-logo {
-                width: 32px;
-                height: 32px;
+                width: 34px;
+                height: 34px;
 
-                margin-right: 11px;
+                flex-basis: 34px;
+
+                margin-right: 12px;
             }
 
             .sidebar-logo-inner {
-                width: 22px;
-                height: 22px;
+                width: 24px;
+                height: 24px;
             }
 
             .sidebar-title {
                 font-size: 17px;
             }
 
-            .nav-menu {
-                padding: 10px 8px;
-            }
-
-            .nav-menu li a,
-            .nav-menu a.back-link {
-                padding: 9px 10px;
-                font-size: 11px;
-            }
-
-            .nav-menu li a i,
-            .nav-menu a.back-link i {
-                margin-right: 5px;
-                font-size: 12px;
-                width: 16px;
-            }
-
             .main-content {
-                padding: 12px 8px 20px;
+                padding-left: 9px;
+                padding-right: 9px;
             }
 
             .header-banner {
                 padding: 16px 12px !important;
+
                 border-radius: 17px !important;
             }
 
@@ -669,90 +1047,49 @@
             .header-banner > div:first-child > div:first-child {
                 width: 40px !important;
                 height: 40px !important;
+
                 min-width: 40px !important;
+                flex-basis: 40px;
 
                 font-size: 16px !important;
             }
 
             .module-card {
                 height: 380px;
+
                 border-radius: 16px;
             }
 
-            .module-card > div:first-child {
+            .module-header {
                 padding: 12px !important;
             }
 
-            .module-card > div:first-child h2 {
+            .module-title {
                 font-size: 13px;
             }
 
             .log-item {
                 padding: 10px;
             }
+
         }
 
         /* =========================================================
            TABLETTE
-        ========================================================= */
+        ========================================================== */
 
         @media (min-width: 576px) {
 
-            .sidebar {
-                width: 100%;
-            }
-
-            .sidebar-brand {
-                padding: 20px 24px;
-            }
-
-            .sidebar-logo {
-                width: 40px;
-                height: 40px;
-                margin-right: 15px;
-            }
-
-            .sidebar-logo-inner {
-                width: 28px;
-                height: 28px;
-            }
-
-            .sidebar-title {
-                font-size: 20px;
-            }
-
-            .nav-menu {
-                padding: 14px 16px;
-                gap: 8px;
-            }
-
-            .nav-menu li a,
-            .nav-menu a.back-link {
-                padding: 11px 15px;
-                font-size: 13px;
-            }
-
-            .nav-menu li a i,
-            .nav-menu a.back-link i {
-                margin-right: 8px;
-                font-size: 14px;
-            }
-
-            .sidebar-footer {
-                padding: 15px 24px 20px;
-            }
-
-            .btn-logout {
-                font-size: 14px;
-                min-height: 46px;
-            }
-
             .main-content {
-                padding: 24px 20px 30px;
+                padding:
+                    24px
+                    20px
+                    32px;
             }
 
             .header-banner {
                 padding: 26px 24px !important;
+
                 margin-bottom: 24px !important;
             }
 
@@ -767,56 +1104,63 @@
             .header-banner > div:first-child > div:first-child {
                 width: 52px !important;
                 height: 52px !important;
+
                 min-width: 52px !important;
+                flex-basis: 52px;
 
                 font-size: 21px !important;
             }
 
-            .main-content > .grid {
-                gap: 22px !important;
+            .activity-grid {
+                gap: 22px;
             }
 
             .module-card {
                 height: 420px;
             }
 
-            .module-card > div:first-child {
-                padding: 16px 18px !important;
+            .module-header {
+                padding: 16px 18px;
             }
 
-            .module-card > div:first-child h2 {
+            .module-title {
                 font-size: 15px;
             }
 
             .scroll-area {
-                padding: 16px !important;
+                padding: 16px;
             }
 
             .log-item {
                 padding: 12px 15px;
             }
 
-            .log-item > div:first-child {
+            .log-details {
                 font-size: 13px !important;
             }
 
-            .log-item > div:last-child {
+            .log-meta {
                 font-size: 11px !important;
             }
+
         }
 
         /* =========================================================
            TABLETTE LARGE
-        ========================================================= */
+        ========================================================== */
 
         @media (min-width: 768px) {
 
             .main-content {
-                padding: 30px 28px 35px;
+                padding:
+                    30px
+                    28px
+                    35px;
             }
 
             .header-banner {
                 padding: 30px !important;
+
                 margin-bottom: 28px !important;
             }
 
@@ -828,39 +1172,42 @@
                 font-size: 14px !important;
             }
 
-            .main-content > .grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-                gap: 26px !important;
+            .activity-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+                gap: 26px;
             }
 
-            .module-card.xl\:col-span-2 {
-                grid-column: span 2 !important;
+            .module-card.admin-card {
+                grid-column: span 2;
             }
 
             .module-card {
                 height: 440px;
             }
 
-            .nav-menu {
-                justify-content: flex-start;
-            }
         }
 
         /* =========================================================
            DESKTOP
-        ========================================================= */
+        ========================================================== */
 
         @media (min-width: 992px) {
 
-            body {
-                display: flex;
-                min-height: 100vh;
+            .mobile-header {
+                display: none;
+            }
+
+            .sidebar-overlay {
+                display: none;
             }
 
             .sidebar {
                 width: var(--sidebar-width);
 
                 min-height: 100vh;
+                min-height: 100dvh;
 
                 position: fixed;
 
@@ -870,19 +1217,26 @@
 
                 flex-direction: column;
 
-                border-right: 1px solid rgba(255, 255, 255, 0.05);
-                border-bottom: none;
+                transform: translateX(0);
 
-                box-shadow: 4px 0 25px rgba(0, 0, 0, 0.08);
+                transition: none;
+
+                border-right:
+                    1px solid rgba(255, 255, 255, 0.05);
+
+                box-shadow:
+                    4px 0 25px rgba(0, 0, 0, 0.08);
             }
 
             .sidebar-brand {
                 padding: 30px 24px;
             }
 
-            .nav-menu {
-                list-style: none;
+            .sidebar-close {
+                display: none;
+            }
 
+            .nav-menu {
                 padding: 24px 16px;
 
                 margin: 0;
@@ -904,8 +1258,7 @@
 
             .nav-menu li a,
             .nav-menu a.back-link {
-                display: flex;
-                align-items: center;
+                min-height: auto;
 
                 padding: 14px 18px;
 
@@ -916,13 +1269,15 @@
 
             .nav-menu li a i,
             .nav-menu a.back-link i {
-                margin-right: 14px;
-                font-size: 16px;
                 width: 22px;
+
+                margin-right: 14px;
+
+                font-size: 16px;
             }
 
             .nav-menu li a.active {
-                border-left: 4px solid var(--tech-orange);
+                border-left-width: 4px;
             }
 
             .nav-menu a.back-link {
@@ -939,19 +1294,18 @@
             }
 
             .main-content {
-                width: auto;
+                width: calc(100% - var(--sidebar-width));
+
+                max-width: none;
 
                 margin-left: var(--sidebar-width);
 
-                flex: 1;
-
                 padding: 40px;
-
-                max-width: calc(100% - var(--sidebar-width));
             }
 
             .header-banner {
                 padding: 32px !important;
+
                 margin-bottom: 32px !important;
             }
 
@@ -963,43 +1317,45 @@
                 font-size: 14px !important;
             }
 
-            .main-content > .grid {
-                gap: 32px !important;
+            .activity-grid {
+                gap: 32px;
             }
 
             .module-card {
                 height: 440px;
+
                 border-radius: 20px;
             }
 
-            .module-card > div:first-child {
+            .module-header {
                 padding: 20px !important;
             }
 
-            .module-card > div:first-child h2 {
+            .module-title {
                 font-size: 16px;
             }
 
             .scroll-area {
-                padding: 1.25rem !important;
+                padding: 20px !important;
             }
 
             .log-item {
                 padding: 12px 16px;
             }
 
-            .log-item > div:first-child {
+            .log-details {
                 font-size: 14px !important;
             }
 
-            .log-item > div:last-child {
+            .log-meta {
                 font-size: 11px !important;
             }
+
         }
 
         /* =========================================================
            GRAND ÉCRAN
-        ========================================================= */
+        ========================================================== */
 
         @media (min-width: 1200px) {
 
@@ -1010,17 +1366,24 @@
             .header-banner h1 {
                 font-size: 30px !important;
             }
+
         }
 
         /* =========================================================
            ACCESSIBILITÉ
-        ========================================================= */
+        ========================================================== */
 
         a:focus-visible,
         button:focus-visible {
-            outline: 3px solid rgba(255, 140, 0, 0.6);
+            outline:
+                3px solid rgba(255, 140, 0, 0.6);
+
             outline-offset: 2px;
         }
+
+        /* =========================================================
+           RÉDUCTION DES ANIMATIONS
+        ========================================================== */
 
         @media (prefers-reduced-motion: reduce) {
 
@@ -1028,28 +1391,83 @@
             *::before,
             *::after {
                 scroll-behavior: auto !important;
-                transition-duration: 0.01ms !important;
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
+
+                transition-duration:
+                    0.01ms !important;
+
+                animation-duration:
+                    0.01ms !important;
+
+                animation-iteration-count:
+                    1 !important;
             }
 
             .log-item:hover {
                 transform: none;
             }
-        }
-    </style>
 
-    <!-- responsive.css chargé une seule fois -->
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+        }
+
+    </style>
 </head>
+
 
 <body>
 
     <!-- =========================================================
-         SIDEBAR
-    ========================================================= -->
+         HEADER MOBILE
+    ========================================================== -->
 
-    <aside class="sidebar">
+    <header class="mobile-header">
+
+        <div class="mobile-brand">
+
+            <div class="mobile-brand-logo">
+                <div class="mobile-brand-logo-inner"></div>
+            </div>
+
+            <div class="mobile-brand-title">
+                ASTRA <span>TECH</span>
+            </div>
+
+        </div>
+
+        <button
+            type="button"
+            id="mobileMenuToggle"
+            class="mobile-menu-toggle"
+            aria-label="Ouvrir le menu"
+            aria-controls="sidebar"
+            aria-expanded="false"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
+
+    </header>
+
+
+    <!-- =========================================================
+         OVERLAY
+    ========================================================== -->
+
+    <div
+        id="sidebarOverlay"
+        class="sidebar-overlay"
+        aria-hidden="true"
+    ></div>
+
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside
+        id="sidebar"
+        class="sidebar"
+        aria-label="Navigation principale"
+    >
+
+        <!-- BRAND -->
 
         <div class="sidebar-brand">
 
@@ -1061,67 +1479,88 @@
                 ASTRA <span>TECH</span>
             </div>
 
+            <!-- FERMETURE MOBILE -->
+
+            <button
+                type="button"
+                id="sidebarClose"
+                class="sidebar-close"
+                aria-label="Fermer le menu"
+            >
+                <i class="fas fa-times"></i>
+            </button>
+
         </div>
+
+
+        <!-- MENU -->
 
         <ul class="nav-menu">
 
             <li>
                 <a href="{% url 'astra:token_accueil' %}">
                     <i class="fas fa-key"></i>
-                    Gestion des Tokens
+                    <span>Gestion des Tokens</span>
                 </a>
             </li>
 
             <li>
                 <a href="{% url 'astra:page_utilisateurs' %}">
                     <i class="fas fa-users"></i>
-                    Utilisateurs
+                    <span>Utilisateurs</span>
                 </a>
             </li>
 
             <li>
                 <a href="{% url 'astra:permissions_page' %}">
                     <i class="fas fa-shield-alt"></i>
-                    Permissions
+                    <span>Permissions</span>
                 </a>
             </li>
 
             <li>
-                <a href="{% url 'astra:historiques_page' %}" class="active">
+                <a
+                    href="{% url 'astra:historiques_page' %}"
+                    class="active"
+                    aria-current="page"
+                >
                     <i class="fas fa-history"></i>
-                    Historique
+                    <span>Historique</span>
                 </a>
             </li>
 
             <li>
                 <a href="{% url 'astra:parametres_page' %}">
                     <i class="fas fa-cog"></i>
-                    Paramètres
+                    <span>Paramètres</span>
                 </a>
             </li>
 
-            <a href="#"
-               onclick="history.back(); return false;"
-               class="back-link">
-
-                <i class="fas fa-arrow-left text-white text-lg"></i>
-
-                <span>Retour</span>
-
-            </a>
+            <li>
+                <a
+                    href="#"
+                    onclick="history.back(); return false;"
+                    class="back-link"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Retour</span>
+                </a>
+            </li>
 
         </ul>
 
+
+        <!-- FOOTER -->
+
         <div class="sidebar-footer">
 
-            <a href="{% url 'astra:login' %}"
-               class="btn-logout"
-               id="loginBtn">
-
+            <a
+                href="{% url 'astra:login' %}"
+                class="btn-logout"
+                id="loginBtn"
+            >
                 <i class="fas fa-sign-out-alt"></i>
-
-                Déconnexion
-
+                <span>Déconnexion</span>
             </a>
 
         </div>
@@ -1131,269 +1570,523 @@
 
     <!-- =========================================================
          CONTENU PRINCIPAL
-    ========================================================= -->
+    ========================================================== -->
 
     <main class="main-content">
 
-        <!-- BANNIÈRE EN-TÊTE -->
 
-        <div class="header-banner bg-white border border-slate-200/80 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center">
+        <!-- =====================================================
+             BANNIÈRE
+        ====================================================== -->
+
+        <section
+            class="header-banner bg-white border border-slate-200/80 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center"
+        >
 
             <div class="flex items-center">
 
-                <div class="rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20">
-
+                <div
+                    class="rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20"
+                >
                     <i class="fas fa-layer-group"></i>
-
                 </div>
 
                 <div>
 
-                    <h1 class="font-extrabold text-slate-900 tracking-tight">
+                    <h1
+                        class="font-extrabold text-slate-900 tracking-tight"
+                    >
                         Tableau de Bord des Activités
                     </h1>
 
                     <p class="text-slate-500 mt-1">
-                        Supervision centralisée et structurée par module de la boutique.
+                        Supervision centralisée et structurée par module
+                        de la boutique.
                     </p>
 
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
 
         <!-- =====================================================
-             GRILLE DES BLOCS DE MODULES
-        ===================================================== -->
+             GRILLE DES MODULES
+        ====================================================== -->
 
-        <div class="grid grid-cols-1 xl:grid-cols-2">
+        <div class="activity-grid">
+
 
             <!-- =================================================
-                 BLOC 1 : APPROVISIONNEMENT
+                 APPROVISIONNEMENT
             ================================================== -->
 
-            <div class="module-card">
+            <section class="module-card">
 
-                <div class="border-b flex justify-between items-center bg-slate-50/70">
+                <div class="module-header">
 
-                    <h2 class="font-bold text-slate-700 flex items-center gap-2">
+                    <h2 class="module-title">
 
                         <i class="fas fa-truck-loading text-blue-600"></i>
 
-                        Approvisionnement
+                        <span>
+                            Approvisionnement
+                        </span>
 
                     </h2>
 
-                    <span class="bg-blue-100 text-blue-700 font-semibold rounded-full">
+                    <span
+                        class="module-badge bg-blue-100 text-blue-700"
+                    >
                         Entrées stock
                     </span>
 
                 </div>
 
-                <div class="scroll-area space-y-3">
 
-                    {% for log in logs_approvisionnement %}
+                <div class="scroll-area">
 
-                    <div class="log-item appro">
+                    <div class="log-list">
 
-                        <div class="font-bold text-slate-800 flex items-center justify-between">
+                        {% for log in logs_approvisionnement %}
 
-                            <span>
-                                {{ log.details }}
-                            </span>
+                            <div class="log-item appro">
 
-                        </div>
+                                <div class="log-details font-bold text-slate-800">
 
-                        <div class="text-slate-500 mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60">
+                                    {{ log.details }}
 
-                            <span class="flex items-center gap-1.5">
+                                </div>
 
-                                <i class="far fa-clock text-blue-500"></i>
 
-                                {{ log.date }}
+                                <div class="log-meta">
 
-                            </span>
+                                    <span class="log-date">
 
-                            <span class="font-medium text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-md">
+                                        <i
+                                            class="far fa-clock text-blue-500"
+                                        ></i>
 
-                                <i class="fas fa-user-shield text-[10px] mr-1"></i>
+                                        <span>
+                                            {{ log.date }}
+                                        </span>
 
-                                {{ log.utilisateur }}
+                                    </span>
 
-                            </span>
 
-                        </div>
+                                    <span class="user-badge">
+
+                                        <i
+                                            class="fas fa-user-shield text-[10px] mr-1"
+                                        ></i>
+
+                                        {{ log.utilisateur }}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        {% empty %}
+
+                            <div class="empty-message">
+
+                                <i class="fas fa-box-open"></i>
+
+                                <span>
+                                    Aucun approvisionnement enregistré.
+                                </span>
+
+                            </div>
+
+                        {% endfor %}
 
                     </div>
-
-                    {% empty %}
-
-                    <div class="text-center py-20 text-slate-400 flex flex-col items-center gap-2">
-
-                        <i class="fas fa-box-open text-2xl text-slate-300"></i>
-
-                        Aucun approvisionnement enregistré.
-
-                    </div>
-
-                    {% endfor %}
 
                 </div>
 
-            </div>
+            </section>
 
 
             <!-- =================================================
-                 BLOC 2 : VENTES
+                 VENTES
             ================================================== -->
 
-            <div class="module-card">
+            <section class="module-card">
 
-                <div class="border-b flex justify-between items-center bg-slate-50/70">
+                <div class="module-header">
 
-                    <h2 class="font-bold text-slate-700 flex items-center gap-2">
+                    <h2 class="module-title">
 
                         <i class="fas fa-shopping-cart text-emerald-600"></i>
 
-                        Ventes
+                        <span>
+                            Ventes
+                        </span>
 
                     </h2>
 
-                    <span class="bg-emerald-100 text-emerald-700 font-semibold rounded-full">
+                    <span
+                        class="module-badge bg-emerald-100 text-emerald-700"
+                    >
                         Transactions
                     </span>
 
                 </div>
 
-                <div class="scroll-area space-y-3">
 
-                    {% for log in logs_ventes %}
+                <div class="scroll-area">
 
-                    <div class="log-item vente">
+                    <div class="log-list">
 
-                        <div class="font-bold text-slate-800">
+                        {% for log in logs_ventes %}
 
-                            {{ log.details }}
+                            <div class="log-item vente">
 
-                        </div>
+                                <div class="log-details font-bold text-slate-800">
 
-                        <div class="text-slate-500 mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60">
+                                    {{ log.details }}
 
-                            <span class="flex items-center gap-1.5">
+                                </div>
 
-                                <i class="far fa-clock text-emerald-500"></i>
 
-                                {{ log.date }}
+                                <div class="log-meta">
 
-                            </span>
+                                    <span class="log-date">
 
-                            <span class="font-medium text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-md">
+                                        <i
+                                            class="far fa-clock text-emerald-500"
+                                        ></i>
 
-                                <i class="fas fa-user-shield text-[10px] mr-1"></i>
+                                        <span>
+                                            {{ log.date }}
+                                        </span>
 
-                                {{ log.utilisateur }}
+                                    </span>
 
-                            </span>
 
-                        </div>
+                                    <span class="user-badge">
+
+                                        <i
+                                            class="fas fa-user-shield text-[10px] mr-1"
+                                        ></i>
+
+                                        {{ log.utilisateur }}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        {% empty %}
+
+                            <div class="empty-message">
+
+                                <i class="fas fa-receipt"></i>
+
+                                <span>
+                                    Aucune vente enregistrée.
+                                </span>
+
+                            </div>
+
+                        {% endfor %}
 
                     </div>
-
-                    {% empty %}
-
-                    <div class="text-center py-20 text-slate-400 flex flex-col items-center gap-2">
-
-                        <i class="fas fa-receipt text-2xl text-slate-300"></i>
-
-                        Aucune vente enregistrée.
-
-                    </div>
-
-                    {% endfor %}
 
                 </div>
 
-            </div>
+            </section>
 
 
             <!-- =================================================
-                 BLOC 3 : GESTION & ADMIN
+                 GESTION & ADMINISTRATION
             ================================================== -->
 
-            <div class="module-card xl:col-span-2">
+            <section class="module-card admin-card">
 
-                <div class="border-b flex justify-between items-center bg-slate-50/70">
+                <div class="module-header">
 
-                    <h2 class="font-bold text-slate-700 flex items-center gap-2">
+                    <h2 class="module-title">
 
                         <i class="fas fa-users-cog text-purple-600"></i>
 
-                        Gestion et Catalogue (Clients & Produits)
+                        <span>
+                            Gestion et Catalogue
+                            (Clients &amp; Produits)
+                        </span>
 
                     </h2>
 
-                    <span class="bg-purple-100 text-purple-700 font-semibold rounded-full">
+                    <span
+                        class="module-badge bg-purple-100 text-purple-700"
+                    >
                         Système
                     </span>
 
                 </div>
 
-                <div class="scroll-area space-y-3">
 
-                    {% for log in logs_admin %}
+                <div class="scroll-area">
 
-                    <div class="log-item admin">
+                    <div class="log-list">
 
-                        <div class="font-bold text-slate-800">
+                        {% for log in logs_admin %}
 
-                            {{ log.details }}
+                            <div class="log-item admin">
 
-                        </div>
+                                <div class="log-details font-bold text-slate-800">
 
-                        <div class="text-slate-500 mt-2 flex items-center justify-between pt-1.5 border-t border-slate-200/60">
+                                    {{ log.details }}
 
-                            <span class="flex items-center gap-1.5">
+                                </div>
 
-                                <i class="far fa-clock text-purple-500"></i>
 
-                                {{ log.date }}
+                                <div class="log-meta">
 
-                            </span>
+                                    <span class="log-date">
 
-                            <span class="font-medium text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-md">
+                                        <i
+                                            class="far fa-clock text-purple-500"
+                                        ></i>
 
-                                <i class="fas fa-user-shield text-[10px] mr-1"></i>
+                                        <span>
+                                            {{ log.date }}
+                                        </span>
 
-                                {{ log.utilisateur }}
+                                    </span>
 
-                            </span>
 
-                        </div>
+                                    <span class="user-badge">
+
+                                        <i
+                                            class="fas fa-user-shield text-[10px] mr-1"
+                                        ></i>
+
+                                        {{ log.utilisateur }}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        {% empty %}
+
+                            <div class="empty-message">
+
+                                <i class="fas fa-folder-open"></i>
+
+                                <span>
+                                    Aucune activité administrative récente.
+                                </span>
+
+                            </div>
+
+                        {% endfor %}
 
                     </div>
-
-                    {% empty %}
-
-                    <div class="text-center py-20 text-slate-400 flex flex-col items-center gap-2">
-
-                        <i class="fas fa-folder-open text-2xl text-slate-300"></i>
-
-                        Aucune activité administrative récente.
-
-                    </div>
-
-                    {% endfor %}
 
                 </div>
 
-            </div>
+            </section>
 
         </div>
 
     </main>
 
+
+    <!-- =========================================================
+         JAVASCRIPT — MENU MOBILE
+    ========================================================== -->
+
+    <script>
+
+        const sidebar =
+            document.getElementById('sidebar');
+
+        const sidebarOverlay =
+            document.getElementById('sidebarOverlay');
+
+        const mobileMenuToggle =
+            document.getElementById('mobileMenuToggle');
+
+        const sidebarClose =
+            document.getElementById('sidebarClose');
+
+
+        /* =====================================================
+           OUVRIR / FERMER LE MENU
+        ====================================================== */
+
+        function setSidebarState(open) {
+
+            if (!sidebar || !sidebarOverlay) {
+                return;
+            }
+
+            sidebar.classList.toggle(
+                'active',
+                open
+            );
+
+            sidebarOverlay.classList.toggle(
+                'active',
+                open
+            );
+
+            document.body.classList.toggle(
+                'menu-open',
+                open
+            );
+
+
+            if (mobileMenuToggle) {
+
+                mobileMenuToggle.setAttribute(
+                    'aria-expanded',
+                    String(open)
+                );
+
+                mobileMenuToggle.setAttribute(
+                    'aria-label',
+                    open
+                        ? 'Fermer le menu'
+                        : 'Ouvrir le menu'
+                );
+
+            }
+
+
+            sidebarOverlay.setAttribute(
+                'aria-hidden',
+                String(!open)
+            );
+
+        }
+
+
+        /* =====================================================
+           BOUTON HAMBURGER
+        ====================================================== */
+
+        if (mobileMenuToggle) {
+
+            mobileMenuToggle.addEventListener(
+                'click',
+                function () {
+
+                    setSidebarState(true);
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           BOUTON X
+        ====================================================== */
+
+        if (sidebarClose) {
+
+            sidebarClose.addEventListener(
+                'click',
+                function () {
+
+                    setSidebarState(false);
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           CLIC SUR OVERLAY
+        ====================================================== */
+
+        if (sidebarOverlay) {
+
+            sidebarOverlay.addEventListener(
+                'click',
+                function () {
+
+                    setSidebarState(false);
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           TOUCHE ÉCHAP
+        ====================================================== */
+
+        document.addEventListener(
+            'keydown',
+            function (event) {
+
+                if (event.key === 'Escape') {
+
+                    setSidebarState(false);
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           FERMER APRÈS NAVIGATION MOBILE
+        ====================================================== */
+
+        if (sidebar) {
+
+            sidebar
+                .querySelectorAll('.nav-menu a')
+                .forEach(function (link) {
+
+                    link.addEventListener(
+                        'click',
+                        function () {
+
+                            if (window.innerWidth < 992) {
+
+                                setSidebarState(false);
+
+                            }
+
+                        }
+                    );
+
+                });
+
+        }
+
+
+        /* =====================================================
+           PASSAGE MOBILE → DESKTOP
+        ====================================================== */
+
+        window.addEventListener(
+            'resize',
+            function () {
+
+                if (window.innerWidth >= 992) {
+
+                    setSidebarState(false);
+
+                }
+
+            }
+        );
+
+    </script>
+
 </body>
 </html>
-```

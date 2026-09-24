@@ -1,11 +1,13 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <meta name="theme-color" content="#003366">
 
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
@@ -16,12 +18,12 @@
          ===================================================== -->
     <script>
         (function () {
-            const savedDarkMode = localStorage.getItem('astra_dark_mode');
-
-            if (savedDarkMode === 'true') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
+            try {
+                if (localStorage.getItem('astra_dark_mode') === 'true') {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (error) {
+                console.warn('Impossible de lire le mode sombre.');
             }
         })();
     </script>
@@ -32,7 +34,7 @@
     <script>
         tailwind.config = {
             darkMode: 'class',
-        }
+        };
     </script>
 
     <!-- FONT AWESOME -->
@@ -51,23 +53,27 @@
             --tech-blue: #0078D7;
             --tech-dark-blue: #004E8C;
             --tech-sidebar-bg: #003366;
+
             --tech-orange: #f97316;
             --tech-orange-hover: #ea580c;
-            --tech-white: #FFFFFF;
+
+            --tech-white: #ffffff;
             --tech-light-gray: #f8fafc;
             --tech-card-bg: #ffffff;
             --tech-dark-gray: #333333;
-            --tech-border: #E0E0E0;
+            --tech-border: #e0e0e0;
 
             --sidebar-width: 280px;
 
             --radius-lg: 16px;
             --radius-md: 10px;
+
+            --mobile-header-height: 64px;
         }
 
 
         /* =====================================================
-           RESET — MOBILE FIRST
+           RESET GLOBAL — MOBILE FIRST
            ===================================================== */
 
         *,
@@ -76,31 +82,58 @@
             box-sizing: border-box;
         }
 
-        html,
+        html {
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
         body {
             width: 100%;
             max-width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+
             margin: 0;
             padding: 0;
 
             overflow-x: hidden;
-        }
 
-        body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', Arial, sans-serif;
 
             background-color: var(--tech-light-gray);
             color: var(--tech-dark-gray);
 
-            min-height: 100vh;
-
-            display: block;
-
-            gap: 0;
-
             transition:
                 background-color 0.3s ease,
                 color 0.3s ease;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        img,
+        svg,
+        video,
+        canvas {
+            max-width: 100%;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            -webkit-tap-highlight-color: transparent;
         }
 
 
@@ -119,25 +152,21 @@
             color: #f1f5f9 !important;
         }
 
-        html.dark h1,
-        html.dark h2,
-        html.dark h3,
-        html.dark label,
-        html.dark span,
-        html.dark div {
-            color: inherit;
-        }
-
         html.dark input,
-        html.dark select {
+        html.dark select,
+        html.dark textarea {
             background-color: #0f172a !important;
             border-color: #334155 !important;
             color: #ffffff !important;
         }
 
+        html.dark input::placeholder {
+            color: #94a3b8;
+        }
+
         html.dark .role-card {
-            background-color: #1e293b;
             border-color: #334155;
+            background-color: #1e293b;
         }
 
         html.dark .role-card.border-orange-500 {
@@ -145,33 +174,215 @@
             background-color: rgba(249, 115, 22, 0.1) !important;
         }
 
+        html.dark .bg-gray-50 {
+            background-color: #0f172a !important;
+        }
+
+        html.dark .border-gray-200,
+        html.dark .border-gray-300,
+        html.dark .border-gray-100 {
+            border-color: #334155 !important;
+        }
+
 
         /* =====================================================
-           SIDEBAR — MOBILE
+           MOBILE HEADER
+           ===================================================== */
+
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            min-height: var(--mobile-header-height);
+
+            padding:
+                max(8px, env(safe-area-inset-top))
+                12px
+                8px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #004e8c 0%,
+                    #003366 100%
+                );
+
+            color: #ffffff;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            z-index: 1500;
+
+            box-shadow:
+                0 3px 15px rgba(0, 0, 0, 0.16);
+        }
+
+        .mobile-brand {
+            min-width: 0;
+
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .mobile-brand-logo {
+            width: 34px;
+            height: 34px;
+
+            flex: 0 0 34px;
+
+            background: #ffffff;
+
+            border-radius: 7px;
+
+            transform: rotate(45deg);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            box-shadow:
+                0 4px 10px rgba(0, 0, 0, 0.18);
+        }
+
+        .mobile-brand-logo-inner {
+            width: 23px;
+            height: 23px;
+
+            border: 2px solid var(--tech-orange);
+
+            border-radius: 5px;
+
+            transform: rotate(-45deg);
+        }
+
+        .mobile-brand-title {
+            min-width: 0;
+
+            font-size: 16px;
+            font-weight: 800;
+
+            letter-spacing: 0.7px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mobile-brand-title span {
+            color: var(--tech-orange);
+        }
+
+        .mobile-menu-button {
+            width: 44px;
+            height: 44px;
+
+            flex: 0 0 44px;
+
+            border: 1px solid rgba(255,255,255,0.18);
+
+            border-radius: 10px;
+
+            background: rgba(255,255,255,0.08);
+
+            color: #ffffff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            transition:
+                background-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .mobile-menu-button:hover,
+        .mobile-menu-button:active {
+            background: rgba(255,255,255,0.16);
+        }
+
+        .mobile-menu-button:active {
+            transform: scale(0.96);
+        }
+
+        .mobile-menu-button i {
+            font-size: 18px;
+        }
+
+
+        /* =====================================================
+           OVERLAY MOBILE
+           ===================================================== */
+
+        .sidebar-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background: rgba(15, 23, 42, 0.62);
+
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+
+            opacity: 0;
+            visibility: hidden;
+
+            pointer-events: none;
+
+            z-index: 1900;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0.25s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+
+        /* =====================================================
+           SIDEBAR — MOBILE OFF CANVAS
            ===================================================== */
 
         .sidebar {
-            position: relative;
+            position: fixed;
 
-            top: auto;
-            left: auto;
-            right: auto;
-            bottom: auto;
+            top: 0;
+            left: 0;
 
-            width: 100%;
-            max-width: 100%;
+            width: min(86vw, 320px);
+            max-width: 320px;
 
-            height: auto;
-            min-height: 0;
+            height: 100vh;
+            height: 100dvh;
+
+            min-height: 100vh;
+            min-height: 100dvh;
 
             margin: 0;
             padding: 0;
 
-            background: linear-gradient(
-                180deg,
-                var(--tech-dark-blue) 0%,
-                #003366 100%
-            );
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--tech-dark-blue) 0%,
+                    #003366 100%
+                );
 
             color: var(--tech-white);
 
@@ -180,25 +391,38 @@
 
             overflow: hidden;
 
-            z-index: 100;
+            z-index: 2000;
+
+            transform: translateX(-105%);
+
+            transition:
+                transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
             box-shadow:
-                0 4px 15px rgba(0, 0, 0, 0.08);
+                8px 0 30px rgba(0, 0, 0, 0.18);
 
-            border-right: none;
+            border-right:
+                1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
         }
 
 
         /* =====================================================
-           BRAND MOBILE
+           BRAND SIDEBAR
            ===================================================== */
 
         .sidebar-brand {
             width: 100%;
 
-            min-height: 58px;
+            min-height: 70px;
 
-            padding: 12px 14px;
+            padding:
+                max(14px, env(safe-area-inset-top))
+                16px
+                14px;
 
             display: flex;
             align-items: center;
@@ -206,14 +430,16 @@
             flex-shrink: 0;
 
             border-bottom:
-                1px solid rgba(255, 255, 255, 0.1);
+                1px solid rgba(255,255,255,0.1);
+
+            position: relative;
         }
 
         .sidebar-logo {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
 
-            flex-shrink: 0;
+            flex: 0 0 36px;
 
             background: var(--tech-white);
 
@@ -228,12 +454,12 @@
             margin-right: 13px;
 
             box-shadow:
-                0 4px 10px rgba(0, 0, 0, 0.15);
+                0 4px 10px rgba(0,0,0,0.15);
         }
 
         .sidebar-logo-inner {
-            width: 24px;
-            height: 24px;
+            width: 25px;
+            height: 25px;
 
             border:
                 2px solid var(--tech-orange);
@@ -244,7 +470,9 @@
         }
 
         .sidebar-title {
-            font-weight: bold;
+            min-width: 0;
+
+            font-weight: 800;
             font-size: 18px;
 
             letter-spacing: 1px;
@@ -252,147 +480,211 @@
             color: #ffffff !important;
 
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .sidebar-title span {
             color: var(--tech-orange);
         }
 
+        .sidebar-close {
+            width: 38px;
+            height: 38px;
+
+            margin-left: auto;
+
+            flex: 0 0 38px;
+
+            border: 1px solid rgba(255,255,255,0.12);
+
+            border-radius: 9px;
+
+            background: rgba(255,255,255,0.07);
+
+            color: #ffffff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            transition:
+                background-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .sidebar-close:hover {
+            background: rgba(255,255,255,0.14);
+        }
+
+        .sidebar-close:active {
+            transform: scale(0.95);
+        }
+
 
         /* =====================================================
-           MENU MOBILE
+           NAVIGATION SIDEBAR
            ===================================================== */
 
         .nav-menu {
             width: 100%;
 
-            height: auto;
-            min-height: 54px;
+            flex: 1;
+
+            min-height: 0;
 
             list-style: none;
 
-            padding: 7px 10px;
+            padding: 16px 12px;
+
             margin: 0;
 
             display: flex;
-            flex-direction: row;
-            align-items: center;
+            flex-direction: column;
 
             gap: 6px;
 
-            flex: none;
+            overflow-y: auto;
+            overflow-x: hidden;
 
-            overflow-x: auto;
-            overflow-y: hidden;
-
-            scrollbar-width: none;
+            scrollbar-width: thin;
+            scrollbar-color:
+                rgba(255,255,255,0.18)
+                transparent;
         }
 
         .nav-menu::-webkit-scrollbar {
-            display: none;
+            width: 5px;
+        }
+
+        .nav-menu::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .nav-menu::-webkit-scrollbar-thumb {
+            background:
+                rgba(255,255,255,0.18);
+
+            border-radius: 20px;
         }
 
         .nav-menu li {
+            width: 100%;
             flex: 0 0 auto;
         }
 
         .nav-menu li a,
         .nav-menu a.back-link {
-            min-height: 40px;
+            width: 100%;
+            min-height: 46px;
 
             display: flex;
             align-items: center;
 
-            padding: 10px 13px;
+            padding: 11px 13px;
 
             color:
-                rgba(255, 255, 255, 0.8);
+                rgba(255,255,255,0.82);
 
             text-decoration: none;
 
             font-weight: 500;
+            font-size: 13px;
 
-            font-size: 12px;
+            border-radius: 10px;
 
-            border-radius: var(--radius-md);
-
-            white-space: nowrap;
+            overflow: hidden;
 
             transition:
-                background-color 0.25s ease,
-                color 0.25s ease;
+                background-color 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
         }
 
         .nav-menu li a i,
         .nav-menu a.back-link i {
-            margin-right: 7px;
+            width: 22px;
 
-            font-size: 14px;
+            flex: 0 0 22px;
 
-            width: 18px;
+            margin-right: 11px;
+
+            font-size: 15px;
 
             text-align: center;
         }
 
         .nav-menu li a:hover,
         .nav-menu a.back-link:hover {
-            color: var(--tech-white);
+            color: #ffffff;
 
-            background-color:
-                rgba(255, 255, 255, 0.08);
+            background:
+                rgba(255,255,255,0.08);
+        }
+
+        .nav-menu li a:active,
+        .nav-menu a.back-link:active {
+            transform: scale(0.98);
         }
 
         .nav-menu li a.active {
-            color: var(--tech-white);
+            color: #ffffff;
 
-            background-color:
-                rgba(255, 255, 255, 0.12);
+            background:
+                rgba(255,255,255,0.12);
 
             border-left:
                 3px solid var(--tech-orange);
 
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .nav-menu a.back-link {
-            margin-top: 0;
+            margin-top: auto;
 
-            background-color:
-                rgba(255, 255, 255, 0.05);
+            background:
+                rgba(255,255,255,0.05);
 
             border:
-                1px solid rgba(255, 255, 255, 0.1);
+                1px solid rgba(255,255,255,0.1);
         }
 
 
         /* =====================================================
-           FOOTER SIDEBAR MOBILE
+           FOOTER SIDEBAR
            ===================================================== */
 
         .sidebar-footer {
             width: 100%;
 
-            padding: 10px 12px;
+            padding:
+                12px
+                12px
+                calc(12px + env(safe-area-inset-bottom));
+
+            flex-shrink: 0;
 
             border-top:
-                1px solid rgba(255, 255, 255, 0.1);
+                1px solid rgba(255,255,255,0.1);
         }
 
         .btn-logout {
             width: 100%;
 
-            min-height: 42px;
+            min-height: 44px;
 
-            background-color:
-                rgba(255, 255, 255, 0.1);
+            background:
+                rgba(255,255,255,0.09);
 
-            color: var(--tech-white);
+            color: #ffffff;
 
             border: none;
 
             padding: 10px 12px;
 
-            border-radius: var(--radius-md);
+            border-radius: 10px;
 
             cursor: pointer;
 
@@ -413,10 +705,10 @@
         }
 
         .btn-logout:hover {
-            background-color: #ff4d4d;
+            background: #ef4444;
 
             box-shadow:
-                0 4px 12px rgba(255, 77, 77, 0.3);
+                0 4px 12px rgba(239,68,68,0.3);
         }
 
 
@@ -430,13 +722,17 @@
             width: 100%;
             max-width: 100%;
 
+            min-width: 0;
+
             margin: 0 !important;
 
-            padding: 18px 12px 30px !important;
+            padding:
+                20px
+                12px
+                calc(30px + env(safe-area-inset-bottom))
+                !important;
 
             display: block;
-
-            box-sizing: border-box;
 
             overflow-x: hidden;
         }
@@ -445,12 +741,32 @@
             width: 100%;
             max-width: 100%;
 
+            min-width: 0;
+
             box-sizing: border-box;
         }
 
 
         /* =====================================================
-           HEADER
+           CONTENEURS TAILWIND
+           ===================================================== */
+
+        .main-content .grid,
+        .main-content .flex,
+        .main-content form,
+        .main-content .card {
+            max-width: 100%;
+            min-width: 0;
+        }
+
+        .main-content .grid > *,
+        .main-content .flex > * {
+            min-width: 0;
+        }
+
+
+        /* =====================================================
+           HEADER PAGE
            ===================================================== */
 
         .page-header {
@@ -465,7 +781,11 @@
 
             align-items: stretch;
 
-            gap: 12px;
+            gap: 10px;
+        }
+
+        .page-header > div {
+            min-width: 0;
         }
 
         .page-header h1 {
@@ -473,15 +793,26 @@
 
             margin: 0;
 
-            font-size: 1.45rem !important;
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 10px;
+
+            font-size: clamp(1.25rem, 5vw, 1.8rem) !important;
 
             line-height: 1.3;
 
             overflow-wrap: anywhere;
+            word-break: normal;
         }
 
         .page-header h1 i {
-            flex-shrink: 0;
+            flex: 0 0 auto;
+
+            margin-right: 0 !important;
+
+            margin-top: 3px;
         }
 
         .page-header p {
@@ -489,9 +820,9 @@
 
             margin-top: 7px;
 
-            font-size: 0.78rem;
+            font-size: 0.8rem;
 
-            line-height: 1.5;
+            line-height: 1.55;
 
             overflow-wrap: anywhere;
         }
@@ -505,15 +836,12 @@
             width: 100%;
             max-width: 100%;
 
+            min-width: 0;
+
             border-radius: 14px;
 
             overflow: hidden;
         }
-
-
-        /* =====================================================
-           FORMULAIRE / SECTIONS
-           ===================================================== */
 
         .card.p-8 {
             padding: 18px !important;
@@ -523,30 +851,126 @@
             font-size: 1.15rem !important;
 
             line-height: 1.35;
+
+            overflow-wrap: anywhere;
+        }
+
+        .card h3 {
+            line-height: 1.4;
+
+            overflow-wrap: anywhere;
         }
 
         .card p {
-            line-height: 1.5;
-        }
+            line-height: 1.55;
 
-        input,
-        select {
-            width: 100% !important;
-
-            max-width: 100%;
-
-            min-height: 46px;
-
-            box-sizing: border-box;
+            overflow-wrap: anywhere;
         }
 
 
         /* =====================================================
-           BOUTON SAUVEGARDE PARAMÈTRES
+           FORMULAIRES
            ===================================================== */
 
-        #save-settings-btn {
+        input,
+        select,
+        textarea {
+            width: 100% !important;
+
+            max-width: 100% !important;
+
+            min-width: 0;
+
+            min-height: 46px;
+
+            box-sizing: border-box;
+
+            font-size: 16px !important;
+        }
+
+        input[type="checkbox"] {
+            width: 20px !important;
+            min-width: 20px !important;
+
+            height: 20px;
+
+            min-height: 20px;
+
+            font-size: initial !important;
+        }
+
+        .card input,
+        .card select,
+        .card textarea {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+
+        /* =====================================================
+           GRILLES FORMULAIRES
+           ===================================================== */
+
+        #global-settings-form .grid,
+        #create-user-form .grid {
             width: 100%;
+            max-width: 100%;
+        }
+
+        #global-settings-form .grid > div,
+        #create-user-form .grid > div {
+            min-width: 0;
+        }
+
+
+        /* =====================================================
+           CHECKBOXES
+           ===================================================== */
+
+        #global-settings-form label.flex {
+            width: 100%;
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 9px;
+
+            line-height: 1.45;
+
+            min-width: 0;
+        }
+
+        #global-settings-form label.flex input {
+            width: 20px !important;
+            min-width: 20px !important;
+
+            height: 20px;
+            min-height: 20px;
+
+            flex: 0 0 20px;
+
+            margin-top: 1px;
+        }
+
+        #global-settings-form label.flex span {
+            min-width: 0;
+
+            overflow-wrap: anywhere;
+        }
+
+
+        /* =====================================================
+           BOUTONS
+           ===================================================== */
+
+        #save-settings-btn,
+        #backup-btn,
+        #purge-btn,
+        #create-user-form button[type="submit"] {
+            width: 100% !important;
+
+            max-width: 100%;
 
             min-height: 48px;
 
@@ -554,9 +978,94 @@
 
             text-align: center;
 
-            line-height: 1.3;
+            line-height: 1.35;
 
             white-space: normal;
+
+            overflow-wrap: anywhere;
+        }
+
+        #save-settings-btn {
+            padding: 12px 16px !important;
+        }
+
+
+        /* =====================================================
+           LIEN UTILISATEURS
+           ===================================================== */
+
+        .users-list-link {
+            width: 100%;
+
+            min-height: 42px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            line-height: 1.4;
+
+            padding: 8px 10px;
+
+            border-radius: 9px;
+
+            background: rgba(37,99,235,0.05);
+        }
+
+
+        /* =====================================================
+           RÔLES
+           ===================================================== */
+
+        #role-selector {
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns: 1fr;
+
+            gap: 10px;
+        }
+
+        .role-card {
+            width: 100%;
+
+            min-width: 0;
+
+            min-height: 105px;
+
+            padding: 15px 10px !important;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            overflow: hidden;
+
+            border-radius: 12px !important;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .role-card i {
+            font-size: 1.35rem !important;
+
+            margin-bottom: 7px !important;
+
+            flex-shrink: 0;
+        }
+
+        .role-card div {
+            max-width: 100%;
+
+            overflow-wrap: anywhere;
         }
 
 
@@ -574,121 +1083,8 @@
             width: 100%;
         }
 
-        #backup-btn,
-        #purge-btn {
-            width: 100% !important;
-
-            max-width: 100%;
-
-            min-height: 44px;
-
-            justify-content: center;
-
-            white-space: normal;
-        }
-
-
-        /* =====================================================
-           ROLE SELECTOR
-           ===================================================== */
-
-        #role-selector {
-            width: 100%;
-
-            display: grid;
-
-            grid-template-columns: 1fr;
-
-            gap: 10px;
-        }
-
-        .role-card {
-            width: 100%;
-
-            min-height: 105px;
-
-            padding: 16px 12px !important;
-
-            display: flex;
-            flex-direction: column;
-
-            align-items: center;
-            justify-content: center;
-
-            text-align: center;
-
-            overflow: hidden;
-        }
-
-        .role-card i {
-            font-size: 1.4rem !important;
-
-            margin-bottom: 7px !important;
-        }
-
-
-        /* =====================================================
-           LIEN UTILISATEURS
-           ===================================================== */
-
-        .users-list-link {
-            display: flex;
-
-            width: 100%;
-
-            justify-content: flex-start;
-
-            line-height: 1.4;
-        }
-
-
-        /* =====================================================
-           FORMULAIRE UTILISATEUR
-           ===================================================== */
-
-        #create-user-form {
-            width: 100%;
-
-            max-width: 100%;
-        }
-
-        #create-user-form button[type="submit"] {
-            width: 100%;
-
-            min-height: 50px;
-
-            padding: 12px 14px;
-
-            line-height: 1.35;
-
-            white-space: normal;
-        }
-
-
-        /* =====================================================
-           CHECKBOXES
-           ===================================================== */
-
-        #global-settings-form label.flex {
-            width: 100%;
-
-            align-items: flex-start;
-
-            gap: 8px;
-
-            line-height: 1.4;
-        }
-
-        #global-settings-form label.flex input {
-            width: 20px !important;
-            min-width: 20px;
-
-            height: 20px;
-            min-height: 20px;
-
-            flex-shrink: 0;
-
-            margin-top: 1px;
+        .card .grid > div > div {
+            min-width: 0;
         }
 
 
@@ -698,17 +1094,56 @@
 
         @media (max-width: 359px) {
 
-            .sidebar-brand {
-                min-height: 54px;
-
-                padding: 10px 12px;
+            :root {
+                --mobile-header-height: 58px;
             }
 
-            .sidebar-logo {
+            .mobile-header {
+                padding-left: 9px;
+                padding-right: 9px;
+            }
+
+            .mobile-brand-logo {
                 width: 30px;
                 height: 30px;
 
-                margin-right: 11px;
+                flex-basis: 30px;
+            }
+
+            .mobile-brand-logo-inner {
+                width: 20px;
+                height: 20px;
+            }
+
+            .mobile-brand-title {
+                font-size: 14px;
+            }
+
+            .mobile-menu-button {
+                width: 40px;
+                height: 40px;
+
+                flex-basis: 40px;
+            }
+
+            .sidebar {
+                width: min(90vw, 300px);
+            }
+
+            .sidebar-brand {
+                min-height: 62px;
+
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .sidebar-logo {
+                width: 31px;
+                height: 31px;
+
+                flex-basis: 31px;
+
+                margin-right: 10px;
             }
 
             .sidebar-logo-inner {
@@ -720,21 +1155,40 @@
                 font-size: 16px;
             }
 
-            .nav-menu {
-                min-height: 50px;
+            .sidebar-close {
+                width: 35px;
+                height: 35px;
 
-                padding: 6px 8px;
+                flex-basis: 35px;
+            }
+
+            .nav-menu {
+                padding: 12px 9px;
             }
 
             .nav-menu li a,
             .nav-menu a.back-link {
+                min-height: 43px;
+
                 padding: 9px 10px;
 
-                font-size: 11px;
+                font-size: 12px;
+            }
+
+            .nav-menu li a i,
+            .nav-menu a.back-link i {
+                width: 20px;
+                flex-basis: 20px;
+
+                margin-right: 8px;
             }
 
             .main-content {
-                padding: 15px 10px 25px !important;
+                padding:
+                    16px
+                    9px
+                    calc(25px + env(safe-area-inset-bottom))
+                    !important;
             }
 
             .page-header {
@@ -742,7 +1196,11 @@
             }
 
             .page-header h1 {
-                font-size: 1.3rem !important;
+                font-size: 1.18rem !important;
+            }
+
+            .page-header p {
+                font-size: 0.75rem;
             }
 
             .card.p-8 {
@@ -750,94 +1208,46 @@
             }
 
             .card h2 {
-                font-size: 1.05rem !important;
+                font-size: 1.02rem !important;
             }
 
             .role-card {
-                min-height: 95px;
+                min-height: 92px;
 
-                padding: 13px 10px !important;
+                padding: 12px 8px !important;
+            }
+
+            #save-settings-btn,
+            #backup-btn,
+            #purge-btn,
+            #create-user-form button[type="submit"] {
+                font-size: 13px !important;
             }
         }
 
 
         /* =====================================================
-           PETITS MOBILES / TABLETTE
+           MOBILE LARGE
            ===================================================== */
 
-        @media (min-width: 576px) {
-
-            .sidebar-brand {
-                min-height: 62px;
-
-                padding: 14px 20px;
-            }
-
-            .sidebar-logo {
-                width: 38px;
-                height: 38px;
-            }
-
-            .sidebar-logo-inner {
-                width: 26px;
-                height: 26px;
-            }
-
-            .sidebar-title {
-                font-size: 19px;
-            }
-
-            .nav-menu {
-                min-height: 56px;
-
-                padding: 8px 14px;
-            }
-
-            .nav-menu li a,
-            .nav-menu a.back-link {
-                padding: 11px 14px;
-
-                font-size: 13px;
-            }
-
-            .sidebar-footer {
-                padding: 12px 16px;
-            }
+        @media (min-width: 480px) {
 
             .main-content {
-                padding: 25px 20px 35px !important;
-            }
-
-            .page-header {
-                margin-bottom: 28px;
-            }
-
-            .page-header h1 {
-                font-size: 1.8rem !important;
-            }
-
-            .page-header p {
-                font-size: 0.85rem;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
             }
 
             .card.p-8 {
-                padding: 24px !important;
+                padding: 22px !important;
             }
 
             #role-selector {
                 grid-template-columns:
                     repeat(2, minmax(0, 1fr));
-
-                gap: 12px;
             }
 
             .role-card {
-                min-height: 120px;
-            }
-
-            #backup-btn,
-            #purge-btn {
-                width: fit-content !important;
+                min-height: 115px;
             }
         }
 
@@ -846,7 +1256,64 @@
            TABLETTE
            ===================================================== */
 
+        @media (min-width: 640px) {
+
+            .mobile-header {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .mobile-brand-title {
+                font-size: 17px;
+            }
+
+            .main-content {
+                padding:
+                    28px
+                    24px
+                    40px
+                    !important;
+            }
+
+            .page-header {
+                margin-bottom: 28px;
+            }
+
+            .page-header h1 {
+                font-size: 1.75rem !important;
+            }
+
+            .page-header p {
+                font-size: 0.86rem;
+            }
+
+            .card.p-8 {
+                padding: 26px !important;
+            }
+
+            .users-list-link {
+                width: auto;
+
+                background: transparent;
+
+                padding: 8px 0;
+            }
+        }
+
+
+        /* =====================================================
+           TABLETTE LARGE
+           ===================================================== */
+
         @media (min-width: 768px) {
+
+            .main-content {
+                padding:
+                    32px
+                    30px
+                    45px
+                    !important;
+            }
 
             .page-header {
                 flex-direction: row;
@@ -866,8 +1333,15 @@
                     repeat(3, minmax(0, 1fr));
             }
 
-            .users-list-link {
-                width: auto;
+            #save-settings-btn {
+                width: auto !important;
+
+                max-width: max-content;
+            }
+
+            #backup-btn,
+            #purge-btn {
+                width: fit-content !important;
             }
         }
 
@@ -879,13 +1353,28 @@
         @media (min-width: 992px) {
 
             body {
-                display: flex;
+                display: block;
 
                 min-height: 100vh;
+                min-height: 100dvh;
+            }
+
+            /* ---------------------------------------------
+               MOBILE HEADER
+               --------------------------------------------- */
+
+            .mobile-header {
+                display: none;
+            }
+
+            .sidebar-overlay {
+                display: none;
             }
 
 
-            /* SIDEBAR DESKTOP */
+            /* ---------------------------------------------
+               SIDEBAR DESKTOP
+               --------------------------------------------- */
 
             .sidebar {
                 position: fixed;
@@ -896,30 +1385,38 @@
 
                 width: var(--sidebar-width);
 
+                max-width: var(--sidebar-width);
+
                 height: 100vh;
+                height: 100dvh;
+
                 min-height: 100vh;
+                min-height: 100dvh;
 
-                display: flex;
-                flex-direction: column;
+                transform: translateX(0);
 
-                overflow: visible;
+                transition: none;
+
+                overflow: hidden;
 
                 box-shadow:
-                    4px 0 25px rgba(0, 0, 0, 0.08);
-
-                border-right:
-                    1px solid rgba(255, 255, 255, 0.05);
+                    4px 0 25px rgba(0,0,0,0.08);
             }
 
             .sidebar-brand {
-                min-height: auto;
+                min-height: 88px;
 
-                padding: 30px 24px;
+                padding:
+                    22px
+                    22px
+                    20px;
             }
 
             .sidebar-logo {
                 width: 40px;
                 height: 40px;
+
+                flex-basis: 40px;
 
                 margin-right: 15px;
             }
@@ -933,124 +1430,119 @@
                 font-size: 20px;
             }
 
+            .sidebar-close {
+                display: none;
+            }
 
-            /* MENU DESKTOP */
+
+            /* ---------------------------------------------
+               NAVIGATION DESKTOP
+               --------------------------------------------- */
 
             .nav-menu {
-                height: auto;
-                min-height: 0;
+                padding:
+                    22px
+                    16px;
 
-                padding: 24px 16px;
-
-                margin: 0;
-
-                flex: 1;
+                gap: 7px;
 
                 flex-direction: column;
 
                 align-items: stretch;
-
-                gap: 6px;
-
-                overflow-y: auto;
-                overflow-x: hidden;
             }
 
             .nav-menu li {
                 width: 100%;
-
-                flex: none;
             }
 
             .nav-menu li a,
             .nav-menu a.back-link {
                 width: 100%;
 
-                padding: 14px 18px;
+                min-height: 48px;
+
+                padding:
+                    13px
+                    16px;
 
                 font-size: 14px;
             }
 
             .nav-menu li a i,
             .nav-menu a.back-link i {
-                margin-right: 14px;
+                width: 22px;
+                flex-basis: 22px;
+
+                margin-right: 13px;
 
                 font-size: 16px;
-
-                width: 22px;
             }
 
             .nav-menu li a.active {
                 border-left-width: 4px;
             }
 
-            .nav-menu a.back-link {
-                margin-top: auto;
-            }
 
-
-            /* FOOTER DESKTOP */
+            /* ---------------------------------------------
+               FOOTER DESKTOP
+               --------------------------------------------- */
 
             .sidebar-footer {
-                padding: 20px 24px;
+                padding:
+                    18px
+                    20px
+                    calc(20px + env(safe-area-inset-bottom));
             }
 
             .btn-logout {
-                min-height: auto;
-
-                padding: 12px;
+                min-height: 46px;
 
                 font-size: 14px;
             }
 
 
-            /* CONTENU DESKTOP */
+            /* ---------------------------------------------
+               CONTENU DESKTOP
+               --------------------------------------------- */
 
             .main-content {
-                width: auto;
-                max-width:
-                    calc(100% - var(--sidebar-width));
+                width: calc(100% - var(--sidebar-width));
+
+                max-width: none;
 
                 margin-left:
                     var(--sidebar-width) !important;
 
-                padding: 40px !important;
-
-                flex: 1;
+                padding:
+                    40px
+                    40px
+                    50px
+                    !important;
 
                 overflow-x: hidden;
             }
-
-
-            /* HEADER DESKTOP */
 
             .page-header {
                 margin-bottom: 32px;
             }
 
             .page-header h1 {
-                font-size: 1.875rem !important;
+                font-size: 1.9rem !important;
             }
-
-
-            /* CARDS DESKTOP */
 
             .card.p-8 {
                 padding: 32px !important;
             }
 
-
-            /* RÔLES DESKTOP */
-
             #role-selector {
                 grid-template-columns:
                     repeat(5, minmax(0, 1fr));
 
-                gap: 16px;
+                gap: 14px;
             }
 
             .role-card {
-                min-height: auto;
+                min-height: 125px;
 
                 padding: 16px !important;
             }
@@ -1068,7 +1560,36 @@
         @media (min-width: 1200px) {
 
             .main-content {
-                padding: 40px 45px !important;
+                padding:
+                    44px
+                    50px
+                    55px
+                    !important;
+            }
+
+            #role-selector {
+                gap: 18px;
+            }
+        }
+
+
+        /* =====================================================
+           TRÈS GRAND ÉCRAN
+           ===================================================== */
+
+        @media (min-width: 1600px) {
+
+            .main-content {
+                padding-left: 60px !important;
+                padding-right: 60px !important;
+            }
+
+            .main-content > .card,
+            .main-content > .page-header {
+                max-width: 1700px;
+
+                margin-left: auto;
+                margin-right: auto;
             }
         }
 
@@ -1080,7 +1601,8 @@
         button:focus-visible,
         a:focus-visible,
         input:focus-visible,
-        select:focus-visible {
+        select:focus-visible,
+        textarea:focus-visible {
             outline:
                 2px solid var(--tech-orange);
 
@@ -1094,12 +1616,15 @@
 
         @media (prefers-reduced-motion: reduce) {
 
+            html {
+                scroll-behavior: auto !important;
+            }
+
             *,
             *::before,
             *::after {
-                scroll-behavior: auto !important;
-
                 transition: none !important;
+                animation: none !important;
             }
         }
 
@@ -1110,10 +1635,58 @@
 <body>
 
     <!-- =====================================================
+         HEADER MOBILE
+         ===================================================== -->
+
+    <header class="mobile-header">
+
+        <div class="mobile-brand">
+
+            <div class="mobile-brand-logo">
+                <div class="mobile-brand-logo-inner"></div>
+            </div>
+
+            <div class="mobile-brand-title">
+                ASTRA <span>TECH</span>
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            aria-label="Ouvrir le menu"
+            aria-controls="sidebar"
+            aria-expanded="false"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
+
+    </header>
+
+
+    <!-- =====================================================
+         OVERLAY
+         ===================================================== -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+        aria-hidden="true"
+    ></div>
+
+
+    <!-- =====================================================
          SIDEBAR
          ===================================================== -->
 
-    <aside class="sidebar">
+    <aside
+        class="sidebar"
+        id="sidebar"
+        aria-label="Navigation principale"
+    >
 
         <div class="sidebar-brand">
 
@@ -1125,6 +1698,16 @@
                 ASTRA <span>TECH</span>
             </div>
 
+
+            <button
+                type="button"
+                class="sidebar-close"
+                id="sidebarClose"
+                aria-label="Fermer le menu"
+            >
+                <i class="fas fa-times"></i>
+            </button>
+
         </div>
 
 
@@ -1133,38 +1716,43 @@
             <li>
                 <a href="{% url 'astra:token_accueil' %}">
                     <i class="fas fa-key"></i>
-                    Gestion des Tokens
+                    <span>Gestion des Tokens</span>
                 </a>
             </li>
+
 
             <li>
                 <a href="{% url 'astra:page_utilisateurs' %}">
                     <i class="fas fa-users"></i>
-                    Utilisateurs
+                    <span>Utilisateurs</span>
                 </a>
             </li>
+
 
             <li>
                 <a href="{% url 'astra:permissions_page' %}">
                     <i class="fas fa-shield-alt"></i>
-                    Permissions
+                    <span>Permissions</span>
                 </a>
             </li>
+
 
             <li>
                 <a href="{% url 'astra:historiques_page' %}">
                     <i class="fas fa-history"></i>
-                    Historique
+                    <span>Historique</span>
                 </a>
             </li>
+
 
             <li>
                 <a
                     href="{% url 'astra:parametres_page' %}"
                     class="active"
+                    aria-current="page"
                 >
                     <i class="fas fa-cog"></i>
-                    Paramètres
+                    <span>Paramètres</span>
                 </a>
             </li>
 
@@ -1175,7 +1763,7 @@
                     onclick="history.back(); return false;"
                     class="back-link"
                 >
-                    <i class="fas fa-arrow-left text-white text-lg"></i>
+                    <i class="fas fa-arrow-left"></i>
                     <span>Retour</span>
                 </a>
             </li>
@@ -1191,7 +1779,7 @@
                 id="loginBtn"
             >
                 <i class="fas fa-sign-out-alt"></i>
-                Déconnexion
+                <span>Déconnexion</span>
             </a>
 
         </div>
@@ -1214,15 +1802,16 @@
 
             <div>
 
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
 
-                    <i class="fas fa-cog text-orange-500 mr-4"></i>
+                    <i class="fas fa-cog text-orange-500"></i>
 
                     <span>
                         Paramètres & Administration Globale
                     </span>
 
                 </h1>
+
 
                 <p class="text-gray-500 dark:text-gray-400">
                     Configurez l'environnement, l'affichage et les règles
@@ -1289,6 +1878,7 @@
                             id="shop-currency"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
                         >
+
                             <option value="FCFA">
                                 FCFA (XAF)
                             </option>
@@ -1300,6 +1890,7 @@
                             <option value="USD">
                                 Dollar US ($)
                             </option>
+
                         </select>
 
                     </div>
@@ -1376,7 +1967,7 @@
 
                     <div class="space-y-4 pt-4">
 
-                        <label class="flex items-center cursor-pointer select-none">
+                        <label class="flex items-start cursor-pointer select-none">
 
                             <input
                                 type="checkbox"
@@ -1392,7 +1983,7 @@
                         </label>
 
 
-                        <label class="flex items-center cursor-pointer select-none">
+                        <label class="flex items-start cursor-pointer select-none">
 
                             <input
                                 type="checkbox"
@@ -1408,7 +1999,7 @@
                         </label>
 
 
-                        <label class="flex items-center cursor-pointer select-none">
+                        <label class="flex items-start cursor-pointer select-none">
 
                             <input
                                 type="checkbox"
@@ -1552,7 +2143,7 @@
 
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
 
-                <div>
+                <div class="min-w-0">
 
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
                         Enregistrer un nouvel utilisateur ou client
@@ -1573,7 +2164,9 @@
 
                     <i class="fas fa-users"></i>
 
-                    Voir la liste des utilisateurs
+                    <span>
+                        Voir la liste des utilisateurs
+                    </span>
 
                 </a>
 
@@ -1683,6 +2276,7 @@
                             type="text"
                             id="new-user-firstname"
                             placeholder="Prénom"
+                            autocomplete="given-name"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
                             required
                         >
@@ -1696,6 +2290,7 @@
                             type="text"
                             id="new-user-lastname"
                             placeholder="Nom"
+                            autocomplete="family-name"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
                             required
                         >
@@ -1713,6 +2308,7 @@
                         type="email"
                         id="new-user-email"
                         placeholder="Adresse email"
+                        autocomplete="email"
                         class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
                         required
                     >
@@ -1728,6 +2324,7 @@
                         type="password"
                         id="new-user-password"
                         placeholder="Mot de passe initial temporaire"
+                        autocomplete="new-password"
                         class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none text-sm bg-white"
                         required
                     >
@@ -1778,644 +2375,920 @@
     </main>
 
 
-<script>
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
 
-document.addEventListener("DOMContentLoaded", () => {
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
 
 
-    /* =====================================================
-       1. RÉCUPÉRATION CSRF
-       ===================================================== */
+            /* =================================================
+               1. MENU MOBILE
+               ================================================= */
 
-    function getCookie(name) {
+            const sidebar =
+                document.getElementById("sidebar");
 
-        let cookieValue = null;
+            const overlay =
+                document.getElementById("sidebarOverlay");
 
-        if (document.cookie && document.cookie !== '') {
+            const mobileMenuButton =
+                document.getElementById("mobileMenuButton");
 
-            const cookies = document.cookie.split(';');
+            const sidebarClose =
+                document.getElementById("sidebarClose");
 
-            for (let i = 0; i < cookies.length; i++) {
 
-                const cookie = cookies[i].trim();
+            function setMenuState(open) {
+
+                if (!sidebar || !overlay) {
+                    return;
+                }
+
+                sidebar.classList.toggle(
+                    "active",
+                    open
+                );
+
+                overlay.classList.toggle(
+                    "active",
+                    open
+                );
+
+                document.body.classList.toggle(
+                    "menu-open",
+                    open
+                );
+
+                if (mobileMenuButton) {
+
+                    mobileMenuButton.setAttribute(
+                        "aria-expanded",
+                        open ? "true" : "false"
+                    );
+
+                    mobileMenuButton.setAttribute(
+                        "aria-label",
+                        open
+                            ? "Fermer le menu"
+                            : "Ouvrir le menu"
+                    );
+                }
+
+                overlay.setAttribute(
+                    "aria-hidden",
+                    open ? "false" : "true"
+                );
+            }
+
+
+            function openMenu() {
+                setMenuState(true);
+            }
+
+
+            function closeMenu() {
+                setMenuState(false);
+            }
+
+
+            if (mobileMenuButton) {
+
+                mobileMenuButton.addEventListener(
+                    "click",
+                    openMenu
+                );
+            }
+
+
+            if (sidebarClose) {
+
+                sidebarClose.addEventListener(
+                    "click",
+                    closeMenu
+                );
+            }
+
+
+            if (overlay) {
+
+                overlay.addEventListener(
+                    "click",
+                    closeMenu
+                );
+            }
+
+
+            document.addEventListener(
+                "keydown",
+                (event) => {
+
+                    if (
+                        event.key === "Escape"
+                        &&
+                        sidebar
+                        &&
+                        sidebar.classList.contains("active")
+                    ) {
+                        closeMenu();
+                    }
+                }
+            );
+
+
+            /* Fermer après clic sur un lien mobile */
+
+            if (sidebar) {
+
+                const sidebarLinks =
+                    sidebar.querySelectorAll(
+                        "a"
+                    );
+
+                sidebarLinks.forEach(link => {
+
+                    link.addEventListener(
+                        "click",
+                        () => {
+
+                            if (
+                                window.innerWidth < 992
+                            ) {
+                                closeMenu();
+                            }
+                        }
+                    );
+
+                });
+            }
+
+
+            /* Fermer automatiquement en passant desktop */
+
+            window.addEventListener(
+                "resize",
+                () => {
+
+                    if (
+                        window.innerWidth >= 992
+                    ) {
+                        closeMenu();
+                    }
+
+                }
+            );
+
+
+            /* =================================================
+               2. RÉCUPÉRATION CSRF
+               ================================================= */
+
+            function getCookie(name) {
+
+                let cookieValue = null;
 
                 if (
-                    cookie.substring(0, name.length + 1)
-                    ===
-                    (name + '=')
+                    document.cookie
+                    &&
+                    document.cookie !== ''
                 ) {
 
-                    cookieValue =
-                        decodeURIComponent(
+                    const cookies =
+                        document.cookie.split(';');
+
+                    for (
+                        let i = 0;
+                        i < cookies.length;
+                        i++
+                    ) {
+
+                        const cookie =
+                            cookies[i].trim();
+
+                        if (
                             cookie.substring(
+                                0,
                                 name.length + 1
                             )
+                            ===
+                            (name + '=')
+                        ) {
+
+                            cookieValue =
+                                decodeURIComponent(
+                                    cookie.substring(
+                                        name.length + 1
+                                    )
+                                );
+
+                            break;
+                        }
+                    }
+                }
+
+                return cookieValue;
+            }
+
+
+            const csrftoken =
+                getCookie('csrftoken');
+
+
+            /* =================================================
+               3. MODE NUIT
+               ================================================= */
+
+            const darkModeToggle =
+                document.getElementById(
+                    "dark-mode-toggle"
+                );
+
+
+            if (darkModeToggle) {
+
+                const isDark =
+                    localStorage.getItem(
+                        "astra_dark_mode"
+                    ) === "true";
+
+                darkModeToggle.checked =
+                    isDark;
+
+
+                darkModeToggle.addEventListener(
+                    "change",
+                    function () {
+
+                        if (this.checked) {
+
+                            document.documentElement
+                                .classList.add("dark");
+
+                            localStorage.setItem(
+                                "astra_dark_mode",
+                                "true"
+                            );
+
+                        } else {
+
+                            document.documentElement
+                                .classList.remove("dark");
+
+                            localStorage.setItem(
+                                "astra_dark_mode",
+                                "false"
+                            );
+                        }
+                    }
+                );
+            }
+
+
+            /* =================================================
+               4. STATUTS SELON LE RÔLE
+               ================================================= */
+
+            const statusSelect =
+                document.getElementById(
+                    "new-user-status"
+                );
+
+            const statusLabel =
+                document.getElementById(
+                    "status-label"
+                );
+
+
+            function updateStatusOptions(role) {
+
+                if (!statusSelect || !statusLabel) {
+                    return;
+                }
+
+                statusSelect.innerHTML = "";
+
+
+                let options = [];
+
+
+                if (role === "Administrateur") {
+
+                    statusLabel.textContent =
+                        "Statut initial du compte Administrateur :";
+
+                    options = [
+                        {
+                            val: "super_admin",
+                            text: "Super Administrateur (Accès Total & Global)"
+                        },
+                        {
+                            val: "admin_adjoint",
+                            text: "Administrateur Adjoint (Droits partiels)"
+                        },
+                        {
+                            val: "admin_provisoire",
+                            text: "Administrateur Provisoire / En observation"
+                        }
+                    ];
+
+
+                } else if (
+                    role === "Gestionnaire Stock"
+                ) {
+
+                    statusLabel.textContent =
+                        "Statut initial du compte Gestionnaire Stock :";
+
+                    options = [
+                        {
+                            val: "stock_principal",
+                            text: "Gestionnaire Principal (Validation & Inventaires)"
+                        },
+                        {
+                            val: "stock_adjoint",
+                            text: "Gestionnaire Adjoint (Entrées/Sorties simples)"
+                        },
+                        {
+                            val: "stock_audit",
+                            text: "Auditeur de Stock (Consultation seule)"
+                        }
+                    ];
+
+
+                } else if (
+                    role === "Caissier / Vendeur"
+                ) {
+
+                    statusLabel.textContent =
+                        "Statut initial du compte Caissier / Vendeur :";
+
+                    options = [
+                        {
+                            val: "vendeur_principal",
+                            text: "Vendeur Principal (Encaissement & Remises autorisées)"
+                        },
+                        {
+                            val: "caissier_standard",
+                            text: "Caissier Standard (Encaissement simple)"
+                        },
+                        {
+                            val: "vendeur_junior",
+                            text: "Vendeur Junior / En formation"
+                        }
+                    ];
+
+
+                } else if (
+                    role === "Technicien / SAV"
+                ) {
+
+                    statusLabel.textContent =
+                        "Statut initial du compte Technicien / SAV :";
+
+                    options = [
+                        {
+                            val: "tech_expert",
+                            text: "Technicien Expert / Chef d'atelier (Réparations complexes)"
+                        },
+                        {
+                            val: "sav_standard",
+                            text: "Agent SAV & Diagnostic (Réception & Suivi pannes)"
+                        },
+                        {
+                            val: "tech_stagiaire",
+                            text: "Technicien Stagiaire / Assistant"
+                        }
+                    ];
+
+
+                } else if (
+                    role === "Client"
+                ) {
+
+                    statusLabel.textContent =
+                        "Statut / Catégorie du Client :";
+
+                    options = [
+                        {
+                            val: "regulier",
+                            text: "Client Régulier (Fidèle)"
+                        },
+                        {
+                            val: "vip",
+                            text: "Client VIP (Tarif Préférentiel)"
+                        },
+                        {
+                            val: "occasionnel",
+                            text: "Client Occasionnel"
+                        },
+                        {
+                            val: "nouveau",
+                            text: "Nouveau Client"
+                        }
+                    ];
+                }
+
+
+                options.forEach(
+                    option => {
+
+                        const element =
+                            document.createElement(
+                                "option"
+                            );
+
+                        element.value =
+                            option.val;
+
+                        element.textContent =
+                            option.text;
+
+                        statusSelect.appendChild(
+                            element
                         );
-
-                    break;
-                }
-            }
-        }
-
-        return cookieValue;
-    }
-
-
-    const csrftoken = getCookie('csrftoken');
-
-
-    /* =====================================================
-       2. MODE NUIT
-       ===================================================== */
-
-    const darkModeToggle =
-        document.getElementById("dark-mode-toggle");
-
-    if (darkModeToggle) {
-
-        const isDark =
-            localStorage.getItem("astra_dark_mode")
-            ===
-            "true";
-
-        darkModeToggle.checked = isDark;
-
-
-        darkModeToggle.addEventListener(
-            "change",
-            function () {
-
-                if (this.checked) {
-
-                    document.documentElement
-                        .classList.add("dark");
-
-                    localStorage.setItem(
-                        "astra_dark_mode",
-                        "true"
-                    );
-
-                } else {
-
-                    document.documentElement
-                        .classList.remove("dark");
-
-                    localStorage.setItem(
-                        "astra_dark_mode",
-                        "false"
-                    );
-                }
-            }
-        );
-    }
-
-
-    /* =====================================================
-       3. STATUTS SELON LE RÔLE
-       ===================================================== */
-
-    const statusSelect =
-        document.getElementById("new-user-status");
-
-    const statusLabel =
-        document.getElementById("status-label");
-
-
-    function updateStatusOptions(role) {
-
-        statusSelect.innerHTML = "";
-
-
-        if (role === "Administrateur") {
-
-            statusLabel.textContent =
-                "Statut initial du compte Administrateur :";
-
-
-            const options = [
-                {
-                    val: "super_admin",
-                    text: "Super Administrateur (Accès Total & Global)"
-                },
-                {
-                    val: "admin_adjoint",
-                    text: "Administrateur Adjoint (Droits partiels)"
-                },
-                {
-                    val: "admin_provisoire",
-                    text: "Administrateur Provisoire / En observation"
-                }
-            ];
-
-
-            options.forEach(opt => {
-
-                const el =
-                    document.createElement("option");
-
-                el.value = opt.val;
-                el.textContent = opt.text;
-
-                statusSelect.appendChild(el);
-            });
-
-
-        } else if (role === "Gestionnaire Stock") {
-
-            statusLabel.textContent =
-                "Statut initial du compte Gestionnaire Stock :";
-
-
-            const options = [
-                {
-                    val: "stock_principal",
-                    text: "Gestionnaire Principal (Validation & Inventaires)"
-                },
-                {
-                    val: "stock_adjoint",
-                    text: "Gestionnaire Adjoint (Entrées/Sorties simples)"
-                },
-                {
-                    val: "stock_audit",
-                    text: "Auditeur de Stock (Consultation seule)"
-                }
-            ];
-
-
-            options.forEach(opt => {
-
-                const el =
-                    document.createElement("option");
-
-                el.value = opt.val;
-                el.textContent = opt.text;
-
-                statusSelect.appendChild(el);
-            });
-
-
-        } else if (role === "Caissier / Vendeur") {
-
-            statusLabel.textContent =
-                "Statut initial du compte Caissier / Vendeur :";
-
-
-            const options = [
-                {
-                    val: "vendeur_principal",
-                    text: "Vendeur Principal (Encaissement & Remises autorisées)"
-                },
-                {
-                    val: "caissier_standard",
-                    text: "Caissier Standard (Encaissement simple)"
-                },
-                {
-                    val: "vendeur_junior",
-                    text: "Vendeur Junior / En formation"
-                }
-            ];
-
-
-            options.forEach(opt => {
-
-                const el =
-                    document.createElement("option");
-
-                el.value = opt.val;
-                el.textContent = opt.text;
-
-                statusSelect.appendChild(el);
-            });
-
-
-        } else if (role === "Technicien / SAV") {
-
-            statusLabel.textContent =
-                "Statut initial du compte Technicien / SAV :";
-
-
-            const options = [
-                {
-                    val: "tech_expert",
-                    text: "Technicien Expert / Chef d'atelier (Réparations complexes)"
-                },
-                {
-                    val: "sav_standard",
-                    text: "Agent SAV & Diagnostic (Réception & Suivi pannes)"
-                },
-                {
-                    val: "tech_stagiaire",
-                    text: "Technicien Stagiaire / Assistant"
-                }
-            ];
-
-
-            options.forEach(opt => {
-
-                const el =
-                    document.createElement("option");
-
-                el.value = opt.val;
-                el.textContent = opt.text;
-
-                statusSelect.appendChild(el);
-            });
-
-
-        } else if (role === "Client") {
-
-            statusLabel.textContent =
-                "Statut / Catégorie du Client :";
-
-
-            const options = [
-                {
-                    val: "regulier",
-                    text: "Client Régulier (Fidèle)"
-                },
-                {
-                    val: "vip",
-                    text: "Client VIP (Tarif Préférentiel)"
-                },
-                {
-                    val: "occasionnel",
-                    text: "Client Occasionnel"
-                },
-                {
-                    val: "nouveau",
-                    text: "Nouveau Client"
-                }
-            ];
-
-
-            options.forEach(opt => {
-
-                const el =
-                    document.createElement("option");
-
-                el.value = opt.val;
-                el.textContent = opt.text;
-
-                statusSelect.appendChild(el);
-            });
-        }
-    }
-
-
-    let selectedRole = "Administrateur";
-
-    updateStatusOptions(selectedRole);
-
-
-    /* =====================================================
-       4. SÉLECTION DES RÔLES
-       ===================================================== */
-
-    const roleCards =
-        document.querySelectorAll(".role-card");
-
-
-    roleCards.forEach(card => {
-
-        card.addEventListener("click", () => {
-
-            roleCards.forEach(c => {
-
-                c.classList.remove(
-                    "border-orange-500",
-                    "bg-orange-50/50"
+                    }
                 );
-
-                c.classList.add(
-                    "border-gray-200"
-                );
-            });
+            }
 
 
-            card.classList.remove(
-                "border-gray-200"
-            );
-
-
-            card.classList.add(
-                "border-orange-500",
-                "bg-orange-50/50"
-            );
-
-
-            selectedRole =
-                card.getAttribute("data-role");
+            let selectedRole =
+                "Administrateur";
 
 
             updateStatusOptions(
                 selectedRole
             );
+
+
+            /* =================================================
+               5. SÉLECTION DES RÔLES
+               ================================================= */
+
+            const roleCards =
+                document.querySelectorAll(
+                    ".role-card"
+                );
+
+
+            roleCards.forEach(
+                card => {
+
+                    card.addEventListener(
+                        "click",
+                        () => {
+
+                            roleCards.forEach(
+                                currentCard => {
+
+                                    currentCard.classList.remove(
+                                        "border-orange-500",
+                                        "bg-orange-50/50"
+                                    );
+
+                                    currentCard.classList.add(
+                                        "border-gray-200"
+                                    );
+                                }
+                            );
+
+
+                            card.classList.remove(
+                                "border-gray-200"
+                            );
+
+                            card.classList.add(
+                                "border-orange-500",
+                                "bg-orange-50/50"
+                            );
+
+
+                            selectedRole =
+                                card.getAttribute(
+                                    "data-role"
+                                );
+
+
+                            updateStatusOptions(
+                                selectedRole
+                            );
+                        }
+                    );
+
+                }
+            );
+
+
+            /* =================================================
+               6. ENREGISTREMENT PARAMÈTRES
+               ================================================= */
+
+            const saveSettingsBtn =
+                document.getElementById(
+                    "save-settings-btn"
+                );
+
+
+            if (saveSettingsBtn) {
+
+                saveSettingsBtn.addEventListener(
+                    "click",
+                    () => {
+
+                        const shopName =
+                            document.getElementById(
+                                "shop-name"
+                            ).value.trim();
+
+
+                        const currency =
+                            document.getElementById(
+                                "shop-currency"
+                            ).value;
+
+
+                        const threshold =
+                            document.getElementById(
+                                "stock-threshold"
+                            ).value;
+
+
+                        const taxRate =
+                            document.getElementById(
+                                "tax-rate"
+                            ).value;
+
+
+                        const receiptFormat =
+                            document.getElementById(
+                                "receipt-format"
+                            ).value;
+
+
+                        const lockCommercial =
+                            document.getElementById(
+                                "lock-commercial-mode"
+                            ).checked;
+
+
+                        const lockAdmin =
+                            document.getElementById(
+                                "lock-admin-mode"
+                            ).checked;
+
+
+                        const darkMode =
+                            darkModeToggle
+                                ? darkModeToggle.checked
+                                : false;
+
+
+                        localStorage.setItem(
+                            "astra_shop_name",
+                            shopName
+                        );
+
+                        localStorage.setItem(
+                            "astra_currency",
+                            currency
+                        );
+
+                        localStorage.setItem(
+                            "astra_threshold",
+                            threshold
+                        );
+
+                        localStorage.setItem(
+                            "astra_tax_rate",
+                            taxRate
+                        );
+
+                        localStorage.setItem(
+                            "astra_receipt_format",
+                            receiptFormat
+                        );
+
+                        localStorage.setItem(
+                            "astra_lock_commercial",
+                            lockCommercial
+                                ? "true"
+                                : "false"
+                        );
+
+                        localStorage.setItem(
+                            "astra_lock_admin",
+                            lockAdmin
+                                ? "true"
+                                : "false"
+                        );
+
+                        localStorage.setItem(
+                            "astra_dark_mode",
+                            darkMode
+                                ? "true"
+                                : "false"
+                        );
+
+
+                        const payload = {
+
+                            nom_boutique:
+                                shopName,
+
+                            devise:
+                                currency,
+
+                            seuil_stock:
+                                threshold,
+
+                            taux_tva:
+                                taxRate,
+
+                            format_recu:
+                                receiptFormat,
+
+                            verrou_commercial:
+                                lockCommercial,
+
+                            verrou_admin:
+                                lockAdmin
+                        };
+
+
+                        fetch(
+                            "{% url 'astra:api_save_parametres' %}",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json",
+
+                                    "X-CSRFToken":
+                                        csrftoken
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        payload
+                                    )
+                            }
+                        )
+
+                        .then(
+                            async response => {
+
+                                const contentType =
+                                    response.headers.get(
+                                        "content-type"
+                                    ) || "";
+
+                                if (
+                                    contentType.includes(
+                                        "application/json"
+                                    )
+                                ) {
+                                    return response.json();
+                                }
+
+                                throw new Error(
+                                    "Réponse serveur invalide."
+                                );
+                            }
+                        )
+
+                        .then(
+                            data => {
+
+                                if (
+                                    data.success
+                                    ||
+                                    data.status === "success"
+                                ) {
+
+                                    alert(
+                                        "Paramètres enregistrés et appliqués avec succès en base de données !"
+                                    );
+
+                                } else {
+
+                                    alert(
+                                        "Erreur lors de l'enregistrement : "
+                                        +
+                                        (
+                                            data.error
+                                            ||
+                                            data.message
+                                            ||
+                                            "Erreur inconnue."
+                                        )
+                                    );
+                                }
+                            }
+                        )
+
+                        .catch(
+                            error => {
+
+                                console.error(
+                                    "Erreur paramètres :",
+                                    error
+                                );
+
+                                alert(
+                                    "Erreur de communication avec le serveur."
+                                );
+                            }
+                        );
+
+                    }
+                );
+            }
+
+
+            /* =================================================
+               7. CRÉATION UTILISATEUR / CLIENT
+               ================================================= */
+
+            const createUserForm =
+                document.getElementById(
+                    "create-user-form"
+                );
+
+
+            if (createUserForm) {
+
+                createUserForm.addEventListener(
+                    "submit",
+                    (event) => {
+
+                        event.preventDefault();
+
+
+                        const userPayload = {
+
+                            role:
+                                selectedRole,
+
+                            prenom:
+                                document.getElementById(
+                                    "new-user-firstname"
+                                ).value.trim(),
+
+                            nom:
+                                document.getElementById(
+                                    "new-user-lastname"
+                                ).value.trim(),
+
+                            email:
+                                document.getElementById(
+                                    "new-user-email"
+                                ).value.trim(),
+
+                            mot_de_passe:
+                                document.getElementById(
+                                    "new-user-password"
+                                ).value,
+
+                            statut:
+                                document.getElementById(
+                                    "new-user-status"
+                                ).value
+                        };
+
+
+                        fetch(
+                            "{% url 'astra:api_users_list_create' %}",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json",
+
+                                    "X-CSRFToken":
+                                        csrftoken
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        userPayload
+                                    )
+                            }
+                        )
+
+                        .then(
+                            async response => {
+
+                                const contentType =
+                                    response.headers.get(
+                                        "content-type"
+                                    ) || "";
+
+                                if (
+                                    contentType.includes(
+                                        "application/json"
+                                    )
+                                ) {
+                                    return response.json();
+                                }
+
+                                throw new Error(
+                                    "Réponse serveur invalide."
+                                );
+                            }
+                        )
+
+                        .then(
+                            data => {
+
+                                if (
+                                    data.status
+                                    ===
+                                    "success"
+                                ) {
+
+                                    alert(
+                                        data.message
+                                    );
+
+                                    createUserForm.reset();
+
+                                    selectedRole =
+                                        "Administrateur";
+
+                                    roleCards.forEach(
+                                        card => {
+
+                                            card.classList.remove(
+                                                "border-orange-500",
+                                                "bg-orange-50/50"
+                                            );
+
+                                            card.classList.add(
+                                                "border-gray-200"
+                                            );
+                                        }
+                                    );
+
+                                    const defaultRole =
+                                        document.querySelector(
+                                            '.role-card[data-role="Administrateur"]'
+                                        );
+
+                                    if (defaultRole) {
+
+                                        defaultRole.classList.remove(
+                                            "border-gray-200"
+                                        );
+
+                                        defaultRole.classList.add(
+                                            "border-orange-500",
+                                            "bg-orange-50/50"
+                                        );
+                                    }
+
+                                    updateStatusOptions(
+                                        selectedRole
+                                    );
+
+                                } else {
+
+                                    alert(
+                                        "Erreur : "
+                                        +
+                                        (
+                                            data.message
+                                            ||
+                                            "Erreur inconnue."
+                                        )
+                                    );
+                                }
+                            }
+                        )
+
+                        .catch(
+                            error => {
+
+                                console.error(
+                                    "Erreur création utilisateur :",
+                                    error
+                                );
+
+                                alert(
+                                    "Erreur de communication avec le serveur."
+                                );
+                            }
+                        );
+
+                    }
+                );
+            }
+
         });
-    });
 
-
-    /* =====================================================
-       5. ENREGISTREMENT PARAMÈTRES
-       ===================================================== */
-
-    const saveSettingsBtn =
-        document.getElementById(
-            "save-settings-btn"
-        );
-
-
-    if (saveSettingsBtn) {
-
-        saveSettingsBtn.addEventListener(
-            "click",
-            () => {
-
-                const shopName =
-                    document.getElementById(
-                        "shop-name"
-                    ).value.trim();
-
-                const currency =
-                    document.getElementById(
-                        "shop-currency"
-                    ).value;
-
-                const threshold =
-                    document.getElementById(
-                        "stock-threshold"
-                    ).value;
-
-                const taxRate =
-                    document.getElementById(
-                        "tax-rate"
-                    ).value;
-
-                const receiptFormat =
-                    document.getElementById(
-                        "receipt-format"
-                    ).value;
-
-                const lockCommercial =
-                    document.getElementById(
-                        "lock-commercial-mode"
-                    ).checked;
-
-                const lockAdmin =
-                    document.getElementById(
-                        "lock-admin-mode"
-                    ).checked;
-
-                const darkMode =
-                    darkModeToggle
-                        ? darkModeToggle.checked
-                        : false;
-
-
-                localStorage.setItem(
-                    "astra_shop_name",
-                    shopName
-                );
-
-                localStorage.setItem(
-                    "astra_currency",
-                    currency
-                );
-
-                localStorage.setItem(
-                    "astra_threshold",
-                    threshold
-                );
-
-                localStorage.setItem(
-                    "astra_tax_rate",
-                    taxRate
-                );
-
-                localStorage.setItem(
-                    "astra_receipt_format",
-                    receiptFormat
-                );
-
-                localStorage.setItem(
-                    "astra_lock_commercial",
-                    lockCommercial
-                        ? "true"
-                        : "false"
-                );
-
-                localStorage.setItem(
-                    "astra_lock_admin",
-                    lockAdmin
-                        ? "true"
-                        : "false"
-                );
-
-                localStorage.setItem(
-                    "astra_dark_mode",
-                    darkMode
-                        ? "true"
-                        : "false"
-                );
-
-
-                const payload = {
-
-                    nom_boutique:
-                        shopName,
-
-                    devise:
-                        currency,
-
-                    seuil_stock:
-                        threshold,
-
-                    taux_tva:
-                        taxRate,
-
-                    format_recu:
-                        receiptFormat,
-
-                    verrou_commercial:
-                        lockCommercial,
-
-                    verrou_admin:
-                        lockAdmin
-                };
-
-
-                fetch(
-                    "{% url 'astra:api_save_parametres' %}",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-
-                            "X-CSRFToken":
-                                csrftoken
-                        },
-
-                        body:
-                            JSON.stringify(
-                                payload
-                            )
-                    }
-                )
-                .then(res => res.json())
-
-                .then(data => {
-
-                    if (
-                        data.success
-                        ||
-                        data.status === 'success'
-                    ) {
-
-                        alert(
-                            "Paramètres enregistrés et appliqués avec succès en base de données !"
-                        );
-
-                    } else {
-
-                        alert(
-                            "Erreur lors de l'enregistrement : "
-                            +
-                            (
-                                data.error
-                                ||
-                                data.message
-                            )
-                        );
-                    }
-                })
-
-                .catch(err => {
-
-                    alert(
-                        "Erreur de communication avec le serveur."
-                    );
-                });
-            }
-        );
-    }
-
-
-    /* =====================================================
-       6. CRÉATION UTILISATEUR / CLIENT
-       ===================================================== */
-
-    const createUserForm =
-        document.getElementById(
-            "create-user-form"
-        );
-
-
-    if (createUserForm) {
-
-        createUserForm.addEventListener(
-            "submit",
-            (e) => {
-
-                e.preventDefault();
-
-
-                const userPayload = {
-
-                    role:
-                        selectedRole,
-
-                    prenom:
-                        document.getElementById(
-                            "new-user-firstname"
-                        ).value.trim(),
-
-                    nom:
-                        document.getElementById(
-                            "new-user-lastname"
-                        ).value.trim(),
-
-                    email:
-                        document.getElementById(
-                            "new-user-email"
-                        ).value.trim(),
-
-                    mot_de_passe:
-                        document.getElementById(
-                            "new-user-password"
-                        ).value,
-
-                    statut:
-                        document.getElementById(
-                            "new-user-status"
-                        ).value
-                };
-
-
-                fetch(
-                    "{% url 'astra:api_users_list_create' %}",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-
-                            "X-CSRFToken":
-                                csrftoken
-                        },
-
-                        body:
-                            JSON.stringify(
-                                userPayload
-                            )
-                    }
-                )
-
-                .then(res => res.json())
-
-                .then(data => {
-
-                    if (
-                        data.status
-                        ===
-                        'success'
-                    ) {
-
-                        alert(
-                            data.message
-                        );
-
-                        createUserForm.reset();
-
-                        updateStatusOptions(
-                            selectedRole
-                        );
-
-                    } else {
-
-                        alert(
-                            "Erreur : "
-                            +
-                            data.message
-                        );
-                    }
-                })
-
-                .catch(err => {
-
-                    alert(
-                        "Erreur de communication avec le serveur."
-                    );
-                });
-            }
-        );
-    }
-
-});
-
-</script>
+    </script>
 
 </body>
 </html>
-

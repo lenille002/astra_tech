@@ -1,13 +1,19 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
     <title>ASTRA TECH - Liste des Utilisateurs</title>
-    
+
+    <!-- =========================================================
+         DARK MODE AVANT AFFICHAGE
+    ========================================================== -->
     <script>
-        (function() {
+        (function () {
             const savedDarkMode = localStorage.getItem('astra_dark_mode');
+
             if (savedDarkMode === 'true') {
                 document.documentElement.classList.add('dark');
             } else {
@@ -16,163 +22,1618 @@
         })();
     </script>
 
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
-        tailwind.config = { darkMode: 'class' }
+        tailwind.config = {
+            darkMode: 'class'
+        };
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
     <style>
+        /* =========================================================
+           VARIABLES
+        ========================================================== */
         :root {
             --tech-dark-blue: #004E8C;
+            --tech-dark-blue-2: #003366;
             --tech-orange: #f97316;
+
             --tech-light-gray: #f8fafc;
             --tech-card-bg: #ffffff;
             --tech-dark-gray: #333333;
             --tech-border: #E0E0E0;
+
             --sidebar-width: 280px;
+
             --radius-lg: 16px;
             --radius-md: 10px;
+
+            --mobile-header-height: 64px;
         }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: var(--tech-light-gray); color: var(--tech-dark-gray); display: flex; min-height: 100vh; overflow-x: hidden; }
-        html.dark body { background-color: #0f172a !important; color: #f1f5f9 !important; }
-        html.dark .card { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
-        html.dark th, html.dark td { border-color: #334155 !important; color: #f1f5f9 !important; }
-        
-        .sidebar { width: var(--sidebar-width); background: linear-gradient(180deg, var(--tech-dark-blue) 0%, #003366 100%); color: #ffffff; display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; }
-        .sidebar-brand { padding: 30px 24px; display: flex; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-        .sidebar-logo { width: 40px; height: 40px; background: #ffffff; border-radius: 8px; transform: rotate(45deg); display: flex; justify-content: center; align-items: center; margin-right: 15px; }
-        .sidebar-logo-inner { width: 28px; height: 28px; border: 2px solid var(--tech-orange); border-radius: 5px; transform: rotate(-45deg); }
-        .sidebar-title { font-weight: bold; font-size: 20px; color: #ffffff !important; }
-        .sidebar-title span { color: var(--tech-orange); }
-        .nav-menu { list-style: none; padding: 24px 16px; margin: 0; flex: 1; display: flex; flex-direction: column; gap: 6px; }
-        .nav-menu li a { display: flex; align-items: center; padding: 14px 18px; color: rgba(255, 255, 255, 0.8); text-decoration: none; font-weight: 500; font-size: 14px; border-radius: var(--radius-md); transition: all 0.25s ease; }
-        .nav-menu li a i { margin-right: 14px; width: 22px; text-align: center; }
-        .nav-menu li a:hover, .nav-menu li a.active { color: #ffffff; background-color: rgba(255, 255, 255, 0.12); }
-        .nav-menu li a.active { border-left: 4px solid var(--tech-orange); font-weight: 600; }
-        .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 40px; max-width: calc(100% - var(--sidebar-width)); box-sizing: border-box; }
-        .card { background-color: var(--tech-card-bg); border-radius: var(--radius-lg); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); border: 1px solid var(--tech-border); }
+
+        /* =========================================================
+           BASE
+        ========================================================== */
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            width: 100%;
+            max-width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            font-family: 'Inter', Arial, sans-serif;
+            background-color: var(--tech-light-gray);
+            color: var(--tech-dark-gray);
+            overflow-x: hidden;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* =========================================================
+           DARK MODE
+        ========================================================== */
+        html.dark body {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+
+        html.dark .card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+            color: #f1f5f9 !important;
+        }
+
+        html.dark th,
+        html.dark td {
+            border-color: #334155 !important;
+        }
+
+        html.dark input,
+        html.dark select {
+            background-color: #334155 !important;
+            border-color: #475569 !important;
+            color: #f8fafc !important;
+        }
+
+        html.dark input::placeholder {
+            color: #94a3b8;
+        }
+
+        /* =========================================================
+           HEADER MOBILE
+        ========================================================== */
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            z-index: 1100;
+
+            width: 100%;
+            min-height: var(--mobile-header-height);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding:
+                10px
+                max(14px, env(safe-area-inset-right))
+                10px
+                max(14px, env(safe-area-inset-left));
+
+            background: linear-gradient(
+                135deg,
+                var(--tech-dark-blue),
+                var(--tech-dark-blue-2)
+            );
+
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .mobile-brand {
+            display: flex;
+            align-items: center;
+            min-width: 0;
+        }
+
+        .mobile-brand-logo {
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+
+            background: #ffffff;
+            border-radius: 7px;
+
+            transform: rotate(45deg);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-right: 12px;
+        }
+
+        .mobile-brand-logo-inner {
+            width: 23px;
+            height: 23px;
+
+            border: 2px solid var(--tech-orange);
+            border-radius: 4px;
+
+            transform: rotate(-45deg);
+        }
+
+        .mobile-brand-title {
+            min-width: 0;
+
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .mobile-brand-title span {
+            color: var(--tech-orange);
+        }
+
+        .mobile-menu-toggle {
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+
+            transition: 0.25s ease;
+        }
+
+        .mobile-menu-toggle:hover,
+        .mobile-menu-toggle:focus-visible {
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+        }
+
+        .mobile-menu-toggle i {
+            font-size: 20px;
+        }
+
+        /* =========================================================
+           OVERLAY MOBILE
+        ========================================================== */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+
+            z-index: 1990;
+
+            background: rgba(15, 23, 42, 0.62);
+            backdrop-filter: blur(2px);
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0.25s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+
+            z-index: 2000;
+
+            width: min(86vw, 320px);
+            height: 100vh;
+            height: 100dvh;
+
+            display: flex;
+            flex-direction: column;
+
+            background: linear-gradient(
+                180deg,
+                var(--tech-dark-blue) 0%,
+                var(--tech-dark-blue-2) 100%
+            );
+
+            color: #ffffff;
+
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            transform: translateX(-105%);
+
+            transition: transform 0.28s ease;
+
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        /* =========================================================
+           SIDEBAR BRAND
+        ========================================================== */
+        .sidebar-brand {
+            position: relative;
+
+            min-height: 90px;
+
+            padding:
+                24px
+                20px;
+
+            display: flex;
+            align-items: center;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-logo {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+
+            background: #ffffff;
+            border-radius: 8px;
+
+            transform: rotate(45deg);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-right: 15px;
+        }
+
+        .sidebar-logo-inner {
+            width: 28px;
+            height: 28px;
+
+            border: 2px solid var(--tech-orange);
+            border-radius: 5px;
+
+            transform: rotate(-45deg);
+        }
+
+        .sidebar-title {
+            min-width: 0;
+
+            font-weight: 800;
+            font-size: 20px;
+
+            color: #ffffff !important;
+            white-space: nowrap;
+        }
+
+        .sidebar-title span {
+            color: var(--tech-orange);
+        }
+
+        .sidebar-close {
+            position: absolute;
+            top: 18px;
+            right: 14px;
+
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 9px;
+
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+
+            transition: 0.25s ease;
+        }
+
+        .sidebar-close:hover,
+        .sidebar-close:focus-visible {
+            background: rgba(255, 255, 255, 0.18);
+            outline: none;
+        }
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================== */
+        .nav-menu {
+            list-style: none;
+
+            width: 100%;
+
+            padding: 22px 14px;
+            margin: 0;
+
+            flex: 1;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 6px;
+        }
+
+        .nav-menu li {
+            width: 100%;
+        }
+
+        .nav-menu li a {
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+
+            padding: 14px 16px;
+
+            color: rgba(255, 255, 255, 0.82);
+
+            text-decoration: none;
+
+            font-weight: 500;
+            font-size: 14px;
+
+            border-radius: var(--radius-md);
+
+            transition:
+                background-color 0.25s ease,
+                color 0.25s ease,
+                transform 0.2s ease;
+        }
+
+        .nav-menu li a i {
+            width: 24px;
+            flex: 0 0 24px;
+
+            margin-right: 13px;
+
+            text-align: center;
+        }
+
+        .nav-menu li a:hover {
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-menu li a.active {
+            color: #ffffff;
+
+            background-color: rgba(255, 255, 255, 0.13);
+
+            border-left: 4px solid var(--tech-orange);
+
+            padding-left: 12px;
+
+            font-weight: 700;
+        }
+
+        /* =========================================================
+           CONTENU PRINCIPAL
+        ========================================================== */
+        .main-content {
+            width: 100%;
+            min-width: 0;
+
+            padding:
+                20px
+                max(14px, env(safe-area-inset-right))
+                32px
+                max(14px, env(safe-area-inset-left));
+        }
+
+        .content-inner {
+            width: 100%;
+            max-width: 1600px;
+            min-width: 0;
+            margin: 0 auto;
+        }
+
+        /* =========================================================
+           PAGE HEADER
+        ========================================================== */
+        .page-header {
+            width: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+
+            gap: 18px;
+
+            margin-bottom: 28px;
+        }
+
+        .page-header-info {
+            min-width: 0;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: flex-start;
+
+            gap: 10px;
+
+            margin: 0;
+
+            font-size: clamp(1.5rem, 6vw, 2rem);
+            line-height: 1.2;
+
+            font-weight: 800;
+
+            color: #111827;
+        }
+
+        html.dark .page-title {
+            color: #ffffff;
+        }
+
+        .page-title i {
+            flex: 0 0 auto;
+            margin-top: 4px;
+        }
+
+        .page-description {
+            margin: 8px 0 0;
+
+            max-width: 800px;
+
+            color: #6b7280;
+
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        html.dark .page-description {
+            color: #94a3b8;
+        }
+
+        .add-user-btn {
+            width: 100%;
+            min-height: 46px;
+
+            justify-content: center;
+        }
+
+        /* =========================================================
+           CARDS
+        ========================================================== */
+        .card {
+            width: 100%;
+            min-width: 0;
+
+            background-color: var(--tech-card-bg);
+
+            border-radius: var(--radius-lg);
+
+            box-shadow:
+                0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+            border: 1px solid var(--tech-border);
+        }
+
+        .user-modal {
+            margin-bottom: 24px;
+            padding: 18px;
+
+            border-width: 2px;
+            border-color: rgba(249, 115, 22, 0.3);
+        }
+
+        .modal-title {
+            margin-bottom: 18px;
+
+            font-size: 1.15rem;
+            line-height: 1.4;
+        }
+
+        /* =========================================================
+           FORMULAIRE
+        ========================================================== */
+        .user-form {
+            display: grid;
+
+            grid-template-columns: 1fr;
+
+            gap: 16px;
+        }
+
+        .form-field {
+            min-width: 0;
+        }
+
+        .form-field label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            min-width: 0;
+
+            min-height: 44px;
+
+            padding: 10px 13px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+
+            background: #ffffff;
+            color: #1f2937;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            border-color: var(--tech-orange);
+
+            box-shadow:
+                0 0 0 3px rgba(249, 115, 22, 0.12);
+        }
+
+        .form-actions {
+            display: flex;
+            flex-direction: column;
+
+            gap: 10px;
+
+            margin-top: 4px;
+        }
+
+        .form-actions button {
+            width: 100%;
+            min-height: 44px;
+        }
+
+        /* =========================================================
+           MESSAGES
+        ========================================================== */
+        .django-messages {
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .django-message {
+            padding: 14px 16px;
+
+            border-radius: 12px;
+
+            color: #ffffff;
+
+            font-size: 14px;
+            line-height: 1.5;
+
+            word-break: break-word;
+        }
+
+        /* =========================================================
+           TABLEAU
+        ========================================================== */
+        .table-card {
+            padding: 14px;
+            overflow: hidden;
+        }
+
+        .table-wrapper {
+            width: 100%;
+
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            -webkit-overflow-scrolling: touch;
+
+            border-radius: 10px;
+        }
+
+        .users-table {
+            width: 100%;
+            min-width: 700px;
+
+            border-collapse: collapse;
+
+            text-align: left;
+        }
+
+        .users-table th,
+        .users-table td {
+            vertical-align: middle;
+
+            white-space: nowrap;
+        }
+
+        .users-table th {
+            padding: 12px 14px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            color: #6b7280;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .users-table td {
+            padding: 15px 14px;
+
+            font-size: 13px;
+
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .users-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .users-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        html.dark .users-table tbody tr:hover {
+            background-color: #273449;
+        }
+
+        .user-name {
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        html.dark .user-name {
+            color: #e2e8f0;
+        }
+
+        .user-email {
+            color: #4b5563;
+        }
+
+        html.dark .user-email {
+            color: #cbd5e1;
+        }
+
+        .user-date {
+            color: #6b7280;
+        }
+
+        html.dark .user-date {
+            color: #94a3b8;
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+
+            min-height: 28px;
+
+            padding: 5px 10px;
+
+            border-radius: 999px;
+
+            background: rgba(59, 130, 246, 0.12);
+
+            color: #2563eb;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        html.dark .role-badge {
+            background: rgba(30, 64, 175, 0.3);
+            color: #60a5fa;
+        }
+
+        .empty-state {
+            padding: 40px 18px !important;
+
+            text-align: center !important;
+
+            color: #6b7280;
+            white-space: normal !important;
+        }
+
+        /* =========================================================
+           ACCESSIBILITÉ
+        ========================================================== */
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid rgba(249, 115, 22, 0.35);
+            outline-offset: 2px;
+        }
+
+        /* =========================================================
+           PETITS ÉCRANS
+        ========================================================== */
+        @media (max-width: 360px) {
+            .main-content {
+                padding-left: 11px;
+                padding-right: 11px;
+            }
+
+            .mobile-brand-title {
+                font-size: 15px;
+            }
+
+            .mobile-brand-logo {
+                width: 31px;
+                height: 31px;
+                flex-basis: 31px;
+                margin-right: 10px;
+            }
+
+            .mobile-brand-logo-inner {
+                width: 21px;
+                height: 21px;
+            }
+
+            .page-title {
+                font-size: 1.4rem;
+            }
+
+            .user-modal {
+                padding: 14px;
+            }
+
+            .table-card {
+                padding: 10px;
+            }
+        }
+
+        /* =========================================================
+           TABLETTE
+        ========================================================== */
+        @media (min-width: 576px) {
+            .main-content {
+                padding: 24px;
+            }
+
+            .page-header {
+                gap: 20px;
+            }
+
+            .add-user-btn {
+                width: fit-content;
+                align-self: flex-start;
+            }
+
+            .user-modal {
+                padding: 22px;
+            }
+
+            .table-card {
+                padding: 18px;
+            }
+
+            .form-actions {
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+
+            .form-actions button {
+                width: auto;
+            }
+        }
+
+        /* =========================================================
+           TABLETTE LARGE
+        ========================================================== */
+        @media (min-width: 768px) {
+            .main-content {
+                padding: 28px;
+            }
+
+            .page-header {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .page-header-info {
+                flex: 1;
+            }
+
+            .add-user-btn {
+                flex: 0 0 auto;
+            }
+
+            .user-form {
+                grid-template-columns: repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+            }
+
+            .form-actions {
+                grid-column: 1 / -1;
+            }
+
+            .user-modal {
+                padding: 24px;
+            }
+
+            .table-card {
+                padding: 20px;
+            }
+        }
+
+        /* =========================================================
+           DESKTOP
+        ========================================================== */
+        @media (min-width: 992px) {
+            .mobile-header {
+                display: none;
+            }
+
+            .sidebar-overlay {
+                display: none;
+            }
+
+            .sidebar {
+                width: var(--sidebar-width);
+
+                transform: translateX(0);
+
+                box-shadow: none;
+
+                transition: none;
+            }
+
+            .sidebar-close {
+                display: none;
+            }
+
+            .main-content {
+                width: calc(100% - var(--sidebar-width));
+                max-width: none;
+
+                margin-left: var(--sidebar-width);
+
+                padding: 36px;
+            }
+
+            .content-inner {
+                max-width: 1600px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .table-card {
+                padding: 24px;
+            }
+
+            .users-table {
+                min-width: 0;
+            }
+
+            .users-table th,
+            .users-table td {
+                white-space: normal;
+            }
+        }
+
+        /* =========================================================
+           GRAND ÉCRAN
+        ========================================================== */
+        @media (min-width: 1400px) {
+            .main-content {
+                padding: 40px;
+            }
+        }
+
+        /* =========================================================
+           RÉDUCTION DES ANIMATIONS
+        ========================================================== */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-brand">
-            <div class="sidebar-logo"><div class="sidebar-logo-inner"></div></div>
-            <div class="sidebar-title">ASTRA <span>TECH</span></div>
+    <!-- =========================================================
+         HEADER MOBILE
+    ========================================================== -->
+    <header class="mobile-header">
+
+        <div class="mobile-brand">
+            <div class="mobile-brand-logo">
+                <div class="mobile-brand-logo-inner"></div>
+            </div>
+
+            <div class="mobile-brand-title">
+                ASTRA <span>TECH</span>
+            </div>
         </div>
+
+        <button
+            type="button"
+            id="mobileMenuToggle"
+            class="mobile-menu-toggle"
+            aria-label="Ouvrir le menu"
+            aria-controls="sidebar"
+            aria-expanded="false"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
+
+    </header>
+
+    <!-- OVERLAY -->
+    <div
+        id="sidebarOverlay"
+        class="sidebar-overlay"
+        aria-hidden="true"
+    ></div>
+
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+    <aside
+        id="sidebar"
+        class="sidebar"
+        aria-label="Navigation principale"
+    >
+
+        <div class="sidebar-brand">
+
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-inner"></div>
+            </div>
+
+            <div class="sidebar-title">
+                ASTRA <span>TECH</span>
+            </div>
+
+            <!-- Bouton fermer mobile -->
+            <button
+                type="button"
+                id="sidebarClose"
+                class="sidebar-close"
+                aria-label="Fermer le menu"
+            >
+                <i class="fas fa-times"></i>
+            </button>
+
+        </div>
+
+
         <ul class="nav-menu">
-            <li><a href="{% url 'astra:token_accueil' %}"><i class="fas fa-key"></i> Gestion des Tokens</a></li>
-            <li><a href="{% url 'astra:page_utilisateurs' %}" class="active"><i class="fas fa-users"></i> Utilisateurs</a></li>
-            <li><a href="{% url 'astra:permissions_page' %}"><i class="fas fa-shield-alt"></i> Permissions</a></li>
-            <li><a href="{% url 'astra:historiques_page' %}"><i class="fas fa-history"></i> Historique</a></li>
-            <li><a href="{% url 'astra:parametres_page' %}"><i class="fas fa-cog"></i> Paramètres</a></li>
+
+            <li>
+                <a href="{% url 'astra:token_accueil' %}">
+                    <i class="fas fa-key"></i>
+                    <span>Gestion des Tokens</span>
+                </a>
+            </li>
+
+            <li>
+                <a
+                    href="{% url 'astra:page_utilisateurs' %}"
+                    class="active"
+                    aria-current="page"
+                >
+                    <i class="fas fa-users"></i>
+                    <span>Utilisateurs</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'astra:permissions_page' %}">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Permissions</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'astra:historiques_page' %}">
+                    <i class="fas fa-history"></i>
+                    <span>Historique</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'astra:parametres_page' %}">
+                    <i class="fas fa-cog"></i>
+                    <span>Paramètres</span>
+                </a>
+            </li>
+
         </ul>
+
     </aside>
 
-    <!-- CONTENU PRINCIPAL -->
-    <div class="main-content">
-        <header class="flex justify-between items-center mb-8">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
-                    <i class="fas fa-users text-orange-500 mr-4"></i> Gestion des Utilisateurs
-                </h1>
-                <p class="text-gray-500 dark:text-gray-400 mt-1">Lisez et enregistrez de nouveaux comptes directement dans la base de données.</p>
-            </div>
-            <button onclick="toggleModal()" class="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-all shadow-md flex items-center gap-2">
-                <i class="fas fa-user-plus"></i> Ajouter un utilisateur
-            </button>
-        </header>
 
-        <!-- Messages Django (Succès / Erreur) -->
-        {% if messages %}
-            <div class="mb-6 space-y-2">
-                {% for message in messages %}
-                    <div class="p-4 rounded-xl text-white {% if message.tags == 'error' %}bg-red-500{% else %}bg-green-500{% endif %} shadow-md">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+    <!-- =========================================================
+         CONTENU PRINCIPAL
+    ========================================================== -->
+    <main class="main-content">
 
-        <!-- MODALE / FORMULAIRE D'AJOUT (Caché par défaut) -->
-        <div id="userModal" class="hidden mb-8 card p-6 border-2 border-orange-500/30">
-            <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Enregistrer un nouvel utilisateur</h3>
-          <form method="POST" action="" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {% csrf_token %}
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Prénom</label>
-                    <input type="text" name="first_name" class="w-full px-4 py-2 rounded-lg border dark:bg-slate-700 dark:border-slate-600 dark:text-white" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Nom</label>
-                    <input type="text" name="last_name" class="w-full px-4 py-2 rounded-lg border dark:bg-slate-700 dark:border-slate-600 dark:text-white" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Email / Identifiant</label>
-                    <input type="email" name="email" class="w-full px-4 py-2 rounded-lg border dark:bg-slate-700 dark:border-slate-600 dark:text-white" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Mot de passe</label>
-                    <input type="password" name="password" class="w-full px-4 py-2 rounded-lg border dark:bg-slate-700 dark:border-slate-600 dark:text-white" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Rôle</label>
-                    <select name="role" class="w-full px-4 py-2 rounded-lg border dark:bg-slate-700 dark:border-slate-600 dark:text-white">
-                        {% for value, label in roles %}
-                            <option value="{{ value }}">{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="md:col-span-2 flex justify-end gap-3 mt-4">
-                    <button type="button" onclick="toggleModal()" class="px-4 py-2 bg-gray-300 dark:bg-slate-600 text-gray-800 dark:text-white rounded-lg font-semibold">Annuler</button>
-                    <button type="submit" class="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow">Enregistrer</button>
-                </div>
-            </form>
-        </div>
+        <div class="content-inner">
 
-        <!-- TABLEAU DES UTILISATEURS (Lecture de la base de données) -->
-        <div class="card p-6 overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="border-b border-gray-200 dark:border-slate-700 text-gray-500 dark:text-gray-400 text-sm">
-                        <th class="py-3 px-4">Nom & Prénom</th>
-                        <th class="py-3 px-4">Email / Identifiant</th>
-                        <th class="py-3 px-4">Date d'inscription</th>
-                        <th class="py-3 px-4">Statut / Rôle</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100 dark:divide-slate-800 text-sm">
-                    {% for u in utilisateurs %}
-                    <tr>
-                        <td class="py-4 px-4 font-semibold text-gray-800 dark:text-gray-200">
-                            {{ u.nom }} {{ u.prenom }}
-                        </td>
-                        <td class="py-4 px-4 text-gray-600 dark:text-gray-300">{{ u.email }}</td>
-                        <td class="py-4 px-4 text-gray-500 dark:text-gray-400">{{ u.date_inscription|date:"d/m/Y H:i" }}</td>
-                        <td class="py-4 px-4">
-                            <span class="px-3 py-1 bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 rounded-full text-xs font-bold">
-                                {{ u.get_role_display }}
-                            </span>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="4" class="py-8 text-center text-gray-500 dark:text-gray-400">Aucun utilisateur trouvé dans la base de données.</td>
-                    </tr>
+            <!-- =================================================
+                 EN-TÊTE
+            ================================================== -->
+            <header class="page-header">
+
+                <div class="page-header-info">
+
+                    <h1 class="page-title">
+                        <i class="fas fa-users text-orange-500"></i>
+
+                        <span>
+                            Gestion des Utilisateurs
+                        </span>
+                    </h1>
+
+                    <p class="page-description">
+                        Lisez et enregistrez de nouveaux comptes
+                        directement dans la base de données.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    onclick="toggleModal()"
+                    class="add-user-btn px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-all shadow-md flex items-center gap-2"
+                >
+                    <i class="fas fa-user-plus"></i>
+                    <span>Ajouter un utilisateur</span>
+                </button>
+
+            </header>
+
+
+            <!-- =================================================
+                 MESSAGES DJANGO
+            ================================================== -->
+            {% if messages %}
+
+                <div class="django-messages">
+
+                    {% for message in messages %}
+
+                        <div
+                            class="django-message shadow-md
+                            {% if message.tags == 'error' %}
+                                bg-red-500
+                            {% else %}
+                                bg-green-500
+                            {% endif %}"
+                        >
+                            {{ message }}
+                        </div>
+
                     {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
 
+                </div>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 FORMULAIRE D'AJOUT
+            ================================================== -->
+            <section
+                id="userModal"
+                class="hidden card user-modal"
+                aria-hidden="true"
+            >
+
+                <h2 class="modal-title font-bold text-gray-800 dark:text-white">
+                    Enregistrer un nouvel utilisateur
+                </h2>
+
+
+                <form
+                    method="POST"
+                    action=""
+                    class="user-form"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- PRÉNOM -->
+                    <div class="form-field">
+
+                        <label class="text-gray-600 dark:text-gray-300">
+                            Prénom
+                        </label>
+
+                        <input
+                            type="text"
+                            name="first_name"
+                            autocomplete="given-name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- NOM -->
+                    <div class="form-field">
+
+                        <label class="text-gray-600 dark:text-gray-300">
+                            Nom
+                        </label>
+
+                        <input
+                            type="text"
+                            name="last_name"
+                            autocomplete="family-name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+                    <div class="form-field">
+
+                        <label class="text-gray-600 dark:text-gray-300">
+                            Email / Identifiant
+                        </label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- MOT DE PASSE -->
+                    <div class="form-field">
+
+                        <label class="text-gray-600 dark:text-gray-300">
+                            Mot de passe
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- RÔLE -->
+                    <div class="form-field">
+
+                        <label class="text-gray-600 dark:text-gray-300">
+                            Rôle
+                        </label>
+
+                        <select
+                            name="role"
+                            required
+                        >
+
+                            {% for value, label in roles %}
+
+                                <option value="{{ value }}">
+                                    {{ label }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+                    <div class="form-actions">
+
+                        <button
+                            type="button"
+                            onclick="toggleModal()"
+                            class="px-4 py-2 bg-gray-300 dark:bg-slate-600 text-gray-800 dark:text-white rounded-lg font-semibold hover:opacity-90"
+                        >
+                            <i class="fas fa-times mr-1"></i>
+                            Annuler
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow"
+                        >
+                            <i class="fas fa-save mr-1"></i>
+                            Enregistrer
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================================
+                 TABLEAU DES UTILISATEURS
+            ================================================== -->
+            <section class="card table-card">
+
+                <div class="table-wrapper">
+
+                    <table class="users-table">
+
+                        <thead>
+
+                            <tr
+                                class="border-b border-gray-200 dark:border-slate-700"
+                            >
+
+                                <th>
+                                    Nom &amp; Prénom
+                                </th>
+
+                                <th>
+                                    Email / Identifiant
+                                </th>
+
+                                <th>
+                                    Date d'inscription
+                                </th>
+
+                                <th>
+                                    Statut / Rôle
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            class="divide-y divide-gray-100 dark:divide-slate-800"
+                        >
+
+                            {% for u in utilisateurs %}
+
+                                <tr>
+
+                                    <td class="user-name">
+                                        {{ u.nom }} {{ u.prenom }}
+                                    </td>
+
+                                    <td class="user-email">
+                                        {{ u.email }}
+                                    </td>
+
+                                    <td class="user-date">
+                                        {{ u.date_inscription|date:"d/m/Y H:i" }}
+                                    </td>
+
+                                    <td>
+
+                                        <span class="role-badge">
+                                            {{ u.get_role_display }}
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                            {% empty %}
+
+                                <tr>
+
+                                    <td
+                                        colspan="4"
+                                        class="empty-state"
+                                    >
+                                        <i class="fas fa-users-slash text-2xl mb-3 block opacity-50"></i>
+
+                                        Aucun utilisateur trouvé
+                                        dans la base de données.
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
     <script>
-        function toggleModal() {
-            const modal = document.getElementById('userModal');
-            modal.classList.toggle('hidden');
+
+        /* =========================================================
+           SIDEBAR MOBILE
+        ========================================================== */
+
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebarClose = document.getElementById('sidebarClose');
+
+        function setSidebarState(open) {
+
+            if (!sidebar || !sidebarOverlay) {
+                return;
+            }
+
+            sidebar.classList.toggle('active', open);
+            sidebarOverlay.classList.toggle('active', open);
+
+            document.body.classList.toggle('menu-open', open);
+
+            if (mobileMenuToggle) {
+                mobileMenuToggle.setAttribute(
+                    'aria-expanded',
+                    String(open)
+                );
+
+                mobileMenuToggle.setAttribute(
+                    'aria-label',
+                    open
+                        ? 'Fermer le menu'
+                        : 'Ouvrir le menu'
+                );
+            }
+
+            sidebarOverlay.setAttribute(
+                'aria-hidden',
+                String(!open)
+            );
         }
+
+
+        if (mobileMenuToggle) {
+
+            mobileMenuToggle.addEventListener(
+                'click',
+                function () {
+                    setSidebarState(true);
+                }
+            );
+
+        }
+
+
+        if (sidebarClose) {
+
+            sidebarClose.addEventListener(
+                'click',
+                function () {
+                    setSidebarState(false);
+                }
+            );
+
+        }
+
+
+        if (sidebarOverlay) {
+
+            sidebarOverlay.addEventListener(
+                'click',
+                function () {
+                    setSidebarState(false);
+                }
+            );
+
+        }
+
+
+        /* Fermer avec Échap */
+        document.addEventListener(
+            'keydown',
+            function (event) {
+
+                if (event.key === 'Escape') {
+
+                    setSidebarState(false);
+
+                }
+
+            }
+        );
+
+
+        /* Fermer après clic sur un lien mobile */
+        if (sidebar) {
+
+            sidebar
+                .querySelectorAll('.nav-menu a')
+                .forEach(function (link) {
+
+                    link.addEventListener(
+                        'click',
+                        function () {
+
+                            if (window.innerWidth < 992) {
+                                setSidebarState(false);
+                            }
+
+                        }
+                    );
+
+                });
+
+        }
+
+
+        /* Revenir à l'état desktop */
+        window.addEventListener(
+            'resize',
+            function () {
+
+                if (window.innerWidth >= 992) {
+                    setSidebarState(false);
+                }
+
+            }
+        );
+
+
+        /* =========================================================
+           MODALE UTILISATEUR
+        ========================================================== */
+
+        function toggleModal() {
+
+            const modal = document.getElementById('userModal');
+
+            if (!modal) {
+                return;
+            }
+
+            const isHidden = modal.classList.contains('hidden');
+
+            modal.classList.toggle('hidden');
+
+            modal.setAttribute(
+                'aria-hidden',
+                String(!isHidden)
+            );
+
+            /* Focus automatique sur le premier champ */
+            if (isHidden) {
+
+                const firstInput =
+                    modal.querySelector(
+                        'input, select'
+                    );
+
+                if (firstInput) {
+
+                    setTimeout(
+                        function () {
+                            firstInput.focus();
+                        },
+                        100
+                    );
+
+                }
+
+            }
+
+        }
+
+
+        /* =========================================================
+           TOUCHE ÉCHAP POUR FERMER LE FORMULAIRE
+        ========================================================== */
+
+        document.addEventListener(
+            'keydown',
+            function (event) {
+
+                if (event.key !== 'Escape') {
+                    return;
+                }
+
+                const modal =
+                    document.getElementById('userModal');
+
+                if (
+                    modal &&
+                    !modal.classList.contains('hidden')
+                ) {
+
+                    toggleModal();
+
+                }
+
+            }
+        );
+
     </script>
+
 </body>
 </html>
