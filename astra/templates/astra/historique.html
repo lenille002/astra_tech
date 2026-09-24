@@ -205,7 +205,6 @@
         html.dark .log-item {
 
             background-color: #0f172a !important;
-
             border-color: #334155 !important;
         }
 
@@ -213,7 +212,6 @@
         html.dark .module-header {
 
             background-color: #172033 !important;
-
             border-color: #334155 !important;
         }
 
@@ -233,7 +231,6 @@
         html.dark .log-meta {
 
             color: #94a3b8 !important;
-
             border-color: #334155 !important;
         }
 
@@ -241,7 +238,6 @@
         html.dark .user-badge {
 
             background-color: #334155 !important;
-
             color: #cbd5e1 !important;
         }
 
@@ -249,6 +245,247 @@
         html.dark .empty-message {
 
             color: #94a3b8 !important;
+        }
+
+
+        /* =========================================================
+           =========================================================
+           ANIMATIONS GLOBALES AU CHARGEMENT
+           =========================================================
+        ========================================================== */
+
+        @keyframes astraHeaderEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(-18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes astraBrandEnter {
+
+            from {
+                opacity: 0;
+                transform: translateX(-22px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        @keyframes astraMenuEnter {
+
+            from {
+                opacity: 0;
+                transform: translateX(-22px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        @keyframes astraFooterEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes astraPageEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes astraBannerEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(-15px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+
+        @keyframes astraCardEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+
+        @keyframes astraLogEnter {
+
+            from {
+                opacity: 0;
+                transform: translateX(-16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        @keyframes astraIconPulse {
+
+            0% {
+                transform: scale(0.75);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.08);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+
+        /* =========================================================
+           ANIMATION HEADER MOBILE
+        ========================================================== */
+
+        .mobile-header {
+
+            animation:
+                astraHeaderEnter
+                0.55s
+                cubic-bezier(.22, 1, .36, 1)
+                both;
+        }
+
+
+        /* =========================================================
+           ANIMATION SIDEBAR
+        ========================================================== */
+
+        .sidebar-brand {
+
+            animation:
+                astraBrandEnter
+                0.6s
+                ease-out
+                0.12s
+                both;
+        }
+
+
+        .sidebar .nav-menu > li {
+
+            opacity: 0;
+
+            animation:
+                astraMenuEnter
+                0.48s
+                cubic-bezier(.22, 1, .36, 1)
+                forwards;
+        }
+
+
+        .sidebar .nav-menu > li:nth-child(1) {
+            animation-delay: 0.18s;
+        }
+
+        .sidebar .nav-menu > li:nth-child(2) {
+            animation-delay: 0.25s;
+        }
+
+        .sidebar .nav-menu > li:nth-child(3) {
+            animation-delay: 0.32s;
+        }
+
+        .sidebar .nav-menu > li:nth-child(4) {
+            animation-delay: 0.39s;
+        }
+
+        .sidebar .nav-menu > li:nth-child(5) {
+            animation-delay: 0.46s;
+        }
+
+        .sidebar .nav-menu > li:nth-child(6) {
+            animation-delay: 0.53s;
+        }
+
+
+        .sidebar-footer {
+
+            animation:
+                astraFooterEnter
+                0.55s
+                ease-out
+                0.58s
+                both;
+        }
+
+
+        .sidebar-item-icon i {
+
+            transition:
+                transform 0.25s ease,
+                color 0.25s ease;
+        }
+
+
+        .sidebar .nav-menu > li > a:hover
+        .sidebar-item-icon i {
+
+            transform: scale(1.12);
+        }
+
+
+        .sidebar .nav-menu > li > a.active
+        .sidebar-item-icon i {
+
+            animation:
+                astraIconPulse
+                0.65s
+                ease-out
+                0.55s
+                both;
         }
 
 
@@ -435,7 +672,6 @@
                 rgba(15, 23, 42, 0.68) !important;
 
             backdrop-filter: blur(3px);
-
             -webkit-backdrop-filter: blur(3px);
 
             opacity: 0 !important;
@@ -462,7 +698,6 @@
 
         /* =========================================================
            SIDEBAR
-           MOBILE
         ========================================================== */
 
         .sidebar {
@@ -487,10 +722,6 @@
 
             display: flex !important;
 
-            /*
-             * IMPORTANT :
-             * Le sidebar lui-même est toujours vertical.
-             */
             flex-direction: column !important;
 
             align-items: stretch !important;
@@ -517,7 +748,7 @@
             pointer-events: none !important;
 
             transition:
-                transform 0.28s cubic-bezier(
+                transform 0.32s cubic-bezier(
                     0.4,
                     0,
                     0.2,
@@ -675,6 +906,10 @@
             cursor: pointer !important;
 
             z-index: 2 !important;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease !important;
         }
 
 
@@ -704,8 +939,6 @@
 
         /* =========================================================
            MENU SIDEBAR
-           IMPORTANT :
-           LE MENU EST VERTICAL
         ========================================================== */
 
         .sidebar .nav-menu {
@@ -728,10 +961,6 @@
 
             display: flex !important;
 
-            /*
-             * OBLIGATOIRE :
-             * les éléments du menu sont empilés verticalement.
-             */
             flex-direction: column !important;
 
             flex-wrap: nowrap !important;
@@ -782,7 +1011,7 @@
 
 
         /* =========================================================
-           CHAQUE LI EST UNE LIGNE À PART ENTIÈRE
+           LI
         ========================================================== */
 
         .sidebar .nav-menu > li {
@@ -812,8 +1041,7 @@
 
 
         /* =========================================================
-           LIEN DU MENU
-           ICÔNE + TEXTE SUR UNE SEULE LIGNE
+           LIENS
         ========================================================== */
 
         .sidebar .nav-menu > li > a {
@@ -828,10 +1056,6 @@
 
             display: flex !important;
 
-            /*
-             * Ici seulement :
-             * icône + texte sont horizontaux.
-             */
             flex-direction: row !important;
 
             flex-wrap: nowrap !important;
@@ -879,6 +1103,31 @@
             box-sizing: border-box !important;
 
             float: none !important;
+
+            transition:
+                background 0.22s ease,
+                color 0.22s ease,
+                transform 0.22s ease !important;
+        }
+
+
+        .sidebar .nav-menu > li > a:hover {
+
+            color: #ffffff !important;
+
+            background:
+                rgba(255, 255, 255, 0.10) !important;
+
+            transform: translateX(4px);
+        }
+
+
+        .sidebar .nav-menu > li > a:active {
+
+            background:
+                rgba(255, 255, 255, 0.16) !important;
+
+            transform: scale(0.98);
         }
 
 
@@ -886,7 +1135,8 @@
            ICÔNE
         ========================================================== */
 
-        .sidebar .nav-menu > li > a > .sidebar-item-icon {
+        .sidebar .nav-menu > li > a >
+        .sidebar-item-icon {
 
             display: inline-flex !important;
 
@@ -921,7 +1171,8 @@
         }
 
 
-        .sidebar .nav-menu > li > a > .sidebar-item-icon i {
+        .sidebar .nav-menu > li > a >
+        .sidebar-item-icon i {
 
             display: block !important;
 
@@ -940,14 +1191,6 @@
             flex: 0 0 auto !important;
 
             font-size: 16px !important;
-
-            writing-mode: horizontal-tb !important;
-
-            text-orientation: mixed !important;
-
-            direction: ltr !important;
-
-            white-space: nowrap !important;
         }
 
 
@@ -955,7 +1198,8 @@
            TEXTE
         ========================================================== */
 
-        .sidebar .nav-menu > li > a > .sidebar-item-text {
+        .sidebar .nav-menu > li > a >
+        .sidebar-item-text {
 
             display: block !important;
 
@@ -985,37 +1229,11 @@
 
             text-overflow: ellipsis !important;
 
-            overflow-wrap: normal !important;
-
-            word-break: normal !important;
-
-            word-wrap: normal !important;
-
             writing-mode: horizontal-tb !important;
 
             text-orientation: mixed !important;
 
             direction: ltr !important;
-        }
-
-
-        /* =========================================================
-           HOVER
-        ========================================================== */
-
-        .sidebar .nav-menu > li > a:hover {
-
-            color: #ffffff !important;
-
-            background:
-                rgba(255, 255, 255, 0.10) !important;
-        }
-
-
-        .sidebar .nav-menu > li > a:active {
-
-            background:
-                rgba(255, 255, 255, 0.16) !important;
         }
 
 
@@ -1046,6 +1264,9 @@
             padding-left: 9px !important;
 
             font-weight: 700 !important;
+
+            box-shadow:
+                inset 0 0 20px rgba(255, 140, 0, 0.04);
         }
 
 
@@ -1069,6 +1290,33 @@
 
             border:
                 1px solid rgba(255, 255, 255, 0.10) !important;
+
+            color: #dbeafe !important;
+        }
+
+
+        .sidebar .nav-menu > li > a.back-link:hover {
+
+            background:
+                rgba(255, 140, 0, 0.16) !important;
+
+            border-color:
+                rgba(255, 140, 0, 0.35) !important;
+
+            color: #ffffff !important;
+        }
+
+
+        .back-link .sidebar-item-icon i {
+
+            transition:
+                transform 0.3s ease !important;
+        }
+
+
+        .back-link:hover .sidebar-item-icon i {
+
+            transform: translateX(-5px) !important;
         }
 
 
@@ -1103,7 +1351,6 @@
 
         /* =========================================================
            DÉCONNEXION
-           ICÔNE + TEXTE HORIZONTAUX
         ========================================================== */
 
         .sidebar-footer .btn-logout {
@@ -1153,11 +1400,14 @@
 
             white-space: nowrap !important;
 
-            writing-mode: horizontal-tb !important;
-
-            direction: ltr !important;
-
             overflow: hidden !important;
+
+            transition:
+                background 0.25s ease,
+                color 0.25s ease,
+                border-color 0.25s ease,
+                transform 0.25s ease,
+                box-shadow 0.25s ease !important;
         }
 
 
@@ -1184,8 +1434,6 @@
                 0 12px 0 0 !important;
 
             padding: 0 !important;
-
-            writing-mode: horizontal-tb !important;
         }
 
 
@@ -1200,8 +1448,6 @@
 
             min-width: 0 !important;
 
-            max-width: none !important;
-
             white-space: nowrap !important;
 
             overflow: hidden !important;
@@ -1209,8 +1455,6 @@
             text-overflow: ellipsis !important;
 
             text-align: left !important;
-
-            writing-mode: horizontal-tb !important;
         }
 
 
@@ -1223,7 +1467,15 @@
             border-color: #ff4d4d !important;
 
             box-shadow:
-                0 4px 12px rgba(255, 77, 77, 0.3) !important;
+                0 4px 16px rgba(255, 77, 77, 0.30) !important;
+
+            transform: translateY(-2px);
+        }
+
+
+        .sidebar-footer .btn-logout:active {
+
+            transform: scale(0.97);
         }
 
 
@@ -1248,6 +1500,12 @@
                 max(12px, env(safe-area-inset-left)) !important;
 
             overflow-x: hidden !important;
+
+            animation:
+                astraPageEnter
+                0.65s
+                cubic-bezier(.22, 1, .36, 1)
+                both;
         }
 
 
@@ -1268,6 +1526,13 @@
             border-radius: 18px !important;
 
             gap: 14px !important;
+
+            animation:
+                astraBannerEnter
+                0.65s
+                cubic-bezier(.22, 1, .36, 1)
+                0.08s
+                both;
         }
 
 
@@ -1285,7 +1550,8 @@
         }
 
 
-        .header-banner > div:first-child > div:first-child {
+        .header-banner > div:first-child >
+        div:first-child {
 
             width: 44px !important;
 
@@ -1375,12 +1641,51 @@
 
             box-shadow:
                 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+
+            opacity: 0;
+
+            animation:
+                astraCardEnter
+                0.65s
+                cubic-bezier(.22, 1, .36, 1)
+                forwards;
+        }
+
+
+        .module-card:nth-child(1) {
+
+            animation-delay: 0.18s;
+        }
+
+
+        .module-card:nth-child(2) {
+
+            animation-delay: 0.30s;
+        }
+
+
+        .module-card:nth-child(3) {
+
+            animation-delay: 0.42s;
         }
 
 
         .module-card.admin-card {
 
             grid-column: auto !important;
+        }
+
+
+        .module-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 12px 30px rgba(0, 51, 102, 0.10);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
         }
 
 
@@ -1443,6 +1748,15 @@
         .module-title i {
 
             flex-shrink: 0 !important;
+
+            transition:
+                transform 0.3s ease;
+        }
+
+
+        .module-card:hover .module-title i {
+
+            transform: rotate(-8deg) scale(1.1);
         }
 
 
@@ -1506,7 +1820,7 @@
 
 
         /* =========================================================
-           LOG ITEMS
+           LOG LIST
         ========================================================== */
 
         .log-list {
@@ -1518,6 +1832,10 @@
             gap: 10px !important;
         }
 
+
+        /* =========================================================
+           LOG ITEMS
+        ========================================================== */
 
         .log-item {
 
@@ -1541,12 +1859,43 @@
                 transform 0.2s ease,
                 background-color 0.2s ease,
                 box-shadow 0.2s ease;
+
+            animation:
+                astraLogEnter
+                0.45s
+                ease-out
+                both;
+        }
+
+
+        .log-item:nth-child(1) {
+            animation-delay: 0.12s;
+        }
+
+        .log-item:nth-child(2) {
+            animation-delay: 0.18s;
+        }
+
+        .log-item:nth-child(3) {
+            animation-delay: 0.24s;
+        }
+
+        .log-item:nth-child(4) {
+            animation-delay: 0.30s;
+        }
+
+        .log-item:nth-child(5) {
+            animation-delay: 0.36s;
+        }
+
+        .log-item:nth-child(6) {
+            animation-delay: 0.42s;
         }
 
 
         .log-item:hover {
 
-            transform: translateX(2px);
+            transform: translateX(4px);
 
             background: #ffffff;
 
@@ -1688,6 +2037,13 @@
             font-size: 23px !important;
 
             color: #cbd5e1 !important;
+
+            animation:
+                astraIconPulse
+                0.7s
+                ease-out
+                0.55s
+                both;
         }
 
 
@@ -2268,9 +2624,6 @@
             }
 
 
-            /*
-             * Desktop également vertical.
-             */
             .sidebar .nav-menu {
 
                 padding:
@@ -2556,12 +2909,15 @@
 
         @media (prefers-reduced-motion: reduce) {
 
+            html {
+
+                scroll-behavior: auto !important;
+            }
+
+
             *,
             *::before,
             *::after {
-
-                scroll-behavior:
-                    auto !important;
 
                 transition-duration:
                     0.01ms !important;
@@ -2574,10 +2930,25 @@
             }
 
 
-            .log-item:hover {
+            .mobile-header,
+            .sidebar-brand,
+            .sidebar .nav-menu > li,
+            .sidebar-footer,
+            .main-content,
+            .header-banner,
+            .module-card,
+            .log-item {
 
-                transform:
-                    none !important;
+                opacity: 1 !important;
+
+                transform: none !important;
+            }
+
+
+            .log-item:hover,
+            .sidebar .nav-menu > li > a:hover {
+
+                transform: none !important;
             }
         }
 
@@ -2691,6 +3062,8 @@
         <ul class="nav-menu">
 
 
+            <!-- GESTION DES TOKENS -->
+
             <li>
 
                 <a
@@ -2713,6 +3086,8 @@
 
             </li>
 
+
+            <!-- UTILISATEURS -->
 
             <li>
 
@@ -2737,6 +3112,8 @@
             </li>
 
 
+            <!-- PERMISSIONS -->
+
             <li>
 
                 <a
@@ -2759,6 +3136,8 @@
 
             </li>
 
+
+            <!-- HISTORIQUE -->
 
             <li>
 
@@ -2785,6 +3164,8 @@
             </li>
 
 
+            <!-- PARAMÈTRES -->
+
             <li>
 
                 <a
@@ -2808,12 +3189,15 @@
             </li>
 
 
+            <!-- RETOUR -->
+
             <li>
 
                 <a
                     href="#"
                     onclick="history.back(); return false;"
                     class="back-link"
+                    aria-label="Retour à la page précédente"
                 >
 
                     <span class="sidebar-item-icon">
@@ -2846,6 +3230,7 @@
                 href="{% url 'astra:login' %}"
                 class="btn-logout"
                 id="loginBtn"
+                aria-label="Déconnexion"
             >
 
                 <span class="sidebar-item-icon">
@@ -3422,6 +3807,24 @@
                             ? 'Fermer le menu'
                             : 'Ouvrir le menu'
                     );
+
+
+                    const icon =
+                        mobileMenuToggle.querySelector('i');
+
+                    if (icon) {
+
+                        icon.classList.toggle(
+                            'fa-bars',
+                            !open
+                        );
+
+                        icon.classList.toggle(
+                            'fa-times',
+                            open
+                        );
+
+                    }
 
                 }
 

@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -41,6 +42,7 @@
         /* =========================================================
            VARIABLES
         ========================================================== */
+
         :root {
             --tech-dark-blue: #004E8C;
             --tech-dark-blue-2: #003366;
@@ -59,9 +61,11 @@
             --mobile-header-height: 64px;
         }
 
+
         /* =========================================================
            BASE
         ========================================================== */
+
         * {
             box-sizing: border-box;
         }
@@ -78,10 +82,14 @@
             max-width: 100%;
             min-height: 100vh;
             min-height: 100dvh;
+
             margin: 0;
+
             font-family: 'Inter', Arial, sans-serif;
+
             background-color: var(--tech-light-gray);
             color: var(--tech-dark-gray);
+
             overflow-x: hidden;
         }
 
@@ -103,9 +111,11 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+
         /* =========================================================
            DARK MODE
         ========================================================== */
+
         html.dark body {
             background-color: #0f172a !important;
             color: #f1f5f9 !important;
@@ -133,9 +143,11 @@
             color: #94a3b8;
         }
 
+
         /* =========================================================
            HEADER MOBILE
         ========================================================== */
+
         .mobile-header {
             position: sticky;
             top: 0;
@@ -161,6 +173,8 @@
             );
 
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+
+            animation: astraHeaderEnter 0.5s ease-out both;
         }
 
         .mobile-brand {
@@ -202,6 +216,7 @@
             color: #ffffff;
             font-size: 17px;
             font-weight: 800;
+
             white-space: nowrap;
         }
 
@@ -237,9 +252,11 @@
             font-size: 20px;
         }
 
+
         /* =========================================================
            OVERLAY MOBILE
         ========================================================== */
+
         .sidebar-overlay {
             position: fixed;
             inset: 0;
@@ -264,62 +281,72 @@
             pointer-events: auto;
         }
 
+
         /* =========================================================
            SIDEBAR
         ========================================================== */
+
         .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
+            position: fixed !important;
 
-            z-index: 2000;
+            top: 0 !important;
+            left: 0 !important;
 
-            width: min(86vw, 320px);
-            height: 100vh;
-            height: 100dvh;
+            width: min(86vw, 320px) !important;
 
-            display: flex;
-            flex-direction: column;
+            height: 100vh !important;
+            height: 100dvh !important;
+
+            z-index: 2000 !important;
+
+            display: flex !important;
+            flex-direction: column !important;
 
             background: linear-gradient(
                 180deg,
                 var(--tech-dark-blue) 0%,
                 var(--tech-dark-blue-2) 100%
-            );
+            ) !important;
 
             color: #ffffff;
 
-            overflow-x: hidden;
-            overflow-y: auto;
+            overflow: hidden !important;
 
-            transform: translateX(-105%);
+            transform: translate3d(-105%, 0, 0);
 
-            transition: transform 0.28s ease;
+            transition:
+                transform 0.32s cubic-bezier(.4, 0, .2, 1);
 
             box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
         }
 
         .sidebar.active {
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
         }
+
 
         /* =========================================================
            SIDEBAR BRAND
         ========================================================== */
+
         .sidebar-brand {
             position: relative;
 
             min-height: 90px;
 
-            padding:
-                24px
-                20px;
+            padding: 24px 20px;
 
             display: flex;
             align-items: center;
 
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+            animation:
+                astraSidebarBrandEnter
+                0.6s
+                ease-out
+                0.15s
+                both;
         }
 
         .sidebar-logo {
@@ -356,6 +383,7 @@
             font-size: 20px;
 
             color: #ffffff !important;
+
             white-space: nowrap;
         }
 
@@ -365,6 +393,7 @@
 
         .sidebar-close {
             position: absolute;
+
             top: 18px;
             right: 14px;
 
@@ -390,36 +419,58 @@
             outline: none;
         }
 
+
         /* =========================================================
            NAVIGATION
         ========================================================== */
+
         .nav-menu {
-            list-style: none;
+            list-style: none !important;
 
-            width: 100%;
+            width: 100% !important;
 
-            padding: 22px 14px;
-            margin: 0;
+            padding: 18px 12px !important;
+            margin: 0 !important;
 
-            flex: 1;
+            flex: 1 1 auto !important;
 
-            display: flex;
-            flex-direction: column;
+            display: flex !important;
+            flex-direction: column !important;
+            flex-wrap: nowrap !important;
 
-            gap: 6px;
+            align-items: stretch !important;
+            justify-content: flex-start !important;
+
+            gap: 7px !important;
+
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
         }
 
         .nav-menu li {
-            width: 100%;
+            display: block !important;
+
+            width: 100% !important;
+
+            margin: 0 !important;
+            padding: 0 !important;
+
+            flex: 0 0 auto !important;
         }
 
         .nav-menu li a {
-            width: 100%;
+            width: 100% !important;
 
-            display: flex;
-            align-items: center;
+            min-height: 48px !important;
 
-            padding: 14px 16px;
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+
+            align-items: center !important;
+            justify-content: flex-start !important;
+
+            padding: 0 14px !important;
 
             color: rgba(255, 255, 255, 0.82);
 
@@ -430,6 +481,10 @@
 
             border-radius: var(--radius-md);
 
+            gap: 12px !important;
+
+            white-space: nowrap !important;
+
             transition:
                 background-color 0.25s ease,
                 color 0.25s ease,
@@ -437,17 +492,39 @@
         }
 
         .nav-menu li a i {
-            width: 24px;
-            flex: 0 0 24px;
+            width: 24px !important;
+            min-width: 24px !important;
+            max-width: 24px !important;
 
-            margin-right: 13px;
+            height: 24px;
+
+            flex: 0 0 24px !important;
+
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 !important;
 
             text-align: center;
         }
 
+        .nav-menu li a span {
+            display: block !important;
+
+            flex: 1 1 auto !important;
+
+            min-width: 0;
+
+            white-space: nowrap !important;
+        }
+
         .nav-menu li a:hover {
             color: #ffffff;
+
             background-color: rgba(255, 255, 255, 0.1);
+
+            transform: translateX(3px);
         }
 
         .nav-menu li a.active {
@@ -457,14 +534,135 @@
 
             border-left: 4px solid var(--tech-orange);
 
-            padding-left: 12px;
+            padding-left: 10px !important;
 
             font-weight: 700;
         }
 
+
+        /* =========================================================
+           ANIMATION DES ÉLÉMENTS DU MENU
+        ========================================================== */
+
+        .sidebar .nav-menu li {
+            opacity: 0;
+
+            animation:
+                astraMenuItemEnter
+                0.45s
+                ease-out
+                forwards;
+        }
+
+        .sidebar .nav-menu li:nth-child(1) {
+            animation-delay: 0.18s;
+        }
+
+        .sidebar .nav-menu li:nth-child(2) {
+            animation-delay: 0.24s;
+        }
+
+        .sidebar .nav-menu li:nth-child(3) {
+            animation-delay: 0.30s;
+        }
+
+        .sidebar .nav-menu li:nth-child(4) {
+            animation-delay: 0.36s;
+        }
+
+        .sidebar .nav-menu li:nth-child(5) {
+            animation-delay: 0.42s;
+        }
+
+        .sidebar .nav-menu li:nth-child(6) {
+            animation-delay: 0.48s;
+        }
+
+        .sidebar .nav-menu li:nth-child(7) {
+            animation-delay: 0.54s;
+        }
+
+
+        /* =========================================================
+           SIDEBAR FOOTER
+        ========================================================== */
+
+        .sidebar-footer {
+            width: 100%;
+
+            padding: 12px;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+
+            animation:
+                astraFooterEnter
+                0.5s
+                ease-out
+                0.58s
+                both;
+        }
+
+        .sidebar-footer a {
+            width: 100%;
+
+            min-height: 46px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 14px;
+
+            gap: 12px;
+
+            color: #dbeafe;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition:
+                background-color 0.25s ease,
+                color 0.25s ease,
+                transform 0.2s ease;
+        }
+
+        .sidebar-footer a i {
+            width: 24px;
+            min-width: 24px;
+
+            text-align: center;
+        }
+
+        .sidebar-footer a:hover {
+            background: rgba(255, 255, 255, 0.1);
+
+            color: #ffffff;
+
+            transform: translateX(3px);
+        }
+
+        .sidebar-footer .logout-link {
+            color: #fecaca;
+        }
+
+        .sidebar-footer .logout-link:hover {
+            background: rgba(239, 68, 68, 0.15);
+
+            color: #ffffff;
+        }
+
+
         /* =========================================================
            CONTENU PRINCIPAL
         ========================================================== */
+
         .main-content {
             width: 100%;
             min-width: 0;
@@ -474,18 +672,27 @@
                 max(14px, env(safe-area-inset-right))
                 32px
                 max(14px, env(safe-area-inset-left));
+
+            animation:
+                astraPageEnter
+                0.65s
+                ease-out
+                both;
         }
 
         .content-inner {
             width: 100%;
             max-width: 1600px;
             min-width: 0;
+
             margin: 0 auto;
         }
+
 
         /* =========================================================
            PAGE HEADER
         ========================================================== */
+
         .page-header {
             width: 100%;
 
@@ -496,6 +703,13 @@
             gap: 18px;
 
             margin-bottom: 28px;
+
+            animation:
+                astraBannerEnter
+                0.65s
+                ease-out
+                0.08s
+                both;
         }
 
         .page-header-info {
@@ -524,6 +738,7 @@
 
         .page-title i {
             flex: 0 0 auto;
+
             margin-top: 4px;
         }
 
@@ -549,9 +764,11 @@
             justify-content: center;
         }
 
+
         /* =========================================================
            CARDS
         ========================================================== */
+
         .card {
             width: 100%;
             min-width: 0;
@@ -568,10 +785,24 @@
 
         .user-modal {
             margin-bottom: 24px;
+
             padding: 18px;
 
             border-width: 2px;
-            border-color: rgba(249, 115, 22, 0.3);
+
+            border-color:
+                rgba(249, 115, 22, 0.3);
+
+            transform-origin: top center;
+        }
+
+        /* Animation ouverture formulaire */
+        .user-modal:not(.hidden) {
+            animation:
+                userModalOpen
+                0.35s
+                cubic-bezier(.4, 0, .2, 1)
+                both;
         }
 
         .modal-title {
@@ -581,9 +812,11 @@
             line-height: 1.4;
         }
 
+
         /* =========================================================
            FORMULAIRE
         ========================================================== */
+
         .user-form {
             display: grid;
 
@@ -615,16 +848,19 @@
             padding: 10px 13px;
 
             border: 1px solid #d1d5db;
+
             border-radius: 9px;
 
             background: #ffffff;
+
             color: #1f2937;
 
             outline: none;
 
             transition:
                 border-color 0.2s ease,
-                box-shadow 0.2s ease;
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
         }
 
         .form-field input:focus,
@@ -633,10 +869,13 @@
 
             box-shadow:
                 0 0 0 3px rgba(249, 115, 22, 0.12);
+
+            transform: translateY(-1px);
         }
 
         .form-actions {
             display: flex;
+
             flex-direction: column;
 
             gap: 10px;
@@ -646,15 +885,26 @@
 
         .form-actions button {
             width: 100%;
+
             min-height: 44px;
         }
+
 
         /* =========================================================
            MESSAGES
         ========================================================== */
+
         .django-messages {
             width: 100%;
+
             margin-bottom: 24px;
+
+            animation:
+                astraMessageEnter
+                0.5s
+                ease-out
+                0.15s
+                both;
         }
 
         .django-message {
@@ -670,12 +920,22 @@
             word-break: break-word;
         }
 
+
         /* =========================================================
            TABLEAU
         ========================================================== */
+
         .table-card {
             padding: 14px;
+
             overflow: hidden;
+
+            animation:
+                astraCardEnter
+                0.55s
+                ease-out
+                0.2s
+                both;
         }
 
         .table-wrapper {
@@ -691,6 +951,7 @@
 
         .users-table {
             width: 100%;
+
             min-width: 700px;
 
             border-collapse: collapse;
@@ -709,6 +970,7 @@
             padding: 12px 14px;
 
             font-size: 12px;
+
             font-weight: 700;
 
             color: #6b7280;
@@ -725,11 +987,15 @@
         }
 
         .users-table tbody tr {
-            transition: background-color 0.2s ease;
+            transition:
+                background-color 0.2s ease,
+                transform 0.2s ease;
         }
 
         .users-table tbody tr:hover {
             background-color: #f8fafc;
+
+            transform: translateX(2px);
         }
 
         html.dark .users-table tbody tr:hover {
@@ -738,6 +1004,7 @@
 
         .user-name {
             font-weight: 700;
+
             color: #1f2937;
         }
 
@@ -763,6 +1030,7 @@
 
         .role-badge {
             display: inline-flex;
+
             align-items: center;
 
             min-height: 28px;
@@ -776,6 +1044,7 @@
             color: #2563eb;
 
             font-size: 11px;
+
             font-weight: 800;
 
             white-space: nowrap;
@@ -783,6 +1052,7 @@
 
         html.dark .role-badge {
             background: rgba(30, 64, 175, 0.3);
+
             color: #60a5fa;
         }
 
@@ -792,24 +1062,144 @@
             text-align: center !important;
 
             color: #6b7280;
+
             white-space: normal !important;
         }
+
 
         /* =========================================================
            ACCESSIBILITÉ
         ========================================================== */
+
         button:focus-visible,
         a:focus-visible,
         input:focus-visible,
         select:focus-visible {
             outline: 3px solid rgba(249, 115, 22, 0.35);
+
             outline-offset: 2px;
         }
+
+
+        /* =========================================================
+           ANIMATIONS
+        ========================================================== */
+
+        @keyframes astraSidebarBrandEnter {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes astraMenuItemEnter {
+            from {
+                opacity: 0;
+                transform: translateX(-18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes astraFooterEnter {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes astraPageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes astraHeaderEnter {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes astraBannerEnter {
+            from {
+                opacity: 0;
+                transform: translateY(-12px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes astraCardEnter {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes astraMessageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes userModalOpen {
+            from {
+                opacity: 0;
+                transform: translateY(-15px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
 
         /* =========================================================
            PETITS ÉCRANS
         ========================================================== */
+
         @media (max-width: 360px) {
+
             .main-content {
                 padding-left: 11px;
                 padding-right: 11px;
@@ -822,7 +1212,9 @@
             .mobile-brand-logo {
                 width: 31px;
                 height: 31px;
+
                 flex-basis: 31px;
+
                 margin-right: 10px;
             }
 
@@ -844,10 +1236,13 @@
             }
         }
 
+
         /* =========================================================
            TABLETTE
         ========================================================== */
+
         @media (min-width: 576px) {
+
             .main-content {
                 padding: 24px;
             }
@@ -858,6 +1253,7 @@
 
             .add-user-btn {
                 width: fit-content;
+
                 align-self: flex-start;
             }
 
@@ -871,6 +1267,7 @@
 
             .form-actions {
                 flex-direction: row;
+
                 justify-content: flex-end;
             }
 
@@ -879,17 +1276,22 @@
             }
         }
 
+
         /* =========================================================
            TABLETTE LARGE
         ========================================================== */
+
         @media (min-width: 768px) {
+
             .main-content {
                 padding: 28px;
             }
 
             .page-header {
                 flex-direction: row;
+
                 align-items: center;
+
                 justify-content: space-between;
             }
 
@@ -902,10 +1304,11 @@
             }
 
             .user-form {
-                grid-template-columns: repeat(
-                    2,
-                    minmax(0, 1fr)
-                );
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(0, 1fr)
+                    );
             }
 
             .form-actions {
@@ -921,22 +1324,153 @@
             }
         }
 
+
         /* =========================================================
-           DESKTOP
+           MOBILE
         ========================================================== */
-        @media (min-width: 992px) {
-            .mobile-header {
-                display: none;
+
+        @media (max-width: 991px) {
+
+            body {
+                padding-top: 0 !important;
             }
 
-            .sidebar-overlay {
-                display: none;
+            .mobile-header {
+                position: fixed !important;
+
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+
+                height: 64px !important;
+
+                z-index: 1100 !important;
+            }
+
+            .main-content {
+                padding-top: 84px !important;
             }
 
             .sidebar {
-                width: var(--sidebar-width);
+                width: min(280px, 88vw) !important;
 
-                transform: translateX(0);
+                height: 100dvh !important;
+
+                transform: translate3d(-110%, 0, 0) !important;
+
+                visibility: hidden !important;
+            }
+
+            .sidebar.active {
+                transform: translate3d(0, 0, 0) !important;
+
+                visibility: visible !important;
+            }
+
+            .sidebar-brand {
+                height: 74px !important;
+
+                min-height: 74px !important;
+
+                padding: 0 15px !important;
+
+                padding-right: 60px !important;
+            }
+
+            .sidebar-close {
+                display: flex !important;
+            }
+
+            .nav-menu {
+                display: flex !important;
+
+                flex-direction: column !important;
+
+                flex-wrap: nowrap !important;
+
+                align-items: stretch !important;
+
+                justify-content: flex-start !important;
+
+                width: 100% !important;
+            }
+
+            .nav-menu li {
+                display: block !important;
+
+                width: 100% !important;
+
+                flex: 0 0 auto !important;
+            }
+
+            .nav-menu li a {
+                display: flex !important;
+
+                flex-direction: row !important;
+
+                flex-wrap: nowrap !important;
+
+                align-items: center !important;
+
+                justify-content: flex-start !important;
+
+                width: 100% !important;
+            }
+
+            .nav-menu li a i {
+                display: flex !important;
+
+                flex: 0 0 24px !important;
+
+                width: 24px !important;
+
+                min-width: 24px !important;
+
+                align-items: center !important;
+
+                justify-content: center !important;
+            }
+
+            .nav-menu li a span {
+                display: block !important;
+
+                flex: 1 1 auto !important;
+
+                min-width: 0 !important;
+
+                white-space: nowrap !important;
+            }
+
+            .sidebar-footer {
+                padding-bottom:
+                    max(
+                        12px,
+                        env(safe-area-inset-bottom)
+                    );
+            }
+        }
+
+
+        /* =========================================================
+           DESKTOP
+        ========================================================== */
+
+        @media (min-width: 992px) {
+
+            .mobile-header {
+                display: none !important;
+            }
+
+            .sidebar-overlay {
+                display: none !important;
+            }
+
+            .sidebar {
+                width: var(--sidebar-width) !important;
+
+                transform: translate3d(0, 0, 0) !important;
+
+                visibility: visible !important;
 
                 box-shadow: none;
 
@@ -944,11 +1478,12 @@
             }
 
             .sidebar-close {
-                display: none;
+                display: none !important;
             }
 
             .main-content {
                 width: calc(100% - var(--sidebar-width));
+
                 max-width: none;
 
                 margin-left: var(--sidebar-width);
@@ -978,39 +1513,65 @@
             }
         }
 
+
         /* =========================================================
            GRAND ÉCRAN
         ========================================================== */
+
         @media (min-width: 1400px) {
+
             .main-content {
                 padding: 40px;
             }
         }
 
+
         /* =========================================================
            RÉDUCTION DES ANIMATIONS
         ========================================================== */
+
         @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto !important;
+            }
+
+            .main-content,
+            .mobile-header,
+            .sidebar-brand,
+            .sidebar .nav-menu li,
+            .sidebar-footer,
+            .page-header,
+            .django-messages,
+            .table-card,
+            .user-modal:not(.hidden) {
+                animation: none !important;
+
+                opacity: 1 !important;
+
+                transform: none !important;
+            }
+
             *,
             *::before,
             *::after {
-                scroll-behavior: auto !important;
                 transition-duration: 0.01ms !important;
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
             }
         }
     </style>
 </head>
+
 
 <body>
 
     <!-- =========================================================
          HEADER MOBILE
     ========================================================== -->
+
     <header class="mobile-header">
 
         <div class="mobile-brand">
+
             <div class="mobile-brand-logo">
                 <div class="mobile-brand-logo-inner"></div>
             </div>
@@ -1018,7 +1579,9 @@
             <div class="mobile-brand-title">
                 ASTRA <span>TECH</span>
             </div>
+
         </div>
+
 
         <button
             type="button"
@@ -1033,7 +1596,11 @@
 
     </header>
 
-    <!-- OVERLAY -->
+
+    <!-- =========================================================
+         OVERLAY
+    ========================================================== -->
+
     <div
         id="sidebarOverlay"
         class="sidebar-overlay"
@@ -1044,11 +1611,14 @@
     <!-- =========================================================
          SIDEBAR
     ========================================================== -->
+
     <aside
         id="sidebar"
         class="sidebar"
         aria-label="Navigation principale"
     >
+
+        <!-- LOGO -->
 
         <div class="sidebar-brand">
 
@@ -1060,7 +1630,6 @@
                 ASTRA <span>TECH</span>
             </div>
 
-            <!-- Bouton fermer mobile -->
             <button
                 type="button"
                 id="sidebarClose"
@@ -1073,6 +1642,8 @@
         </div>
 
 
+        <!-- MENU PRINCIPAL -->
+
         <ul class="nav-menu">
 
             <li>
@@ -1081,6 +1652,7 @@
                     <span>Gestion des Tokens</span>
                 </a>
             </li>
+
 
             <li>
                 <a
@@ -1093,6 +1665,7 @@
                 </a>
             </li>
 
+
             <li>
                 <a href="{% url 'astra:permissions_page' %}">
                     <i class="fas fa-shield-alt"></i>
@@ -1100,12 +1673,14 @@
                 </a>
             </li>
 
+
             <li>
                 <a href="{% url 'astra:historiques_page' %}">
                     <i class="fas fa-history"></i>
                     <span>Historique</span>
                 </a>
             </li>
+
 
             <li>
                 <a href="{% url 'astra:parametres_page' %}">
@@ -1116,30 +1691,68 @@
 
         </ul>
 
+
+        <!-- =====================================================
+             FOOTER SIDEBAR
+        ====================================================== -->
+
+        <div class="sidebar-footer">
+
+            <!-- RETOUR -->
+
+            <a
+                href="javascript:void(0)"
+                onclick="retourPage()"
+                aria-label="Retour à la page précédente"
+            >
+                <i class="fas fa-arrow-left"></i>
+                <span>Retour</span>
+            </a>
+
+
+            <!-- DÉCONNEXION -->
+
+            <a
+                href="{% url 'astra:logout' %}"
+                class="logout-link"
+                aria-label="Se déconnecter"
+            >
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Déconnexion</span>
+            </a>
+
+        </div>
+
     </aside>
 
 
     <!-- =========================================================
          CONTENU PRINCIPAL
     ========================================================== -->
+
     <main class="main-content">
 
         <div class="content-inner">
 
+
             <!-- =================================================
                  EN-TÊTE
             ================================================== -->
+
             <header class="page-header">
 
                 <div class="page-header-info">
 
                     <h1 class="page-title">
+
                         <i class="fas fa-users text-orange-500"></i>
 
                         <span>
                             Gestion des Utilisateurs
                         </span>
+
                     </h1>
+
 
                     <p class="page-description">
                         Lisez et enregistrez de nouveaux comptes
@@ -1148,13 +1761,18 @@
 
                 </div>
 
+
                 <button
                     type="button"
                     onclick="toggleModal()"
                     class="add-user-btn px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-all shadow-md flex items-center gap-2"
                 >
                     <i class="fas fa-user-plus"></i>
-                    <span>Ajouter un utilisateur</span>
+
+                    <span>
+                        Ajouter un utilisateur
+                    </span>
+
                 </button>
 
             </header>
@@ -1163,6 +1781,7 @@
             <!-- =================================================
                  MESSAGES DJANGO
             ================================================== -->
+
             {% if messages %}
 
                 <div class="django-messages">
@@ -1190,15 +1809,30 @@
             <!-- =================================================
                  FORMULAIRE D'AJOUT
             ================================================== -->
+
             <section
                 id="userModal"
                 class="hidden card user-modal"
                 aria-hidden="true"
             >
 
-                <h2 class="modal-title font-bold text-gray-800 dark:text-white">
-                    Enregistrer un nouvel utilisateur
-                </h2>
+                <div class="flex items-center justify-between">
+
+                    <h2 class="modal-title font-bold text-gray-800 dark:text-white mb-0">
+                        <i class="fas fa-user-plus text-orange-500 mr-2"></i>
+                        Enregistrer un nouvel utilisateur
+                    </h2>
+
+                    <button
+                        type="button"
+                        onclick="toggleModal()"
+                        class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-gray-300 hover:bg-red-100 hover:text-red-500 transition"
+                        aria-label="Fermer le formulaire"
+                    >
+                        <i class="fas fa-times"></i>
+                    </button>
+
+                </div>
 
 
                 <form
@@ -1211,6 +1845,7 @@
 
 
                     <!-- PRÉNOM -->
+
                     <div class="form-field">
 
                         <label class="text-gray-600 dark:text-gray-300">
@@ -1221,6 +1856,7 @@
                             type="text"
                             name="first_name"
                             autocomplete="given-name"
+                            placeholder="Entrez le prénom"
                             required
                         >
 
@@ -1228,6 +1864,7 @@
 
 
                     <!-- NOM -->
+
                     <div class="form-field">
 
                         <label class="text-gray-600 dark:text-gray-300">
@@ -1238,6 +1875,7 @@
                             type="text"
                             name="last_name"
                             autocomplete="family-name"
+                            placeholder="Entrez le nom"
                             required
                         >
 
@@ -1245,6 +1883,7 @@
 
 
                     <!-- EMAIL -->
+
                     <div class="form-field">
 
                         <label class="text-gray-600 dark:text-gray-300">
@@ -1255,6 +1894,7 @@
                             type="email"
                             name="email"
                             autocomplete="email"
+                            placeholder="exemple@email.com"
                             required
                         >
 
@@ -1262,6 +1902,7 @@
 
 
                     <!-- MOT DE PASSE -->
+
                     <div class="form-field">
 
                         <label class="text-gray-600 dark:text-gray-300">
@@ -1272,6 +1913,7 @@
                             type="password"
                             name="password"
                             autocomplete="new-password"
+                            placeholder="Entrez le mot de passe"
                             required
                         >
 
@@ -1279,6 +1921,7 @@
 
 
                     <!-- RÔLE -->
+
                     <div class="form-field">
 
                         <label class="text-gray-600 dark:text-gray-300">
@@ -1304,23 +1947,29 @@
 
 
                     <!-- ACTIONS -->
+
                     <div class="form-actions">
 
                         <button
                             type="button"
                             onclick="toggleModal()"
-                            class="px-4 py-2 bg-gray-300 dark:bg-slate-600 text-gray-800 dark:text-white rounded-lg font-semibold hover:opacity-90"
+                            class="px-4 py-2 bg-gray-300 dark:bg-slate-600 text-gray-800 dark:text-white rounded-lg font-semibold hover:opacity-90 transition"
                         >
                             <i class="fas fa-times mr-1"></i>
+
                             Annuler
+
                         </button>
+
 
                         <button
                             type="submit"
-                            class="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow"
+                            class="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow transition"
                         >
                             <i class="fas fa-save mr-1"></i>
+
                             Enregistrer
+
                         </button>
 
                     </div>
@@ -1333,6 +1982,7 @@
             <!-- =================================================
                  TABLEAU DES UTILISATEURS
             ================================================== -->
+
             <section class="card table-card">
 
                 <div class="table-wrapper">
@@ -1378,13 +2028,16 @@
                                         {{ u.nom }} {{ u.prenom }}
                                     </td>
 
+
                                     <td class="user-email">
                                         {{ u.email }}
                                     </td>
 
+
                                     <td class="user-date">
                                         {{ u.date_inscription|date:"d/m/Y H:i" }}
                                     </td>
+
 
                                     <td>
 
@@ -1404,6 +2057,7 @@
                                         colspan="4"
                                         class="empty-state"
                                     >
+
                                         <i class="fas fa-users-slash text-2xl mb-3 block opacity-50"></i>
 
                                         Aucun utilisateur trouvé
@@ -1431,16 +2085,25 @@
     <!-- =========================================================
          JAVASCRIPT
     ========================================================== -->
+
     <script>
 
         /* =========================================================
            SIDEBAR MOBILE
         ========================================================== */
 
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const sidebarClose = document.getElementById('sidebarClose');
+        const sidebar =
+            document.getElementById('sidebar');
+
+        const sidebarOverlay =
+            document.getElementById('sidebarOverlay');
+
+        const mobileMenuToggle =
+            document.getElementById('mobileMenuToggle');
+
+        const sidebarClose =
+            document.getElementById('sidebarClose');
+
 
         function setSidebarState(open) {
 
@@ -1448,12 +2111,28 @@
                 return;
             }
 
-            sidebar.classList.toggle('active', open);
-            sidebarOverlay.classList.toggle('active', open);
+            if (window.innerWidth >= 992) {
+                open = false;
+            }
 
-            document.body.classList.toggle('menu-open', open);
+            sidebar.classList.toggle(
+                'active',
+                open
+            );
+
+            sidebarOverlay.classList.toggle(
+                'active',
+                open
+            );
+
+            document.body.classList.toggle(
+                'menu-open',
+                open
+            );
+
 
             if (mobileMenuToggle) {
+
                 mobileMenuToggle.setAttribute(
                     'aria-expanded',
                     String(open)
@@ -1465,7 +2144,19 @@
                         ? 'Fermer le menu'
                         : 'Ouvrir le menu'
                 );
+
+                const icon =
+                    mobileMenuToggle.querySelector('i');
+
+                if (icon) {
+
+                    icon.className =
+                        open
+                            ? 'fas fa-times'
+                            : 'fas fa-bars';
+                }
             }
+
 
             sidebarOverlay.setAttribute(
                 'aria-hidden',
@@ -1474,58 +2165,56 @@
         }
 
 
+        /* OUVRIR MENU */
+
         if (mobileMenuToggle) {
 
             mobileMenuToggle.addEventListener(
                 'click',
                 function () {
-                    setSidebarState(true);
+
+                    const isOpen =
+                        sidebar.classList.contains('active');
+
+                    setSidebarState(!isOpen);
+
                 }
             );
-
         }
 
+
+        /* FERMER MENU */
 
         if (sidebarClose) {
 
             sidebarClose.addEventListener(
                 'click',
                 function () {
+
                     setSidebarState(false);
+
                 }
             );
-
         }
 
+
+        /* CLIQUER SUR OVERLAY */
 
         if (sidebarOverlay) {
 
             sidebarOverlay.addEventListener(
                 'click',
                 function () {
+
                     setSidebarState(false);
+
                 }
             );
-
         }
 
 
-        /* Fermer avec Échap */
-        document.addEventListener(
-            'keydown',
-            function (event) {
+        /* FERMER APRÈS CLIC SUR UN LIEN */
 
-                if (event.key === 'Escape') {
-
-                    setSidebarState(false);
-
-                }
-
-            }
-        );
-
-
-        /* Fermer après clic sur un lien mobile */
         if (sidebar) {
 
             sidebar
@@ -1537,77 +2226,20 @@
                         function () {
 
                             if (window.innerWidth < 992) {
+
                                 setSidebarState(false);
+
                             }
 
                         }
                     );
 
                 });
-
-        }
-
-
-        /* Revenir à l'état desktop */
-        window.addEventListener(
-            'resize',
-            function () {
-
-                if (window.innerWidth >= 992) {
-                    setSidebarState(false);
-                }
-
-            }
-        );
-
-
-        /* =========================================================
-           MODALE UTILISATEUR
-        ========================================================== */
-
-        function toggleModal() {
-
-            const modal = document.getElementById('userModal');
-
-            if (!modal) {
-                return;
-            }
-
-            const isHidden = modal.classList.contains('hidden');
-
-            modal.classList.toggle('hidden');
-
-            modal.setAttribute(
-                'aria-hidden',
-                String(!isHidden)
-            );
-
-            /* Focus automatique sur le premier champ */
-            if (isHidden) {
-
-                const firstInput =
-                    modal.querySelector(
-                        'input, select'
-                    );
-
-                if (firstInput) {
-
-                    setTimeout(
-                        function () {
-                            firstInput.focus();
-                        },
-                        100
-                    );
-
-                }
-
-            }
-
         }
 
 
         /* =========================================================
-           TOUCHE ÉCHAP POUR FERMER LE FORMULAIRE
+           TOUCHE ÉCHAP
         ========================================================== */
 
         document.addEventListener(
@@ -1617,6 +2249,21 @@
                 if (event.key !== 'Escape') {
                     return;
                 }
+
+
+                /* Fermer sidebar */
+
+                if (
+                    sidebar &&
+                    sidebar.classList.contains('active')
+                ) {
+
+                    setSidebarState(false);
+
+                }
+
+
+                /* Fermer formulaire */
 
                 const modal =
                     document.getElementById('userModal');
@@ -1633,7 +2280,118 @@
             }
         );
 
+
+        /* =========================================================
+           REDIMENSIONNEMENT
+        ========================================================== */
+
+        window.addEventListener(
+            'resize',
+            function () {
+
+                if (window.innerWidth >= 992) {
+
+                    setSidebarState(false);
+
+                }
+
+            }
+        );
+
+
+        /* =========================================================
+           FORMULAIRE UTILISATEUR
+        ========================================================== */
+
+        function toggleModal() {
+
+            const modal =
+                document.getElementById('userModal');
+
+            if (!modal) {
+                return;
+            }
+
+
+            const isHidden =
+                modal.classList.contains('hidden');
+
+
+            modal.classList.toggle(
+                'hidden'
+            );
+
+
+            modal.setAttribute(
+                'aria-hidden',
+                String(!isHidden)
+            );
+
+
+            /* Focus automatique */
+
+            if (isHidden) {
+
+                const firstInput =
+                    modal.querySelector(
+                        'input, select'
+                    );
+
+                if (firstInput) {
+
+                    setTimeout(
+                        function () {
+
+                            firstInput.focus();
+
+                        },
+                        120
+                    );
+                }
+
+            }
+
+        }
+
+
+        /* =========================================================
+           BOUTON RETOUR
+        ========================================================== */
+
+        function retourPage() {
+
+            if (
+                document.referrer &&
+                document.referrer !== window.location.href
+            ) {
+
+                window.history.back();
+
+            } else {
+
+                window.location.href =
+                    "{% url 'astra:token_accueil' %}";
+
+            }
+
+        }
+
+
+        /* =========================================================
+           INITIALISATION
+        ========================================================== */
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function () {
+
+                setSidebarState(false);
+
+            }
+        );
+
     </script>
 
 </body>
+
 </html>
