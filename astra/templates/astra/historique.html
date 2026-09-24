@@ -1,18 +1,18 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     >
 
-    <link
-        rel="stylesheet"
-        href="{% static 'css/responsive.css' %}"
-    >
+    <meta name="theme-color" content="#003366">
 
     <title>ASTRA TECH - Journal d'Activités Global</title>
 
@@ -21,18 +21,37 @@
     ========================================================== -->
     <script>
         (function () {
-            const savedDarkMode =
-                localStorage.getItem('astra_dark_mode');
+            try {
+                const savedDarkMode =
+                    localStorage.getItem('astra_dark_mode');
 
-            if (savedDarkMode === 'true') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
+                if (savedDarkMode === 'true') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            } catch (error) {
+                console.warn(
+                    'Mode sombre indisponible :',
+                    error
+                );
             }
         })();
     </script>
 
-    <!-- Tailwind -->
+
+    <!-- =========================================================
+         RESPONSIVE CSS GLOBAL
+    ========================================================== -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/responsive.css' %}"
+    >
+
+
+    <!-- =========================================================
+         TAILWIND
+    ========================================================== -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
@@ -41,22 +60,32 @@
         };
     </script>
 
-    <!-- Font Awesome -->
+
+    <!-- =========================================================
+         FONT AWESOME
+    ========================================================== -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     >
 
+
+    <!-- =========================================================
+         POLICE
+    ========================================================== -->
     <style>
+
         @import url(
             'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap'
         );
+
 
         /* =========================================================
            VARIABLES
         ========================================================== */
 
         :root {
+
             --tech-blue: #0078D7;
             --tech-dark-blue: #004E8C;
             --tech-sidebar-bg: #003366;
@@ -69,14 +98,16 @@
             --tech-border: #E0E0E0;
 
             --sidebar-width: 280px;
+
             --radius-lg: 16px;
             --radius-md: 10px;
 
             --mobile-header-height: 64px;
         }
 
+
         /* =========================================================
-           BASE — MOBILE FIRST
+           RESET
         ========================================================== */
 
         *,
@@ -85,14 +116,19 @@
             box-sizing: border-box;
         }
 
+
         html {
             width: 100%;
             max-width: 100%;
+
             overflow-x: hidden;
+
             scroll-behavior: smooth;
         }
 
+
         body {
+
             width: 100%;
             max-width: 100%;
 
@@ -110,14 +146,22 @@
             overflow-x: hidden;
         }
 
+
         body.menu-open {
-            overflow: hidden;
+            overflow: hidden !important;
         }
+
 
         button,
         a {
             -webkit-tap-highlight-color: transparent;
         }
+
+
+        img {
+            max-width: 100%;
+        }
+
 
         /* =========================================================
            DARK MODE
@@ -128,517 +172,843 @@
             color: #f1f5f9 !important;
         }
 
+
         html.dark .card,
         html.dark .bg-white,
         html.dark .header-banner,
         html.dark .module-card {
+
             background-color: #1e293b !important;
+
             border-color: #334155 !important;
+
             color: #f1f5f9 !important;
         }
 
+
         html.dark .log-item {
+
             background-color: #0f172a !important;
+
             border-color: #334155 !important;
         }
+
 
         html.dark .module-header {
+
             background-color: #172033 !important;
+
             border-color: #334155 !important;
         }
+
 
         html.dark .module-title {
+
             color: #e2e8f0 !important;
         }
+
 
         html.dark .log-details {
+
             color: #e2e8f0 !important;
         }
 
+
         html.dark .log-meta {
+
             color: #94a3b8 !important;
+
             border-color: #334155 !important;
         }
 
+
         html.dark .user-badge {
+
             background-color: #334155 !important;
+
             color: #cbd5e1 !important;
         }
 
+
         html.dark .empty-message {
+
             color: #94a3b8 !important;
         }
+
 
         /* =========================================================
            HEADER MOBILE
         ========================================================== */
 
         .mobile-header {
-            position: sticky;
-            top: 0;
 
-            z-index: 1100;
+            position: sticky !important;
 
-            width: 100%;
-            min-height: var(--mobile-header-height);
+            top: 0 !important;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            z-index: 9000 !important;
+
+            width: 100% !important;
+
+            min-height: var(--mobile-header-height) !important;
+
+            display: flex !important;
+
+            align-items: center !important;
+
+            justify-content: space-between !important;
+
+            gap: 10px !important;
 
             padding:
                 10px
                 max(14px, env(safe-area-inset-right))
                 10px
-                max(14px, env(safe-area-inset-left));
+                max(14px, env(safe-area-inset-left)) !important;
 
             background:
                 linear-gradient(
                     135deg,
                     var(--tech-dark-blue),
                     var(--tech-sidebar-bg)
-                );
+                ) !important;
 
             box-shadow:
-                0 4px 18px rgba(0, 0, 0, 0.15);
+                0 4px 18px rgba(0, 0, 0, 0.15) !important;
         }
+
 
         .mobile-brand {
-            min-width: 0;
 
-            display: flex;
-            align-items: center;
+            min-width: 0 !important;
+
+            flex: 1 1 auto !important;
+
+            display: flex !important;
+
+            align-items: center !important;
+
+            overflow: hidden !important;
         }
 
-        .mobile-brand-logo {
-            width: 34px;
-            height: 34px;
 
-            flex: 0 0 34px;
+        /* VRAI LOGO ASTRA TECH */
 
-            background: #ffffff;
+        .mobile-brand-logo-image {
 
-            border-radius: 7px;
+            width: 36px !important;
 
-            transform: rotate(45deg);
+            height: 36px !important;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            min-width: 36px !important;
 
-            margin-right: 12px;
+            max-width: 36px !important;
+
+            flex: 0 0 36px !important;
+
+            display: block !important;
+
+            object-fit: contain !important;
+
+            margin-right: 10px !important;
         }
 
-        .mobile-brand-logo-inner {
-            width: 23px;
-            height: 23px;
-
-            border: 2px solid var(--tech-orange);
-
-            border-radius: 4px;
-
-            transform: rotate(-45deg);
-        }
 
         .mobile-brand-title {
-            color: #ffffff;
 
-            font-size: 17px;
-            font-weight: 800;
+            min-width: 0 !important;
 
-            white-space: nowrap;
+            color: #ffffff !important;
+
+            font-size: 17px !important;
+
+            font-weight: 800 !important;
+
+            line-height: 1.2 !important;
+
+            white-space: nowrap !important;
+
+            overflow: hidden !important;
+
+            text-overflow: ellipsis !important;
         }
+
 
         .mobile-brand-title span {
-            color: var(--tech-orange);
+
+            color: var(--tech-orange) !important;
         }
+
 
         .mobile-menu-toggle {
-            width: 44px;
-            height: 44px;
 
-            flex: 0 0 44px;
+            width: 44px !important;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 44px !important;
 
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 44px !important;
 
-            border-radius: 10px;
+            max-width: 44px !important;
 
-            background: rgba(255, 255, 255, 0.1);
+            flex: 0 0 44px !important;
 
-            color: #ffffff;
+            display: flex !important;
 
-            transition: 0.25s ease;
+            align-items: center !important;
+
+            justify-content: center !important;
+
+            margin: 0 !important;
+
+            padding: 0 !important;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.20) !important;
+
+            border-radius: 10px !important;
+
+            background:
+                rgba(255, 255, 255, 0.10) !important;
+
+            color: #ffffff !important;
+
+            cursor: pointer !important;
+
+            transition: 0.25s ease !important;
         }
+
 
         .mobile-menu-toggle:hover,
         .mobile-menu-toggle:focus-visible {
-            background: rgba(255, 255, 255, 0.2);
-            outline: none;
+
+            background:
+                rgba(255, 255, 255, 0.20) !important;
+
+            outline: none !important;
         }
 
+
         .mobile-menu-toggle i {
-            font-size: 20px;
+
+            font-size: 20px !important;
+
+            margin: 0 !important;
         }
+
 
         /* =========================================================
            OVERLAY
         ========================================================== */
 
         .sidebar-overlay {
-            position: fixed;
-            inset: 0;
 
-            z-index: 1990;
+            position: fixed !important;
 
-            background: rgba(15, 23, 42, 0.65);
+            inset: 0 !important;
 
-            backdrop-filter: blur(2px);
+            z-index: 9998 !important;
 
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+            width: 100% !important;
+
+            height: 100% !important;
+
+            background:
+                rgba(15, 23, 42, 0.68) !important;
+
+            backdrop-filter: blur(3px);
+
+            -webkit-backdrop-filter: blur(3px);
+
+            opacity: 0 !important;
+
+            visibility: hidden !important;
+
+            pointer-events: none !important;
 
             transition:
                 opacity 0.25s ease,
-                visibility 0.25s ease;
+                visibility 0.25s ease !important;
         }
+
 
         .sidebar-overlay.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
+
+            opacity: 1 !important;
+
+            visibility: visible !important;
+
+            pointer-events: auto !important;
         }
 
+
         /* =========================================================
-           SIDEBAR — MOBILE OFFCANVAS
+           SIDEBAR MOBILE
         ========================================================== */
 
         .sidebar {
-            position: fixed;
 
-            top: 0;
-            left: 0;
-            bottom: 0;
+            position: fixed !important;
 
-            z-index: 2000;
+            top: 0 !important;
 
-            width: min(86vw, 320px);
+            left: 0 !important;
 
-            height: 100vh;
-            height: 100dvh;
+            bottom: 0 !important;
 
-            display: flex;
-            flex-direction: column;
+            z-index: 9999 !important;
+
+            width: min(86vw, 320px) !important;
+
+            max-width: 320px !important;
+
+            height: 100vh !important;
+
+            height: 100dvh !important;
+
+            max-height: 100dvh !important;
+
+            min-height: 100dvh !important;
+
+            display: flex !important;
+
+            flex-direction: column !important;
+
+            align-items: stretch !important;
+
+            margin: 0 !important;
+
+            padding: 0 !important;
 
             background:
                 linear-gradient(
                     180deg,
-                    var(--tech-dark-blue) 0%,
-                    var(--tech-sidebar-bg) 100%
-                );
+                    #004E8C 0%,
+                    #003366 100%
+                ) !important;
 
-            color: #ffffff;
+            color: #ffffff !important;
 
-            overflow-x: hidden;
-            overflow-y: auto;
+            overflow: hidden !important;
 
-            transform: translateX(-105%);
+            transform:
+                translate3d(-105%, 0, 0) !important;
 
             transition:
-                transform 0.28s ease;
+                transform 0.28s ease !important;
 
             box-shadow:
-                10px 0 30px rgba(0, 0, 0, 0.22);
+                8px 0 30px rgba(0, 0, 0, 0.25) !important;
         }
 
+
         .sidebar.active {
-            transform: translateX(0);
+
+            transform:
+                translate3d(0, 0, 0) !important;
         }
+
 
         /* =========================================================
            SIDEBAR BRAND
         ========================================================== */
 
         .sidebar-brand {
-            position: relative;
 
-            width: 100%;
-            min-height: 90px;
+            position: relative !important;
 
-            padding: 24px 20px;
+            width: 100% !important;
 
-            display: flex;
-            align-items: center;
+            min-width: 0 !important;
+
+            min-height: 84px !important;
+
+            height: 84px !important;
+
+            padding:
+                18px
+                52px
+                18px
+                18px !important;
+
+            display: flex !important;
+
+            align-items: center !important;
+
+            flex: 0 0 84px !important;
 
             border-bottom:
-                1px solid rgba(255, 255, 255, 0.1);
+                1px solid rgba(255, 255, 255, 0.12) !important;
 
-            flex-shrink: 0;
+            overflow: hidden !important;
         }
 
-        .sidebar-logo {
-            width: 40px;
-            height: 40px;
 
-            flex: 0 0 40px;
+        /* =========================================================
+           VRAI LOGO
+        ========================================================== */
 
-            background: #ffffff;
+        .sidebar-logo-image {
 
-            border-radius: 8px;
+            width: 42px !important;
 
-            transform: rotate(45deg);
+            height: 42px !important;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            min-width: 42px !important;
 
-            margin-right: 15px;
+            max-width: 42px !important;
 
-            box-shadow:
-                0 4px 12px rgba(0, 0, 0, 0.15);
+            flex: 0 0 42px !important;
+
+            display: block !important;
+
+            object-fit: contain !important;
+
+            margin: 0 12px 0 0 !important;
+
+            border: 0 !important;
+
+            border-radius: 8px !important;
         }
 
-        .sidebar-logo-inner {
-            width: 28px;
-            height: 28px;
-
-            border:
-                2px solid var(--tech-orange);
-
-            border-radius: 5px;
-
-            transform: rotate(-45deg);
-        }
 
         .sidebar-title {
-            min-width: 0;
 
-            font-weight: 800;
-            font-size: 20px;
+            min-width: 0 !important;
 
-            letter-spacing: 0.5px;
+            flex: 1 1 auto !important;
+
+            margin: 0 !important;
 
             color: #ffffff !important;
 
-            white-space: nowrap;
+            font-size: 19px !important;
+
+            font-weight: 800 !important;
+
+            line-height: 1.2 !important;
+
+            letter-spacing: 0.4px !important;
+
+            white-space: nowrap !important;
+
+            overflow: hidden !important;
+
+            text-overflow: ellipsis !important;
         }
+
 
         .sidebar-title span {
-            color: var(--tech-orange);
+
+            color: var(--tech-orange) !important;
         }
+
+
+        /* =========================================================
+           BOUTON FERMER
+        ========================================================== */
 
         .sidebar-close {
-            position: absolute;
 
-            top: 18px;
-            right: 14px;
+            position: absolute !important;
 
-            width: 38px;
-            height: 38px;
+            top: 17px !important;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            right: 12px !important;
+
+            width: 38px !important;
+
+            height: 38px !important;
+
+            min-width: 38px !important;
+
+            max-width: 38px !important;
+
+            display: flex !important;
+
+            align-items: center !important;
+
+            justify-content: center !important;
+
+            margin: 0 !important;
+
+            padding: 0 !important;
 
             border:
-                1px solid rgba(255, 255, 255, 0.18);
+                1px solid rgba(255, 255, 255, 0.18) !important;
 
-            border-radius: 9px;
+            border-radius: 9px !important;
 
             background:
-                rgba(255, 255, 255, 0.08);
+                rgba(255, 255, 255, 0.08) !important;
 
-            color: #ffffff;
+            color: #ffffff !important;
 
-            transition: 0.25s ease;
+            cursor: pointer !important;
+
+            z-index: 2 !important;
+
         }
+
 
         .sidebar-close:hover,
         .sidebar-close:focus-visible {
-            background:
-                rgba(255, 255, 255, 0.18);
 
-            outline: none;
+            background:
+                rgba(255, 255, 255, 0.18) !important;
+
+            outline: none !important;
         }
+
+
+        .sidebar-close i {
+
+            margin: 0 !important;
+
+            font-size: 17px !important;
+        }
+
 
         /* =========================================================
            MENU
         ========================================================== */
 
         .nav-menu {
-            list-style: none;
 
-            width: 100%;
+            width: 100% !important;
 
-            padding: 22px 14px;
-            margin: 0;
+            min-width: 0 !important;
 
-            flex: 1;
+            height: auto !important;
 
-            display: flex;
-            flex-direction: column;
+            margin: 0 !important;
 
-            gap: 6px;
+            padding:
+                18px
+                12px !important;
+
+            list-style: none !important;
+
+            display: flex !important;
+
+            flex-direction: column !important;
+
+            flex-wrap: nowrap !important;
+
+            align-items: stretch !important;
+
+            justify-content: flex-start !important;
+
+            gap: 5px !important;
+
+            flex: 1 1 auto !important;
+
+            overflow-x: hidden !important;
+
+            overflow-y: auto !important;
+
+            -webkit-overflow-scrolling: touch !important;
+
+            scrollbar-width: thin !important;
+
+            scrollbar-color:
+                rgba(255,255,255,0.25)
+                transparent !important;
         }
+
+
+        .nav-menu::-webkit-scrollbar {
+
+            width: 5px;
+        }
+
+
+        .nav-menu::-webkit-scrollbar-track {
+
+            background: transparent;
+        }
+
+
+        .nav-menu::-webkit-scrollbar-thumb {
+
+            background:
+                rgba(255, 255, 255, 0.25);
+
+            border-radius: 10px;
+        }
+
 
         .nav-menu li {
-            width: 100%;
+
+            width: 100% !important;
+
+            min-width: 0 !important;
+
+            flex: 0 0 auto !important;
+
+            display: block !important;
+
+            margin: 0 !important;
+
+            padding: 0 !important;
         }
+
+
+        /* =========================================================
+           LIENS DU MENU
+        ========================================================== */
 
         .nav-menu li a,
         .nav-menu a.back-link {
-            width: 100%;
 
-            display: flex;
-            align-items: center;
+            width: 100% !important;
 
-            min-height: 46px;
+            min-width: 0 !important;
 
-            padding: 13px 16px;
+            min-height: 48px !important;
+
+            display: flex !important;
+
+            flex-direction: row !important;
+
+            align-items: center !important;
+
+            justify-content: flex-start !important;
+
+            gap: 0 !important;
+
+            margin: 0 !important;
+
+            padding:
+                12px 14px !important;
 
             color:
-                rgba(255, 255, 255, 0.82);
+                rgba(255, 255, 255, 0.84) !important;
 
-            text-decoration: none;
+            background: transparent !important;
 
-            font-weight: 500;
-            font-size: 14px;
+            border: 0 !important;
 
-            border-radius: var(--radius-md);
+            border-radius: 10px !important;
 
-            transition:
-                background-color 0.25s ease,
-                color 0.25s ease,
-                transform 0.2s ease;
+            text-decoration: none !important;
+
+            font-size: 14px !important;
+
+            font-weight: 500 !important;
+
+            line-height: 1.3 !important;
+
+            white-space: nowrap !important;
+
+            box-shadow: none !important;
+
+            box-sizing: border-box !important;
         }
+
 
         .nav-menu li a i,
         .nav-menu a.back-link i {
-            width: 24px;
 
-            flex: 0 0 24px;
+            width: 24px !important;
 
-            margin-right: 13px;
+            min-width: 24px !important;
 
-            text-align: center;
+            max-width: 24px !important;
+
+            flex: 0 0 24px !important;
+
+            margin:
+                0 13px 0 0 !important;
+
+            padding: 0 !important;
+
+            text-align: center !important;
+
+            font-size: 16px !important;
         }
+
+
+        .nav-menu li a span,
+        .nav-menu a.back-link span {
+
+            min-width: 0 !important;
+
+            flex: 1 1 auto !important;
+
+            overflow: hidden !important;
+
+            text-overflow: ellipsis !important;
+
+            white-space: nowrap !important;
+        }
+
 
         .nav-menu li a:hover,
         .nav-menu a.back-link:hover {
-            color: #ffffff;
+
+            color: #ffffff !important;
 
             background:
-                rgba(255, 255, 255, 0.1);
+                rgba(255, 255, 255, 0.10) !important;
         }
+
+
+        /* =========================================================
+           LIEN ACTIF
+        ========================================================== */
 
         .nav-menu li a.active {
-            color: #ffffff;
+
+            color: #ffffff !important;
 
             background:
-                rgba(255, 255, 255, 0.13);
+                rgba(255, 255, 255, 0.13) !important;
 
             border-left:
-                4px solid var(--tech-orange);
+                4px solid var(--tech-orange) !important;
 
-            padding-left: 12px;
+            padding-left: 10px !important;
 
-            font-weight: 700;
+            font-weight: 700 !important;
         }
+
+
+        /* =========================================================
+           RETOUR
+        ========================================================== */
 
         .nav-menu a.back-link {
-            margin-top: auto;
+
+            margin-top: 8px !important;
 
             background:
-                rgba(255, 255, 255, 0.05);
+                rgba(255, 255, 255, 0.06) !important;
 
             border:
-                1px solid rgba(255, 255, 255, 0.1);
+                1px solid rgba(255, 255, 255, 0.10) !important;
         }
+
 
         /* =========================================================
            FOOTER SIDEBAR
         ========================================================== */
 
         .sidebar-footer {
-            padding: 14px 16px 18px;
+
+            width: 100% !important;
+
+            min-width: 0 !important;
+
+            flex: 0 0 auto !important;
+
+            margin: 0 !important;
+
+            padding:
+                12px
+                14px
+                calc(14px + env(safe-area-inset-bottom))
+                14px !important;
 
             border-top:
-                1px solid rgba(255, 255, 255, 0.1);
+                1px solid rgba(255, 255, 255, 0.10) !important;
 
-            flex-shrink: 0;
+            background: transparent !important;
         }
+
 
         .btn-logout {
-            width: 100%;
-            min-height: 46px;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100% !important;
 
-            gap: 10px;
+            min-height: 46px !important;
 
-            padding: 11px 12px;
+            display: flex !important;
+
+            align-items: center !important;
+
+            justify-content: center !important;
+
+            gap: 10px !important;
+
+            margin: 0 !important;
+
+            padding:
+                11px 12px !important;
+
+            color: #ff8b8b !important;
 
             background:
-                rgba(255, 77, 77, 0.15);
-
-            color: #ff8080;
+                rgba(255, 77, 77, 0.14) !important;
 
             border:
-                1px solid rgba(255, 77, 77, 0.3);
+                1px solid rgba(255, 77, 77, 0.30) !important;
 
-            border-radius: var(--radius-md);
+            border-radius: 10px !important;
 
-            text-decoration: none;
+            text-decoration: none !important;
 
-            font-weight: 600;
-            font-size: 13px;
+            font-size: 13px !important;
 
-            transition: 0.2s ease;
+            font-weight: 600 !important;
+
+            line-height: 1.2 !important;
         }
+
+
+        .btn-logout i {
+
+            margin: 0 !important;
+
+            flex: 0 0 auto !important;
+        }
+
 
         .btn-logout:hover {
-            background: #ff4d4d;
-            color: #ffffff;
 
-            border-color: #ff4d4d;
+            background: #ff4d4d !important;
+
+            color: #ffffff !important;
+
+            border-color: #ff4d4d !important;
 
             box-shadow:
-                0 4px 12px rgba(255, 77, 77, 0.3);
+                0 4px 12px rgba(255, 77, 77, 0.3) !important;
         }
+
 
         /* =========================================================
            CONTENU PRINCIPAL
         ========================================================== */
 
         .main-content {
-            width: 100%;
-            max-width: 100%;
 
-            min-width: 0;
+            width: 100% !important;
 
-            margin-left: 0;
+            max-width: 100% !important;
+
+            min-width: 0 !important;
+
+            margin-left: 0 !important;
 
             padding:
-                18px
+                16px
                 max(12px, env(safe-area-inset-right))
                 calc(28px + env(safe-area-inset-bottom))
-                max(12px, env(safe-area-inset-left));
+                max(12px, env(safe-area-inset-left)) !important;
+
+            overflow-x: hidden !important;
         }
+
 
         /* =========================================================
            BANNIÈRE
         ========================================================== */
 
         .header-banner {
-            width: 100%;
 
-            min-width: 0;
+            width: 100% !important;
+
+            min-width: 0 !important;
 
             padding: 20px 16px !important;
 
@@ -649,79 +1019,101 @@
             gap: 16px !important;
         }
 
+
         .header-banner > div:first-child {
-            width: 100%;
 
-            min-width: 0;
+            width: 100% !important;
 
-            display: flex;
-            align-items: center;
+            min-width: 0 !important;
+
+            display: flex !important;
+
+            align-items: center !important;
 
             gap: 13px !important;
         }
 
+
         .header-banner > div:first-child > div:first-child {
+
             width: 46px !important;
+
             height: 46px !important;
 
             min-width: 46px !important;
 
-            flex: 0 0 46px;
+            flex: 0 0 46px !important;
 
             border-radius: 14px !important;
 
             font-size: 18px !important;
         }
 
+
         .header-banner h1 {
-            min-width: 0;
+
+            min-width: 0 !important;
+
+            margin: 0 !important;
 
             font-size: 20px !important;
+
             line-height: 1.25 !important;
 
-            overflow-wrap: anywhere;
+            overflow-wrap: anywhere !important;
         }
 
+
         .header-banner p {
+
+            min-width: 0 !important;
+
             font-size: 12px !important;
 
             line-height: 1.5 !important;
 
             margin-top: 5px !important;
 
-            overflow-wrap: anywhere;
+            overflow-wrap: anywhere !important;
         }
+
 
         /* =========================================================
            GRILLE
         ========================================================== */
 
         .activity-grid {
-            width: 100%;
 
-            min-width: 0;
+            width: 100% !important;
 
-            display: grid;
+            min-width: 0 !important;
 
-            grid-template-columns: 1fr;
+            display: grid !important;
 
-            gap: 18px;
+            grid-template-columns:
+                minmax(0, 1fr) !important;
+
+            gap: 18px !important;
         }
 
+
         /* =========================================================
-           CARTES MODULES
+           CARTES
         ========================================================== */
 
         .module-card {
-            width: 100%;
-            min-width: 0;
 
-            height: 400px;
+            width: 100% !important;
 
-            display: flex;
-            flex-direction: column;
+            min-width: 0 !important;
 
-            overflow: hidden;
+            height: 400px !important;
+
+            display: flex !important;
+
+            flex-direction: column !important;
+
+            overflow: hidden !important;
 
             background: #ffffff;
 
@@ -734,119 +1126,152 @@
                 0 4px 6px -1px rgba(0, 0, 0, 0.02);
         }
 
+
         .module-card.admin-card {
-            grid-column: auto;
+
+            grid-column: auto !important;
         }
 
+
         /* =========================================================
-           EN-TÊTE MODULE
+           HEADER MODULE
         ========================================================== */
 
         .module-header {
-            min-height: 68px;
 
-            padding: 14px 15px;
+            min-height: 68px !important;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            padding: 14px 15px !important;
 
-            gap: 10px;
+            display: flex !important;
 
-            flex-wrap: wrap;
+            align-items: center !important;
+
+            justify-content: space-between !important;
+
+            gap: 10px !important;
+
+            flex-wrap: wrap !important;
 
             background:
-                rgba(248, 250, 252, 0.75);
+                rgba(248, 250, 252, 0.75) !important;
 
             border-bottom:
-                1px solid #e2e8f0;
+                1px solid #e2e8f0 !important;
 
-            flex-shrink: 0;
+            flex-shrink: 0 !important;
         }
+
 
         .module-title {
-            min-width: 0;
 
-            display: flex;
-            align-items: center;
+            min-width: 0 !important;
 
-            gap: 8px;
+            display: flex !important;
 
-            font-size: 14px;
-            line-height: 1.4;
+            align-items: center !important;
 
-            font-weight: 700;
+            gap: 8px !important;
 
-            color: #475569;
+            margin: 0 !important;
 
-            overflow-wrap: anywhere;
+            font-size: 14px !important;
+
+            line-height: 1.4 !important;
+
+            font-weight: 700 !important;
+
+            color: #475569 !important;
+
+            overflow-wrap: anywhere !important;
         }
+
 
         .module-title i {
-            flex-shrink: 0;
+
+            flex-shrink: 0 !important;
         }
 
+
         .module-badge {
-            flex-shrink: 0;
 
-            padding: 5px 9px;
+            flex-shrink: 0 !important;
 
-            border-radius: 999px;
+            padding:
+                5px 9px !important;
+
+            border-radius: 999px !important;
 
             font-size: 10px !important;
 
-            font-weight: 700;
+            font-weight: 700 !important;
 
-            white-space: nowrap;
+            white-space: nowrap !important;
         }
+
 
         /* =========================================================
            ZONE SCROLLABLE
         ========================================================== */
 
         .scroll-area {
-            flex: 1;
 
-            min-height: 0;
+            flex: 1 1 auto !important;
 
-            overflow-y: auto;
-            overflow-x: hidden;
+            min-height: 0 !important;
 
-            padding: 12px;
+            overflow-y: auto !important;
 
-            -webkit-overflow-scrolling: touch;
+            overflow-x: hidden !important;
+
+            padding: 12px !important;
+
+            -webkit-overflow-scrolling: touch !important;
         }
 
+
         .scroll-area::-webkit-scrollbar {
+
             width: 5px;
         }
 
+
         .scroll-area::-webkit-scrollbar-thumb {
+
             background: #CBD5E1;
 
             border-radius: 10px;
         }
 
+
         .scroll-area::-webkit-scrollbar-track {
+
             background: transparent;
         }
+
 
         /* =========================================================
            LOG ITEMS
         ========================================================== */
 
         .log-list {
-            display: flex;
-            flex-direction: column;
 
-            gap: 12px;
+            display: flex !important;
+
+            flex-direction: column !important;
+
+            gap: 12px !important;
         }
 
-        .log-item {
-            width: 100%;
-            min-width: 0;
 
-            padding: 11px 12px;
+        .log-item {
+
+            width: 100% !important;
+
+            min-width: 0 !important;
+
+            padding:
+                11px 12px !important;
 
             background: #f8fafc;
 
@@ -863,7 +1288,9 @@
                 box-shadow 0.2s ease;
         }
 
+
         .log-item:hover {
+
             transform: translateX(2px);
 
             background: #ffffff;
@@ -874,205 +1301,332 @@
             border-color: #e2e8f0;
         }
 
+
         .log-item.appro {
+
             border-left-color: #3b82f6;
         }
 
+
         .log-item.vente {
+
             border-left-color: #10b981;
         }
 
+
         .log-item.admin {
+
             border-left-color: #8b5cf6;
         }
 
+
         .log-details {
-            min-width: 0;
+
+            min-width: 0 !important;
 
             font-size: 12px !important;
-            line-height: 1.5;
 
-            overflow-wrap: anywhere;
-            word-break: break-word;
+            line-height: 1.5 !important;
+
+            overflow-wrap: anywhere !important;
+
+            word-break: break-word !important;
         }
+
 
         .log-meta {
-            min-width: 0;
 
-            margin-top: 8px;
+            min-width: 0 !important;
 
-            padding-top: 6px;
+            margin-top: 8px !important;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            padding-top: 6px !important;
 
-            gap: 8px;
+            display: flex !important;
 
-            flex-wrap: wrap;
+            align-items: center !important;
+
+            justify-content: space-between !important;
+
+            gap: 8px !important;
+
+            flex-wrap: wrap !important;
 
             font-size: 10px !important;
-            line-height: 1.5;
 
-            color: #64748b;
+            line-height: 1.5 !important;
+
+            color: #64748b !important;
 
             border-top:
-                1px solid rgba(226, 232, 240, 0.6);
+                1px solid rgba(226, 232, 240, 0.6) !important;
         }
+
 
         .log-date {
-            min-width: 0;
 
-            display: flex;
-            align-items: center;
+            min-width: 0 !important;
 
-            gap: 6px;
+            display: flex !important;
 
-            overflow-wrap: anywhere;
+            align-items: center !important;
+
+            gap: 6px !important;
+
+            overflow-wrap: anywhere !important;
         }
+
 
         .user-badge {
-            max-width: 100%;
 
-            padding: 2px 8px;
+            max-width: 100% !important;
+
+            padding:
+                2px 8px !important;
 
             background:
-                rgba(226, 232, 240, 0.6);
+                rgba(226, 232, 240, 0.6) !important;
 
-            border-radius: 6px;
+            border-radius: 6px !important;
 
-            font-weight: 500;
+            font-weight: 500 !important;
 
-            color: #475569;
+            color: #475569 !important;
 
-            overflow-wrap: anywhere;
-            word-break: break-word;
+            overflow-wrap: anywhere !important;
+
+            word-break: break-word !important;
         }
+
 
         /* =========================================================
            MESSAGE VIDE
         ========================================================== */
 
         .empty-message {
-            min-height: 200px;
 
-            padding: 40px 10px;
+            min-height: 200px !important;
 
-            display: flex;
-            flex-direction: column;
+            padding:
+                40px 10px !important;
 
-            align-items: center;
-            justify-content: center;
+            display: flex !important;
 
-            gap: 8px;
+            flex-direction: column !important;
 
-            text-align: center;
+            align-items: center !important;
 
-            color: #94a3b8;
+            justify-content: center !important;
 
-            line-height: 1.5;
+            gap: 8px !important;
+
+            text-align: center !important;
+
+            color: #94a3b8 !important;
+
+            line-height: 1.5 !important;
         }
+
 
         .empty-message i {
-            font-size: 24px;
 
-            color: #cbd5e1;
+            font-size: 24px !important;
+
+            color: #cbd5e1 !important;
         }
 
+
         /* =========================================================
-           PETITS ÉCRANS
+           TRÈS PETITS ÉCRANS
         ========================================================== */
 
-        @media (max-width: 359px) {
+        @media (max-width: 380px) {
+
+            .mobile-brand-logo-image {
+
+                width: 32px !important;
+
+                height: 32px !important;
+
+                min-width: 32px !important;
+
+                max-width: 32px !important;
+
+                flex-basis: 32px !important;
+            }
+
 
             .mobile-brand-title {
-                font-size: 15px;
+
+                font-size: 15px !important;
             }
 
-            .mobile-brand-logo {
-                width: 31px;
-                height: 31px;
 
-                flex-basis: 31px;
+            .mobile-menu-toggle {
 
-                margin-right: 10px;
+                width: 42px !important;
+
+                height: 42px !important;
+
+                min-width: 42px !important;
+
+                max-width: 42px !important;
+
+                flex-basis: 42px !important;
             }
 
-            .mobile-brand-logo-inner {
-                width: 21px;
-                height: 21px;
+
+            .sidebar {
+
+                width: min(88vw, 300px) !important;
             }
+
 
             .sidebar-brand {
-                padding: 18px 14px;
+
+                min-height: 78px !important;
+
+                height: 78px !important;
+
+                flex-basis: 78px !important;
+
+                padding:
+                    16px
+                    50px
+                    16px
+                    14px !important;
             }
 
-            .sidebar-logo {
-                width: 34px;
-                height: 34px;
 
-                flex-basis: 34px;
+            .sidebar-logo-image {
 
-                margin-right: 12px;
+                width: 36px !important;
+
+                height: 36px !important;
+
+                min-width: 36px !important;
+
+                max-width: 36px !important;
+
+                flex-basis: 36px !important;
+
+                margin-right: 10px !important;
             }
 
-            .sidebar-logo-inner {
-                width: 24px;
-                height: 24px;
-            }
 
             .sidebar-title {
-                font-size: 17px;
+
+                font-size: 17px !important;
             }
+
+
+            .sidebar-close {
+
+                top: 15px !important;
+
+                right: 10px !important;
+            }
+
+
+            .nav-menu {
+
+                padding-left: 9px !important;
+
+                padding-right: 9px !important;
+            }
+
+
+            .nav-menu li a,
+            .nav-menu a.back-link {
+
+                min-height: 46px !important;
+
+                padding-left: 12px !important;
+
+                padding-right: 10px !important;
+
+                font-size: 13px !important;
+            }
+
+
+            .nav-menu li a i,
+            .nav-menu a.back-link i {
+
+                margin-right: 10px !important;
+            }
+
 
             .main-content {
-                padding-left: 9px;
-                padding-right: 9px;
+
+                padding-left: 9px !important;
+
+                padding-right: 9px !important;
             }
 
+
             .header-banner {
-                padding: 16px 12px !important;
+
+                padding:
+                    16px 12px !important;
 
                 border-radius: 17px !important;
             }
 
+
             .header-banner h1 {
+
                 font-size: 18px !important;
             }
 
+
             .header-banner p {
+
                 font-size: 11px !important;
             }
 
-            .header-banner > div:first-child > div:first-child {
+
+            .header-banner
+            > div:first-child
+            > div:first-child {
+
                 width: 40px !important;
+
                 height: 40px !important;
 
                 min-width: 40px !important;
-                flex-basis: 40px;
+
+                flex-basis: 40px !important;
 
                 font-size: 16px !important;
             }
 
-            .module-card {
-                height: 380px;
 
-                border-radius: 16px;
+            .module-card {
+
+                height: 380px !important;
+
+                border-radius: 16px !important;
             }
 
+
             .module-header {
+
                 padding: 12px !important;
             }
 
+
             .module-title {
-                font-size: 13px;
+
+                font-size: 13px !important;
             }
+
 
             .log-item {
-                padding: 10px;
-            }
 
+                padding: 10px !important;
+            }
         }
+
 
         /* =========================================================
            TABLETTE
@@ -1081,69 +1635,115 @@
         @media (min-width: 576px) {
 
             .main-content {
+
                 padding:
                     24px
                     20px
-                    32px;
+                    32px !important;
             }
+
 
             .header-banner {
-                padding: 26px 24px !important;
 
-                margin-bottom: 24px !important;
+                padding:
+                    26px 24px !important;
+
+                margin-bottom:
+                    24px !important;
             }
+
 
             .header-banner h1 {
-                font-size: 24px !important;
+
+                font-size:
+                    24px !important;
             }
+
 
             .header-banner p {
-                font-size: 13px !important;
+
+                font-size:
+                    13px !important;
             }
 
-            .header-banner > div:first-child > div:first-child {
-                width: 52px !important;
-                height: 52px !important;
 
-                min-width: 52px !important;
-                flex-basis: 52px;
+            .header-banner
+            > div:first-child
+            > div:first-child {
 
-                font-size: 21px !important;
+                width:
+                    52px !important;
+
+                height:
+                    52px !important;
+
+                min-width:
+                    52px !important;
+
+                flex-basis:
+                    52px !important;
+
+                font-size:
+                    21px !important;
             }
+
 
             .activity-grid {
-                gap: 22px;
+
+                gap:
+                    22px !important;
             }
+
 
             .module-card {
-                height: 420px;
+
+                height:
+                    420px !important;
             }
+
 
             .module-header {
-                padding: 16px 18px;
+
+                padding:
+                    16px 18px !important;
             }
+
 
             .module-title {
-                font-size: 15px;
+
+                font-size:
+                    15px !important;
             }
+
 
             .scroll-area {
-                padding: 16px;
+
+                padding:
+                    16px !important;
             }
+
 
             .log-item {
-                padding: 12px 15px;
+
+                padding:
+                    12px 15px !important;
             }
+
 
             .log-details {
-                font-size: 13px !important;
+
+                font-size:
+                    13px !important;
             }
+
 
             .log-meta {
-                font-size: 11px !important;
-            }
 
+                font-size:
+                    11px !important;
+            }
         }
+
 
         /* =========================================================
            TABLETTE LARGE
@@ -1152,42 +1752,62 @@
         @media (min-width: 768px) {
 
             .main-content {
+
                 padding:
                     30px
                     28px
-                    35px;
+                    35px !important;
             }
+
 
             .header-banner {
-                padding: 30px !important;
 
-                margin-bottom: 28px !important;
+                padding:
+                    30px !important;
+
+                margin-bottom:
+                    28px !important;
             }
+
 
             .header-banner h1 {
-                font-size: 28px !important;
+
+                font-size:
+                    28px !important;
             }
+
 
             .header-banner p {
-                font-size: 14px !important;
+
+                font-size:
+                    14px !important;
             }
+
 
             .activity-grid {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
 
-                gap: 26px;
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr)) !important;
+
+                gap:
+                    26px !important;
             }
+
 
             .module-card.admin-card {
-                grid-column: span 2;
+
+                grid-column:
+                    span 2 !important;
             }
+
 
             .module-card {
-                height: 440px;
-            }
 
+                height:
+                    440px !important;
+            }
         }
+
 
         /* =========================================================
            DESKTOP
@@ -1196,162 +1816,310 @@
         @media (min-width: 992px) {
 
             .mobile-header {
-                display: none;
+
+                display: none !important;
             }
+
 
             .sidebar-overlay {
-                display: none;
+
+                display: none !important;
             }
+
 
             .sidebar {
-                width: var(--sidebar-width);
 
-                min-height: 100vh;
-                min-height: 100dvh;
+                position: fixed !important;
 
-                position: fixed;
+                top: 0 !important;
 
-                top: 0;
-                bottom: 0;
-                left: 0;
+                left: 0 !important;
 
-                flex-direction: column;
+                bottom: 0 !important;
 
-                transform: translateX(0);
+                width:
+                    var(--sidebar-width) !important;
 
-                transition: none;
+                max-width:
+                    var(--sidebar-width) !important;
+
+                height:
+                    100vh !important;
+
+                height:
+                    100dvh !important;
+
+                min-height:
+                    100dvh !important;
+
+                transform:
+                    translate3d(0, 0, 0) !important;
+
+                transition:
+                    none !important;
 
                 border-right:
-                    1px solid rgba(255, 255, 255, 0.05);
+                    1px solid rgba(255, 255, 255, 0.05) !important;
 
                 box-shadow:
-                    4px 0 25px rgba(0, 0, 0, 0.08);
+                    4px 0 25px rgba(0, 0, 0, 0.08) !important;
             }
+
 
             .sidebar-brand {
-                padding: 30px 24px;
+
+                min-height:
+                    90px !important;
+
+                height:
+                    90px !important;
+
+                flex-basis:
+                    90px !important;
+
+                padding:
+                    24px !important;
             }
+
+
+            .sidebar-logo-image {
+
+                width:
+                    42px !important;
+
+                height:
+                    42px !important;
+
+                min-width:
+                    42px !important;
+
+                max-width:
+                    42px !important;
+
+                flex-basis:
+                    42px !important;
+
+                margin-right:
+                    15px !important;
+            }
+
+
+            .sidebar-title {
+
+                font-size:
+                    20px !important;
+            }
+
 
             .sidebar-close {
-                display: none;
+
+                display:
+                    none !important;
             }
+
 
             .nav-menu {
-                padding: 24px 16px;
 
-                margin: 0;
+                padding:
+                    24px 16px !important;
 
-                flex: 1;
+                margin:
+                    0 !important;
 
-                display: flex;
-                flex-direction: column;
+                flex:
+                    1 1 auto !important;
 
-                gap: 6px;
+                display:
+                    flex !important;
 
-                overflow-y: auto;
-                overflow-x: hidden;
+                flex-direction:
+                    column !important;
+
+                gap:
+                    6px !important;
+
+                overflow-y:
+                    auto !important;
+
+                overflow-x:
+                    hidden !important;
             }
+
 
             .nav-menu li {
-                flex: none;
+
+                flex:
+                    0 0 auto !important;
             }
+
 
             .nav-menu li a,
             .nav-menu a.back-link {
-                min-height: auto;
 
-                padding: 14px 18px;
+                min-height:
+                    auto !important;
 
-                font-size: 14px;
+                padding:
+                    14px 18px !important;
 
-                white-space: normal;
+                font-size:
+                    14px !important;
+
+                white-space:
+                    normal !important;
             }
+
 
             .nav-menu li a i,
             .nav-menu a.back-link i {
-                width: 22px;
 
-                margin-right: 14px;
+                width:
+                    22px !important;
 
-                font-size: 16px;
+                min-width:
+                    22px !important;
+
+                flex-basis:
+                    22px !important;
+
+                margin-right:
+                    14px !important;
+
+                font-size:
+                    16px !important;
             }
+
 
             .nav-menu li a.active {
-                border-left-width: 4px;
+
+                border-left-width:
+                    4px !important;
             }
+
 
             .nav-menu a.back-link {
-                margin-top: auto;
+
+                margin-top:
+                    auto !important;
             }
+
 
             .sidebar-footer {
-                padding: 20px 24px;
+
+                padding:
+                    20px 24px !important;
             }
+
 
             .btn-logout {
-                min-height: auto;
-                padding: 12px;
+
+                min-height:
+                    auto !important;
+
+                padding:
+                    12px !important;
             }
+
 
             .main-content {
-                width: calc(100% - var(--sidebar-width));
 
-                max-width: none;
+                width:
+                    calc(100% - var(--sidebar-width)) !important;
 
-                margin-left: var(--sidebar-width);
+                max-width:
+                    none !important;
 
-                padding: 40px;
+                margin-left:
+                    var(--sidebar-width) !important;
+
+                padding:
+                    40px !important;
             }
+
 
             .header-banner {
-                padding: 32px !important;
 
-                margin-bottom: 32px !important;
+                padding:
+                    32px !important;
+
+                margin-bottom:
+                    32px !important;
             }
+
 
             .header-banner h1 {
-                font-size: 30px !important;
+
+                font-size:
+                    30px !important;
             }
+
 
             .header-banner p {
-                font-size: 14px !important;
+
+                font-size:
+                    14px !important;
             }
+
 
             .activity-grid {
-                gap: 32px;
+
+                gap:
+                    32px !important;
             }
+
 
             .module-card {
-                height: 440px;
 
-                border-radius: 20px;
+                height:
+                    440px !important;
+
+                border-radius:
+                    20px !important;
             }
+
 
             .module-header {
-                padding: 20px !important;
+
+                padding:
+                    20px !important;
             }
+
 
             .module-title {
-                font-size: 16px;
+
+                font-size:
+                    16px !important;
             }
+
 
             .scroll-area {
-                padding: 20px !important;
+
+                padding:
+                    20px !important;
             }
+
 
             .log-item {
-                padding: 12px 16px;
+
+                padding:
+                    12px 16px !important;
             }
+
 
             .log-details {
-                font-size: 14px !important;
+
+                font-size:
+                    14px !important;
             }
+
 
             .log-meta {
-                font-size: 11px !important;
-            }
 
+                font-size:
+                    11px !important;
+            }
         }
+
 
         /* =========================================================
            GRAND ÉCRAN
@@ -1360,14 +2128,19 @@
         @media (min-width: 1200px) {
 
             .main-content {
-                padding: 40px;
+
+                padding:
+                    40px !important;
             }
+
 
             .header-banner h1 {
-                font-size: 30px !important;
-            }
 
+                font-size:
+                    30px !important;
+            }
         }
+
 
         /* =========================================================
            ACCESSIBILITÉ
@@ -1375,11 +2148,14 @@
 
         a:focus-visible,
         button:focus-visible {
-            outline:
-                3px solid rgba(255, 140, 0, 0.6);
 
-            outline-offset: 2px;
+            outline:
+                3px solid rgba(255, 140, 0, 0.6) !important;
+
+            outline-offset:
+                2px !important;
         }
+
 
         /* =========================================================
            RÉDUCTION DES ANIMATIONS
@@ -1390,7 +2166,9 @@
             *,
             *::before,
             *::after {
-                scroll-behavior: auto !important;
+
+                scroll-behavior:
+                    auto !important;
 
                 transition-duration:
                     0.01ms !important;
@@ -1402,17 +2180,21 @@
                     1 !important;
             }
 
-            .log-item:hover {
-                transform: none;
-            }
 
+            .log-item:hover {
+
+                transform:
+                    none !important;
+            }
         }
 
     </style>
+
 </head>
 
 
 <body>
+
 
     <!-- =========================================================
          HEADER MOBILE
@@ -1422,15 +2204,19 @@
 
         <div class="mobile-brand">
 
-            <div class="mobile-brand-logo">
-                <div class="mobile-brand-logo-inner"></div>
-            </div>
+            <!-- VRAI LOGO DU PROJET -->
+            <img
+                src="{% static 'image/logoo.png' %}"
+                alt="ASTRA TECH"
+                class="mobile-brand-logo-image"
+            >
 
             <div class="mobile-brand-title">
                 ASTRA <span>TECH</span>
             </div>
 
         </div>
+
 
         <button
             type="button"
@@ -1440,10 +2226,13 @@
             aria-controls="sidebar"
             aria-expanded="false"
         >
+
             <i class="fas fa-bars"></i>
+
         </button>
 
     </header>
+
 
 
     <!-- =========================================================
@@ -1457,6 +2246,7 @@
     ></div>
 
 
+
     <!-- =========================================================
          SIDEBAR
     ========================================================== -->
@@ -1467,17 +2257,25 @@
         aria-label="Navigation principale"
     >
 
-        <!-- BRAND -->
+
+        <!-- =====================================================
+             BRAND
+        ====================================================== -->
 
         <div class="sidebar-brand">
 
-            <div class="sidebar-logo">
-                <div class="sidebar-logo-inner"></div>
-            </div>
+            <!-- VRAI LOGO ASTRA TECH -->
+            <img
+                src="{% static 'image/logoo.png' %}"
+                alt="ASTRA TECH"
+                class="sidebar-logo-image"
+            >
+
 
             <div class="sidebar-title">
                 ASTRA <span>TECH</span>
             </div>
+
 
             <!-- FERMETURE MOBILE -->
 
@@ -1487,70 +2285,151 @@
                 class="sidebar-close"
                 aria-label="Fermer le menu"
             >
+
                 <i class="fas fa-times"></i>
+
             </button>
 
         </div>
 
 
-        <!-- MENU -->
+
+        <!-- =====================================================
+             MENU
+        ====================================================== -->
 
         <ul class="nav-menu">
 
+
+            <!-- TOKENS -->
+
             <li>
-                <a href="{% url 'astra:token_accueil' %}">
+
+                <a
+                    href="{% url 'astra:token_accueil' %}"
+                >
+
                     <i class="fas fa-key"></i>
-                    <span>Gestion des Tokens</span>
+
+                    <span>
+                        Gestion des Tokens
+                    </span>
+
                 </a>
+
             </li>
 
+
+
+            <!-- UTILISATEURS -->
+
             <li>
-                <a href="{% url 'astra:page_utilisateurs' %}">
+
+                <a
+                    href="{% url 'astra:page_utilisateurs' %}"
+                >
+
                     <i class="fas fa-users"></i>
-                    <span>Utilisateurs</span>
+
+                    <span>
+                        Utilisateurs
+                    </span>
+
                 </a>
+
             </li>
 
+
+
+            <!-- PERMISSIONS -->
+
             <li>
-                <a href="{% url 'astra:permissions_page' %}">
+
+                <a
+                    href="{% url 'astra:permissions_page' %}"
+                >
+
                     <i class="fas fa-shield-alt"></i>
-                    <span>Permissions</span>
+
+                    <span>
+                        Permissions
+                    </span>
+
                 </a>
+
             </li>
 
+
+
+            <!-- HISTORIQUE -->
+
             <li>
+
                 <a
                     href="{% url 'astra:historiques_page' %}"
                     class="active"
                     aria-current="page"
                 >
+
                     <i class="fas fa-history"></i>
-                    <span>Historique</span>
+
+                    <span>
+                        Historique
+                    </span>
+
                 </a>
+
             </li>
 
+
+
+            <!-- PARAMÈTRES -->
+
             <li>
-                <a href="{% url 'astra:parametres_page' %}">
+
+                <a
+                    href="{% url 'astra:parametres_page' %}"
+                >
+
                     <i class="fas fa-cog"></i>
-                    <span>Paramètres</span>
+
+                    <span>
+                        Paramètres
+                    </span>
+
                 </a>
+
             </li>
 
+
+
+            <!-- RETOUR -->
+
             <li>
+
                 <a
                     href="#"
                     onclick="history.back(); return false;"
                     class="back-link"
                 >
+
                     <i class="fas fa-arrow-left"></i>
-                    <span>Retour</span>
+
+                    <span>
+                        Retour
+                    </span>
+
                 </a>
+
             </li>
 
         </ul>
 
 
-        <!-- FOOTER -->
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
 
         <div class="sidebar-footer">
 
@@ -1559,13 +2438,19 @@
                 class="btn-logout"
                 id="loginBtn"
             >
+
                 <i class="fas fa-sign-out-alt"></i>
-                <span>Déconnexion</span>
+
+                <span>
+                    Déconnexion
+                </span>
+
             </a>
 
         </div>
 
     </aside>
+
 
 
     <!-- =========================================================
@@ -1580,28 +2465,64 @@
         ====================================================== -->
 
         <section
-            class="header-banner bg-white border border-slate-200/80 rounded-3xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center"
+            class="
+                header-banner
+                bg-white
+                border
+                border-slate-200/80
+                rounded-3xl
+                shadow-sm
+                flex
+                flex-col
+                md:flex-row
+                justify-between
+                items-start
+                md:items-center
+            "
         >
 
             <div class="flex items-center">
 
                 <div
-                    class="rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20"
+                    class="
+                        rounded-2xl
+                        bg-gradient-to-tr
+                        from-blue-600
+                        to-indigo-600
+                        text-white
+                        flex
+                        items-center
+                        justify-center
+                        shadow-lg
+                        shadow-blue-500/20
+                    "
                 >
+
                     <i class="fas fa-layer-group"></i>
+
                 </div>
+
 
                 <div>
 
                     <h1
-                        class="font-extrabold text-slate-900 tracking-tight"
+                        class="
+                            font-extrabold
+                            text-slate-900
+                            tracking-tight
+                        "
                     >
+
                         Tableau de Bord des Activités
+
                     </h1>
 
+
                     <p class="text-slate-500 mt-1">
+
                         Supervision centralisée et structurée par module
                         de la boutique.
+
                     </p>
 
                 </div>
@@ -1609,6 +2530,7 @@
             </div>
 
         </section>
+
 
 
         <!-- =====================================================
@@ -1624,6 +2546,7 @@
 
             <section class="module-card">
 
+
                 <div class="module-header">
 
                     <h2 class="module-title">
@@ -1636,37 +2559,60 @@
 
                     </h2>
 
+
                     <span
-                        class="module-badge bg-blue-100 text-blue-700"
+                        class="
+                            module-badge
+                            bg-blue-100
+                            text-blue-700
+                        "
                     >
+
                         Entrées stock
+
                     </span>
 
                 </div>
+
 
 
                 <div class="scroll-area">
 
                     <div class="log-list">
 
+
                         {% for log in logs_approvisionnement %}
 
                             <div class="log-item appro">
 
-                                <div class="log-details font-bold text-slate-800">
+
+                                <div
+                                    class="
+                                        log-details
+                                        font-bold
+                                        text-slate-800
+                                    "
+                                >
 
                                     {{ log.details }}
 
                                 </div>
 
 
+
                                 <div class="log-meta">
+
 
                                     <span class="log-date">
 
                                         <i
-                                            class="far fa-clock text-blue-500"
+                                            class="
+                                                far
+                                                fa-clock
+                                                text-blue-500
+                                            "
                                         ></i>
+
 
                                         <span>
                                             {{ log.date }}
@@ -1675,10 +2621,16 @@
                                     </span>
 
 
+
                                     <span class="user-badge">
 
                                         <i
-                                            class="fas fa-user-shield text-[10px] mr-1"
+                                            class="
+                                                fas
+                                                fa-user-shield
+                                                text-[10px]
+                                                mr-1
+                                            "
                                         ></i>
 
                                         {{ log.utilisateur }}
@@ -1688,6 +2640,7 @@
                                 </div>
 
                             </div>
+
 
                         {% empty %}
 
@@ -1696,18 +2649,22 @@
                                 <i class="fas fa-box-open"></i>
 
                                 <span>
+
                                     Aucun approvisionnement enregistré.
+
                                 </span>
 
                             </div>
 
                         {% endfor %}
 
+
                     </div>
 
                 </div>
 
             </section>
+
 
 
             <!-- =================================================
@@ -1716,11 +2673,18 @@
 
             <section class="module-card">
 
+
                 <div class="module-header">
 
                     <h2 class="module-title">
 
-                        <i class="fas fa-shopping-cart text-emerald-600"></i>
+                        <i
+                            class="
+                                fas
+                                fa-shopping-cart
+                                text-emerald-600
+                            "
+                        ></i>
 
                         <span>
                             Ventes
@@ -1728,37 +2692,60 @@
 
                     </h2>
 
+
                     <span
-                        class="module-badge bg-emerald-100 text-emerald-700"
+                        class="
+                            module-badge
+                            bg-emerald-100
+                            text-emerald-700
+                        "
                     >
+
                         Transactions
+
                     </span>
 
                 </div>
+
 
 
                 <div class="scroll-area">
 
                     <div class="log-list">
 
+
                         {% for log in logs_ventes %}
 
                             <div class="log-item vente">
 
-                                <div class="log-details font-bold text-slate-800">
+
+                                <div
+                                    class="
+                                        log-details
+                                        font-bold
+                                        text-slate-800
+                                    "
+                                >
 
                                     {{ log.details }}
 
                                 </div>
 
 
+
                                 <div class="log-meta">
+
 
                                     <span class="log-date">
 
                                         <i
-                                            class="far fa-clock text-emerald-500"
+                                            class="
+                                                far
+                                                fa-clock
+                                                text-emerald-500
+                                            "
                                         ></i>
+
 
                                         <span>
                                             {{ log.date }}
@@ -1767,10 +2754,16 @@
                                     </span>
 
 
+
                                     <span class="user-badge">
 
                                         <i
-                                            class="fas fa-user-shield text-[10px] mr-1"
+                                            class="
+                                                fas
+                                                fa-user-shield
+                                                text-[10px]
+                                                mr-1
+                                            "
                                         ></i>
 
                                         {{ log.utilisateur }}
@@ -1780,6 +2773,7 @@
                                 </div>
 
                             </div>
+
 
                         {% empty %}
 
@@ -1788,12 +2782,15 @@
                                 <i class="fas fa-receipt"></i>
 
                                 <span>
+
                                     Aucune vente enregistrée.
+
                                 </span>
 
                             </div>
 
                         {% endfor %}
+
 
                     </div>
 
@@ -1802,56 +2799,89 @@
             </section>
 
 
+
             <!-- =================================================
                  GESTION & ADMINISTRATION
             ================================================== -->
 
             <section class="module-card admin-card">
 
+
                 <div class="module-header">
 
                     <h2 class="module-title">
 
-                        <i class="fas fa-users-cog text-purple-600"></i>
+                        <i
+                            class="
+                                fas
+                                fa-users-cog
+                                text-purple-600
+                            "
+                        ></i>
 
                         <span>
+
                             Gestion et Catalogue
                             (Clients &amp; Produits)
+
                         </span>
 
                     </h2>
 
+
                     <span
-                        class="module-badge bg-purple-100 text-purple-700"
+                        class="
+                            module-badge
+                            bg-purple-100
+                            text-purple-700
+                        "
                     >
+
                         Système
+
                     </span>
 
                 </div>
+
 
 
                 <div class="scroll-area">
 
                     <div class="log-list">
 
+
                         {% for log in logs_admin %}
 
                             <div class="log-item admin">
 
-                                <div class="log-details font-bold text-slate-800">
+
+                                <div
+                                    class="
+                                        log-details
+                                        font-bold
+                                        text-slate-800
+                                    "
+                                >
 
                                     {{ log.details }}
 
                                 </div>
 
 
+
                                 <div class="log-meta">
+
 
                                     <span class="log-date">
 
                                         <i
-                                            class="far fa-clock text-purple-500"
+                                            class="
+                                                far
+                                                fa-clock
+                                                text-purple-500
+                                            "
                                         ></i>
+
 
                                         <span>
                                             {{ log.date }}
@@ -1860,10 +2890,16 @@
                                     </span>
 
 
+
                                     <span class="user-badge">
 
                                         <i
-                                            class="fas fa-user-shield text-[10px] mr-1"
+                                            class="
+                                                fas
+                                                fa-user-shield
+                                                text-[10px]
+                                                mr-1
+                                            "
                                         ></i>
 
                                         {{ log.utilisateur }}
@@ -1874,6 +2910,7 @@
 
                             </div>
 
+
                         {% empty %}
 
                             <div class="empty-message">
@@ -1881,12 +2918,15 @@
                                 <i class="fas fa-folder-open"></i>
 
                                 <span>
+
                                     Aucune activité administrative récente.
+
                                 </span>
 
                             </div>
 
                         {% endfor %}
+
 
                     </div>
 
@@ -1894,9 +2934,11 @@
 
             </section>
 
+
         </div>
 
     </main>
+
 
 
     <!-- =========================================================
@@ -1904,6 +2946,10 @@
     ========================================================== -->
 
     <script>
+
+        /* =========================================================
+           RÉCUPÉRATION DES ÉLÉMENTS
+        ========================================================== */
 
         const sidebar =
             document.getElementById('sidebar');
@@ -1918,9 +2964,9 @@
             document.getElementById('sidebarClose');
 
 
-        /* =====================================================
-           OUVRIR / FERMER LE MENU
-        ====================================================== */
+        /* =========================================================
+           OUVRIR / FERMER SIDEBAR
+        ========================================================== */
 
         function setSidebarState(open) {
 
@@ -1928,15 +2974,18 @@
                 return;
             }
 
+
             sidebar.classList.toggle(
                 'active',
                 open
             );
 
+
             sidebarOverlay.classList.toggle(
                 'active',
                 open
             );
+
 
             document.body.classList.toggle(
                 'menu-open',
@@ -1950,6 +2999,7 @@
                     'aria-expanded',
                     String(open)
                 );
+
 
                 mobileMenuToggle.setAttribute(
                     'aria-label',
@@ -1969,9 +3019,9 @@
         }
 
 
-        /* =====================================================
-           BOUTON HAMBURGER
-        ====================================================== */
+        /* =========================================================
+           HAMBURGER
+        ========================================================== */
 
         if (mobileMenuToggle) {
 
@@ -1979,7 +3029,10 @@
                 'click',
                 function () {
 
-                    setSidebarState(true);
+                    const isOpen =
+                        sidebar.classList.contains('active');
+
+                    setSidebarState(!isOpen);
 
                 }
             );
@@ -1987,9 +3040,9 @@
         }
 
 
-        /* =====================================================
+        /* =========================================================
            BOUTON X
-        ====================================================== */
+        ========================================================== */
 
         if (sidebarClose) {
 
@@ -2005,9 +3058,9 @@
         }
 
 
-        /* =====================================================
-           CLIC SUR OVERLAY
-        ====================================================== */
+        /* =========================================================
+           OVERLAY
+        ========================================================== */
 
         if (sidebarOverlay) {
 
@@ -2023,9 +3076,9 @@
         }
 
 
-        /* =====================================================
-           TOUCHE ÉCHAP
-        ====================================================== */
+        /* =========================================================
+           TOUCHE ESCAPE
+        ========================================================== */
 
         document.addEventListener(
             'keydown',
@@ -2041,9 +3094,9 @@
         );
 
 
-        /* =====================================================
-           FERMER APRÈS NAVIGATION MOBILE
-        ====================================================== */
+        /* =========================================================
+           NAVIGATION MOBILE
+        ========================================================== */
 
         if (sidebar) {
 
@@ -2055,7 +3108,9 @@
                         'click',
                         function () {
 
-                            if (window.innerWidth < 992) {
+                            if (
+                                window.innerWidth < 992
+                            ) {
 
                                 setSidebarState(false);
 
@@ -2069,15 +3124,49 @@
         }
 
 
-        /* =====================================================
+        /* =========================================================
            PASSAGE MOBILE → DESKTOP
-        ====================================================== */
+        ========================================================== */
+
+        let resizeTimer;
 
         window.addEventListener(
             'resize',
             function () {
 
-                if (window.innerWidth >= 992) {
+                clearTimeout(resizeTimer);
+
+                resizeTimer = setTimeout(
+                    function () {
+
+                        if (
+                            window.innerWidth >= 992
+                        ) {
+
+                            setSidebarState(false);
+
+                        }
+
+                    },
+                    100
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           EMPÊCHER LE SIDEBAR DE RESTER BLOQUÉ
+           APRÈS CHARGEMENT
+        ========================================================== */
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function () {
+
+                if (
+                    window.innerWidth >= 992
+                ) {
 
                     setSidebarState(false);
 
@@ -2088,5 +3177,8 @@
 
     </script>
 
+
 </body>
+
 </html>
+

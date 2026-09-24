@@ -3,7 +3,10 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
 
     <title>ASTRA TECH - Permissions</title>
 
@@ -31,7 +34,7 @@
 
     <script>
         tailwind.config = {
-            darkMode: 'class'
+            darkMode: "class"
         };
     </script>
 
@@ -44,12 +47,12 @@
     >
 
     <!-- =========================================================
-         RESPONSIVE CSS
+         RESPONSIVE CSS GLOBAL
     ========================================================== -->
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
     <!-- =========================================================
-         POLICE
+         POLICE + STYLE
     ========================================================== -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -79,11 +82,14 @@
             --shadow-md: 0 8px 24px rgba(0, 0, 0, .12);
         }
 
+
         /* =========================================================
            RESET
         ========================================================== */
 
-        * {
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
         }
 
@@ -105,8 +111,13 @@
                 color .25s ease;
         }
 
+        body.menu-open {
+            overflow: hidden !important;
+        }
+
         button,
-        a {
+        a,
+        input {
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -118,100 +129,81 @@
             text-decoration: none;
         }
 
+
         /* =========================================================
            MOBILE HEADER
-           IDENTIQUE AU SIDEBAR PARAMÈTRES
         ========================================================== */
 
         .mobile-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
 
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            width: 100% !important;
+            height: var(--mobile-header-height) !important;
 
-            height: var(--mobile-header-height);
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
 
             padding:
-                0 16px
-                env(safe-area-inset-right)
                 0
-                env(safe-area-inset-left);
+                max(16px, env(safe-area-inset-right))
+                0
+                max(16px, env(safe-area-inset-left));
 
             background: linear-gradient(
                 135deg,
                 #004E8C 0%,
                 #003366 100%
-            );
+            ) !important;
 
-            z-index: 9998;
+            z-index: 10001 !important;
 
             box-shadow: 0 4px 18px rgba(0, 0, 0, .18);
         }
 
         .mobile-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+
             min-width: 0;
         }
 
         .mobile-brand-logo {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
 
-            position: relative;
-            flex-shrink: 0;
+            flex: 0 0 40px;
 
             border-radius: 9px;
+            overflow: hidden;
             background: rgba(255, 255, 255, .08);
         }
 
-        .mobile-brand-logo-inner {
-            width: 23px;
-            height: 23px;
+        .mobile-brand-logo img {
+            width: 34px;
+            height: 34px;
 
-            background: #fff;
-            border: 3px solid var(--tech-orange);
+            display: block;
 
-            transform: rotate(45deg);
-            border-radius: 3px;
-
-            position: relative;
-        }
-
-        .mobile-brand-logo-inner::after {
-            content: "";
-
-            position: absolute;
-
-            width: 8px;
-            height: 8px;
-
-            background: var(--tech-orange);
-
-            top: 50%;
-            left: 50%;
-
-            transform:
-                translate(-50%, -50%)
-                rotate(-45deg);
-
-            border-radius: 2px;
+            object-fit: contain;
         }
 
         .mobile-brand-title {
             color: #fff;
+
             font-size: 17px;
             font-weight: 800;
+
             letter-spacing: .5px;
+
             white-space: nowrap;
         }
 
@@ -220,22 +212,29 @@
         }
 
         .mobile-menu-btn {
-            width: 44px;
-            height: 44px;
+            width: 44px !important;
+            height: 44px !important;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            min-width: 44px !important;
+            min-height: 44px !important;
 
-            border: 0;
-            border-radius: 10px;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
 
-            background: rgba(255, 255, 255, .10);
-            color: #fff;
+            flex-shrink: 0;
+
+            border: 0 !important;
+            border-radius: 10px !important;
+
+            background: rgba(255, 255, 255, .10) !important;
+            color: #fff !important;
 
             cursor: pointer;
 
             font-size: 21px;
+
+            padding: 0 !important;
 
             transition:
                 background .2s ease,
@@ -244,28 +243,32 @@
 
         .mobile-menu-btn:hover,
         .mobile-menu-btn:focus-visible {
-            background: rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .18) !important;
         }
 
         .mobile-menu-btn:active {
             transform: scale(.94);
         }
 
+
         /* =========================================================
            OVERLAY
         ========================================================== */
 
         .sidebar-overlay {
-            position: fixed;
-            inset: 0;
+            position: fixed !important;
+            inset: 0 !important;
 
-            background: rgba(0, 0, 0, .55);
+            width: 100vw !important;
+            height: 100dvh !important;
 
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+            background: rgba(0, 0, 0, .58) !important;
 
-            z-index: 9999;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+
+            z-index: 10002 !important;
 
             transition:
                 opacity .25s ease,
@@ -273,137 +276,132 @@
         }
 
         .sidebar-overlay.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
         }
+
 
         /* =========================================================
            SIDEBAR
-           MÊME STRUCTURE QUE PARAMÈTRES
         ========================================================== */
 
         .sidebar {
-            position: fixed;
+            position: fixed !important;
 
-            top: 0;
-            left: 0;
-            bottom: 0;
+            top: 0 !important;
+            left: 0 !important;
+            bottom: 0 !important;
 
-            width: min(86vw, 320px);
-            height: 100dvh;
+            width: min(86vw, 320px) !important;
+            max-width: 320px !important;
 
-            display: flex;
-            flex-direction: column;
+            height: 100dvh !important;
+            max-height: 100dvh !important;
+
+            display: flex !important;
+            flex-direction: column !important;
+
+            margin: 0 !important;
+            padding: 0 !important;
 
             background: linear-gradient(
                 180deg,
                 #004E8C 0%,
                 #003366 100%
-            );
+            ) !important;
 
-            color: #fff;
+            color: #fff !important;
 
-            z-index: 10000;
+            z-index: 10003 !important;
 
-            transform: translateX(-105%);
+            transform: translate3d(-105%, 0, 0) !important;
 
             transition:
                 transform .28s cubic-bezier(.4, 0, .2, 1);
 
             box-shadow: 8px 0 30px rgba(0, 0, 0, .20);
 
-            overflow: hidden;
+            overflow: hidden !important;
+
+            visibility: visible !important;
         }
 
         .sidebar.active {
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0) !important;
         }
+
 
         /* =========================================================
            SIDEBAR BRAND
         ========================================================== */
 
         .sidebar-brand {
-            min-height: 86px;
+            width: 100% !important;
+            min-height: 86px !important;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex: 0 0 86px;
+
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
 
             padding:
                 16px
-                18px
                 16px
-                20px;
+                16px
+                20px !important;
 
             border-bottom: 1px solid rgba(255, 255, 255, .10);
 
-            flex-shrink: 0;
+            background: transparent !important;
         }
 
         .sidebar-brand-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            display: flex !important;
+            align-items: center !important;
+
+            gap: 12px !important;
+
             min-width: 0;
         }
 
         .sidebar-logo {
-            width: 46px;
-            height: 46px;
+            width: 46px !important;
+            height: 46px !important;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            flex: 0 0 46px;
 
-            position: relative;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
 
             border-radius: 11px;
 
             background: rgba(255, 255, 255, .08);
 
-            flex-shrink: 0;
+            overflow: hidden;
         }
 
-        .sidebar-logo-inner {
-            width: 29px;
-            height: 29px;
+        /*
+         * VRAI LOGO ASTRA TECH
+         */
+        .sidebar-logo img {
+            width: 40px !important;
+            height: 40px !important;
 
-            background: #fff;
+            display: block !important;
 
-            border: 4px solid var(--tech-orange);
-
-            transform: rotate(45deg);
-
-            border-radius: 4px;
-
-            position: relative;
-        }
-
-        .sidebar-logo-inner::after {
-            content: "";
-
-            position: absolute;
-
-            width: 10px;
-            height: 10px;
-
-            background: var(--tech-orange);
-
-            top: 50%;
-            left: 50%;
-
-            transform:
-                translate(-50%, -50%)
-                rotate(-45deg);
-
-            border-radius: 2px;
+            object-fit: contain !important;
         }
 
         .sidebar-title {
-            font-size: 20px;
-            font-weight: 800;
+            min-width: 0;
+
+            color: #fff !important;
+
+            font-size: 20px !important;
+            font-weight: 800 !important;
 
             letter-spacing: .4px;
 
@@ -411,23 +409,30 @@
         }
 
         .sidebar-title span {
-            color: var(--tech-orange);
+            color: var(--tech-orange) !important;
         }
 
         .sidebar-close {
-            width: 38px;
-            height: 38px;
+            width: 38px !important;
+            height: 38px !important;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            min-width: 38px !important;
+            min-height: 38px !important;
 
-            border: 0;
-            border-radius: 9px;
+            flex: 0 0 38px;
 
-            background: rgba(255, 255, 255, .08);
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
 
-            color: #fff;
+            padding: 0 !important;
+
+            border: 0 !important;
+            border-radius: 9px !important;
+
+            background: rgba(255, 255, 255, .08) !important;
+
+            color: #fff !important;
 
             cursor: pointer;
 
@@ -440,32 +445,46 @@
 
         .sidebar-close:hover,
         .sidebar-close:focus-visible {
-            background: rgba(255, 255, 255, .16);
+            background: rgba(255, 255, 255, .16) !important;
         }
 
         .sidebar-close:active {
             transform: scale(.94);
         }
 
+
         /* =========================================================
-           NAVIGATION
+           NAVIGATION SIDEBAR
+           IMPORTANT : TOUJOURS VERTICALE
         ========================================================== */
 
         .nav-menu {
-            flex: 1;
+            width: 100% !important;
 
-            display: flex;
-            flex-direction: column;
+            flex: 1 1 auto !important;
 
-            gap: 5px;
+            display: flex !important;
+            flex-direction: column !important;
 
-            padding: 18px 12px;
+            align-items: stretch !important;
+            justify-content: flex-start !important;
 
-            overflow-y: auto;
-            overflow-x: hidden;
+            gap: 5px !important;
+
+            padding:
+                18px 12px
+                18px 12px !important;
+
+            margin: 0 !important;
+
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
 
             scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,.25) transparent;
+
+            scrollbar-color:
+                rgba(255,255,255,.25)
+                transparent;
         }
 
         .nav-menu::-webkit-scrollbar {
@@ -482,23 +501,38 @@
         }
 
         .nav-link {
-            min-height: 48px;
+            width: 100% !important;
+            min-width: 0 !important;
 
-            width: 100%;
+            min-height: 48px !important;
 
-            display: flex;
-            align-items: center;
+            flex: 0 0 auto !important;
 
-            gap: 13px;
+            display: flex !important;
+            flex-direction: row !important;
 
-            padding: 12px 15px;
+            align-items: center !important;
+            justify-content: flex-start !important;
 
-            border-radius: 10px;
+            gap: 13px !important;
 
-            color: rgba(255,255,255,.88);
+            padding:
+                12px 15px !important;
 
-            font-size: 14px;
-            font-weight: 600;
+            margin: 0 !important;
+
+            border-radius: 10px !important;
+
+            color: rgba(255,255,255,.88) !important;
+
+            font-size: 14px !important;
+            font-weight: 600 !important;
+
+            line-height: 1.2 !important;
+
+            white-space: nowrap !important;
+
+            background: transparent !important;
 
             transition:
                 background .2s ease,
@@ -507,21 +541,39 @@
         }
 
         .nav-link i {
-            width: 22px;
+            width: 22px !important;
+            min-width: 22px !important;
+
+            flex: 0 0 22px !important;
+
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
 
             text-align: center;
 
-            font-size: 16px;
+            font-size: 16px !important;
 
-            flex-shrink: 0;
+            color: inherit;
 
-            transition: color .2s ease;
+            margin: 0 !important;
+        }
+
+        .nav-link span {
+            display: block !important;
+
+            min-width: 0;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
         }
 
         .nav-link:hover,
         .nav-link:focus-visible {
-            background: rgba(255,255,255,.09);
-            color: #fff;
+            background: rgba(255,255,255,.09) !important;
+            color: #fff !important;
         }
 
         .nav-link:active {
@@ -529,68 +581,78 @@
         }
 
         .nav-link.active {
-            background: rgba(255, 140, 0, .16);
+            background: rgba(255, 140, 0, .16) !important;
 
-            color: #fff;
+            color: #fff !important;
 
             box-shadow:
                 inset 3px 0 0 var(--tech-orange);
         }
 
         .nav-link.active i {
-            color: var(--tech-orange);
+            color: var(--tech-orange) !important;
         }
 
         .nav-link.back-link {
-            margin-top: 8px;
+            margin-top: 8px !important;
 
-            color: rgba(255,255,255,.72);
+            padding-top: 16px !important;
+
+            color: rgba(255,255,255,.72) !important;
 
             border-top: 1px solid rgba(255,255,255,.08);
 
-            border-radius: 0 0 10px 10px;
-
-            padding-top: 16px;
+            border-radius: 0 0 10px 10px !important;
         }
 
         .nav-link.back-link i {
-            color: var(--tech-orange);
+            color: var(--tech-orange) !important;
         }
 
+
         /* =========================================================
-           FOOTER SIDEBAR
+           SIDEBAR FOOTER
         ========================================================== */
 
         .sidebar-footer {
+            width: 100% !important;
+
+            flex: 0 0 auto;
+
             padding:
                 14px
                 14px
-                calc(14px + env(safe-area-inset-bottom));
+                calc(14px + env(safe-area-inset-bottom))
+                14px !important;
 
             border-top: 1px solid rgba(255,255,255,.10);
 
-            flex-shrink: 0;
+            background: transparent !important;
         }
 
         .btn-logout {
-            width: 100%;
+            width: 100% !important;
 
-            min-height: 48px;
+            min-height: 48px !important;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
 
-            gap: 10px;
+            gap: 10px !important;
 
-            border-radius: 10px;
+            padding: 12px 15px !important;
 
-            background: rgba(255,255,255,.08);
+            border-radius: 10px !important;
 
-            color: #fff;
+            background: rgba(255,255,255,.08) !important;
 
-            font-size: 14px;
-            font-weight: 700;
+            color: #fff !important;
+
+            font-size: 14px !important;
+            font-weight: 700 !important;
+
+            white-space: nowrap;
 
             transition:
                 background .2s ease,
@@ -598,37 +660,41 @@
         }
 
         .btn-logout i {
-            color: var(--tech-orange);
+            color: var(--tech-orange) !important;
         }
 
         .btn-logout:hover,
         .btn-logout:focus-visible {
-            background: rgba(255, 140, 0, .15);
-            color: #fff;
+            background: rgba(255, 140, 0, .15) !important;
+            color: #fff !important;
         }
 
         .btn-logout:active {
             transform: scale(.98);
         }
 
+
         /* =========================================================
            MAIN CONTENT
         ========================================================== */
 
         .main-content {
-            width: 100%;
+            width: 100% !important;
 
-            min-width: 0;
+            min-width: 0 !important;
+
+            margin: 0 !important;
 
             padding:
                 calc(var(--mobile-header-height) + 20px)
                 14px
-                30px;
+                30px !important;
 
             transition:
                 margin-left .25s ease,
                 width .25s ease;
         }
+
 
         /* =========================================================
            PAGE HEADER
@@ -673,6 +739,7 @@
 
         .security-badge {
             display: inline-flex;
+
             align-items: center;
             gap: 8px;
 
@@ -694,6 +761,7 @@
             color: var(--tech-orange);
         }
 
+
         /* =========================================================
            CARD
         ========================================================== */
@@ -714,6 +782,7 @@
 
         .card-header-custom {
             display: flex;
+
             flex-direction: column;
 
             gap: 10px;
@@ -725,7 +794,9 @@
 
         .card-header-title {
             display: flex;
+
             align-items: center;
+
             gap: 10px;
 
             color: #003366;
@@ -747,6 +818,7 @@
 
             line-height: 1.6;
         }
+
 
         /* =========================================================
            TABLE WRAPPER
@@ -774,6 +846,7 @@
 
         .permissions-table {
             width: 100%;
+
             min-width: 850px;
 
             border-collapse: collapse;
@@ -796,7 +869,6 @@
             color: #334155;
 
             font-size: 11px;
-
             font-weight: 800;
 
             text-transform: uppercase;
@@ -809,6 +881,7 @@
         .permissions-table th:first-child,
         .permissions-table td:first-child {
             position: sticky;
+
             left: 0;
 
             z-index: 2;
@@ -820,6 +893,7 @@
 
         .permissions-table th:first-child {
             background: #f8fafc;
+
             z-index: 4;
         }
 
@@ -843,13 +917,16 @@
             background: #f8fafc;
         }
 
+
         /* =========================================================
            ROLE HEADER
         ========================================================== */
 
         .role-header {
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
 
             gap: 5px;
@@ -860,6 +937,7 @@
             height: 32px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -874,9 +952,12 @@
 
         .role-name {
             color: #334155;
+
             font-size: 11px;
+
             font-weight: 800;
         }
+
 
         /* =========================================================
            PERMISSION NAME
@@ -884,6 +965,7 @@
 
         .permission-name {
             display: flex;
+
             align-items: center;
 
             gap: 10px;
@@ -894,6 +976,7 @@
             height: 34px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -916,6 +999,7 @@
             color: #334155;
 
             font-size: 12px;
+
             font-weight: 700;
         }
 
@@ -927,16 +1011,18 @@
             color: #94a3b8;
 
             font-size: 10px;
+
             font-weight: 500;
         }
+
 
         /* =========================================================
            CHECKBOX
         ========================================================== */
 
         .permission-checkbox {
-            width: 19px;
-            height: 19px;
+            width: 19px !important;
+            height: 19px !important;
 
             appearance: none;
             -webkit-appearance: none;
@@ -963,6 +1049,7 @@
 
         .permission-checkbox:checked {
             background: var(--tech-blue);
+
             border-color: var(--tech-blue);
         }
 
@@ -977,8 +1064,7 @@
             left: 5px;
             top: 2px;
 
-            border:
-                solid #fff;
+            border: solid #fff;
 
             border-width:
                 0 2px 2px 0;
@@ -992,8 +1078,10 @@
 
         .permission-checkbox:disabled {
             opacity: .55;
+
             cursor: not-allowed;
         }
+
 
         /* =========================================================
            CARD FOOTER
@@ -1001,6 +1089,7 @@
 
         .card-footer-custom {
             display: flex;
+
             flex-direction: column;
 
             gap: 12px;
@@ -1014,6 +1103,7 @@
 
         .permission-info {
             display: flex;
+
             align-items: flex-start;
 
             gap: 9px;
@@ -1037,6 +1127,7 @@
             min-height: 46px;
 
             display: inline-flex;
+
             align-items: center;
             justify-content: center;
 
@@ -1055,11 +1146,13 @@
             color: #fff;
 
             font-size: 13px;
+
             font-weight: 700;
 
             cursor: pointer;
 
-            box-shadow: 0 5px 14px rgba(0, 120, 215, .22);
+            box-shadow:
+                0 5px 14px rgba(0, 120, 215, .22);
 
             transition:
                 transform .2s ease,
@@ -1080,8 +1173,10 @@
 
         .save-btn:disabled {
             opacity: .65;
+
             cursor: wait;
         }
+
 
         /* =========================================================
            TOAST
@@ -1092,7 +1187,9 @@
 
             left: 14px;
             right: 14px;
-            bottom: calc(20px + env(safe-area-inset-bottom));
+
+            bottom:
+                calc(20px + env(safe-area-inset-bottom));
 
             max-width: 420px;
 
@@ -1101,20 +1198,25 @@
             padding: 13px 16px;
 
             display: flex;
+
             align-items: center;
+
             gap: 10px;
 
             border-radius: 12px;
 
             background: #003366;
+
             color: #fff;
 
             box-shadow: var(--shadow-md);
 
             font-size: 12px;
+
             font-weight: 600;
 
             opacity: 0;
+
             visibility: hidden;
 
             transform: translateY(20px);
@@ -1129,7 +1231,9 @@
 
         .toast-message.show {
             opacity: 1;
+
             visibility: visible;
+
             transform: translateY(0);
         }
 
@@ -1141,12 +1245,14 @@
             color: #f87171;
         }
 
+
         /* =========================================================
            DARK MODE
         ========================================================== */
 
         html.dark body {
             background: #0f172a;
+
             color: #e2e8f0;
         }
 
@@ -1164,13 +1270,17 @@
 
         html.dark .security-badge {
             background: rgba(33, 150, 243, .12);
+
             color: #93c5fd;
         }
 
         html.dark .card-custom {
             background: #111827;
+
             border-color: #1e293b;
-            box-shadow: 0 8px 30px rgba(0,0,0,.18);
+
+            box-shadow:
+                0 8px 30px rgba(0,0,0,.18);
         }
 
         html.dark .card-header-custom {
@@ -1187,7 +1297,9 @@
 
         html.dark .permissions-table th {
             background: #1e293b;
+
             color: #cbd5e1;
+
             border-color: #334155;
         }
 
@@ -1201,6 +1313,7 @@
 
         html.dark .permissions-table td:first-child {
             background: #111827;
+
             color: #e2e8f0;
         }
 
@@ -1208,7 +1321,11 @@
             background: #172033;
         }
 
-        html.dark .permissions-table tbody tr:hover td:first-child {
+        html.dark
+        .permissions-table
+        tbody
+        tr:hover
+        td:first-child {
             background: #172033;
         }
 
@@ -1226,16 +1343,19 @@
 
         html.dark .permission-checkbox {
             background: #1e293b;
+
             border-color: #475569;
         }
 
         html.dark .permission-checkbox:checked {
             background: var(--tech-blue);
+
             border-color: var(--tech-blue);
         }
 
         html.dark .card-footer-custom {
             background: #0f172a;
+
             border-color: #1e293b;
         }
 
@@ -1243,57 +1363,63 @@
             color: #94a3b8;
         }
 
+
         /* =========================================================
            ACCESSIBILITÉ
         ========================================================== */
 
         :focus-visible {
             outline: 3px solid rgba(255, 140, 0, .55);
+
             outline-offset: 2px;
         }
 
+
         /* =========================================================
-           DESKTOP ≥ 992px
+           DESKTOP ≥ 992PX
         ========================================================== */
 
         @media (min-width: 992px) {
 
             .mobile-header {
-                display: none;
+                display: none !important;
             }
 
             .sidebar-overlay {
-                display: none;
+                display: none !important;
             }
 
             .sidebar {
-                width: var(--sidebar-width);
+                width: var(--sidebar-width) !important;
 
-                transform: translateX(0);
+                max-width: var(--sidebar-width) !important;
+
+                transform: translate3d(0, 0, 0) !important;
 
                 box-shadow:
                     5px 0 25px rgba(0,0,0,.10);
             }
 
             .sidebar-close {
-                display: none;
+                display: none !important;
             }
 
             .main-content {
-                width: calc(100% - var(--sidebar-width));
+                width: calc(100% - var(--sidebar-width)) !important;
 
-                margin-left: var(--sidebar-width);
+                margin-left: var(--sidebar-width) !important;
 
                 padding:
                     30px
                     30px
-                    40px;
+                    40px !important;
             }
 
             .page-header {
                 flex-direction: row;
 
                 align-items: flex-start;
+
                 justify-content: space-between;
             }
 
@@ -1305,6 +1431,7 @@
                 flex-direction: row;
 
                 align-items: center;
+
                 justify-content: space-between;
 
                 padding: 18px 24px;
@@ -1322,11 +1449,15 @@
 
             .toast-message {
                 left: auto;
+
                 right: 24px;
+
                 bottom: 24px;
+
                 margin: 0;
             }
         }
+
 
         /* =========================================================
            GRAND ÉCRAN
@@ -1335,10 +1466,12 @@
         @media (min-width: 1400px) {
 
             .main-content {
-                padding-left: 42px;
-                padding-right: 42px;
+                padding-left: 42px !important;
+
+                padding-right: 42px !important;
             }
         }
+
 
         /* =========================================================
            PETITS MOBILES
@@ -1346,13 +1479,33 @@
 
         @media (max-width: 480px) {
 
+            .mobile-header {
+                height: 64px !important;
+            }
+
+            :root {
+                --mobile-header-height: 64px;
+            }
+
             .mobile-brand-title {
                 font-size: 16px;
             }
 
+            .mobile-brand-logo {
+                width: 38px;
+                height: 38px;
+                flex-basis: 38px;
+            }
+
+            .mobile-brand-logo img {
+                width: 32px;
+                height: 32px;
+            }
+
             .main-content {
-                padding-left: 10px;
-                padding-right: 10px;
+                padding-left: 10px !important;
+
+                padding-right: 10px !important;
             }
 
             .page-title {
@@ -1374,7 +1527,123 @@
             .permissions-table {
                 min-width: 790px;
             }
+
+            /*
+             * Sidebar mobile plus compacte
+             * mais tous les éléments restent visibles.
+             */
+
+            .sidebar {
+                width: min(88vw, 310px) !important;
+
+                max-width: 310px !important;
+            }
+
+            .sidebar-brand {
+                min-height: 76px !important;
+
+                flex-basis: 76px;
+
+                padding:
+                    12px
+                    12px
+                    12px
+                    16px !important;
+            }
+
+            .sidebar-logo {
+                width: 42px !important;
+                height: 42px !important;
+
+                flex-basis: 42px;
+            }
+
+            .sidebar-logo img {
+                width: 36px !important;
+                height: 36px !important;
+            }
+
+            .sidebar-title {
+                font-size: 18px !important;
+            }
+
+            .sidebar-close {
+                width: 36px !important;
+                height: 36px !important;
+
+                min-width: 36px !important;
+            }
+
+            .nav-menu {
+                padding:
+                    14px 10px !important;
+
+                gap: 4px !important;
+            }
+
+            .nav-link {
+                min-height: 46px !important;
+
+                padding:
+                    11px 13px !important;
+
+                gap: 12px !important;
+
+                font-size: 13px !important;
+            }
+
+            .nav-link i {
+                width: 21px !important;
+                min-width: 21px !important;
+
+                flex-basis: 21px !important;
+
+                font-size: 15px !important;
+            }
+
+            .sidebar-footer {
+                padding:
+                    10px
+                    10px
+                    calc(10px + env(safe-area-inset-bottom))
+                    10px !important;
+            }
+
+            .btn-logout {
+                min-height: 46px !important;
+
+                font-size: 13px !important;
+            }
         }
+
+
+        /* =========================================================
+           TRÈS PETITS ÉCRANS
+        ========================================================== */
+
+        @media (max-width: 360px) {
+
+            .sidebar {
+                width: 86vw !important;
+            }
+
+            .sidebar-title {
+                font-size: 17px !important;
+            }
+
+            .nav-link {
+                font-size: 12px !important;
+
+                padding-left: 11px !important;
+
+                padding-right: 11px !important;
+            }
+
+            .nav-link i {
+                font-size: 14px !important;
+            }
+        }
+
 
         /* =========================================================
            RÉDUCTION DES ANIMATIONS
@@ -1386,26 +1655,23 @@
             *::before,
             *::after {
                 scroll-behavior: auto !important;
+
                 transition-duration: .01ms !important;
+
                 animation-duration: .01ms !important;
+
                 animation-iteration-count: 1 !important;
             }
-        }
-
-        /* =========================================================
-           VERROUILLAGE DU SCROLL MOBILE
-        ========================================================== */
-
-        body.menu-open {
-            overflow: hidden;
         }
     </style>
 </head>
 
+
 <body>
 
+
 <!-- =============================================================
-     MOBILE HEADER
+     HEADER MOBILE
 ============================================================== -->
 
 <header class="mobile-header">
@@ -1413,7 +1679,12 @@
     <div class="mobile-brand">
 
         <div class="mobile-brand-logo">
-            <div class="mobile-brand-logo-inner"></div>
+
+            <img
+                src="{% static 'image/logoo.png' %}"
+                alt="ASTRA TECH"
+            >
+
         </div>
 
         <div class="mobile-brand-title">
@@ -1421,6 +1692,7 @@
         </div>
 
     </div>
+
 
     <button
         type="button"
@@ -1437,7 +1709,7 @@
 
 
 <!-- =============================================================
-     SIDEBAR OVERLAY
+     OVERLAY
 ============================================================== -->
 
 <div
@@ -1449,7 +1721,6 @@
 
 <!-- =============================================================
      SIDEBAR
-     IDENTIQUE AU SIDEBAR PARAMÈTRES
 ============================================================== -->
 
 <aside
@@ -1458,21 +1729,30 @@
     aria-label="Menu principal"
 >
 
-    <!-- BRAND -->
+    <!-- =========================================================
+         BRAND
+    ========================================================== -->
 
     <div class="sidebar-brand">
 
         <div class="sidebar-brand-left">
 
             <div class="sidebar-logo">
-                <div class="sidebar-logo-inner"></div>
+
+                <img
+                    src="{% static 'image/logoo.png' %}"
+                    alt="ASTRA TECH"
+                >
+
             </div>
+
 
             <div class="sidebar-title">
                 ASTRA <span>TECH</span>
             </div>
 
         </div>
+
 
         <button
             type="button"
@@ -1486,14 +1766,14 @@
     </div>
 
 
-    <!-- NAVIGATION -->
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================== -->
 
     <nav
         class="nav-menu"
         aria-label="Navigation administration"
     >
-
-        <!-- TOKENS -->
 
         <a
             href="{% url 'astra:token_accueil' %}"
@@ -1504,8 +1784,6 @@
         </a>
 
 
-        <!-- UTILISATEURS -->
-
         <a
             href="{% url 'astra:page_utilisateurs' %}"
             class="nav-link"
@@ -1514,8 +1792,6 @@
             <span>Utilisateurs</span>
         </a>
 
-
-        <!-- PERMISSIONS -->
 
         <a
             href="{% url 'astra:permissions_page' %}"
@@ -1527,8 +1803,6 @@
         </a>
 
 
-        <!-- HISTORIQUE -->
-
         <a
             href="{% url 'astra:historiques_page' %}"
             class="nav-link"
@@ -1538,8 +1812,6 @@
         </a>
 
 
-        <!-- PARAMÈTRES -->
-
         <a
             href="{% url 'astra:parametres_page' %}"
             class="nav-link"
@@ -1548,8 +1820,6 @@
             <span>Paramètres</span>
         </a>
 
-
-        <!-- RETOUR -->
 
         <a
             href="#"
@@ -1563,7 +1833,9 @@
     </nav>
 
 
-    <!-- FOOTER -->
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
 
     <div class="sidebar-footer">
 
@@ -1587,6 +1859,7 @@
 
 <main class="main-content">
 
+
     <!-- =========================================================
          HEADER
     ========================================================== -->
@@ -1606,33 +1879,46 @@
 
         </div>
 
+
         <div class="security-badge">
+
             <i class="fas fa-shield-halved"></i>
+
             Sécurité des accès
+
         </div>
 
     </section>
 
 
     <!-- =========================================================
-         MATRICE DES PERMISSIONS
+         MATRICE
     ========================================================== -->
 
     <section class="card-custom">
 
-        <!-- CARD HEADER -->
+
+        <!-- =====================================================
+             CARD HEADER
+        ====================================================== -->
 
         <div class="card-header-custom">
 
             <div class="card-header-title">
+
                 <i class="fas fa-user-lock"></i>
+
                 Matrice des permissions
+
             </div>
 
+
             <p class="card-header-description">
+
                 Activez ou désactivez les accès de chaque rôle.
                 Les modifications sont appliquées après
                 l'enregistrement.
+
             </p>
 
         </div>
@@ -1654,59 +1940,89 @@
                             Fonctionnalités
                         </th>
 
+
                         <th>
+
                             <div class="role-header">
+
                                 <div class="role-icon">
                                     <i class="fas fa-user-shield"></i>
                                 </div>
+
                                 <span class="role-name">
                                     Administrateur
                                 </span>
+
                             </div>
+
                         </th>
 
+
                         <th>
+
                             <div class="role-header">
+
                                 <div class="role-icon">
                                     <i class="fas fa-cash-register"></i>
                                 </div>
+
                                 <span class="role-name">
                                     Vente
                                 </span>
+
                             </div>
+
                         </th>
 
+
                         <th>
+
                             <div class="role-header">
+
                                 <div class="role-icon">
                                     <i class="fas fa-user"></i>
                                 </div>
+
                                 <span class="role-name">
                                     Client
                                 </span>
+
                             </div>
+
                         </th>
 
+
                         <th>
+
                             <div class="role-header">
+
                                 <div class="role-icon">
                                     <i class="fas fa-truck"></i>
                                 </div>
+
                                 <span class="role-name">
                                     Fournisseur
                                 </span>
+
                             </div>
+
                         </th>
 
+
                         <th>
+
                             <div class="role-header">
+
                                 <div class="role-icon">
                                     <i class="fas fa-boxes-stacked"></i>
                                 </div>
+
                                 <span class="role-name">
                                     Approvisionnement
                                 </span>
+
                             </div>
+
                         </th>
 
                     </tr>
@@ -1715,6 +2031,7 @@
 
 
                 <tbody>
+
 
                     <!-- =================================================
                          VENTES
@@ -1745,6 +2062,7 @@
                             </div>
 
                         </td>
+
 
                         <td>
                             <input
@@ -1827,6 +2145,7 @@
 
                         </td>
 
+
                         <td>
                             <input
                                 type="checkbox"
@@ -1907,6 +2226,7 @@
                             </div>
 
                         </td>
+
 
                         <td>
                             <input
@@ -1989,6 +2309,7 @@
 
                         </td>
 
+
                         <td>
                             <input
                                 type="checkbox"
@@ -2070,6 +2391,7 @@
 
                         </td>
 
+
                         <td>
                             <input
                                 type="checkbox"
@@ -2148,6 +2470,7 @@
                             </div>
 
                         </td>
+
 
                         <td>
                             <input
@@ -2228,6 +2551,7 @@
 
                         </td>
 
+
                         <td>
                             <input
                                 type="checkbox"
@@ -2306,6 +2630,7 @@
                             </div>
 
                         </td>
+
 
                         <td>
                             <input
@@ -2386,6 +2711,7 @@
 
                         </td>
 
+
                         <td>
                             <input
                                 type="checkbox"
@@ -2460,14 +2786,20 @@
 
             </div>
 
+
             <button
                 type="button"
                 class="save-btn"
                 id="savePermissionsBtn"
                 onclick="saveRealPermissions()"
             >
+
                 <i class="fas fa-floppy-disk"></i>
-                <span>Enregistrer les permissions</span>
+
+                <span>
+                    Enregistrer les permissions
+                </span>
+
             </button>
 
         </div>
@@ -2487,10 +2819,13 @@
     role="status"
     aria-live="polite"
 >
+
     <i class="fas fa-circle-check"></i>
+
     <span id="toastText">
         Opération effectuée.
     </span>
+
 </div>
 
 
@@ -2501,13 +2836,20 @@
 <script>
 
     /* =========================================================
-       VARIABLES SIDEBAR
+       SIDEBAR
     ========================================================== */
 
-    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
-    const sidebar = document.getElementById("sidebar");
-    const sidebarOverlay = document.getElementById("sidebarOverlay");
-    const sidebarClose = document.getElementById("sidebarClose");
+    const mobileMenuBtn =
+        document.getElementById("mobileMenuBtn");
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    const sidebarOverlay =
+        document.getElementById("sidebarOverlay");
+
+    const sidebarClose =
+        document.getElementById("sidebarClose");
 
 
     /* =========================================================
@@ -2516,23 +2858,45 @@
 
     function openSidebar() {
 
-        if (!sidebar) return;
+        if (!sidebar) {
+            return;
+        }
 
         sidebar.classList.add("active");
 
         if (sidebarOverlay) {
+
             sidebarOverlay.classList.add("active");
-            sidebarOverlay.setAttribute("aria-hidden", "false");
+
+            sidebarOverlay.setAttribute(
+                "aria-hidden",
+                "false"
+            );
         }
 
         document.body.classList.add("menu-open");
 
         if (mobileMenuBtn) {
-            mobileMenuBtn.setAttribute("aria-expanded", "true");
+
+            mobileMenuBtn.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+
             mobileMenuBtn.setAttribute(
                 "aria-label",
                 "Fermer le menu"
             );
+
+            const icon =
+                mobileMenuBtn.querySelector("i");
+
+            if (icon) {
+
+                icon.classList.remove("fa-bars");
+
+                icon.classList.add("fa-xmark");
+            }
         }
     }
 
@@ -2543,29 +2907,51 @@
 
     function closeSidebar() {
 
-        if (!sidebar) return;
+        if (!sidebar) {
+            return;
+        }
 
         sidebar.classList.remove("active");
 
         if (sidebarOverlay) {
+
             sidebarOverlay.classList.remove("active");
-            sidebarOverlay.setAttribute("aria-hidden", "true");
+
+            sidebarOverlay.setAttribute(
+                "aria-hidden",
+                "true"
+            );
         }
 
         document.body.classList.remove("menu-open");
 
         if (mobileMenuBtn) {
-            mobileMenuBtn.setAttribute("aria-expanded", "false");
+
+            mobileMenuBtn.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
             mobileMenuBtn.setAttribute(
                 "aria-label",
                 "Ouvrir le menu"
             );
+
+            const icon =
+                mobileMenuBtn.querySelector("i");
+
+            if (icon) {
+
+                icon.classList.remove("fa-xmark");
+
+                icon.classList.add("fa-bars");
+            }
         }
     }
 
 
     /* =========================================================
-       BOUTON MOBILE
+       BOUTON MENU MOBILE
     ========================================================== */
 
     if (mobileMenuBtn) {
@@ -2574,10 +2960,17 @@
             "click",
             function () {
 
-                if (sidebar.classList.contains("active")) {
+                if (
+                    sidebar &&
+                    sidebar.classList.contains("active")
+                ) {
+
                     closeSidebar();
+
                 } else {
+
                     openSidebar();
+
                 }
 
             }
@@ -2615,7 +3008,7 @@
 
 
     /* =========================================================
-       TOUCHE ESCAPE
+       ESCAPE
     ========================================================== */
 
     document.addEventListener(
@@ -2623,7 +3016,9 @@
         function (event) {
 
             if (event.key === "Escape") {
+
                 closeSidebar();
+
             }
 
         }
@@ -2631,18 +3026,24 @@
 
 
     /* =========================================================
-       FERMER APRÈS CLIC SUR UN LIEN MOBILE
+       FERMETURE APRÈS NAVIGATION MOBILE
     ========================================================== */
 
-    document.querySelectorAll(".nav-link").forEach(
+    document.querySelectorAll(
+        ".nav-link"
+    ).forEach(
         function (link) {
 
             link.addEventListener(
                 "click",
                 function () {
 
-                    if (window.innerWidth < 992) {
+                    if (
+                        window.innerWidth < 992
+                    ) {
+
                         closeSidebar();
+
                     }
 
                 }
@@ -2660,8 +3061,12 @@
         "resize",
         function () {
 
-            if (window.innerWidth >= 992) {
+            if (
+                window.innerWidth >= 992
+            ) {
+
                 closeSidebar();
+
             }
 
         }
@@ -2674,19 +3079,36 @@
 
     let toastTimeout = null;
 
+
     function showToast(
         message,
         type = "success"
     ) {
 
-        const toast = document.getElementById("toastMessage");
-        const toastText = document.getElementById("toastText");
+        const toast =
+            document.getElementById(
+                "toastMessage"
+            );
 
-        if (!toast || !toastText) {
+        const toastText =
+            document.getElementById(
+                "toastText"
+            );
+
+
+        if (
+            !toast ||
+            !toastText
+        ) {
+
             return;
+
         }
 
-        toastText.textContent = message;
+
+        toastText.textContent =
+            message;
+
 
         toast.classList.remove(
             "success",
@@ -2694,9 +3116,15 @@
             "show"
         );
 
-        toast.classList.add(type);
 
-        const icon = toast.querySelector("i");
+        toast.classList.add(
+            type
+        );
+
+
+        const icon =
+            toast.querySelector("i");
+
 
         if (icon) {
 
@@ -2714,20 +3142,34 @@
 
         }
 
+
         requestAnimationFrame(
             function () {
-                toast.classList.add("show");
+
+                toast.classList.add(
+                    "show"
+                );
+
             }
         );
 
-        clearTimeout(toastTimeout);
 
-        toastTimeout = setTimeout(
-            function () {
-                toast.classList.remove("show");
-            },
-            3500
+        clearTimeout(
+            toastTimeout
         );
+
+
+        toastTimeout =
+            setTimeout(
+                function () {
+
+                    toast.classList.remove(
+                        "show"
+                    );
+
+                },
+                3500
+            );
     }
 
 
@@ -2739,10 +3181,15 @@
 
         let cookieValue = null;
 
-        if (document.cookie && document.cookie !== "") {
+
+        if (
+            document.cookie &&
+            document.cookie !== ""
+        ) {
 
             const cookies =
                 document.cookie.split(";");
+
 
             for (
                 let i = 0;
@@ -2752,6 +3199,7 @@
 
                 const cookie =
                     cookies[i].trim();
+
 
                 if (
                     cookie.substring(
@@ -2768,9 +3216,13 @@
                         );
 
                     break;
+
                 }
+
             }
+
         }
+
 
         return cookieValue;
     }
@@ -2787,14 +3239,18 @@
                 "savePermissionsBtn"
             );
 
+
         if (!button) {
             return;
         }
 
+
         const originalHTML =
             button.innerHTML;
 
+
         button.disabled = true;
+
 
         button.innerHTML = `
             <i class="fas fa-spinner fa-spin"></i>
@@ -2807,6 +3263,7 @@
         ------------------------------------------------------ */
 
         const permissions = {};
+
 
         document
             .querySelectorAll(
@@ -2821,9 +3278,15 @@
                     const role =
                         checkbox.dataset.role;
 
-                    if (!permissions[permission]) {
+
+                    if (
+                        !permissions[permission]
+                    ) {
+
                         permissions[permission] = {};
+
                     }
+
 
                     permissions[permission][role] =
                         checkbox.checked;
@@ -2838,29 +3301,36 @@
 
         try {
 
-            const response = await fetch(
-                "{% url 'astra:permissions_page' %}",
-                {
-                    method: "POST",
+            const response =
+                await fetch(
+                    "{% url 'astra:permissions_page' %}",
+                    {
+                        method: "POST",
 
-                    credentials: "same-origin",
+                        credentials: "same-origin",
 
-                    headers: {
-                        "Content-Type":
-                            "application/json",
+                        headers: {
 
-                        "X-CSRFToken":
-                            getCookie("csrftoken"),
+                            "Content-Type":
+                                "application/json",
 
-                        "X-Requested-With":
-                            "XMLHttpRequest"
-                    },
+                            "X-CSRFToken":
+                                getCookie(
+                                    "csrftoken"
+                                ),
 
-                    body: JSON.stringify({
-                        permissions: permissions
-                    })
-                }
-            );
+                            "X-Requested-With":
+                                "XMLHttpRequest"
+
+                        },
+
+                        body: JSON.stringify({
+                            permissions:
+                                permissions
+                        })
+
+                    }
+                );
 
 
             const contentType =
@@ -2878,7 +3348,8 @@
                 )
             ) {
 
-                data = await response.json();
+                data =
+                    await response.json();
 
             } else {
 
@@ -2886,8 +3357,11 @@
                     await response.text();
 
                 data = {
-                    success: response.ok,
-                    message: text
+                    success:
+                        response.ok,
+
+                    message:
+                        text
                 };
 
             }
@@ -2929,11 +3403,13 @@
                 error
             );
 
+
             showToast(
                 error.message ||
                 "Une erreur est survenue lors de l'enregistrement.",
                 "error"
             );
+
 
         } finally {
 
@@ -2952,7 +3428,10 @@
     ========================================================== */
 
     const loginBtn =
-        document.getElementById("loginBtn");
+        document.getElementById(
+            "loginBtn"
+        );
+
 
     if (loginBtn) {
 
@@ -2965,8 +3444,11 @@
                         "Voulez-vous vraiment vous déconnecter ?"
                     );
 
+
                 if (!confirmation) {
+
                     event.preventDefault();
+
                 }
 
             }
@@ -2984,12 +3466,16 @@
         function () {
 
             /*
-             * Le sidebar reste fermé sur mobile
-             * et visible automatiquement sur desktop.
+             * Sur mobile :
+             * sidebar fermée par défaut.
              */
 
-            if (window.innerWidth < 992) {
+            if (
+                window.innerWidth < 992
+            ) {
+
                 closeSidebar();
+
             }
 
         }
