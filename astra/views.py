@@ -2492,6 +2492,7 @@ def gestion_clients(request):
     
     return render(request, 'astra/clients.html', context)
 
+
 def client_login(request, client_id):
     """
     Connexion privée d'un client à son espace personnel.
@@ -2507,22 +2508,39 @@ def client_login(request, client_id):
     )
 
     # ==========================================================
+    # CONTEXTE COMMUN POUR LA PAGE DE CONNEXION CLIENT
+    # ==========================================================
+
+    contexte_client = {
+        "client": client,
+        "client_id": client.id,
+        "connexion_client": True,
+    }
+
+    # ==========================================================
     # SI CE CLIENT EST DÉJÀ CONNECTÉ
     # ==========================================================
 
-    client_connecte_id = request.session.get("client_connecte_id")
+    client_connecte_id = request.session.get(
+        "client_connecte_id"
+    )
 
     if client_connecte_id is not None:
 
         try:
             client_connecte_id = int(client_connecte_id)
+
         except (TypeError, ValueError):
 
-            request.session.pop("client_connecte_id", None)
+            request.session.pop(
+                "client_connecte_id",
+                None
+            )
 
             client_connecte_id = None
 
         if client_connecte_id == client.id:
+
             return redirect(
                 "astra:espace_client",
                 client_id=client.id
@@ -2545,7 +2563,7 @@ def client_login(request, client_id):
         )
 
         # ------------------------------------------------------
-        # Vérification des champs
+        # VÉRIFICATION DES CHAMPS
         # ------------------------------------------------------
 
         if not identifiant or not password:
@@ -2558,19 +2576,28 @@ def client_login(request, client_id):
             return render(
                 request,
                 "astra/login.html",
-                {
-                    "client": client,
-                    "client_id": client.id,
-                }
+                contexte_client
             )
 
         # ======================================================
         # VÉRIFICATION DE L'IDENTITÉ DU CLIENT
         # ======================================================
 
+        email_client = (
+            client.email or ""
+        ).strip().lower()
+
+        telephone_client = (
+            client.telephone or ""
+        ).strip().lower()
+
+        identifiant_normalise = (
+            identifiant.strip().lower()
+        )
+
         identifiant_correct = (
-            identifiant.lower() == (client.email or "").strip().lower()
-            or identifiant.lower() == (client.telephone or "").strip().lower()
+            identifiant_normalise == email_client
+            or identifiant_normalise == telephone_client
         )
 
         if not identifiant_correct:
@@ -2583,31 +2610,37 @@ def client_login(request, client_id):
             return render(
                 request,
                 "astra/login.html",
-                {
-                    "client": client,
-                    "client_id": client.id,
-                }
+                contexte_client
             )
 
         # ======================================================
-        # VÉRIFICATION DU MOT DE PASSE DU CLIENT
+        # VÉRIFICATION DU MOT DE PASSE
         # ======================================================
 
         password_correct = False
 
-        mot_de_passe_client = client.mot_de_passe or ""
+        mot_de_passe_client = (
+            client.mot_de_passe or ""
+        )
 
         if mot_de_passe_client:
 
+            # --------------------------------------------------
             # Mot de passe hashé Django
+            # --------------------------------------------------
+
             password_correct = check_password(
                 password,
                 mot_de_passe_client
             )
 
+            # --------------------------------------------------
             # Compatibilité temporaire avec les anciens
-            # mots de passe enregistrés en clair.
+            # mots de passe enregistrés en clair
+            # --------------------------------------------------
+
             if not password_correct:
+
                 password_correct = (
                     password == mot_de_passe_client
                 )
@@ -2622,27 +2655,22 @@ def client_login(request, client_id):
             return render(
                 request,
                 "astra/login.html",
-                {
-                    "client": client,
-                    "client_id": client.id,
-                }
+                contexte_client
             )
 
         # ======================================================
         # CONNEXION DU CLIENT
         # ======================================================
 
-        # IMPORTANT :
-        # On ne fait PAS :
-        #
-        # login(request, user)
-        #
-        # car le cahier client utilise son propre système
-        # de session.
-
         request.session["client_connecte_id"] = client.id
-        request.session["client_connecte_nom"] = client.nom
-        request.session["client_connecte_email"] = client.email
+
+        request.session["client_connecte_nom"] = (
+            client.nom
+        )
+
+        request.session["client_connecte_email"] = (
+            client.email
+        )
 
         request.session.modified = True
 
@@ -2651,9 +2679,12 @@ def client_login(request, client_id):
         print("CLIENT ID :", client.id)
         print("CLIENT NOM :", client.nom)
         print("CLIENT EMAIL :", client.email)
-        print("SESSION CLIENT :", request.session.get(
-            "client_connecte_id"
-        ))
+        print(
+            "SESSION CLIENT :",
+            request.session.get(
+                "client_connecte_id"
+            )
+        )
         print("========================================")
 
         messages.success(
@@ -2661,23 +2692,25 @@ def client_login(request, client_id):
             f"Bienvenue {client.nom} !"
         )
 
+        # ======================================================
+        # REDIRECTION VERS L'ESPACE CLIENT
+        # ======================================================
+
         return redirect(
             "astra:espace_client",
             client_id=client.id
         )
 
     # ==========================================================
-    # AFFICHAGE DE LA PAGE DE CONNEXION
+    # AFFICHAGE DE LA PAGE DE CONNEXION CLIENT
     # ==========================================================
 
     return render(
         request,
         "astra/login.html",
-        {
-            "client": client,
-            "client_id": client.id,
-        }
+        contexte_client
     )
+
 
 def espace_client(request, client_id):
     """
