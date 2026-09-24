@@ -1,53 +1,36 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <meta name="theme-color" content="#003366">
 
     <title>ASTRA TECH - Paramètres</title>
 
     <!-- =========================================================
-         MODE SOMBRE AVANT AFFICHAGE
+         DARK MODE PRELOAD
     ========================================================== -->
     <script>
         (function () {
-            const savedDarkMode = localStorage.getItem('astra_dark_mode');
-
-            if (savedDarkMode === 'true') {
-                document.documentElement.classList.add('dark-mode-preload');
+            try {
+                if (localStorage.getItem('astra_dark_mode') === 'true') {
+                    document.documentElement.classList.add('dark-mode-preload');
+                }
+            } catch (error) {
+                console.warn('Erreur chargement mode sombre :', error);
             }
         })();
     </script>
 
     <!-- =========================================================
-         FONT AWESOME
+         GOOGLE FONT
     ========================================================== -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    >
-
-    <!-- =========================================================
-         INTER
-    ========================================================== -->
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
@@ -55,7 +38,31 @@
     >
 
     <!-- =========================================================
-         RESPONSIVE GLOBAL ASTRA TECH
+         BOOTSTRAP
+    ========================================================== -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         FONT AWESOME
+    ========================================================== -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- =========================================================
+         AOS
+    ========================================================== -->
+    <link
+        href="https://unpkg.com/aos@2.3.1/dist/aos.css"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         RESPONSIVE CSS
     ========================================================== -->
     <link
         rel="stylesheet"
@@ -69,7 +76,6 @@
         ========================================================== */
 
         :root {
-
             --tech-blue: #0078D7;
             --tech-blue-light: #2196F3;
             --tech-blue-dark: #004E8C;
@@ -78,29 +84,27 @@
 
             --tech-orange: #FF8C00;
             --tech-orange-light: #FFA726;
-            --tech-orange-dark: #E67E00;
 
             --tech-white: #FFFFFF;
+            --tech-black: #111827;
 
-            --tech-light-gray: #F4F6F9;
-            --tech-card-bg: #FFFFFF;
-            --tech-dark-gray: #333333;
+            --bg-color: #F5F7FA;
+            --card-color: #FFFFFF;
+            --text-color: #1F2937;
+            --muted-color: #6B7280;
 
-            --tech-border: #E0E0E0;
+            --border-color: #E5E7EB;
 
             --sidebar-width: 280px;
-            --mobile-sidebar-width: min(86vw, 320px);
-
-            --mobile-header-height: 64px;
-
-            --radius-lg: 16px;
-            --radius-md: 10px;
 
             --shadow-sm:
-                0 4px 12px rgba(0, 0, 0, 0.05);
+                0 2px 8px rgba(0, 0, 0, 0.06);
 
             --shadow-md:
-                0 10px 30px rgba(0, 0, 0, 0.08);
+                0 8px 25px rgba(0, 0, 0, 0.08);
+
+            --transition:
+                all 0.25s ease;
         }
 
 
@@ -108,19 +112,10 @@
            RESET
         ========================================================== */
 
-        *,
-        *::before,
-        *::after {
+        * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
-        }
-
-        html,
-        body {
-            width: 100%;
-            max-width: 100%;
-            min-width: 0;
-
-            overflow-x: hidden;
         }
 
         html {
@@ -128,210 +123,45 @@
         }
 
         body {
-            margin: 0;
+            font-family: 'Inter', sans-serif;
+
+            background: var(--bg-color);
+            color: var(--text-color);
 
             min-height: 100vh;
-
-            background:
-                var(--tech-light-gray);
-
-            color:
-                var(--tech-dark-gray);
-
-            font-family:
-                'Inter',
-                'Segoe UI',
-                Arial,
-                sans-serif;
 
             overflow-x: hidden;
 
             transition:
-                background-color .3s ease,
-                color .3s ease;
+                background-color 0.25s ease,
+                color 0.25s ease;
         }
-
-
-        /* =========================================================
-           MODE SOMBRE PRELOAD
-        ========================================================== */
-
-        html.dark-mode-preload body {
-            background: #0B0F19;
-        }
-
-
-        /* =========================================================
-           VERROUILLAGE DU SCROLL MOBILE
-        ========================================================== */
 
         body.menu-open {
-            overflow: hidden !important;
-
-            touch-action: none;
+            overflow: hidden;
         }
 
 
         /* =========================================================
-           HEADER MOBILE
+           DARK MODE PRELOAD
+        ========================================================== */
+
+        .dark-mode-preload {
+            background: #111827 !important;
+        }
+
+        .dark-mode-preload body {
+            background: #111827 !important;
+            color: #F9FAFB !important;
+        }
+
+
+        /* =========================================================
+           MOBILE HEADER
         ========================================================== */
 
         .mobile-header {
-
-            display: flex;
-
-            align-items: center;
-            justify-content: space-between;
-
-            position: fixed;
-
-            top: 0;
-            left: 0;
-            right: 0;
-
-            width: 100%;
-
-            height:
-                var(--mobile-header-height);
-
-            padding:
-                8px
-                max(12px, env(safe-area-inset-right))
-                8px
-                max(12px, env(safe-area-inset-left));
-
-            background:
-                var(--tech-sidebar-bg);
-
-            z-index: 10000;
-
-            box-shadow:
-                0 3px 15px rgba(0, 0, 0, .18);
-        }
-
-
-        /* =========================================================
-           MARQUE MOBILE
-        ========================================================== */
-
-        .mobile-brand {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 9px;
-
-            flex: 1 1 auto;
-
-            min-width: 0;
-        }
-
-
-        .mobile-brand-logo {
-
-            width: 40px;
-            height: 40px;
-
-            flex: 0 0 40px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            overflow: hidden;
-        }
-
-
-        .mobile-brand-logo img {
-
-            display: block;
-
-            width: 40px;
-            height: 40px;
-
-            object-fit: contain;
-        }
-
-
-        .mobile-brand-title {
-
-            min-width: 0;
-
-            color: #FFFFFF;
-
-            font-size:
-                clamp(14px, 4.2vw, 18px);
-
-            font-weight: 800;
-
-            letter-spacing: .7px;
-
-            white-space: nowrap;
-
-            overflow: hidden;
-
-            text-overflow: ellipsis;
-        }
-
-
-        .mobile-brand-title span {
-            color:
-                var(--tech-orange);
-        }
-
-
-        /* =========================================================
-           BOUTON HAMBURGER
-        ========================================================== */
-
-        .mobile-menu-button {
-
-            width: 44px;
-            height: 44px;
-
-            flex: 0 0 44px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border:
-                1px solid rgba(255,255,255,.18);
-
-            border-radius: 10px;
-
-            background:
-                rgba(255,255,255,.08);
-
-            color: #FFFFFF;
-
-            font-size: 20px;
-
-            cursor: pointer;
-
-            -webkit-tap-highlight-color: transparent;
-
-            transition:
-                background-color .2s ease,
-                transform .2s ease;
-        }
-
-
-        .mobile-menu-button:hover,
-        .mobile-menu-button:focus-visible {
-
-            background:
-                rgba(255,255,255,.16);
-
-            outline: none;
-        }
-
-
-        .mobile-menu-button:active {
-            transform: scale(.94);
+            display: none;
         }
 
 
@@ -340,198 +170,114 @@
         ========================================================== */
 
         .sidebar-overlay {
-
-            position: fixed;
-
-            inset: 0;
-
-            width: 100%;
-            height: 100%;
-
-            background:
-                rgba(0, 0, 0, .58);
-
-            opacity: 0;
-
-            visibility: hidden;
-
-            pointer-events: none;
-
-            z-index: 10010;
-
-            transition:
-                opacity .25s ease,
-                visibility .25s ease;
-        }
-
-
-        .sidebar-overlay.active {
-
-            opacity: 1;
-
-            visibility: visible;
-
-            pointer-events: auto;
+            display: none;
         }
 
 
         /* =========================================================
-           SIDEBAR
-           MOBILE FIRST
+           SIDEBAR DESKTOP
         ========================================================== */
 
         .sidebar {
+            position: fixed;
 
-            position: fixed !important;
+            top: 0;
+            left: 0;
 
-            top: 0 !important;
-            left: 0 !important;
-            bottom: 0 !important;
-
-            width:
-                var(--mobile-sidebar-width) !important;
-
-            max-width:
-                320px !important;
-
-            height:
-                100dvh !important;
-
-            max-height:
-                100dvh !important;
-
-            display: flex !important;
-
-            flex-direction: column !important;
+            width: var(--sidebar-width);
+            height: 100vh;
 
             background:
                 linear-gradient(
                     180deg,
-                    #004E8C 0%,
-                    #003366 100%
-                ) !important;
+                    #003366 0%,
+                    #00284f 100%
+                );
 
             color: #FFFFFF;
 
-            z-index: 10020;
-
-            overflow: hidden !important;
-
-            transform:
-                translate3d(-105%, 0, 0) !important;
-
-            pointer-events: none;
-
-            box-shadow:
-                8px 0 30px rgba(0,0,0,.25);
-
-            transition:
-                transform .28s cubic-bezier(.4,0,.2,1);
-        }
-
-
-        .sidebar.active {
-
-            transform:
-                translate3d(0,0,0) !important;
-
-            pointer-events: auto;
-        }
-
-
-        /* =========================================================
-           BRAND SIDEBAR
-        ========================================================== */
-
-        .sidebar-brand {
-
-            width: 100%;
-
-            min-width: 0;
-
-            min-height: 82px;
-
-            flex: 0 0 auto;
-
-            display: grid;
-
-            grid-template-columns:
-                42px
-                minmax(0,1fr)
-                38px;
-
-            align-items: center;
-
-            column-gap: 10px;
-
-            padding:
-                max(14px, env(safe-area-inset-top))
-                10px
-                14px
-                16px;
-
-            border-bottom:
-                1px solid rgba(255,255,255,.12);
-        }
-
-
-        /* =========================================================
-           LOGO ASTRA TECH
-        ========================================================== */
-
-        .sidebar-logo {
-
-            width: 42px;
-            height: 42px;
-
-            flex: 0 0 42px;
-
             display: flex;
 
-            align-items: center;
-            justify-content: center;
+            /*
+             * SIDEBAR = VERTICAL
+             */
+            flex-direction: column;
+
+            z-index: 1100;
+
+            box-shadow:
+                4px 0 20px rgba(0, 0, 0, 0.15);
 
             overflow: hidden;
         }
 
 
-        .sidebar-logo img {
+        /* =========================================================
+           SIDEBAR BRAND
+        ========================================================== */
 
-            display: block;
+        .sidebar-brand {
+            width: 100%;
 
-            width: 42px;
-            height: 42px;
+            min-height: 90px;
 
-            object-fit: contain;
+            display: flex;
+
+            flex-direction: row;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 18px 20px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.12);
+
+            flex-shrink: 0;
         }
 
 
-        /* =========================================================
-           TITRE SIDEBAR
-        ========================================================== */
+        .sidebar-logo {
+            width: 48px;
+            height: 48px;
+
+            flex: 0 0 48px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .sidebar-logo img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            display: block;
+        }
+
 
         .sidebar-title {
+            flex: 1;
 
             min-width: 0;
 
-            color: #FFFFFF;
-
-            font-size:
-                clamp(15px, 4.5vw, 20px);
+            font-size: 21px;
 
             font-weight: 800;
 
-            letter-spacing: .7px;
+            color: #FFFFFF;
 
-            line-height: 1.15;
-
-            overflow-wrap: anywhere;
+            white-space: nowrap;
         }
 
 
         .sidebar-title span {
-            color:
-                var(--tech-orange);
+            color: var(--tech-orange);
         }
 
 
@@ -540,56 +286,42 @@
         ========================================================== */
 
         .sidebar-close {
+            display: none;
 
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
 
-            flex: 0 0 38px;
+            flex: 0 0 40px;
 
-            display: flex;
+            border: none;
+
+            border-radius: 10px;
+
+            background: transparent;
+
+            color: #FFFFFF;
 
             align-items: center;
             justify-content: center;
 
-            border:
-                1px solid rgba(255,255,255,.15);
-
-            border-radius: 9px;
-
-            background:
-                rgba(255,255,255,.07);
-
-            color: #FFFFFF;
-
-            font-size: 18px;
-
             cursor: pointer;
 
-            -webkit-tap-highlight-color: transparent;
+            font-size: 20px;
 
-            transition:
-                background-color .2s ease,
-                transform .2s ease;
+            transition: var(--transition);
         }
 
-
-        .sidebar-close:hover,
-        .sidebar-close:focus-visible {
-
-            background:
-                rgba(255,255,255,.16);
-
-            outline: none;
-        }
-
-
-        .sidebar-close:active {
-            transform: scale(.94);
+        .sidebar-close:hover {
+            background: rgba(255,255,255,0.12);
+            color: var(--tech-orange);
         }
 
 
         /* =========================================================
-           MENU SIDEBAR
+           MENU PRINCIPAL
+           
+           IMPORTANT :
+           LE MENU EST VERTICAL.
         ========================================================== */
 
         .nav-menu {
@@ -599,33 +331,33 @@
             width: 100%;
 
             margin: 0;
+            padding: 18px 12px;
 
-            padding:
-                14px 12px;
+            display: flex;
 
-            flex:
-                1 1 auto;
+            /*
+             * IMPORTANT :
+             * Les éléments du menu sont empilés verticalement.
+             */
+            flex-direction: column;
 
-            min-height: 0;
+            flex-wrap: nowrap;
 
-            display: flex !important;
+            align-items: stretch;
 
-            flex-direction: column !important;
+            justify-content: flex-start;
 
-            flex-wrap: nowrap !important;
+            gap: 6px;
 
-            gap: 5px;
+            flex: 1;
 
-            overflow-y: auto !important;
-
-            overflow-x: hidden !important;
-
-            overscroll-behavior: contain;
+            overflow-y: auto;
+            overflow-x: hidden;
 
             scrollbar-width: thin;
 
             scrollbar-color:
-                rgba(255,255,255,.25)
+                rgba(255,255,255,0.25)
                 transparent;
         }
 
@@ -634,50 +366,58 @@
             width: 5px;
         }
 
-
         .nav-menu::-webkit-scrollbar-track {
             background: transparent;
         }
 
-
         .nav-menu::-webkit-scrollbar-thumb {
-
-            background:
-                rgba(255,255,255,.25);
-
-            border-radius: 10px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 20px;
         }
 
 
         /* =========================================================
-           ITEMS
+           LI
         ========================================================== */
 
-        .nav-menu li {
+        .nav-menu > li {
 
-            width: 100% !important;
+            width: 100%;
 
-            flex:
-                0 0 auto !important;
+            display: block;
 
-            min-width: 0;
+            flex: 0 0 auto;
+
+            margin: 0;
+            padding: 0;
         }
 
 
         /* =========================================================
            LIENS
+
+           Chaque lien :
+           ICÔNE + TEXTE = HORIZONTAL
+
+           Mais les liens eux-mêmes :
+           LIEN 1
+           LIEN 2
+           LIEN 3
+           LIEN 4
+           = VERTICAL
         ========================================================== */
 
-        .nav-menu li a,
-        .nav-menu a.back-link {
+        .nav-menu > li > a {
 
-            width: 100% !important;
+            width: 100%;
 
-            min-width: 0;
+            min-height: 52px;
 
-            min-height: 48px;
+            display: flex;
 
-            display: flex !important;
+            flex-direction: row;
+
+            flex-wrap: nowrap;
 
             align-items: center;
 
@@ -685,95 +425,40 @@
 
             gap: 12px;
 
-            padding:
-                10px 12px;
+            padding: 12px 14px;
 
-            border-radius: 9px;
+            border-radius: 10px;
 
-            color:
-                rgba(255,255,255,.92);
+            color: rgba(255,255,255,0.82);
+
+            background: transparent;
 
             text-decoration: none;
 
-            font-size:
-                clamp(12px, 3.5vw, 14px);
+            white-space: nowrap;
 
-            font-weight: 600;
+            writing-mode: horizontal-tb;
 
-            line-height: 1.25;
-
-            white-space: normal !important;
-
-            overflow: visible !important;
-
-            overflow-wrap: anywhere;
+            direction: ltr;
 
             word-break: normal;
 
-            transition:
-                background-color .2s ease,
-                color .2s ease,
-                transform .2s ease;
+            overflow-wrap: normal;
+
+            overflow: hidden;
+
+            transition: var(--transition);
         }
 
 
-        /* =========================================================
-           ICÔNES
-        ========================================================== */
+        .nav-menu > li > a:hover {
 
-        .nav-menu li a i,
-        .nav-menu a.back-link i {
-
-            width: 22px;
-
-            min-width: 22px;
-
-            flex: 0 0 22px;
-
-            text-align: center;
-
-            font-size: 16px;
-
-            color:
-                rgba(255,255,255,.9);
-        }
-
-
-        /* =========================================================
-           TEXTE
-        ========================================================== */
-
-        .nav-menu li a span,
-        .nav-menu a.back-link span {
-
-            min-width: 0;
-
-            flex: 1 1 auto;
-
-            white-space: normal !important;
-
-            overflow: visible !important;
-
-            text-overflow: clip !important;
-
-            overflow-wrap: anywhere;
-        }
-
-
-        /* =========================================================
-           HOVER
-        ========================================================== */
-
-        .nav-menu li a:hover,
-        .nav-menu a.back-link:hover {
+            background:
+                rgba(255,255,255,0.09);
 
             color: #FFFFFF;
 
-            background:
-                rgba(255,255,255,.10);
-
-            transform:
-                translateX(2px);
+            transform: translateX(3px);
         }
 
 
@@ -781,24 +466,114 @@
            LIEN ACTIF
         ========================================================== */
 
-        .nav-menu li a.active {
-
-            color: #FFFFFF !important;
+        .nav-menu > li > a.active {
 
             background:
-                rgba(255,140,0,.16) !important;
+                linear-gradient(
+                    90deg,
+                    rgba(255,140,0,0.20),
+                    rgba(255,140,0,0.08)
+                );
+
+            color: #FFFFFF;
 
             border-left:
-                4px solid var(--tech-orange) !important;
+                4px solid var(--tech-orange);
 
-            padding-left:
-                8px !important;
+            padding-left: 10px;
         }
 
 
-        .nav-menu li a.active i {
-            color:
-                var(--tech-orange);
+        .nav-menu > li > a.active i {
+            color: var(--tech-orange);
+        }
+
+
+        /* =========================================================
+           ICÔNES
+        ========================================================== */
+
+        .nav-menu > li > a > i {
+
+            flex: 0 0 22px;
+
+            width: 22px;
+
+            min-width: 22px;
+            max-width: 22px;
+
+            height: 22px;
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+
+            writing-mode: horizontal-tb;
+
+            flex-direction: row;
+
+            transform: none;
+        }
+
+
+        /* =========================================================
+           TEXTE
+        ========================================================== */
+
+        .nav-menu > li > a > span {
+
+            flex: 1 1 auto;
+
+            min-width: 0;
+
+            width: auto;
+
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            line-height: 1.2;
+
+            color: inherit;
+
+            text-align: left;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            word-break: normal;
+
+            overflow-wrap: normal;
+
+            writing-mode: horizontal-tb;
+
+            direction: ltr;
+        }
+
+
+        /* =========================================================
+           LIEN RETOUR
+        ========================================================== */
+
+        .nav-menu > li > a.back-link {
+
+            width: 100%;
+
+            display: flex;
+
+            flex-direction: row;
+
+            align-items: center;
+
+            justify-content: flex-start;
         }
 
 
@@ -810,391 +585,123 @@
 
             width: 100%;
 
-            flex: 0 0 auto;
-
             padding:
-                12px
-                16px
-                calc(14px + env(safe-area-inset-bottom));
+                14px 12px 18px;
+
+            flex-shrink: 0;
 
             border-top:
-                1px solid rgba(255,255,255,.12);
+                1px solid rgba(255,255,255,0.12);
         }
 
-
-        /* =========================================================
-           DÉCONNEXION
-        ========================================================== */
 
         .btn-logout {
 
             width: 100%;
 
-            min-height: 46px;
+            min-height: 50px;
 
             display: flex;
+
+            flex-direction: row;
+
+            flex-wrap: nowrap;
 
             align-items: center;
 
-            justify-content: center;
-
-            gap: 10px;
-
-            padding:
-                10px 12px;
-
-            border:
-                1px solid rgba(255,255,255,.14);
-
-            border-radius: 9px;
-
-            background:
-                rgba(255,255,255,.07);
-
-            color: #FFFFFF;
-
-            font-size:
-                clamp(12px, 3.5vw, 14px);
-
-            font-weight: 600;
-
-            cursor: pointer;
-
-            transition:
-                background-color .2s ease,
-                transform .2s ease;
-        }
-
-
-        .btn-logout:hover,
-        .btn-logout:focus-visible {
-
-            background:
-                rgba(255,255,255,.14);
-
-            outline: none;
-        }
-
-
-        .btn-logout:active {
-            transform: scale(.98);
-        }
-
-
-        /* =========================================================
-           CONTENU PRINCIPAL
-        ========================================================== */
-
-        .main-content {
-
-            width: 100%;
-
-            max-width: 100%;
-
-            min-width: 0;
-
-            margin: 0;
-
-            padding:
-                calc(var(--mobile-header-height) + 24px)
-                14px
-                35px;
-        }
-
-
-        /* =========================================================
-           HEADER PAGE
-        ========================================================== */
-
-        .page-header {
-
-            width: 100%;
-
-            max-width: 100%;
-
-            min-width: 0;
-
-            margin-bottom: 25px;
-        }
-
-
-        .page-title {
-
-            color:
-                var(--tech-blue-dark);
-
-            font-size:
-                clamp(23px, 6vw, 32px);
-
-            font-weight: 800;
-
-            line-height: 1.2;
-
-            overflow-wrap: anywhere;
-        }
-
-
-        .page-subtitle {
-
-            margin-top: 8px;
-
-            color:
-                #666666;
-
-            font-size: 14px;
-
-            line-height: 1.6;
-
-            overflow-wrap: anywhere;
-        }
-
-
-        /* =========================================================
-           GRILLE
-        ========================================================== */
-
-        .settings-grid {
-
-            width: 100%;
-
-            max-width: 100%;
-
-            min-width: 0;
-
-            display: grid;
-
-            grid-template-columns: 1fr;
-
-            gap: 20px;
-        }
-
-
-        /* =========================================================
-           CARDS
-        ========================================================== */
-
-        .settings-card {
-
-            width: 100%;
-
-            min-width: 0;
-
-            background:
-                var(--tech-card-bg);
-
-            border:
-                1px solid var(--tech-border);
-
-            border-radius:
-                var(--radius-lg);
-
-            padding:
-                20px;
-
-            box-shadow:
-                var(--shadow-sm);
-
-            overflow: hidden;
-
-            transition:
-                background-color .3s ease,
-                border-color .3s ease,
-                box-shadow .3s ease;
-        }
-
-
-        .settings-card:hover {
-            box-shadow:
-                var(--shadow-md);
-        }
-
-
-        /* =========================================================
-           CARD HEADER
-        ========================================================== */
-
-        .card-header {
-
-            display: flex;
-
-            align-items: flex-start;
+            justify-content: flex-start;
 
             gap: 12px;
 
-            margin-bottom: 20px;
-
-            padding-bottom: 14px;
-
-            border-bottom:
-                1px solid var(--tech-border);
-        }
-
-
-        .card-header-icon {
-
-            width: 42px;
-            height: 42px;
-
-            flex: 0 0 42px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
+            padding: 12px 14px;
 
             border-radius: 10px;
 
             background:
-                rgba(0,120,215,.10);
+                rgba(255,255,255,0.07);
 
             color:
-                var(--tech-blue);
+                rgba(255,255,255,0.85);
 
-            font-size: 18px;
+            text-decoration: none;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            transition: var(--transition);
         }
 
 
-        .card-header-content {
+        .btn-logout:hover {
 
-            min-width: 0;
+            background:
+                rgba(220,53,69,0.18);
+
+            color: #FFFFFF;
+
+            transform: translateX(3px);
+        }
+
+
+        .btn-logout > i {
+
+            flex: 0 0 22px;
+
+            width: 22px;
+
+            min-width: 22px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .btn-logout > span {
 
             flex: 1;
-        }
 
+            min-width: 0;
 
-        .card-title {
+            white-space: nowrap;
 
-            color:
-                var(--tech-blue-dark);
+            overflow: hidden;
 
-            font-size: 17px;
+            text-overflow: ellipsis;
 
-            font-weight: 800;
+            font-size: 14px;
 
-            line-height: 1.35;
-
-            overflow-wrap: anywhere;
-        }
-
-
-        .card-description {
-
-            margin-top: 5px;
-
-            color: #777777;
-
-            font-size: 12px;
-
-            line-height: 1.5;
-
-            overflow-wrap: anywhere;
+            font-weight: 600;
         }
 
 
         /* =========================================================
-           FORM GROUP
+           MAIN CONTENT DESKTOP
         ========================================================== */
 
-        .form-group {
+        .main-content {
 
-            width: 100%;
+            min-height: 100vh;
 
-            min-width: 0;
+            margin-left: var(--sidebar-width);
 
-            margin-bottom: 18px;
-        }
+            width:
+                calc(100% - var(--sidebar-width));
 
+            padding: 30px;
 
-        .form-label {
-
-            display: block;
-
-            margin-bottom: 7px;
-
-            color:
-                var(--tech-dark-gray);
-
-            font-size: 12px;
-
-            font-weight: 700;
-
-            text-transform: uppercase;
-
-            letter-spacing: .4px;
-
-            line-height: 1.4;
-        }
-
-
-        .form-label i {
-
-            margin-right: 5px;
-
-            color:
-                var(--tech-blue);
+            transition: var(--transition);
         }
 
 
         /* =========================================================
-           INPUTS
+           PAGE HEADER
         ========================================================== */
 
-        .form-control {
-
-            width: 100%;
-
-            min-width: 0;
-
-            min-height: 46px;
-
-            padding:
-                11px 13px;
-
-            border:
-                1px solid var(--tech-border);
-
-            border-radius:
-                var(--radius-md);
-
-            background:
-                #FAFBFC;
-
-            color:
-                var(--tech-dark-gray);
-
-            font-size: 15px;
-
-            outline: none;
-
-            transition:
-                border-color .2s ease,
-                box-shadow .2s ease,
-                background-color .2s ease;
-        }
-
-
-        .form-control:focus {
-
-            border-color:
-                var(--tech-blue);
-
-            background:
-                var(--tech-card-bg);
-
-            box-shadow:
-                0 0 0 4px rgba(0,120,215,.10);
-        }
-
-
-        /* =========================================================
-           SWITCH
-        ========================================================== */
-
-        .setting-row {
-
-            width: 100%;
-
-            min-width: 0;
+        .page-header {
 
             display: flex;
 
@@ -1202,219 +709,386 @@
 
             justify-content: space-between;
 
-            gap: 15px;
+            gap: 20px;
 
-            padding:
-                14px 0;
+            margin-bottom: 30px;
+
+            padding-bottom: 20px;
 
             border-bottom:
-                1px solid var(--tech-border);
+                1px solid var(--border-color);
         }
 
 
-        .setting-row:last-child {
-            border-bottom: none;
-        }
-
-
-        .setting-info {
-
+        .page-header-left {
             min-width: 0;
-
-            flex: 1;
         }
 
 
-        .setting-name {
+        .page-title {
 
-            color:
-                var(--tech-dark-gray);
+            margin: 0 0 6px;
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+            color: var(--tech-blue-dark);
+        }
+
+
+        .page-subtitle {
+
+            margin: 0;
+
+            color: var(--muted-color);
 
             font-size: 14px;
-
-            font-weight: 700;
-
-            line-height: 1.4;
-
-            overflow-wrap: anywhere;
-        }
-
-
-        .setting-description {
-
-            margin-top: 4px;
-
-            color: #777777;
-
-            font-size: 12px;
-
-            line-height: 1.45;
-
-            overflow-wrap: anywhere;
-        }
-
-
-        .switch {
-
-            position: relative;
-
-            width: 48px;
-            height: 26px;
-
-            flex: 0 0 48px;
-        }
-
-
-        .switch input {
-
-            width: 0;
-            height: 0;
-
-            opacity: 0;
-        }
-
-
-        .slider {
-
-            position: absolute;
-
-            inset: 0;
-
-            cursor: pointer;
-
-            background:
-                #CBD5E1;
-
-            border-radius: 30px;
-
-            transition:
-                .25s;
-        }
-
-
-        .slider::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 20px;
-            height: 20px;
-
-            left: 3px;
-            top: 3px;
-
-            background: #FFFFFF;
-
-            border-radius: 50%;
-
-            transition:
-                .25s;
-
-            box-shadow:
-                0 2px 5px rgba(0,0,0,.2);
-        }
-
-
-        .switch input:checked + .slider {
-
-            background:
-                var(--tech-orange);
-        }
-
-
-        .switch input:checked + .slider::before {
-
-            transform:
-                translateX(22px);
         }
 
 
         /* =========================================================
-           BOUTONS
+           SETTINGS GRID
         ========================================================== */
 
-        .actions {
+        .settings-grid {
 
-            display: flex;
+            display: grid;
 
-            flex-wrap: wrap;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
 
-            gap: 10px;
-
-            margin-top: 20px;
+            gap: 24px;
         }
 
 
-        .btn {
+        .settings-card {
 
-            min-height: 44px;
+            background: var(--card-color);
 
-            display: inline-flex;
+            border:
+                1px solid var(--border-color);
+
+            border-radius: 16px;
+
+            padding: 24px;
+
+            box-shadow: var(--shadow-sm);
+
+            transition: var(--transition);
+        }
+
+
+        .settings-card:hover {
+
+            box-shadow: var(--shadow-md);
+
+            transform: translateY(-2px);
+        }
+
+
+        .settings-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+
+        /* =========================================================
+           CARD HEADER
+        ========================================================== */
+
+        .settings-card-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .settings-icon {
+
+            width: 48px;
+            height: 48px;
+
+            min-width: 48px;
+
+            display: flex;
 
             align-items: center;
             justify-content: center;
 
-            gap: 8px;
+            border-radius: 12px;
 
-            padding:
-                10px 16px;
+            background:
+                rgba(0,120,215,0.10);
 
-            border: none;
+            color:
+                var(--tech-blue);
 
-            border-radius:
-                var(--radius-md);
+            font-size: 20px;
+        }
+
+
+        .settings-card-title {
+
+            margin: 0;
+
+            font-size: 17px;
+
+            font-weight: 750;
+
+            color: var(--text-color);
+        }
+
+
+        .settings-card-description {
+
+            margin: 3px 0 0;
+
+            color: var(--muted-color);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================================================
+           FORM
+        ========================================================== */
+
+        .form-label {
+
+            margin-bottom: 8px;
 
             font-size: 13px;
 
             font-weight: 700;
 
-            cursor: pointer;
-
-            transition:
-                transform .2s ease,
-                background-color .2s ease,
-                box-shadow .2s ease;
+            color: var(--text-color);
         }
 
 
-        .btn-primary {
+        .form-control,
+        .form-select {
+
+            min-height: 46px;
+
+            border:
+                1px solid var(--border-color);
+
+            border-radius: 10px;
 
             background:
-                var(--tech-orange);
+                var(--card-color);
 
             color:
-                #FFFFFF;
+                var(--text-color);
+
+            font-size: 14px;
+
+            transition: var(--transition);
+        }
+
+
+        .form-control:focus,
+        .form-select:focus {
+
+            border-color:
+                var(--tech-blue);
 
             box-shadow:
-                0 4px 12px rgba(255,140,0,.25);
+                0 0 0 3px rgba(0,120,215,0.10);
         }
 
 
-        .btn-primary:hover {
+        /* =========================================================
+           SWITCH
+        ========================================================== */
 
-            background:
-                var(--tech-orange-dark);
+        .switch-row {
 
-            transform:
-                translateY(-1px);
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 15px 0;
+
+            border-bottom:
+                1px solid var(--border-color);
         }
 
 
-        .btn-secondary {
+        .switch-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .switch-info {
+            min-width: 0;
+        }
+
+
+        .switch-title {
+
+            margin-bottom: 3px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: var(--text-color);
+        }
+
+
+        .switch-description {
+
+            font-size: 12px;
+
+            color: var(--muted-color);
+
+            line-height: 1.5;
+        }
+
+
+        .form-check-input {
+
+            width: 46px;
+
+            height: 24px;
+
+            cursor: pointer;
+        }
+
+
+        .form-check-input:checked {
+
+            background-color:
+                var(--tech-blue);
+
+            border-color:
+                var(--tech-blue);
+        }
+
+
+        /* =========================================================
+           ACTIONS
+        ========================================================== */
+
+        .settings-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            gap: 12px;
+
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid var(--border-color);
+        }
+
+
+        .btn-save {
+
+            min-height: 44px;
+
+            padding: 10px 20px;
+
+            border: none;
+
+            border-radius: 10px;
 
             background:
-                #E9EEF5;
+                linear-gradient(
+                    135deg,
+                    var(--tech-blue),
+                    var(--tech-blue-dark)
+                );
+
+            color: #FFFFFF;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            cursor: pointer;
+
+            transition: var(--transition);
+        }
+
+
+        .btn-save:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 7px 18px rgba(0,120,215,0.25);
+        }
+
+
+        .btn-reset {
+
+            min-height: 44px;
+
+            padding: 10px 20px;
+
+            border:
+                1px solid var(--border-color);
+
+            border-radius: 10px;
+
+            background:
+                var(--card-color);
 
             color:
-                var(--tech-blue-dark);
+                var(--text-color);
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            cursor: pointer;
+
+            transition: var(--transition);
         }
 
 
-        .btn-secondary:hover {
+        .btn-reset:hover {
 
-            background:
-                #DCE5F0;
+            border-color:
+                var(--tech-blue);
+
+            color:
+                var(--tech-blue);
         }
 
 
@@ -1422,55 +1096,49 @@
            MESSAGE
         ========================================================== */
 
-        .message {
-
-            width: 100%;
+        #settingsMessage {
 
             display: none;
 
-            margin-top: 15px;
+            padding: 12px 15px;
 
-            padding:
-                12px 14px;
+            margin-bottom: 20px;
 
-            border-radius:
-                var(--radius-md);
+            border-radius: 10px;
 
             font-size: 13px;
 
-            line-height: 1.5;
-
-            overflow-wrap: anywhere;
+            font-weight: 600;
         }
 
 
-        .message.success {
+        #settingsMessage.success {
 
             display: block;
 
             background:
-                #DCFCE7;
-
-            border:
-                1px solid #BBF7D0;
+                rgba(25,135,84,0.10);
 
             color:
-                #166534;
+                #198754;
+
+            border:
+                1px solid rgba(25,135,84,0.20);
         }
 
 
-        .message.error {
+        #settingsMessage.error {
 
             display: block;
 
             background:
-                #FEE2E2;
-
-            border:
-                1px solid #FECACA;
+                rgba(220,53,69,0.10);
 
             color:
-                #991B1B;
+                #DC3545;
+
+            border:
+                1px solid rgba(220,53,69,0.20);
         }
 
 
@@ -1480,78 +1148,55 @@
 
         body.dark-mode {
 
-            --tech-light-gray:
-                #0B0F19;
+            --bg-color: #111827;
 
-            --tech-card-bg:
-                #111827;
+            --card-color: #1F2937;
 
-            --tech-dark-gray:
-                #F8FAFC;
+            --text-color: #F9FAFB;
 
-            --tech-border:
-                #263244;
+            --muted-color: #9CA3AF;
+
+            --border-color: #374151;
+        }
+
+
+        body.dark-mode .main-content {
+            background: #111827;
+        }
+
+
+        body.dark-mode .page-title {
+            color: #60A5FA;
+        }
+
+
+        body.dark-mode .form-control,
+        body.dark-mode .form-select {
+
+            background: #111827;
+
+            color: #F9FAFB;
+
+            border-color: #374151;
+        }
+
+
+        body.dark-mode .btn-reset {
+
+            background: #1F2937;
+
+            color: #F9FAFB;
+
+            border-color: #374151;
+        }
+
+
+        body.dark-mode .settings-icon {
 
             background:
-                #0B0F19;
+                rgba(33,150,243,0.15);
 
-            color:
-                #F8FAFC;
-        }
-
-
-        body.dark-mode .page-title,
-        body.dark-mode .card-title {
-
-            color:
-                #60A5FA;
-        }
-
-
-        body.dark-mode .page-subtitle,
-        body.dark-mode .card-description,
-        body.dark-mode .setting-description {
-
-            color:
-                #94A3B8;
-        }
-
-
-        body.dark-mode .form-label,
-        body.dark-mode .setting-name {
-
-            color:
-                #E2E8F0;
-        }
-
-
-        body.dark-mode .form-control {
-
-            background:
-                #1E293B;
-
-            color:
-                #F8FAFC;
-
-            border-color:
-                #334155;
-        }
-
-
-        body.dark-mode .btn-secondary {
-
-            background:
-                #1E293B;
-
-            color:
-                #E2E8F0;
-        }
-
-
-        body.dark-mode .btn-secondary:hover {
-
-            background:
-                #334155;
+            color: #60A5FA;
         }
 
 
@@ -1559,155 +1204,179 @@
            TABLETTE
         ========================================================== */
 
-        @media (min-width: 768px) and (max-width: 991px) {
+        @media screen and (max-width: 1199px) {
 
-            .sidebar {
-
-                width:
-                    min(380px, 78vw) !important;
-
-                max-width:
-                    380px !important;
+            :root {
+                --sidebar-width: 260px;
             }
-
 
             .main-content {
-
-                padding:
-                    calc(var(--mobile-header-height) + 30px)
-                    24px
-                    40px;
+                padding: 25px;
             }
-
 
             .settings-grid {
-
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-            }
-
-
-            .settings-card:first-child {
-
-                grid-column:
-                    1 / -1;
+                gap: 18px;
             }
         }
 
 
         /* =========================================================
-           PETITS TÉLÉPHONES
+           MOBILE
+           
+           IMPORTANT :
+           TOUT LE SIDEBAR EST VERTICAL.
         ========================================================== */
 
-        @media (max-width: 359px) {
+        @media screen and (max-width: 991px) {
 
-            .sidebar {
-
-                width:
-                    min(90vw, 300px) !important;
-            }
-
-
-            .sidebar-brand {
-
-                grid-template-columns:
-                    36px
-                    minmax(0,1fr)
-                    34px;
-
-                column-gap: 7px;
-
-                padding-left: 11px;
-                padding-right: 8px;
-            }
-
-
-            .sidebar-logo,
-            .sidebar-logo img {
-
-                width: 36px;
-                height: 36px;
-            }
-
-
-            .sidebar-title {
-
-                font-size: 14px;
-
-                letter-spacing: .3px;
-            }
-
-
-            .sidebar-close {
-
-                width: 34px;
-                height: 34px;
-
-                font-size: 15px;
-            }
-
-
-            .nav-menu {
-
-                padding-left: 8px;
-                padding-right: 8px;
-            }
-
-
-            .nav-menu li a,
-            .nav-menu a.back-link {
-
-                gap: 9px;
-
-                padding:
-                    9px;
-
-                font-size: 12px;
-            }
-
-
-            .nav-menu li a i,
-            .nav-menu a.back-link i {
-
-                flex-basis: 20px;
-
-                width: 20px;
-
-                min-width: 20px;
-
-                font-size: 14px;
-            }
-
-
-            .main-content {
-
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-
-
-            .settings-card {
-
-                padding: 16px;
-            }
-        }
-
-
-        /* =========================================================
-           DESKTOP ≥ 992PX
-        ========================================================== */
-
-        @media (min-width: 992px) {
+            /* -----------------------------------------------------
+               HEADER MOBILE
+            ----------------------------------------------------- */
 
             .mobile-header {
-                display: none !important;
+
+                position: fixed;
+
+                top: 0;
+                left: 0;
+                right: 0;
+
+                width: 100%;
+
+                height: 68px;
+
+                padding: 0 16px;
+
+                background: #003366;
+
+                display: flex;
+
+                flex-direction: row;
+
+                align-items: center;
+
+                justify-content: space-between;
+
+                z-index: 1050;
+
+                box-shadow:
+                    0 3px 15px rgba(0,0,0,0.15);
             }
 
+
+            .mobile-header-left {
+
+                display: flex;
+
+                flex-direction: row;
+
+                align-items: center;
+
+                gap: 10px;
+
+                min-width: 0;
+            }
+
+
+            .mobile-logo {
+
+                width: 38px;
+                height: 38px;
+
+                flex: 0 0 38px;
+
+                object-fit: contain;
+            }
+
+
+            .mobile-title {
+
+                color: #FFFFFF;
+
+                font-size: 18px;
+
+                font-weight: 800;
+
+                white-space: nowrap;
+            }
+
+
+            .mobile-title span {
+                color: var(--tech-orange);
+            }
+
+
+            .mobile-menu-button {
+
+                width: 44px;
+                height: 44px;
+
+                flex: 0 0 44px;
+
+                border: none;
+
+                border-radius: 10px;
+
+                background:
+                    rgba(255,255,255,0.10);
+
+                color: #FFFFFF;
+
+                display: flex;
+
+                align-items: center;
+                justify-content: center;
+
+                font-size: 21px;
+
+                cursor: pointer;
+            }
+
+
+            /* -----------------------------------------------------
+               OVERLAY
+            ----------------------------------------------------- */
 
             .sidebar-overlay {
-                display: none !important;
+
+                display: block;
+
+                position: fixed;
+
+                inset: 0;
+
+                background:
+                    rgba(0,0,0,0.55);
+
+                opacity: 0;
+
+                visibility: hidden;
+
+                pointer-events: none;
+
+                transition:
+                    opacity 0.25s ease,
+                    visibility 0.25s ease;
+
+                z-index: 1090;
             }
 
+
+            .sidebar-overlay.active {
+
+                opacity: 1;
+
+                visibility: visible;
+
+                pointer-events: auto;
+            }
+
+
+            /* -----------------------------------------------------
+               SIDEBAR MOBILE
+
+               LE SIDEBAR ENTIER EST UNE COLONNE.
+            ----------------------------------------------------- */
 
             .sidebar {
 
@@ -1715,96 +1384,396 @@
 
                 top: 0 !important;
                 left: 0 !important;
-                bottom: 0 !important;
 
                 width:
-                    var(--sidebar-width) !important;
+                    min(88vw, 320px) !important;
 
-                max-width:
-                    var(--sidebar-width) !important;
+                height: 100vh !important;
 
-                height:
-                    100vh !important;
+                display: flex !important;
 
-                max-height:
-                    100vh !important;
+                /*
+                 * OBLIGATOIRE :
+                 * SIDEBAR = VERTICAL
+                 */
+                flex-direction: column !important;
+
+                align-items: stretch !important;
+
+                justify-content: flex-start !important;
 
                 transform:
-                    none !important;
+                    translateX(-105%) !important;
 
-                pointer-events:
-                    auto !important;
+                transition:
+                    transform 0.30s ease !important;
 
-                z-index:
-                    1000;
+                z-index: 1100 !important;
+
+                overflow: hidden !important;
             }
 
+
+            .sidebar.active {
+
+                transform:
+                    translateX(0) !important;
+            }
+
+
+            /* -----------------------------------------------------
+               BRAND MOBILE
+            ----------------------------------------------------- */
 
             .sidebar-brand {
 
-                min-height:
-                    88px;
+                width: 100% !important;
 
-                grid-template-columns:
-                    42px
-                    minmax(0,1fr)
-                    38px;
+                min-height: 78px !important;
+
+                display: flex !important;
+
+                flex-direction: row !important;
+
+                align-items: center !important;
+
+                flex: 0 0 auto !important;
 
                 padding:
-                    20px 16px;
+                    14px 16px !important;
+
+                gap: 10px !important;
             }
 
 
-            .sidebar-logo,
-            .sidebar-logo img {
+            .sidebar-logo {
 
-                width: 40px;
-                height: 40px;
+                width: 42px !important;
+                height: 42px !important;
+
+                flex: 0 0 42px !important;
             }
 
 
             .sidebar-title {
 
-                font-size: 20px;
+                flex: 1 1 auto !important;
 
-                white-space:
-                    nowrap;
+                min-width: 0 !important;
+
+                font-size: 18px !important;
+
+                white-space: nowrap !important;
             }
 
 
             .sidebar-close {
 
-                display: none;
+                display: flex !important;
+
+                flex: 0 0 40px !important;
             }
 
 
-            .nav-menu {
+            /* -----------------------------------------------------
+               MENU MOBILE
+
+               C'EST ICI QUE LES LIENS SONT EMPILÉS.
+               
+               1 ligne
+               1 ligne
+               1 ligne
+               1 ligne
+               1 ligne
+               1 ligne
+            ----------------------------------------------------- */
+
+            .sidebar .nav-menu {
+
+                width: 100% !important;
+
+                height: auto !important;
+
+                margin: 0 !important;
 
                 padding:
-                    20px 14px;
+                    14px 10px !important;
+
+                display: flex !important;
+
+                /*
+                 * TRÈS IMPORTANT :
+                 * PAS row !
+                 */
+                flex-direction: column !important;
+
+                flex-wrap: nowrap !important;
+
+                align-items: stretch !important;
+
+                justify-content: flex-start !important;
+
+                gap: 6px !important;
+
+                flex: 1 1 auto !important;
+
+                overflow-y: auto !important;
+
+                overflow-x: hidden !important;
+
+                list-style: none !important;
             }
 
 
-            .nav-menu li a,
-            .nav-menu a.back-link {
+            /* -----------------------------------------------------
+               CHAQUE LI = UNE LIGNE VERTICALE
+            ----------------------------------------------------- */
 
-                min-height: 48px;
+            .sidebar .nav-menu > li {
+
+                display: block !important;
+
+                width: 100% !important;
+
+                min-width: 100% !important;
+
+                max-width: 100% !important;
+
+                height: auto !important;
+
+                flex:
+                    0 0 auto !important;
+
+                margin: 0 !important;
+
+                padding: 0 !important;
+            }
+
+
+            /* -----------------------------------------------------
+               CHAQUE LIEN = UNE LIGNE COMPLÈTE
+               
+               ICÔNE + TEXTE RESTENT HORIZONTAUX.
+            ----------------------------------------------------- */
+
+            .sidebar .nav-menu > li > a {
+
+                width: 100% !important;
+
+                min-width: 100% !important;
+
+                max-width: 100% !important;
+
+                min-height: 50px !important;
+
+                display: flex !important;
+
+                flex-direction: row !important;
+
+                flex-wrap: nowrap !important;
+
+                align-items: center !important;
+
+                justify-content: flex-start !important;
+
+                gap: 12px !important;
+
+                margin: 0 !important;
 
                 padding:
-                    12px 14px;
+                    12px 14px !important;
 
-                font-size: 14px;
+                border-radius: 10px !important;
+
+                white-space: nowrap !important;
+
+                writing-mode:
+                    horizontal-tb !important;
+
+                text-orientation:
+                    mixed !important;
+
+                direction: ltr !important;
+
+                word-break:
+                    normal !important;
+
+                overflow-wrap:
+                    normal !important;
+
+                overflow:
+                    hidden !important;
+
+                transform:
+                    none !important;
+            }
+
+
+            /* -----------------------------------------------------
+               ICÔNE
+            ----------------------------------------------------- */
+
+            .sidebar .nav-menu > li > a > i {
+
+                display: inline-flex !important;
+
+                flex:
+                    0 0 22px !important;
+
+                width:
+                    22px !important;
+
+                min-width:
+                    22px !important;
+
+                max-width:
+                    22px !important;
+
+                height:
+                    22px !important;
+
+                align-items:
+                    center !important;
+
+                justify-content:
+                    center !important;
+
+                writing-mode:
+                    horizontal-tb !important;
+
+                text-orientation:
+                    mixed !important;
+            }
+
+
+            /* -----------------------------------------------------
+               TEXTE
+            ----------------------------------------------------- */
+
+            .sidebar .nav-menu > li > a > span {
+
+                display:
+                    block !important;
+
+                flex:
+                    1 1 auto !important;
+
+                width:
+                    auto !important;
+
+                min-width:
+                    0 !important;
+
+                max-width:
+                    none !important;
+
+                font-size:
+                    14px !important;
+
+                font-weight:
+                    600 !important;
+
+                line-height:
+                    1.2 !important;
+
+                text-align:
+                    left !important;
 
                 white-space:
                     nowrap !important;
 
                 overflow:
                     hidden !important;
+
+                text-overflow:
+                    ellipsis !important;
+
+                word-break:
+                    normal !important;
+
+                overflow-wrap:
+                    normal !important;
+
+                writing-mode:
+                    horizontal-tb !important;
+
+                text-orientation:
+                    mixed !important;
+
+                direction:
+                    ltr !important;
             }
 
 
-            .nav-menu li a span,
-            .nav-menu a.back-link span {
+            /* -----------------------------------------------------
+               FOOTER MOBILE
+            ----------------------------------------------------- */
+
+            .sidebar .sidebar-footer {
+
+                width: 100% !important;
+
+                flex:
+                    0 0 auto !important;
+
+                padding:
+                    12px 10px 15px !important;
+
+                border-top:
+                    1px solid rgba(255,255,255,0.12) !important;
+            }
+
+
+            .sidebar .btn-logout {
+
+                width: 100% !important;
+
+                min-height: 50px !important;
+
+                display: flex !important;
+
+                flex-direction: row !important;
+
+                flex-wrap: nowrap !important;
+
+                align-items: center !important;
+
+                justify-content: flex-start !important;
+
+                gap: 12px !important;
+
+                white-space: nowrap !important;
+
+                overflow: hidden !important;
+            }
+
+
+            .sidebar .btn-logout > i {
+
+                flex:
+                    0 0 22px !important;
+
+                width:
+                    22px !important;
+
+                min-width:
+                    22px !important;
+
+                display: inline-flex !important;
+
+                align-items: center !important;
+
+                justify-content: center !important;
+            }
+
+
+            .sidebar .btn-logout > span {
+
+                flex:
+                    1 1 auto !important;
+
+                min-width:
+                    0 !important;
 
                 white-space:
                     nowrap !important;
@@ -1817,113 +1786,355 @@
             }
 
 
-            .sidebar-footer {
-
-                padding:
-                    18px 20px 20px;
-            }
-
+            /* -----------------------------------------------------
+               MAIN MOBILE
+            ----------------------------------------------------- */
 
             .main-content {
 
-                margin-left:
-                    var(--sidebar-width);
+                width: 100% !important;
 
-                width:
-                    calc(100% - var(--sidebar-width));
-
-                max-width:
-                    calc(100% - var(--sidebar-width));
-
-                min-width: 0;
+                margin-left: 0 !important;
 
                 padding:
-                    36px 30px 45px;
+                    92px 18px 25px !important;
+            }
+
+
+            .page-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 8px;
+
+                margin-bottom: 22px;
+
+                padding-bottom: 18px;
+            }
+
+
+            .page-title {
+
+                font-size: 24px;
+
+                line-height: 1.25;
+            }
+
+
+            .page-subtitle {
+                font-size: 13px;
             }
 
 
             .settings-grid {
 
                 grid-template-columns:
-                    repeat(2, minmax(0,1fr));
+                    1fr;
 
-                gap: 24px;
+                gap: 16px;
             }
 
 
-            .settings-card:first-child {
+            .settings-card.full-width {
 
                 grid-column:
-                    1 / -1;
+                    auto;
+            }
+
+
+            .settings-card {
+
+                padding: 18px;
+
+                border-radius: 14px;
+            }
+
+
+            .settings-actions {
+
+                flex-direction: column-reverse;
+
+                align-items: stretch;
+            }
+
+
+            .btn-save,
+            .btn-reset {
+
+                width: 100%;
             }
         }
 
 
         /* =========================================================
-           GRAND ÉCRAN
+           PETITS TÉLÉPHONES
         ========================================================== */
 
-        @media (min-width: 1200px) {
+        @media screen and (max-width: 480px) {
+
+            .mobile-header {
+
+                height: 62px;
+
+                padding:
+                    0 12px;
+            }
+
+
+            .mobile-logo {
+
+                width: 34px;
+                height: 34px;
+
+                flex-basis: 34px;
+            }
+
+
+            .mobile-title {
+                font-size: 16px;
+            }
+
+
+            .mobile-menu-button {
+
+                width: 40px;
+                height: 40px;
+
+                flex-basis: 40px;
+
+                font-size: 18px;
+            }
+
+
+            .sidebar {
+
+                width:
+                    min(90vw, 300px) !important;
+            }
+
+
+            .sidebar-brand {
+
+                min-height:
+                    72px !important;
+
+                padding:
+                    12px 14px !important;
+            }
+
+
+            .sidebar-logo {
+
+                width:
+                    38px !important;
+
+                height:
+                    38px !important;
+
+                flex-basis:
+                    38px !important;
+            }
+
+
+            .sidebar-title {
+                font-size: 17px !important;
+            }
+
+
+            .sidebar .nav-menu {
+
+                padding:
+                    12px 8px !important;
+
+                gap:
+                    5px !important;
+
+                /*
+                 * GARANTIE VERTICALE
+                 */
+                flex-direction:
+                    column !important;
+            }
+
+
+            .sidebar .nav-menu > li {
+
+                width:
+                    100% !important;
+
+                min-width:
+                    100% !important;
+
+                flex:
+                    0 0 auto !important;
+            }
+
+
+            .sidebar .nav-menu > li > a {
+
+                width:
+                    100% !important;
+
+                min-width:
+                    100% !important;
+
+                min-height:
+                    48px !important;
+
+                padding:
+                    11px 12px !important;
+
+                flex-direction:
+                    row !important;
+            }
+
+
+            .sidebar .nav-menu > li > a > i {
+
+                flex:
+                    0 0 21px !important;
+
+                width:
+                    21px !important;
+
+                min-width:
+                    21px !important;
+
+                max-width:
+                    21px !important;
+            }
+
+
+            .sidebar .nav-menu > li > a > span {
+
+                font-size:
+                    13px !important;
+
+                white-space:
+                    nowrap !important;
+            }
+
 
             .main-content {
 
                 padding:
-                    40px 40px 50px;
+                    82px 12px 20px !important;
             }
 
 
-            .settings-grid {
+            .page-title {
+                font-size: 21px;
+            }
 
-                gap: 28px;
+
+            .settings-card {
+                padding: 15px;
             }
         }
 
 
         /* =========================================================
-           FOCUS ACCESSIBLE
+           TRÈS PETIT ÉCRAN
         ========================================================== */
 
-        .nav-menu a:focus-visible,
-        .btn:focus-visible,
-        .btn-logout:focus-visible,
-        .sidebar-close:focus-visible,
-        .mobile-menu-button:focus-visible,
-        .form-control:focus-visible {
+        @media screen and (max-width: 360px) {
 
-            outline:
-                2px solid var(--tech-orange);
+            .sidebar {
 
-            outline-offset:
-                2px;
+                width:
+                    min(92vw, 285px) !important;
+            }
+
+
+            .sidebar .nav-menu {
+
+                /*
+                 * TOUJOURS VERTICAL
+                 */
+                flex-direction:
+                    column !important;
+            }
+
+
+            .sidebar .nav-menu > li {
+
+                width:
+                    100% !important;
+
+                min-width:
+                    100% !important;
+            }
+
+
+            .sidebar .nav-menu > li > a {
+
+                width:
+                    100% !important;
+
+                min-width:
+                    100% !important;
+
+                flex-direction:
+                    row !important;
+
+                gap:
+                    9px !important;
+            }
+
+
+            .sidebar .nav-menu > li > a > span {
+
+                font-size:
+                    12px !important;
+            }
         }
 
 
         /* =========================================================
-           RÉDUCTION DES ANIMATIONS
+           DESKTOP À PARTIR DE 992PX
         ========================================================== */
 
-        @media (prefers-reduced-motion: reduce) {
+        @media screen and (min-width: 992px) {
 
-            *,
-            *::before,
-            *::after {
+            .sidebar {
 
-                animation-duration:
-                    .01ms !important;
+                position: fixed !important;
 
-                animation-iteration-count:
-                    1 !important;
+                transform:
+                    translateX(0) !important;
 
-                transition-duration:
-                    .01ms !important;
+                display:
+                    flex !important;
 
-                scroll-behavior:
-                    auto !important;
+                flex-direction:
+                    column !important;
+            }
+
+
+            .sidebar-close {
+
+                display:
+                    none !important;
+            }
+
+
+            .mobile-header {
+
+                display:
+                    none !important;
+            }
+
+
+            .sidebar-overlay {
+
+                display:
+                    none !important;
             }
         }
 
     </style>
-
 </head>
 
 
@@ -1934,27 +2145,18 @@
          HEADER MOBILE
     ========================================================== -->
 
-    <header
-        class="mobile-header"
-        id="mobileHeader"
-    >
+    <header class="mobile-header">
 
-        <div class="mobile-brand">
+        <div class="mobile-header-left">
 
-            <div class="mobile-brand-logo">
+            <img
+                src="{% static 'image/logoo.png' %}"
+                alt="ASTRA TECH"
+                class="mobile-logo"
+            >
 
-                <img
-                    src="{% static 'image/logoo.png' %}"
-                    alt="ASTRA TECH"
-                >
-
-            </div>
-
-
-            <div class="mobile-brand-title">
-
+            <div class="mobile-title">
                 ASTRA <span>TECH</span>
-
             </div>
 
         </div>
@@ -1965,7 +2167,6 @@
             class="mobile-menu-button"
             id="mobileMenuButton"
             aria-label="Ouvrir le menu"
-            aria-controls="sidebar"
             aria-expanded="false"
         >
 
@@ -1974,7 +2175,6 @@
         </button>
 
     </header>
-
 
 
     <!-- =========================================================
@@ -1986,7 +2186,6 @@
         id="sidebarOverlay"
         aria-hidden="true"
     ></div>
-
 
 
     <!-- =========================================================
@@ -2001,7 +2200,7 @@
 
 
         <!-- =====================================================
-             BRAND SIDEBAR
+             BRAND
         ====================================================== -->
 
         <div class="sidebar-brand">
@@ -2037,9 +2236,10 @@
         </div>
 
 
-
         <!-- =====================================================
-             MENU
+             NAVIGATION
+
+             LES LIENS SONT VERTICAUX
         ====================================================== -->
 
         <ul class="nav-menu">
@@ -2150,8 +2350,8 @@
 
             </li>
 
-        </ul>
 
+        </ul>
 
 
         <!-- =====================================================
@@ -2179,7 +2379,6 @@
     </aside>
 
 
-
     <!-- =========================================================
          CONTENU PRINCIPAL
     ========================================================== -->
@@ -2188,415 +2387,553 @@
 
 
         <!-- =====================================================
-             HEADER
+             HEADER PAGE
         ====================================================== -->
 
-        <div class="page-header">
+        <div
+            class="page-header"
+            data-aos="fade-down"
+        >
 
-            <h1 class="page-title">
+            <div class="page-header-left">
 
-                Paramètres
+                <h1 class="page-title">
+                    Paramètres
+                </h1>
 
-            </h1>
+                <p class="page-subtitle">
+                    Configurez les paramètres généraux de votre application ASTRA TECH.
+                </p>
 
-
-            <p class="page-subtitle">
-
-                Configurez les paramètres généraux et les règles
-                de fonctionnement de votre boutique ASTRA TECH.
-
-            </p>
+            </div>
 
         </div>
-
 
 
         <!-- =====================================================
-             GRILLE PARAMÈTRES
+             MESSAGE
         ====================================================== -->
 
-        <div class="settings-grid">
+        <div id="settingsMessage"></div>
 
 
-            <!-- =================================================
-                 PARAMÈTRES GÉNÉRAUX
-            ================================================== -->
+        <!-- =====================================================
+             FORMULAIRE
+        ====================================================== -->
 
-            <section class="settings-card">
+        <form
+            id="settingsForm"
+            method="POST"
+            novalidate
+        >
 
-                <div class="card-header">
+            {% csrf_token %}
 
-                    <div class="card-header-icon">
 
-                        <i class="fas fa-store"></i>
+            <div class="settings-grid">
 
-                    </div>
 
+                <!-- =================================================
+                     BOUTIQUE
+                ================================================== -->
 
-                    <div class="card-header-content">
+                <section
+                    class="settings-card"
+                    data-aos="fade-up"
+                >
 
-                        <h2 class="card-title">
+                    <div class="settings-card-header">
 
-                            Paramètres généraux
+                        <div class="settings-icon">
 
-                        </h2>
-
-
-                        <p class="card-description">
-
-                            Informations générales de votre boutique.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="form-group">
-
-                    <label
-                        class="form-label"
-                        for="nom_boutique"
-                    >
-
-                        <i class="fas fa-shop"></i>
-
-                        Nom de la boutique
-
-                    </label>
-
-
-                    <input
-                        type="text"
-                        id="nom_boutique"
-                        class="form-control"
-                        value="{{ config.nom_boutique|default:'ASTRA TECH' }}"
-                        placeholder="Nom de votre boutique"
-                    >
-
-                </div>
-
-
-
-                <div class="form-group">
-
-                    <label
-                        class="form-label"
-                        for="seuil_stock"
-                    >
-
-                        <i class="fas fa-boxes-stacked"></i>
-
-                        Seuil d'alerte de stock
-
-                    </label>
-
-
-                    <input
-                        type="number"
-                        id="seuil_stock"
-                        class="form-control"
-                        min="0"
-                        value="{{ config.seuil_stock|default:10 }}"
-                        placeholder="10"
-                    >
-
-                </div>
-
-
-
-                <div class="form-group">
-
-                    <label
-                        class="form-label"
-                        for="taux_tva"
-                    >
-
-                        <i class="fas fa-percent"></i>
-
-                        Taux de TVA
-
-                    </label>
-
-
-                    <input
-                        type="number"
-                        id="taux_tva"
-                        class="form-control"
-                        min="0"
-                        step="0.01"
-                        value="{{ config.taux_tva|default:19.25 }}"
-                        placeholder="19.25"
-                    >
-
-                </div>
-
-            </section>
-
-
-
-            <!-- =================================================
-                 SÉCURITÉ
-            ================================================== -->
-
-            <section class="settings-card">
-
-                <div class="card-header">
-
-                    <div class="card-header-icon">
-
-                        <i class="fas fa-shield-halved"></i>
-
-                    </div>
-
-
-                    <div class="card-header-content">
-
-                        <h2 class="card-title">
-
-                            Sécurité et verrouillage
-
-                        </h2>
-
-
-                        <p class="card-description">
-
-                            Contrôlez les restrictions appliquées
-                            aux différents espaces.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- VERROU COMMERCIAL -->
-
-                <div class="setting-row">
-
-                    <div class="setting-info">
-
-                        <div class="setting-name">
-
-                            Verrouillage commercial
+                            <i class="fas fa-store"></i>
 
                         </div>
 
 
-                        <div class="setting-description">
+                        <div>
 
-                            Contrôle l'accès aux opérations commerciales.
+                            <h2 class="settings-card-title">
+                                Informations de la boutique
+                            </h2>
+
+                            <p class="settings-card-description">
+                                Informations générales de votre boutique.
+                            </p>
 
                         </div>
 
                     </div>
 
 
-                    <label class="switch">
+                    <div class="mb-3">
+
+                        <label
+                            for="nom_boutique"
+                            class="form-label"
+                        >
+                            Nom de la boutique
+                        </label>
+
 
                         <input
-                            type="checkbox"
-                            id="verrou_commercial"
-                            {% if config.verrou_commercial %}checked{% endif %}
+                            type="text"
+                            class="form-control"
+                            id="nom_boutique"
+                            name="nom_boutique"
+                            value="{{ nom_boutique|default:'ASTRA TECH' }}"
+                            placeholder="Nom de la boutique"
                         >
 
-                        <span class="slider"></span>
+                    </div>
 
-                    </label>
-
-                </div>
+                </section>
 
 
+                <!-- =================================================
+                     COMMERCIAL
+                ================================================== -->
 
-                <!-- VERROU ADMIN -->
+                <section
+                    class="settings-card"
+                    data-aos="fade-up"
+                    data-aos-delay="50"
+                >
 
-                <div class="setting-row">
+                    <div class="settings-card-header">
 
-                    <div class="setting-info">
+                        <div class="settings-icon">
 
-                        <div class="setting-name">
-
-                            Verrouillage administrateur
+                            <i class="fas fa-chart-line"></i>
 
                         </div>
 
 
-                        <div class="setting-description">
+                        <div>
 
-                            Renforce la protection des opérations
-                            administratives.
+                            <h2 class="settings-card-title">
+                                Paramètres commerciaux
+                            </h2>
+
+                            <p class="settings-card-description">
+                                Configurez les règles commerciales.
+                            </p>
 
                         </div>
 
                     </div>
 
 
-                    <label class="switch">
+                    <div class="mb-3">
+
+                        <label
+                            for="taux_tva"
+                            class="form-label"
+                        >
+                            Taux de TVA (%)
+                        </label>
+
 
                         <input
-                            type="checkbox"
-                            id="verrou_admin"
-                            {% if config.verrou_admin %}checked{% endif %}
+                            type="number"
+                            class="form-control"
+                            id="taux_tva"
+                            name="taux_tva"
+                            min="0"
+                            max="100"
+                            step="0.01"
+                            value="{{ taux_tva|default:'19.25' }}"
                         >
-
-                        <span class="slider"></span>
-
-                    </label>
-
-                </div>
-
-
-
-                <!-- MODE SOMBRE -->
-
-                <div class="setting-row">
-
-                    <div class="setting-info">
-
-                        <div class="setting-name">
-
-                            Mode sombre
-
-                        </div>
-
-
-                        <div class="setting-description">
-
-                            Active le thème sombre de l'application
-                            sur cet appareil.
-
-                        </div>
 
                     </div>
 
 
-                    <label class="switch">
+                    <div>
+
+                        <label
+                            for="seuil_stock"
+                            class="form-label"
+                        >
+                            Seuil d'alerte du stock
+                        </label>
+
 
                         <input
-                            type="checkbox"
-                            id="darkModeToggle"
+                            type="number"
+                            class="form-control"
+                            id="seuil_stock"
+                            name="seuil_stock"
+                            min="0"
+                            step="1"
+                            value="{{ seuil_stock|default:'5' }}"
                         >
 
-                        <span class="slider"></span>
+                    </div>
 
-                    </label>
-
-                </div>
-
-            </section>
+                </section>
 
 
+                <!-- =================================================
+                     SÉCURITÉ
+                ================================================== -->
 
-            <!-- =================================================
-                 ENREGISTREMENT
-            ================================================== -->
+                <section
+                    class="settings-card full-width"
+                    data-aos="fade-up"
+                    data-aos-delay="100"
+                >
 
-            <section class="settings-card">
+                    <div class="settings-card-header">
 
-                <div class="card-header">
+                        <div class="settings-icon">
 
-                    <div class="card-header-icon">
+                            <i class="fas fa-shield-alt"></i>
 
-                        <i class="fas fa-floppy-disk"></i>
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="settings-card-title">
+                                Sécurité et verrouillage
+                            </h2>
+
+                            <p class="settings-card-description">
+                                Contrôlez les restrictions d'accès aux fonctionnalités sensibles.
+                            </p>
+
+                        </div>
 
                     </div>
 
 
-                    <div class="card-header-content">
+                    <!-- VERROU COMMERCIAL -->
 
-                        <h2 class="card-title">
+                    <div class="switch-row">
 
-                            Enregistrement
+                        <div class="switch-info">
 
-                        </h2>
+                            <div class="switch-title">
+                                Verrouillage commercial
+                            </div>
+
+                            <div class="switch-description">
+                                Active la protection des opérations commerciales sensibles.
+                            </div>
+
+                        </div>
 
 
-                        <p class="card-description">
+                        <div class="form-check form-switch">
 
-                            Enregistrez les modifications apportées
-                            aux paramètres ASTRA TECH.
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                id="verrou_commercial"
+                                name="verrou_commercial"
 
-                        </p>
+                                {% if verrou_commercial %}
+                                    checked
+                                {% endif %}
+                            >
+
+                        </div>
 
                     </div>
 
-                </div>
+
+                    <!-- VERROU ADMIN -->
+
+                    <div class="switch-row">
+
+                        <div class="switch-info">
+
+                            <div class="switch-title">
+                                Verrouillage administrateur
+                            </div>
+
+                            <div class="switch-description">
+                                Renforce la protection des fonctionnalités réservées à l'administration.
+                            </div>
+
+                        </div>
 
 
+                        <div class="form-check form-switch">
 
-                <div class="actions">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                id="verrou_admin"
+                                name="verrou_admin"
 
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        id="saveSettingsBtn"
-                    >
+                                {% if verrou_admin %}
+                                    checked
+                                {% endif %}
+                            >
 
-                        <i class="fas fa-save"></i>
+                        </div>
 
-                        Enregistrer les paramètres
+                    </div>
 
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        id="resetSettingsBtn"
-                    >
-
-                        <i class="fas fa-rotate-left"></i>
-
-                        Réinitialiser
-
-                    </button>
-
-                </div>
+                </section>
 
 
-                <div
-                    class="message"
-                    id="settingsMessage"
-                ></div>
+                <!-- =================================================
+                     APPARENCE
+                ================================================== -->
 
-            </section>
+                <section
+                    class="settings-card"
+                    data-aos="fade-up"
+                    data-aos-delay="150"
+                >
 
-        </div>
+                    <div class="settings-card-header">
+
+                        <div class="settings-icon">
+
+                            <i class="fas fa-palette"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="settings-card-title">
+                                Apparence
+                            </h2>
+
+                            <p class="settings-card-description">
+                                Personnalisez l'apparence de votre interface.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="switch-row">
+
+                        <div class="switch-info">
+
+                            <div class="switch-title">
+                                Mode sombre
+                            </div>
+
+                            <div class="switch-description">
+                                Active ou désactive le thème sombre.
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-check form-switch">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                role="switch"
+                                id="darkModeToggle"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     INFORMATIONS
+                ================================================== -->
+
+                <section
+                    class="settings-card"
+                    data-aos="fade-up"
+                    data-aos-delay="200"
+                >
+
+                    <div class="settings-card-header">
+
+                        <div class="settings-icon">
+
+                            <i class="fas fa-info-circle"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="settings-card-title">
+                                Informations système
+                            </h2>
+
+                            <p class="settings-card-description">
+                                Informations relatives à ASTRA TECH.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Application
+                        </label>
+
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            value="ASTRA TECH"
+                            readonly
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="form-label">
+                            Version
+                        </label>
+
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            value="1.0.0"
+                            readonly
+                        >
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     ACTIONS
+                ================================================== -->
+
+                <section
+                    class="settings-card full-width"
+                    data-aos="fade-up"
+                    data-aos-delay="250"
+                >
+
+                    <div class="settings-actions">
+
+                        <button
+                            type="button"
+                            class="btn-reset"
+                            id="resetSettings"
+                        >
+
+                            <i class="fas fa-rotate-left"></i>
+
+                            Réinitialiser
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="btn-save"
+                            id="saveSettings"
+                        >
+
+                            <i class="fas fa-save"></i>
+
+                            Enregistrer les paramètres
+
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+            </div>
+
+        </form>
 
     </main>
 
 
-
     <!-- =========================================================
-         JAVASCRIPT
+         BOOTSTRAP JS
     ========================================================== -->
 
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+
+    <!-- =========================================================
+         AOS JS
+    ========================================================== -->
+
+    <script
+        src="https://unpkg.com/aos@2.3.1/dist/aos.js"
+    ></script>
+
+
     <script>
+
+        /* =========================================================
+           AOS
+        ========================================================== */
 
         document.addEventListener(
             'DOMContentLoaded',
             function () {
 
+                if (typeof AOS !== 'undefined') {
 
-                /* =================================================
-                   SIDEBAR
-                ================================================== */
+                    AOS.init({
+                        duration: 600,
+                        once: true,
+                        offset: 20
+                    });
+
+                }
+
+            }
+        );
+
+
+        /* =========================================================
+           SIDEBAR MOBILE
+        ========================================================== */
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function () {
 
                 const sidebar =
-                    document.getElementById('sidebar');
+                    document.getElementById(
+                        'sidebar'
+                    );
 
                 const overlay =
-                    document.getElementById('sidebarOverlay');
+                    document.getElementById(
+                        'sidebarOverlay'
+                    );
 
                 const menuButton =
-                    document.getElementById('mobileMenuButton');
+                    document.getElementById(
+                        'mobileMenuButton'
+                    );
 
                 const closeButton =
-                    document.getElementById('sidebarClose');
+                    document.getElementById(
+                        'sidebarClose'
+                    );
 
 
                 function setSidebarState(open) {
@@ -2607,18 +2944,24 @@
 
                     if (!isMobile) {
 
-                        sidebar.classList.remove('active');
+                        sidebar?.classList.remove(
+                            'active'
+                        );
 
-                        overlay.classList.remove('active');
+                        overlay?.classList.remove(
+                            'active'
+                        );
 
-                        document.body.classList.remove('menu-open');
+                        document.body.classList.remove(
+                            'menu-open'
+                        );
 
-                        menuButton.setAttribute(
+                        menuButton?.setAttribute(
                             'aria-expanded',
                             'false'
                         );
 
-                        overlay.setAttribute(
+                        overlay?.setAttribute(
                             'aria-hidden',
                             'true'
                         );
@@ -2627,13 +2970,13 @@
                     }
 
 
-                    sidebar.classList.toggle(
+                    sidebar?.classList.toggle(
                         'active',
                         open
                     );
 
 
-                    overlay.classList.toggle(
+                    overlay?.classList.toggle(
                         'active',
                         open
                     );
@@ -2645,57 +2988,56 @@
                     );
 
 
-                    menuButton.setAttribute(
+                    menuButton?.setAttribute(
                         'aria-expanded',
                         open ? 'true' : 'false'
                     );
 
 
-                    overlay.setAttribute(
+                    overlay?.setAttribute(
                         'aria-hidden',
                         open ? 'false' : 'true'
                     );
                 }
 
 
-                if (menuButton) {
+                /* OUVRIR */
 
-                    menuButton.addEventListener(
-                        'click',
-                        function () {
+                menuButton?.addEventListener(
+                    'click',
+                    function () {
 
-                            setSidebarState(true);
+                        setSidebarState(true);
 
-                        }
-                    );
-                }
-
-
-                if (closeButton) {
-
-                    closeButton.addEventListener(
-                        'click',
-                        function () {
-
-                            setSidebarState(false);
-
-                        }
-                    );
-                }
+                    }
+                );
 
 
-                if (overlay) {
+                /* FERMER */
 
-                    overlay.addEventListener(
-                        'click',
-                        function () {
+                closeButton?.addEventListener(
+                    'click',
+                    function () {
 
-                            setSidebarState(false);
+                        setSidebarState(false);
 
-                        }
-                    );
-                }
+                    }
+                );
 
+
+                /* OVERLAY */
+
+                overlay?.addEventListener(
+                    'click',
+                    function () {
+
+                        setSidebarState(false);
+
+                    }
+                );
+
+
+                /* ESCAPE */
 
                 document.addEventListener(
                     'keydown',
@@ -2711,32 +3053,35 @@
                 );
 
 
-                if (sidebar) {
+                /* FERMER APRÈS CLIC */
 
-                    sidebar
-                        .querySelectorAll('a')
-                        .forEach(
-                            function (link) {
+                sidebar
+                    ?.querySelectorAll('.nav-menu a')
+                    .forEach(
+                        function (link) {
 
-                                link.addEventListener(
-                                    'click',
-                                    function () {
+                            link.addEventListener(
+                                'click',
+                                function () {
 
-                                        if (
-                                            window.innerWidth < 992
-                                        ) {
+                                    if (
+                                        window.innerWidth < 992
+                                    ) {
 
-                                            setSidebarState(false);
-
-                                        }
+                                        setSidebarState(
+                                            false
+                                        );
 
                                     }
-                                );
 
-                            }
-                        );
-                }
+                                }
+                            );
 
+                        }
+                    );
+
+
+                /* RESIZE */
 
                 let resizeTimer;
 
@@ -2745,7 +3090,9 @@
                     'resize',
                     function () {
 
-                        clearTimeout(resizeTimer);
+                        clearTimeout(
+                            resizeTimer
+                        );
 
 
                         resizeTimer =
@@ -2756,7 +3103,9 @@
                                         window.innerWidth >= 992
                                     ) {
 
-                                        setSidebarState(false);
+                                        setSidebarState(
+                                            false
+                                        );
 
                                     }
 
@@ -2767,11 +3116,17 @@
                     }
                 );
 
+            }
+        );
 
 
-                /* =================================================
-                   MODE SOMBRE
-                ================================================== */
+        /* =========================================================
+           DARK MODE
+        ========================================================== */
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function () {
 
                 const darkModeToggle =
                     document.getElementById(
@@ -2793,347 +3148,439 @@
                     );
 
 
-                    localStorage.setItem(
-                        'astra_dark_mode',
-                        enabled
-                            ? 'true'
-                            : 'false'
-                    );
+                    try {
+
+                        localStorage.setItem(
+                            'astra_dark_mode',
+                            enabled
+                                ? 'true'
+                                : 'false'
+                        );
+
+                    } catch (error) {
+
+                        console.warn(
+                            'Impossible de sauvegarder le mode sombre.',
+                            error
+                        );
+
+                    }
 
 
                     if (darkModeToggle) {
 
                         darkModeToggle.checked =
                             enabled;
+
                     }
+
                 }
 
 
-                const savedDarkMode =
-                    localStorage.getItem(
-                        'astra_dark_mode'
-                    ) === 'true';
+                let savedDarkMode = false;
 
 
-                applyDarkMode(savedDarkMode);
+                try {
 
+                    savedDarkMode =
+                        localStorage.getItem(
+                            'astra_dark_mode'
+                        ) === 'true';
 
-                if (darkModeToggle) {
+                } catch (error) {
 
-                    darkModeToggle.addEventListener(
-                        'change',
-                        function () {
+                    savedDarkMode = false;
 
-                            applyDarkMode(
-                                this.checked
-                            );
-
-                        }
-                    );
                 }
 
 
-
-                /* =================================================
-                   PARAMÈTRES
-                ================================================== */
-
-                const saveButton =
-                    document.getElementById(
-                        'saveSettingsBtn'
-                    );
-
-                const resetButton =
-                    document.getElementById(
-                        'resetSettingsBtn'
-                    );
-
-                const messageBox =
-                    document.getElementById(
-                        'settingsMessage'
-                    );
+                applyDarkMode(
+                    savedDarkMode
+                );
 
 
-                function showMessage(
-                    message,
-                    type
+                darkModeToggle?.addEventListener(
+                    'change',
+                    function () {
+
+                        applyDarkMode(
+                            this.checked
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           CSRF
+        ========================================================== */
+
+        function getCookie(name) {
+
+            let cookieValue = null;
+
+
+            if (
+                document.cookie &&
+                document.cookie !== ''
+            ) {
+
+                const cookies =
+                    document.cookie.split(';');
+
+
+                for (
+                    let i = 0;
+                    i < cookies.length;
+                    i++
                 ) {
 
-                    if (!messageBox) {
-                        return;
+                    const cookie =
+                        cookies[i].trim();
+
+
+                    if (
+                        cookie.substring(
+                            0,
+                            name.length + 1
+                        ) === name + '='
+                    ) {
+
+                        cookieValue =
+                            decodeURIComponent(
+                                cookie.substring(
+                                    name.length + 1
+                                )
+                            );
+
+                        break;
                     }
+                }
+            }
 
 
-                    messageBox.textContent =
-                        message;
+            return cookieValue;
+        }
 
 
-                    messageBox.className =
-                        'message ' + type;
+        /* =========================================================
+           MESSAGE
+        ========================================================== */
+
+        function showSettingsMessage(
+            message,
+            type
+        ) {
+
+            const box =
+                document.getElementById(
+                    'settingsMessage'
+                );
+
+
+            if (!box) {
+                return;
+            }
+
+
+            box.className =
+                type === 'success'
+                    ? 'success'
+                    : 'error';
+
+
+            box.innerHTML =
+                type === 'success'
+                    ? '<i class="fas fa-circle-check me-2"></i>' + message
+                    : '<i class="fas fa-circle-exclamation me-2"></i>' + message;
+
+
+            box.style.display =
+                'block';
+
+
+            setTimeout(
+                function () {
+
+                    box.style.display =
+                        'none';
+
+                },
+                5000
+            );
+        }
+
+
+        /* =========================================================
+           SAUVEGARDE
+        ========================================================== */
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function () {
+
+                const settingsForm =
+                    document.getElementById(
+                        'settingsForm'
+                    );
+
+
+                if (!settingsForm) {
+                    return;
                 }
 
 
+                settingsForm.addEventListener(
+                    'submit',
+                    async function (event) {
 
-                /* =================================================
-                   SAUVEGARDE
-                ================================================== */
-
-                if (saveButton) {
-
-                    saveButton.addEventListener(
-                        'click',
-                        async function () {
+                        event.preventDefault();
 
 
-                            const originalHTML =
-                                saveButton.innerHTML;
+                        const saveButton =
+                            document.getElementById(
+                                'saveSettings'
+                            );
 
+
+                        if (saveButton) {
 
                             saveButton.disabled =
                                 true;
 
-
                             saveButton.innerHTML =
                                 '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+                        }
 
 
-                            const data = {
+                        const payload = {
 
-                                nom_boutique:
-                                    document.getElementById(
-                                        'nom_boutique'
-                                    ).value,
+                            nom_boutique:
+                                document.getElementById(
+                                    'nom_boutique'
+                                )?.value || '',
 
-                                verrou_commercial:
-                                    document.getElementById(
-                                        'verrou_commercial'
-                                    ).checked,
+                            verrou_commercial:
+                                document.getElementById(
+                                    'verrou_commercial'
+                                )?.checked || false,
 
-                                verrou_admin:
-                                    document.getElementById(
-                                        'verrou_admin'
-                                    ).checked,
+                            verrou_admin:
+                                document.getElementById(
+                                    'verrou_admin'
+                                )?.checked || false,
 
-                                seuil_stock:
-                                    document.getElementById(
-                                        'seuil_stock'
-                                    ).value,
+                            seuil_stock:
+                                document.getElementById(
+                                    'seuil_stock'
+                                )?.value || 0,
 
-                                taux_tva:
-                                    document.getElementById(
-                                        'taux_tva'
-                                    ).value
-                            };
-
-
-                            try {
-
-                                const response =
-                                    await fetch(
-                                        "{% url 'astra:api_save_parametres' %}",
-                                        {
-                                            method: 'POST',
-
-                                            headers: {
-
-                                                'Content-Type':
-                                                    'application/json',
-
-                                                'X-CSRFToken':
-                                                    getCookie('csrftoken'),
-
-                                                'X-Requested-With':
-                                                    'XMLHttpRequest'
-                                            },
-
-                                            body:
-                                                JSON.stringify(data)
-                                        }
-                                    );
+                            taux_tva:
+                                document.getElementById(
+                                    'taux_tva'
+                                )?.value || 0
+                        };
 
 
-                                const result =
-                                    await response.json();
+                        try {
 
+                            const response =
+                                await fetch(
+                                    "{% url 'astra:api_save_parametres' %}",
+                                    {
 
-                                if (
-                                    response.ok &&
-                                    (
-                                        result.success === true ||
-                                        result.status === 'success'
-                                    )
-                                ) {
+                                        method: 'POST',
 
-                                    showMessage(
-                                        '✓ Les paramètres ont été enregistrés avec succès.',
-                                        'success'
-                                    );
+                                        headers: {
 
-                                } else {
+                                            'Content-Type':
+                                                'application/json',
 
-                                    showMessage(
-                                        result.error ||
-                                        result.message ||
-                                        'Une erreur est survenue lors de l’enregistrement.',
-                                        'error'
-                                    );
-                                }
+                                            'X-CSRFToken':
+                                                getCookie(
+                                                    'csrftoken'
+                                                ),
 
+                                            'X-Requested-With':
+                                                'XMLHttpRequest'
+                                        },
 
-                            } catch (error) {
-
-                                console.error(
-                                    'Erreur sauvegarde paramètres :',
-                                    error
+                                        body:
+                                            JSON.stringify(
+                                                payload
+                                            )
+                                    }
                                 );
 
 
-                                showMessage(
-                                    'Impossible de contacter le serveur.',
+                            const data =
+                                await response.json();
+
+
+                            if (
+                                response.ok &&
+                                data.success
+                            ) {
+
+                                showSettingsMessage(
+                                    data.message ||
+                                    'Les paramètres ont été enregistrés avec succès.',
+                                    'success'
+                                );
+
+                            } else {
+
+                                showSettingsMessage(
+                                    data.message ||
+                                    'Une erreur est survenue lors de l’enregistrement.',
                                     'error'
                                 );
+                            }
+
+                        } catch (error) {
+
+                            console.error(
+                                'Erreur sauvegarde paramètres :',
+                                error
+                            );
 
 
-                            } finally {
+                            showSettingsMessage(
+                                'Impossible de communiquer avec le serveur.',
+                                'error'
+                            );
+
+                        } finally {
+
+                            if (saveButton) {
 
                                 saveButton.disabled =
                                     false;
 
                                 saveButton.innerHTML =
-                                    originalHTML;
+                                    '<i class="fas fa-save"></i> Enregistrer les paramètres';
                             }
-
                         }
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           RÉINITIALISATION
+        ========================================================== */
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function () {
+
+                const resetButton =
+                    document.getElementById(
+                        'resetSettings'
                     );
+
+
+                if (!resetButton) {
+                    return;
                 }
 
 
+                resetButton.addEventListener(
+                    'click',
+                    function () {
 
-                /* =================================================
-                   RÉINITIALISATION
-                ================================================== */
-
-                if (resetButton) {
-
-                    resetButton.addEventListener(
-                        'click',
-                        function () {
-
-
-                            const confirmed =
-                                window.confirm(
-                                    'Voulez-vous réinitialiser les valeurs affichées ?'
-                                );
-
-
-                            if (!confirmed) {
-                                return;
-                            }
-
-
+                        const boutique =
                             document.getElementById(
                                 'nom_boutique'
-                            ).value =
-                                "{{ config.nom_boutique|default:'ASTRA TECH' }}";
-
-
-                            document.getElementById(
-                                'seuil_stock'
-                            ).value =
-                                "{{ config.seuil_stock|default:10 }}";
-
-
-                            document.getElementById(
-                                'taux_tva'
-                            ).value =
-                                "{{ config.taux_tva|default:19.25 }}";
-
-
-                            document.getElementById(
-                                'verrou_commercial'
-                            ).checked =
-                                {% if config.verrou_commercial %}
-                                    true
-                                {% else %}
-                                    false
-                                {% endif %};
-
-
-                            document.getElementById(
-                                'verrou_admin'
-                            ).checked =
-                                {% if config.verrou_admin %}
-                                    true
-                                {% else %}
-                                    false
-                                {% endif %};
-
-
-                            showMessage(
-                                'Les valeurs ont été réinitialisées.',
-                                'success'
                             );
 
+                        const taux =
+                            document.getElementById(
+                                'taux_tva'
+                            );
+
+                        const seuil =
+                            document.getElementById(
+                                'seuil_stock'
+                            );
+
+                        const verrouCommercial =
+                            document.getElementById(
+                                'verrou_commercial'
+                            );
+
+                        const verrouAdmin =
+                            document.getElementById(
+                                'verrou_admin'
+                            );
+
+
+                        if (boutique) {
+
+                            boutique.value =
+                                "{{ nom_boutique|default:'ASTRA TECH'|escapejs }}";
+
                         }
-                    );
-                }
 
 
+                        if (taux) {
 
-                /* =================================================
-                   CSRF COOKIE
-                ================================================== */
+                            taux.value =
+                                "{{ taux_tva|default:'19.25'|escapejs }}";
 
-                function getCookie(name) {
-
-                    let cookieValue = null;
-
-
-                    if (document.cookie) {
-
-                        const cookies =
-                            document.cookie.split(';');
-
-
-                        for (
-                            let i = 0;
-                            i < cookies.length;
-                            i++
-                        ) {
-
-                            const cookie =
-                                cookies[i].trim();
-
-
-                            if (
-                                cookie.substring(
-                                    0,
-                                    name.length + 1
-                                ) ===
-                                name + '='
-                            ) {
-
-                                cookieValue =
-                                    decodeURIComponent(
-                                        cookie.substring(
-                                            name.length + 1
-                                        )
-                                    );
-
-                                break;
-                            }
                         }
+
+
+                        if (seuil) {
+
+                            seuil.value =
+                                "{{ seuil_stock|default:'5'|escapejs }}";
+
+                        }
+
+
+                        if (verrouCommercial) {
+
+                            verrouCommercial.checked =
+                                {% if verrou_commercial %}
+                                    true
+                                {% else %}
+                                    false
+                                {% endif %};
+
+                        }
+
+
+                        if (verrouAdmin) {
+
+                            verrouAdmin.checked =
+                                {% if verrou_admin %}
+                                    true
+                                {% else %}
+                                    false
+                                {% endif %};
+
+                        }
+
+
+                        showSettingsMessage(
+                            'Les valeurs ont été réinitialisées.',
+                            'success'
+                        );
+
                     }
-
-
-                    return cookieValue;
-                }
+                );
 
             }
         );
 
     </script>
-
 
 </body>
 

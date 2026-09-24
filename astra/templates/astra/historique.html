@@ -15,9 +15,11 @@
 
     <title>ASTRA TECH - Journal d'Activités Global</title>
 
+
     <!-- =========================================================
          DARK MODE AVANT AFFICHAGE
     ========================================================== -->
+
     <script>
         (function () {
             try {
@@ -42,6 +44,7 @@
     <!-- =========================================================
          RESPONSIVE CSS GLOBAL
     ========================================================== -->
+
     <link
         rel="stylesheet"
         href="{% static 'css/responsive.css' %}"
@@ -51,6 +54,7 @@
     <!-- =========================================================
          TAILWIND
     ========================================================== -->
+
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
@@ -63,6 +67,7 @@
     <!-- =========================================================
          FONT AWESOME
     ========================================================== -->
+
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -72,6 +77,7 @@
     <!-- =========================================================
          POLICE + CSS
     ========================================================== -->
+
     <style>
 
         @import url(
@@ -113,23 +119,29 @@
         *,
         *::before,
         *::after {
+
             box-sizing: border-box;
         }
 
 
         html {
+
             width: 100%;
             max-width: 100%;
             min-width: 0;
+
             overflow-x: hidden;
+
             scroll-behavior: smooth;
         }
 
 
         body {
+
             width: 100%;
             max-width: 100%;
             min-width: 0;
+
             min-height: 100vh;
             min-height: 100dvh;
 
@@ -146,6 +158,7 @@
 
 
         body.menu-open {
+
             overflow: hidden !important;
             touch-action: none !important;
         }
@@ -153,11 +166,13 @@
 
         button,
         a {
+
             -webkit-tap-highlight-color: transparent;
         }
 
 
         img {
+
             max-width: 100%;
             height: auto;
         }
@@ -168,6 +183,7 @@
         ========================================================== */
 
         html.dark body {
+
             background-color: #0f172a !important;
             color: #f1f5f9 !important;
         }
@@ -238,7 +254,6 @@
 
         /* =========================================================
            MOBILE HEADER
-           MOBILE FIRST
         ========================================================== */
 
         .mobile-header {
@@ -296,11 +311,9 @@
         .mobile-brand-logo-image {
 
             width: 36px !important;
-
             height: 36px !important;
 
             min-width: 36px !important;
-
             max-width: 36px !important;
 
             flex: 0 0 36px !important;
@@ -346,11 +359,9 @@
         .mobile-menu-toggle {
 
             width: 44px !important;
-
             height: 44px !important;
 
             min-width: 44px !important;
-
             max-width: 44px !important;
 
             flex: 0 0 44px !important;
@@ -358,11 +369,9 @@
             display: flex !important;
 
             align-items: center !important;
-
             justify-content: center !important;
 
             margin: 0 !important;
-
             padding: 0 !important;
 
             border:
@@ -420,7 +429,6 @@
             z-index: 10010 !important;
 
             width: 100% !important;
-
             height: 100% !important;
 
             background:
@@ -454,7 +462,7 @@
 
         /* =========================================================
            SIDEBAR
-           MOBILE FIRST
+           MOBILE
         ========================================================== */
 
         .sidebar {
@@ -462,9 +470,7 @@
             position: fixed !important;
 
             top: 0 !important;
-
             left: 0 !important;
-
             bottom: 0 !important;
 
             z-index: 10020 !important;
@@ -474,21 +480,22 @@
             max-width: 320px !important;
 
             height: 100vh !important;
-
             height: 100dvh !important;
 
             min-height: 100dvh !important;
-
             max-height: 100dvh !important;
 
             display: flex !important;
 
+            /*
+             * IMPORTANT :
+             * Le sidebar lui-même est toujours vertical.
+             */
             flex-direction: column !important;
 
             align-items: stretch !important;
 
             margin: 0 !important;
-
             padding: 0 !important;
 
             background:
@@ -542,11 +549,9 @@
             position: relative !important;
 
             width: 100% !important;
-
             min-width: 0 !important;
 
             height: 84px !important;
-
             min-height: 84px !important;
 
             flex: 0 0 84px !important;
@@ -580,15 +585,12 @@
         .sidebar-logo-image {
 
             width: 42px !important;
-
             height: 42px !important;
 
             min-width: 42px !important;
-
             max-width: 42px !important;
 
             min-height: 42px !important;
-
             max-height: 42px !important;
 
             display: block !important;
@@ -596,7 +598,6 @@
             object-fit: contain !important;
 
             margin: 0 !important;
-
             padding: 0 !important;
 
             border: 0 !important;
@@ -612,7 +613,6 @@
             width: 100% !important;
 
             margin: 0 !important;
-
             padding: 0 !important;
 
             color: #ffffff !important;
@@ -645,34 +645,21 @@
 
         .sidebar-close {
 
-            position: relative !important;
-
-            top: auto !important;
-
-            right: auto !important;
-
             width: 38px !important;
-
             height: 38px !important;
 
             min-width: 38px !important;
-
             max-width: 38px !important;
 
             min-height: 38px !important;
-
             max-height: 38px !important;
-
-            flex: 0 0 38px !important;
 
             display: flex !important;
 
             align-items: center !important;
-
             justify-content: center !important;
 
             margin: 0 !important;
-
             padding: 0 !important;
 
             border:
@@ -716,14 +703,17 @@
 
 
         /* =========================================================
-           MENU MOBILE
+           MENU SIDEBAR
+           IMPORTANT :
+           LE MENU EST VERTICAL
         ========================================================== */
 
-        .nav-menu {
+        .sidebar .nav-menu {
 
             width: 100% !important;
 
-            min-width: 0 !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
 
             height: auto !important;
 
@@ -732,13 +722,16 @@
             margin: 0 !important;
 
             padding:
-                16px
-                10px !important;
+                16px 10px !important;
 
             list-style: none !important;
 
             display: flex !important;
 
+            /*
+             * OBLIGATOIRE :
+             * les éléments du menu sont empilés verticalement.
+             */
             flex-direction: column !important;
 
             flex-wrap: nowrap !important;
@@ -747,7 +740,7 @@
 
             justify-content: flex-start !important;
 
-            gap: 5px !important;
+            gap: 6px !important;
 
             flex: 1 1 auto !important;
 
@@ -767,19 +760,19 @@
         }
 
 
-        .nav-menu::-webkit-scrollbar {
+        .sidebar .nav-menu::-webkit-scrollbar {
 
             width: 5px;
         }
 
 
-        .nav-menu::-webkit-scrollbar-track {
+        .sidebar .nav-menu::-webkit-scrollbar-track {
 
             background: transparent;
         }
 
 
-        .nav-menu::-webkit-scrollbar-thumb {
+        .sidebar .nav-menu::-webkit-scrollbar-thumb {
 
             background:
                 rgba(255, 255, 255, 0.25);
@@ -788,42 +781,66 @@
         }
 
 
-        .nav-menu li {
+        /* =========================================================
+           CHAQUE LI EST UNE LIGNE À PART ENTIÈRE
+        ========================================================== */
+
+        .sidebar .nav-menu > li {
+
+            display: block !important;
 
             width: 100% !important;
 
-            min-width: 0 !important;
+            min-width: 100% !important;
+
+            max-width: 100% !important;
+
+            height: auto !important;
+
+            min-height: 0 !important;
 
             flex: 0 0 auto !important;
-
-            display: block !important;
 
             margin: 0 !important;
 
             padding: 0 !important;
+
+            float: none !important;
+
+            clear: both !important;
         }
 
 
         /* =========================================================
-           LIENS DU MENU
+           LIEN DU MENU
+           ICÔNE + TEXTE SUR UNE SEULE LIGNE
         ========================================================== */
 
-        .nav-menu li a,
-        .nav-menu a.back-link {
+        .sidebar .nav-menu > li > a {
 
             width: 100% !important;
 
-            min-width: 0 !important;
+            min-width: 100% !important;
+
+            max-width: 100% !important;
 
             min-height: 48px !important;
 
             display: flex !important;
 
+            /*
+             * Ici seulement :
+             * icône + texte sont horizontaux.
+             */
             flex-direction: row !important;
+
+            flex-wrap: nowrap !important;
 
             align-items: center !important;
 
             justify-content: flex-start !important;
+
+            gap: 0 !important;
 
             margin: 0 !important;
 
@@ -847,16 +864,37 @@
 
             line-height: 1.35 !important;
 
-            white-space: normal !important;
+            white-space: nowrap !important;
+
+            writing-mode: horizontal-tb !important;
+
+            text-orientation: mixed !important;
+
+            direction: ltr !important;
+
+            overflow: hidden !important;
 
             box-shadow: none !important;
 
             box-sizing: border-box !important;
+
+            float: none !important;
         }
 
 
-        .nav-menu li a i,
-        .nav-menu a.back-link i {
+        /* =========================================================
+           ICÔNE
+        ========================================================== */
+
+        .sidebar .nav-menu > li > a > .sidebar-item-icon {
+
+            display: inline-flex !important;
+
+            align-items: center !important;
+
+            justify-content: center !important;
+
+            flex: 0 0 24px !important;
 
             width: 24px !important;
 
@@ -864,42 +902,108 @@
 
             max-width: 24px !important;
 
-            flex: 0 0 24px !important;
+            height: 24px !important;
 
             margin:
                 0 12px 0 0 !important;
 
             padding: 0 !important;
 
-            text-align: center !important;
+            writing-mode: horizontal-tb !important;
 
-            font-size: 16px !important;
+            text-orientation: mixed !important;
+
+            direction: ltr !important;
+
+            white-space: nowrap !important;
+
+            overflow: hidden !important;
         }
 
 
-        .nav-menu li a span,
-        .nav-menu a.back-link span {
-
-            min-width: 0 !important;
-
-            flex: 1 1 auto !important;
+        .sidebar .nav-menu > li > a > .sidebar-item-icon i {
 
             display: block !important;
 
-            overflow-wrap: anywhere !important;
+            width: auto !important;
 
-            word-break: normal !important;
+            min-width: 0 !important;
 
-            white-space: normal !important;
+            max-width: none !important;
 
-            overflow: visible !important;
+            height: auto !important;
 
-            text-overflow: clip !important;
+            margin: 0 !important;
+
+            padding: 0 !important;
+
+            flex: 0 0 auto !important;
+
+            font-size: 16px !important;
+
+            writing-mode: horizontal-tb !important;
+
+            text-orientation: mixed !important;
+
+            direction: ltr !important;
+
+            white-space: nowrap !important;
         }
 
 
-        .nav-menu li a:hover,
-        .nav-menu a.back-link:hover {
+        /* =========================================================
+           TEXTE
+        ========================================================== */
+
+        .sidebar .nav-menu > li > a > .sidebar-item-text {
+
+            display: block !important;
+
+            flex: 1 1 auto !important;
+
+            width: auto !important;
+
+            min-width: 0 !important;
+
+            max-width: none !important;
+
+            margin: 0 !important;
+
+            padding: 0 !important;
+
+            font-size: 14px !important;
+
+            line-height: 1.2 !important;
+
+            font-weight: 500 !important;
+
+            text-align: left !important;
+
+            white-space: nowrap !important;
+
+            overflow: hidden !important;
+
+            text-overflow: ellipsis !important;
+
+            overflow-wrap: normal !important;
+
+            word-break: normal !important;
+
+            word-wrap: normal !important;
+
+            writing-mode: horizontal-tb !important;
+
+            text-orientation: mixed !important;
+
+            direction: ltr !important;
+        }
+
+
+        /* =========================================================
+           HOVER
+        ========================================================== */
+
+        .sidebar .nav-menu > li > a:hover {
 
             color: #ffffff !important;
 
@@ -908,8 +1012,7 @@
         }
 
 
-        .nav-menu li a:active,
-        .nav-menu a.back-link:active {
+        .sidebar .nav-menu > li > a:active {
 
             background:
                 rgba(255, 255, 255, 0.16) !important;
@@ -920,7 +1023,17 @@
            LIEN ACTIF
         ========================================================== */
 
-        .nav-menu li a.active {
+        .sidebar .nav-menu > li > a.active {
+
+            display: flex !important;
+
+            flex-direction: row !important;
+
+            flex-wrap: nowrap !important;
+
+            align-items: center !important;
+
+            justify-content: flex-start !important;
 
             color: #ffffff !important;
 
@@ -936,11 +1049,18 @@
         }
 
 
+        .sidebar .nav-menu > li > a.active
+        .sidebar-item-text {
+
+            font-weight: 700 !important;
+        }
+
+
         /* =========================================================
            RETOUR
         ========================================================== */
 
-        .nav-menu a.back-link {
+        .sidebar .nav-menu > li > a.back-link {
 
             margin-top: 8px !important;
 
@@ -960,7 +1080,9 @@
 
             width: 100% !important;
 
-            min-width: 0 !important;
+            min-width: 100% !important;
+
+            max-width: 100% !important;
 
             flex: 0 0 auto !important;
 
@@ -979,24 +1101,37 @@
         }
 
 
-        .btn-logout {
+        /* =========================================================
+           DÉCONNEXION
+           ICÔNE + TEXTE HORIZONTAUX
+        ========================================================== */
+
+        .sidebar-footer .btn-logout {
 
             width: 100% !important;
+
+            min-width: 100% !important;
+
+            max-width: 100% !important;
 
             min-height: 46px !important;
 
             display: flex !important;
 
+            flex-direction: row !important;
+
+            flex-wrap: nowrap !important;
+
             align-items: center !important;
 
-            justify-content: center !important;
+            justify-content: flex-start !important;
 
-            gap: 10px !important;
+            gap: 0 !important;
 
             margin: 0 !important;
 
             padding:
-                11px 12px !important;
+                11px 13px !important;
 
             color: #ff8b8b !important;
 
@@ -1015,18 +1150,71 @@
             font-weight: 600 !important;
 
             line-height: 1.2 !important;
+
+            white-space: nowrap !important;
+
+            writing-mode: horizontal-tb !important;
+
+            direction: ltr !important;
+
+            overflow: hidden !important;
         }
 
 
-        .btn-logout i {
+        .sidebar-footer .btn-logout
+        .sidebar-item-icon {
 
-            margin: 0 !important;
+            display: inline-flex !important;
 
-            flex: 0 0 auto !important;
+            align-items: center !important;
+
+            justify-content: center !important;
+
+            flex: 0 0 24px !important;
+
+            width: 24px !important;
+
+            min-width: 24px !important;
+
+            max-width: 24px !important;
+
+            height: 24px !important;
+
+            margin:
+                0 12px 0 0 !important;
+
+            padding: 0 !important;
+
+            writing-mode: horizontal-tb !important;
         }
 
 
-        .btn-logout:hover {
+        .sidebar-footer .btn-logout
+        .sidebar-item-text {
+
+            display: block !important;
+
+            flex: 1 1 auto !important;
+
+            width: auto !important;
+
+            min-width: 0 !important;
+
+            max-width: none !important;
+
+            white-space: nowrap !important;
+
+            overflow: hidden !important;
+
+            text-overflow: ellipsis !important;
+
+            text-align: left !important;
+
+            writing-mode: horizontal-tb !important;
+        }
+
+
+        .sidebar-footer .btn-logout:hover {
 
             background: #ff4d4d !important;
 
@@ -1041,7 +1229,6 @@
 
         /* =========================================================
            CONTENU PRINCIPAL
-           MOBILE FIRST
         ========================================================== */
 
         .main-content {
@@ -1205,8 +1392,7 @@
 
             min-height: 64px !important;
 
-            padding:
-                12px !important;
+            padding: 12px !important;
 
             display: flex !important;
 
@@ -1516,19 +1702,16 @@
                 min-height: 60px !important;
 
                 padding:
-                    8px
-                    10px !important;
+                    8px 10px !important;
             }
 
 
             .mobile-brand-logo-image {
 
                 width: 32px !important;
-
                 height: 32px !important;
 
                 min-width: 32px !important;
-
                 max-width: 32px !important;
 
                 flex-basis: 32px !important;
@@ -1546,11 +1729,9 @@
             .mobile-menu-toggle {
 
                 width: 42px !important;
-
                 height: 42px !important;
 
                 min-width: 42px !important;
-
                 max-width: 42px !important;
 
                 flex-basis: 42px !important;
@@ -1589,15 +1770,12 @@
             .sidebar-logo-image {
 
                 width: 36px !important;
-
                 height: 36px !important;
 
                 min-width: 36px !important;
-
                 max-width: 36px !important;
 
                 min-height: 36px !important;
-
                 max-height: 36px !important;
             }
 
@@ -1611,40 +1789,54 @@
             .sidebar-close {
 
                 width: 36px !important;
-
                 height: 36px !important;
 
                 min-width: 36px !important;
-
                 max-width: 36px !important;
 
                 min-height: 36px !important;
-
                 max-height: 36px !important;
             }
 
 
-            .nav-menu {
+            .sidebar .nav-menu {
 
                 padding:
                     13px 8px !important;
+
+                gap: 5px !important;
             }
 
 
-            .nav-menu li a,
-            .nav-menu a.back-link {
+            .sidebar .nav-menu > li {
+
+                width: 100% !important;
+
+                min-width: 100% !important;
+
+                max-width: 100% !important;
+            }
+
+
+            .sidebar .nav-menu > li > a {
+
+                width: 100% !important;
+
+                min-width: 100% !important;
+
+                max-width: 100% !important;
 
                 min-height: 45px !important;
 
                 padding:
                     10px 11px !important;
-
-                font-size: 13px !important;
             }
 
 
-            .nav-menu li a i,
-            .nav-menu a.back-link i {
+            .sidebar .nav-menu > li > a
+            .sidebar-item-icon {
+
+                flex: 0 0 22px !important;
 
                 width: 22px !important;
 
@@ -1652,11 +1844,37 @@
 
                 max-width: 22px !important;
 
+                margin-right: 9px !important;
+            }
+
+
+            .sidebar .nav-menu > li > a
+            .sidebar-item-text {
+
+                font-size: 13px !important;
+            }
+
+
+            .btn-logout {
+
+                min-height: 45px !important;
+
+                padding:
+                    10px 11px !important;
+            }
+
+
+            .btn-logout .sidebar-item-icon {
+
                 flex-basis: 22px !important;
 
-                margin-right: 9px !important;
+                width: 22px !important;
 
-                font-size: 15px !important;
+                min-width: 22px !important;
+
+                max-width: 22px !important;
+
+                margin-right: 9px !important;
             }
 
 
@@ -1927,7 +2145,6 @@
 
         /* =========================================================
            DESKTOP
-           À PARTIR DE 992PX
         ========================================================== */
 
         @media (min-width: 992px) {
@@ -1949,9 +2166,7 @@
                 position: fixed !important;
 
                 top: 0 !important;
-
                 left: 0 !important;
-
                 bottom: 0 !important;
 
                 width:
@@ -2003,6 +2218,9 @@
                 display:
                     flex !important;
 
+                align-items:
+                    center !important;
+
                 padding:
                     24px !important;
             }
@@ -2050,7 +2268,10 @@
             }
 
 
-            .nav-menu {
+            /*
+             * Desktop également vertical.
+             */
+            .sidebar .nav-menu {
 
                 padding:
                     24px 16px !important;
@@ -2067,6 +2288,9 @@
                 flex-direction:
                     column !important;
 
+                flex-wrap:
+                    nowrap !important;
+
                 gap:
                     6px !important;
 
@@ -2078,15 +2302,32 @@
             }
 
 
-            .nav-menu li {
+            .sidebar .nav-menu > li {
+
+                width:
+                    100% !important;
+
+                min-width:
+                    100% !important;
+
+                max-width:
+                    100% !important;
 
                 flex:
                     0 0 auto !important;
             }
 
 
-            .nav-menu li a,
-            .nav-menu a.back-link {
+            .sidebar .nav-menu > li > a {
+
+                width:
+                    100% !important;
+
+                min-width:
+                    100% !important;
+
+                max-width:
+                    100% !important;
 
                 min-height:
                     auto !important;
@@ -2098,26 +2339,14 @@
                     14px !important;
 
                 white-space:
-                    normal !important;
+                    nowrap !important;
+
+                flex-direction:
+                    row !important;
             }
 
 
-            .nav-menu li a span,
-            .nav-menu a.back-link span {
-
-                white-space:
-                    normal !important;
-
-                overflow:
-                    visible !important;
-
-                text-overflow:
-                    clip !important;
-            }
-
-
-            .nav-menu li a i,
-            .nav-menu a.back-link i {
+            .sidebar .nav-menu .sidebar-item-icon {
 
                 width:
                     22px !important;
@@ -2139,14 +2368,27 @@
             }
 
 
-            .nav-menu li a.active {
+            .sidebar .nav-menu .sidebar-item-text {
+
+                white-space:
+                    nowrap !important;
+
+                overflow:
+                    hidden !important;
+
+                text-overflow:
+                    ellipsis !important;
+            }
+
+
+            .sidebar .nav-menu > li > a.active {
 
                 border-left-width:
                     4px !important;
             }
 
 
-            .nav-menu a.back-link {
+            .sidebar .nav-menu > li > a.back-link {
 
                 margin-top:
                     auto !important;
@@ -2362,7 +2604,9 @@
             >
 
             <div class="mobile-brand-title">
+
                 ASTRA <span>TECH</span>
+
             </div>
 
         </div>
@@ -2384,7 +2628,6 @@
     </header>
 
 
-
     <!-- =========================================================
          OVERLAY
     ========================================================== -->
@@ -2394,7 +2637,6 @@
         class="sidebar-overlay"
         aria-hidden="true"
     ></div>
-
 
 
     <!-- =========================================================
@@ -2422,7 +2664,9 @@
 
 
             <div class="sidebar-title">
+
                 ASTRA <span>TECH</span>
+
             </div>
 
 
@@ -2440,9 +2684,8 @@
         </div>
 
 
-
         <!-- =====================================================
-             MENU
+             MENU VERTICAL
         ====================================================== -->
 
         <ul class="nav-menu">
@@ -2454,16 +2697,21 @@
                     href="{% url 'astra:token_accueil' %}"
                 >
 
-                    <i class="fas fa-key"></i>
+                    <span class="sidebar-item-icon">
 
-                    <span>
+                        <i class="fas fa-key"></i>
+
+                    </span>
+
+                    <span class="sidebar-item-text">
+
                         Gestion des Tokens
+
                     </span>
 
                 </a>
 
             </li>
-
 
 
             <li>
@@ -2472,16 +2720,21 @@
                     href="{% url 'astra:page_utilisateurs' %}"
                 >
 
-                    <i class="fas fa-users"></i>
+                    <span class="sidebar-item-icon">
 
-                    <span>
+                        <i class="fas fa-users"></i>
+
+                    </span>
+
+                    <span class="sidebar-item-text">
+
                         Utilisateurs
+
                     </span>
 
                 </a>
 
             </li>
-
 
 
             <li>
@@ -2490,16 +2743,21 @@
                     href="{% url 'astra:permissions_page' %}"
                 >
 
-                    <i class="fas fa-shield-alt"></i>
+                    <span class="sidebar-item-icon">
 
-                    <span>
+                        <i class="fas fa-shield-alt"></i>
+
+                    </span>
+
+                    <span class="sidebar-item-text">
+
                         Permissions
+
                     </span>
 
                 </a>
 
             </li>
-
 
 
             <li>
@@ -2510,16 +2768,21 @@
                     aria-current="page"
                 >
 
-                    <i class="fas fa-history"></i>
+                    <span class="sidebar-item-icon">
 
-                    <span>
+                        <i class="fas fa-history"></i>
+
+                    </span>
+
+                    <span class="sidebar-item-text">
+
                         Historique
+
                     </span>
 
                 </a>
 
             </li>
-
 
 
             <li>
@@ -2528,16 +2791,21 @@
                     href="{% url 'astra:parametres_page' %}"
                 >
 
-                    <i class="fas fa-cog"></i>
+                    <span class="sidebar-item-icon">
 
-                    <span>
+                        <i class="fas fa-cog"></i>
+
+                    </span>
+
+                    <span class="sidebar-item-text">
+
                         Paramètres
+
                     </span>
 
                 </a>
 
             </li>
-
 
 
             <li>
@@ -2548,18 +2816,24 @@
                     class="back-link"
                 >
 
-                    <i class="fas fa-arrow-left"></i>
+                    <span class="sidebar-item-icon">
 
-                    <span>
+                        <i class="fas fa-arrow-left"></i>
+
+                    </span>
+
+                    <span class="sidebar-item-text">
+
                         Retour
+
                     </span>
 
                 </a>
 
             </li>
 
-        </ul>
 
+        </ul>
 
 
         <!-- =====================================================
@@ -2574,10 +2848,16 @@
                 id="loginBtn"
             >
 
-                <i class="fas fa-sign-out-alt"></i>
+                <span class="sidebar-item-icon">
 
-                <span>
+                    <i class="fas fa-sign-out-alt"></i>
+
+                </span>
+
+                <span class="sidebar-item-text">
+
                     Déconnexion
+
                 </span>
 
             </a>
@@ -2585,7 +2865,6 @@
         </div>
 
     </aside>
-
 
 
     <!-- =========================================================
@@ -2667,7 +2946,6 @@
         </section>
 
 
-
         <!-- =====================================================
              GRILLE DES MODULES
         ====================================================== -->
@@ -2688,7 +2966,9 @@
                         <i class="fas fa-truck-loading text-blue-600"></i>
 
                         <span>
+
                             Approvisionnement
+
                         </span>
 
                     </h2>
@@ -2743,7 +3023,9 @@
                                         ></i>
 
                                         <span>
+
                                             {{ log.date }}
+
                                         </span>
 
                                     </span>
@@ -2791,7 +3073,6 @@
             </section>
 
 
-
             <!-- =================================================
                  VENTES
             ================================================== -->
@@ -2811,7 +3092,9 @@
                         ></i>
 
                         <span>
+
                             Ventes
+
                         </span>
 
                     </h2>
@@ -2866,7 +3149,9 @@
                                         ></i>
 
                                         <span>
+
                                             {{ log.date }}
+
                                         </span>
 
                                     </span>
@@ -2912,7 +3197,6 @@
                 </div>
 
             </section>
-
 
 
             <!-- =================================================
@@ -2992,7 +3276,9 @@
                                         ></i>
 
                                         <span>
+
                                             {{ log.date }}
+
                                         </span>
 
                                     </span>
@@ -3045,7 +3331,6 @@
     </main>
 
 
-
     <!-- =========================================================
          JAVASCRIPT — SIDEBAR MOBILE
     ========================================================== -->
@@ -3075,7 +3360,9 @@
 
 
             if (!sidebar || !sidebarOverlay) {
+
                 return;
+
             }
 
 
@@ -3158,7 +3445,9 @@
                     function () {
 
                         if (!isMobile()) {
+
                             return;
+
                         }
 
 

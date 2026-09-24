@@ -2241,7 +2241,521 @@
             }
         }
 
-    </style>
+
+        /* =========================================================
+           MOBILE-FIRST ADAPTIVE OVERRIDES
+           ---------------------------------------------------------
+           Principe :
+           - Base = mobile
+           - Table = cartes empilées sur petits écrans
+           - Table classique à partir de 768px
+           - Sidebar / mise en page desktop à partir de 992px
+           - Dimensions fluides pour éviter les débordements
+        ========================================================== */
+
+        html {
+            width: 100%;
+            min-width: 0;
+            overflow-x: hidden;
+        }
+
+        body {
+            width: 100%;
+            min-width: 0;
+            overflow-x: hidden;
+        }
+
+        .mobile-header {
+            padding-left: max(12px, env(safe-area-inset-left));
+            padding-right: max(12px, env(safe-area-inset-right));
+        }
+
+        .main-content {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            padding-top: calc(
+                var(--mobile-header-height) +
+                max(14px, env(safe-area-inset-top)) +
+                14px
+            ) !important;
+            padding-left: max(10px, env(safe-area-inset-left)) !important;
+            padding-right: max(10px, env(safe-area-inset-right)) !important;
+            padding-bottom: max(24px, env(safe-area-inset-bottom)) !important;
+        }
+
+        .page-header,
+        .page-header-left,
+        .card-custom,
+        .card-header-custom,
+        .card-footer-custom,
+        .table-container {
+            max-width: 100%;
+            min-width: 0;
+        }
+
+        .page-title {
+            font-size: clamp(20px, 7vw, 30px);
+        }
+
+        .page-subtitle {
+            font-size: clamp(12px, 3.5vw, 14px);
+        }
+
+        .security-badge {
+            max-width: 100%;
+            overflow-wrap: anywhere;
+        }
+
+        .card-custom {
+            border-radius: clamp(12px, 2.5vw, 16px);
+        }
+
+        .card-header-custom {
+            padding: clamp(14px, 4vw, 22px);
+        }
+
+        .card-header-title {
+            max-width: 100%;
+            overflow-wrap: anywhere;
+        }
+
+        .card-header-description {
+            max-width: 100%;
+            overflow-wrap: anywhere;
+        }
+
+        /* ---------- TABLE MOBILE = CARTES ---------- */
+
+        @media (max-width: 767px) {
+
+            .table-container {
+                overflow: visible !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+
+            .permissions-table {
+                display: block;
+                width: 100% !important;
+                min-width: 0 !important;
+                max-width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+            }
+
+            .permissions-table thead {
+                display: none;
+            }
+
+            .permissions-table tbody {
+                display: block;
+                width: 100%;
+            }
+
+            .permissions-table tbody tr {
+                display: block;
+                width: 100%;
+                margin: 0 0 12px;
+                overflow: hidden;
+                background: #fff;
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                box-shadow: 0 2px 10px rgba(0,0,0,.05);
+            }
+
+            .permissions-table tbody tr:last-child {
+                margin-bottom: 0;
+            }
+
+            .permissions-table tbody tr:hover td,
+            .permissions-table tbody tr:hover td:first-child {
+                background: inherit;
+            }
+
+            .permissions-table td,
+            .permissions-table td:first-child {
+                position: static !important;
+                left: auto !important;
+                z-index: auto !important;
+                width: 100% !important;
+                min-width: 0 !important;
+                max-width: 100%;
+                display: flex !important;
+                align-items: center;
+                box-sizing: border-box;
+                text-align: left !important;
+                white-space: normal !important;
+            }
+
+            .permissions-table td:first-child {
+                padding: 13px 14px;
+                background: #f8fafc;
+                box-shadow: none !important;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .permissions-table td:not(:first-child) {
+                justify-content: space-between;
+                gap: 12px;
+                padding: 11px 14px;
+                min-height: 48px;
+                border-bottom: 1px solid #edf2f7;
+                background: #fff;
+            }
+
+            .permissions-table td:last-child {
+                border-bottom: 0;
+            }
+
+            .permissions-table td:not(:first-child)::before {
+                flex: 1 1 auto;
+                min-width: 0;
+                padding-right: 8px;
+                color: #475569;
+                font-size: 12px;
+                font-weight: 700;
+                line-height: 1.35;
+            }
+
+            .permissions-table td:nth-child(2)::before {
+                content: "Administrateur";
+            }
+
+            .permissions-table td:nth-child(3)::before {
+                content: "Vente";
+            }
+
+            .permissions-table td:nth-child(4)::before {
+                content: "Client";
+            }
+
+            .permissions-table td:nth-child(5)::before {
+                content: "Fournisseur";
+            }
+
+            .permissions-table td:nth-child(6)::before {
+                content: "Approvisionnement";
+            }
+
+            .permission-name {
+                width: 100%;
+                min-width: 0;
+                gap: 10px;
+            }
+
+            .permission-icon {
+                width: 34px;
+                height: 34px;
+                min-width: 34px;
+                flex: 0 0 34px;
+            }
+
+            .permission-text {
+                min-width: 0;
+                flex: 1 1 auto;
+            }
+
+            .permission-title,
+            .permission-description {
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            .permission-title {
+                font-size: 12px;
+            }
+
+            .permission-description {
+                font-size: 10px;
+            }
+
+            .permission-checkbox {
+                flex: 0 0 22px;
+                width: 22px !important;
+                height: 22px !important;
+                min-width: 22px;
+            }
+
+            .card-footer-custom {
+                padding: 14px;
+            }
+
+            .permission-info {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .permission-info span {
+                min-width: 0;
+                overflow-wrap: anywhere;
+            }
+
+            .save-btn {
+                width: 100%;
+                min-height: 48px;
+            }
+
+            html.dark .permissions-table tbody tr {
+                background: #111827;
+                border-color: #1e293b;
+            }
+
+            html.dark .permissions-table td:first-child {
+                background: #1e293b;
+                border-color: #334155;
+            }
+
+            html.dark .permissions-table td:not(:first-child) {
+                background: #111827;
+                border-color: #1e293b;
+            }
+
+            html.dark .permissions-table td:not(:first-child)::before {
+                color: #cbd5e1;
+            }
+        }
+
+        /* ---------- PETITS ÉCRANS ---------- */
+
+        @media (max-width: 380px) {
+
+            .main-content {
+                padding-left: 8px !important;
+                padding-right: 8px !important;
+            }
+
+            .mobile-brand {
+                gap: 7px !important;
+            }
+
+            .mobile-brand-logo {
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+                flex-basis: 36px;
+            }
+
+            .mobile-brand-logo img {
+                width: 30px;
+                height: 30px;
+            }
+
+            .mobile-brand-title {
+                font-size: 15px;
+            }
+
+            .mobile-menu-btn {
+                width: 42px !important;
+                height: 42px !important;
+                min-width: 42px !important;
+                min-height: 42px !important;
+            }
+
+            .permissions-table td:first-child {
+                padding: 12px;
+            }
+
+            .permissions-table td:not(:first-child) {
+                padding: 10px 12px;
+            }
+
+            .permissions-table td:not(:first-child)::before {
+                font-size: 11px;
+            }
+        }
+
+        /* ---------- TABLETTE ---------- */
+
+        @media (min-width: 768px) {
+
+            .main-content {
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+
+            .page-header {
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: space-between;
+            }
+
+            .security-badge {
+                flex: 0 0 auto;
+            }
+
+            .card-footer-custom {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .permission-info {
+                max-width: 68%;
+            }
+
+            .save-btn {
+                width: auto;
+                min-width: 190px;
+            }
+
+            /* Retour au tableau classique */
+            .permissions-table {
+                display: table;
+                width: max-content;
+                min-width: 850px;
+            }
+
+            .permissions-table thead {
+                display: table-header-group;
+            }
+
+            .permissions-table tbody {
+                display: table-row-group;
+            }
+
+            .permissions-table tbody tr {
+                display: table-row;
+                width: auto;
+                margin: 0;
+                overflow: visible;
+                background: transparent;
+                border: 0;
+                box-shadow: none;
+            }
+
+            .permissions-table td,
+            .permissions-table td:first-child {
+                display: table-cell !important;
+                width: auto !important;
+                min-width: initial !important;
+                max-width: none;
+                position: static;
+            }
+
+            .permissions-table td:not(:first-child) {
+                justify-content: initial;
+                min-height: initial;
+                padding: 13px 11px;
+            }
+
+            .permissions-table td:not(:first-child)::before {
+                display: none;
+                content: none;
+            }
+
+            .permissions-table td:first-child {
+                background: #fff;
+                box-shadow: 4px 0 7px rgba(0,0,0,.04);
+            }
+
+            .permissions-table tbody tr:hover td,
+            .permissions-table tbody tr:hover td:first-child {
+                background: #f8fafc;
+            }
+
+            html.dark .permissions-table td:first-child {
+                background: #111827;
+            }
+
+            html.dark .permissions-table tbody tr:hover td,
+            html.dark .permissions-table tbody tr:hover td:first-child {
+                background: #172033;
+            }
+        }
+
+        /* ---------- GRAND ÉCRAN ---------- */
+
+        @media (min-width: 1200px) {
+
+            .main-content {
+                padding-left: clamp(28px, 3vw, 48px) !important;
+                padding-right: clamp(28px, 3vw, 48px) !important;
+            }
+
+            .page-header {
+                margin-bottom: 24px;
+            }
+
+            .card-header-custom {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .card-footer-custom {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+        }
+
+        @media (min-width: 1600px) {
+
+            .main-content {
+                padding-left: clamp(42px, 4vw, 72px) !important;
+                padding-right: clamp(42px, 4vw, 72px) !important;
+            }
+
+            .page-title {
+                font-size: clamp(28px, 2vw, 34px);
+            }
+        }
+
+    
+
+        /* =========================================================
+           MOBILE SIDEBAR — MENU HORIZONTAL
+           Icône + texte sur UNE SEULE LIGNE
+        ========================================================== */
+        @media (max-width: 991.98px) {
+            .sidebar .nav-menu {
+                display: flex !important;
+                flex-direction: column !important;
+                flex-wrap: nowrap !important;
+                align-items: stretch !important;
+                overflow-x: hidden !important;
+            }
+
+            .sidebar .nav-link {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
+                width: 100% !important;
+                min-width: 0 !important;
+                white-space: nowrap !important;
+                text-align: left !important;
+            }
+
+            .sidebar .nav-link i {
+                flex: 0 0 21px !important;
+                width: 21px !important;
+                min-width: 21px !important;
+                margin: 0 !important;
+            }
+
+            .sidebar .nav-link span {
+                display: block !important;
+                flex: 1 1 auto !important;
+                min-width: 0 !important;
+                width: auto !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                line-height: 1.2 !important;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .sidebar .nav-link {
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+                gap: 9px !important;
+                font-size: 12.5px !important;
+            }
+        }
+</style>
 </head>
 
 
@@ -2250,39 +2764,36 @@
 <!-- =============================================================
      HEADER MOBILE
 ============================================================== -->
+    <header class="mobile-header">
 
-<header class="mobile-header">
+        <div class="mobile-brand" aria-label="ASTRA TECH">
+            <div class="mobile-brand-logo">
+                <img
+                    src="{% static 'image/logoo.png' %}"
+                    alt="ASTRA TECH"
+                >
+            </div>
 
-    <div class="mobile-brand">
-
-        <div class="mobile-brand-logo">
-
-            <img
-                src="{% static 'image/logoo.png' %}"
-                alt="ASTRA TECH"
-            >
-
+            <div class="mobile-brand-title">
+                ASTRA <span>TECH</span>
+            </div>
         </div>
 
-        <div class="mobile-brand-title">
-            ASTRA <span>TECH</span>
-        </div>
+        <button
+            type="button"
+            class="mobile-menu-btn"
+            id="mobileMenuBtn"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+            aria-controls="sidebar"
+        >
+            <i
+                class="fa-solid fa-bars"
+                aria-hidden="true"
+            ></i>
+        </button>
 
-    </div>
-
-
-    <button
-        type="button"
-        class="mobile-menu-btn"
-        id="mobileMenuBtn"
-        aria-label="Ouvrir le menu"
-        aria-controls="sidebar"
-        aria-expanded="false"
-    >
-        <i class="fas fa-bars"></i>
-    </button>
-
-</header>
+    </header>
 
 
 <!-- =============================================================

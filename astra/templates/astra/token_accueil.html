@@ -1,4 +1,3 @@
-
 {% load static %}
 
 <!DOCTYPE html>
@@ -26,9 +25,15 @@
     ========================================================== -->
 
     <script>
-        if (localStorage.getItem('astra_dark_mode') === 'true') {
-            document.documentElement.classList.add('dark');
-        }
+        (function () {
+            try {
+                if (localStorage.getItem('astra_dark_mode') === 'true') {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (error) {
+                console.warn('Mode sombre indisponible :', error);
+            }
+        })();
     </script>
 
 
@@ -89,7 +94,7 @@
 
         /* =========================================================
            VARIABLES
-        ========================================================= */
+        ========================================================== */
 
         :root {
 
@@ -295,7 +300,7 @@
 
 
         /* =========================================================
-           STRUCTURE MOBILE FIRST
+           STRUCTURE
         ========================================================== */
 
         body {
@@ -324,7 +329,9 @@
 
             align-items: center;
 
-            justify-content: flex-end;
+            justify-content: space-between;
+
+            gap: 15px;
 
             background:
                 linear-gradient(
@@ -343,8 +350,76 @@
             top: 0;
 
             z-index: 2000;
+
+            animation:
+                astraMobileHeaderEnter
+                .5s
+                ease-out
+                both;
         }
 
+
+        /* =========================================================
+           BRAND MOBILE
+        ========================================================== */
+
+        .mobile-brand {
+
+            min-width: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .mobile-brand-logo {
+
+            width: 38px;
+            height: 38px;
+
+            flex-shrink: 0;
+
+            object-fit: contain;
+
+            filter:
+                drop-shadow(
+                    0 3px 8px
+                    rgba(0, 0, 0, .20)
+                );
+        }
+
+
+        .mobile-brand-title {
+
+            min-width: 0;
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            color: #ffffff;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+
+        .mobile-brand-title span {
+            color: var(--tech-orange);
+        }
+
+
+        /* =========================================================
+           BOUTON MENU MOBILE
+        ========================================================== */
 
         .mobile-menu-btn {
 
@@ -354,7 +429,8 @@
             flex-shrink: 0;
 
             border:
-                1px solid rgba(255, 255, 255, .20);
+                1px solid
+                rgba(255, 255, 255, .20);
 
             border-radius: 10px;
 
@@ -374,18 +450,34 @@
             font-size: 18px;
 
             transition:
-                background var(--transition),
-                transform var(--transition);
+                background .25s ease,
+                transform .25s ease,
+                box-shadow .25s ease;
         }
 
 
         .mobile-menu-btn:hover {
-            background: rgba(255, 255, 255, .16);
+
+            background:
+                rgba(255, 255, 255, .16);
+
+            box-shadow:
+                0 5px 15px
+                rgba(0, 0, 0, .15);
         }
 
 
         .mobile-menu-btn:active {
-            transform: scale(.95);
+            transform: scale(.93);
+        }
+
+
+        .mobile-menu-btn.menu-open {
+            background:
+                rgba(255, 140, 0, .20);
+
+            border-color:
+                rgba(255, 140, 0, .55);
         }
 
 
@@ -412,8 +504,8 @@
             pointer-events: none;
 
             transition:
-                opacity var(--transition),
-                visibility var(--transition);
+                opacity .30s ease,
+                visibility .30s ease;
 
             z-index: 2998;
         }
@@ -454,7 +546,6 @@
             min-height: 100vh;
 
             margin: 0;
-
             padding: 0;
 
             background:
@@ -477,24 +568,26 @@
             -webkit-overflow-scrolling: touch;
 
             transform:
-                translateX(-105%);
+                translate3d(-110%, 0, 0);
 
             visibility: hidden;
 
             transition:
-                transform .30s ease,
-                visibility .30s ease;
+                transform .35s cubic-bezier(.4, 0, .2, 1),
+                visibility .35s ease;
 
             z-index: 2999;
 
             box-shadow:
-                10px 0 35px rgba(0, 0, 0, .20);
+                10px 0 35px
+                rgba(0, 0, 0, .20);
         }
 
 
         .sidebar.active {
 
-            transform: translateX(0);
+            transform:
+                translate3d(0, 0, 0);
 
             visibility: visible;
         }
@@ -506,31 +599,65 @@
 
         .sidebar-brand {
 
+            position: relative;
+
             width: 100%;
 
             min-height: 70px;
 
             padding:
                 14px
-                50px
+                55px
                 14px
-                16px;
+                18px;
 
             display: flex;
 
             align-items: center;
 
+            gap: 13px;
+
             flex-shrink: 0;
 
             border-bottom:
-                1px solid rgba(255, 255, 255, .10);
+                1px solid
+                rgba(255, 255, 255, .10);
+
+            animation:
+                astraSidebarBrandEnter
+                .55s
+                ease-out
+                .10s
+                both;
         }
 
 
+        /* =========================================================
+           LOGO SIDEBAR
+        ========================================================== */
+
+        .sidebar-logo-image {
+
+            width: 38px;
+            height: 38px;
+
+            flex-shrink: 0;
+
+            object-fit: contain;
+
+            filter:
+                drop-shadow(
+                    0 4px 10px
+                    rgba(0, 0, 0, .18)
+                );
+        }
+
+
+        /* Fallback logo */
         .sidebar-logo {
 
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
 
             flex-shrink: 0;
 
@@ -546,10 +673,9 @@
 
             align-items: center;
 
-            margin-right: 14px;
-
             box-shadow:
-                0 4px 10px rgba(0, 0, 0, .15);
+                0 4px 10px
+                rgba(0, 0, 0, .15);
         }
 
 
@@ -559,7 +685,8 @@
             height: 25px;
 
             border:
-                2px solid var(--tech-orange);
+                2px solid
+                var(--tech-orange);
 
             border-radius: 5px;
 
@@ -625,13 +752,22 @@
             justify-content: center;
 
             transition:
-                background var(--transition);
+                background .25s ease,
+                transform .25s ease;
         }
 
 
         .sidebar-close:hover {
+
             background:
                 rgba(255, 255, 255, .18);
+
+            transform: rotate(90deg);
+        }
+
+
+        .sidebar-close:active {
+            transform: scale(.90);
         }
 
 
@@ -653,27 +789,11 @@
 
             flex-direction: column;
 
+            flex-wrap: nowrap;
+
+            align-items: stretch;
+
             gap: 6px;
-        }
-
-
-        .sidebar-menu-title {
-
-            padding:
-                0
-                12px
-                10px;
-
-            font-size: 11px;
-
-            font-weight: 700;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1px;
-
-            color:
-                rgba(255, 255, 255, .55);
         }
 
 
@@ -685,6 +805,8 @@
 
             width: 100%;
 
+            min-width: 0;
+
             min-height: 48px;
 
             padding:
@@ -692,6 +814,10 @@
                 15px;
 
             display: flex;
+
+            flex-direction: row;
+
+            flex-wrap: nowrap;
 
             align-items: center;
 
@@ -711,13 +837,16 @@
             transition:
                 background .20s ease,
                 color .20s ease,
-                transform .20s ease;
+                transform .20s ease,
+                border-color .20s ease;
         }
 
 
         .sidebar-link i {
 
             width: 21px;
+
+            min-width: 21px;
 
             text-align: center;
 
@@ -730,6 +859,8 @@
         .sidebar-link span {
 
             min-width: 0;
+
+            flex: 1;
 
             overflow: hidden;
 
@@ -746,7 +877,8 @@
 
             color: #ffffff;
 
-            transform: translateX(2px);
+            transform:
+                translateX(3px);
         }
 
 
@@ -758,11 +890,62 @@
             color: #ffffff;
 
             border-left:
-                4px solid var(--tech-orange);
+                4px solid
+                var(--tech-orange);
 
             padding-left: 11px;
 
             font-weight: 700;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, .08);
+        }
+
+
+        /* =========================================================
+           ANIMATION DES ITEMS DU MENU
+        ========================================================== */
+
+        .sidebar-menu > .sidebar-link {
+
+            opacity: 0;
+
+            animation:
+                astraSidebarItemEnter
+                .45s
+                ease-out
+                forwards;
+        }
+
+
+        .sidebar-menu > .sidebar-link:nth-child(1) {
+            animation-delay: .18s;
+        }
+
+
+        .sidebar-menu > .sidebar-link:nth-child(2) {
+            animation-delay: .24s;
+        }
+
+
+        .sidebar-menu > .sidebar-link:nth-child(3) {
+            animation-delay: .30s;
+        }
+
+
+        .sidebar-menu > .sidebar-link:nth-child(4) {
+            animation-delay: .36s;
+        }
+
+
+        .sidebar-menu > .sidebar-link:nth-child(5) {
+            animation-delay: .42s;
+        }
+
+
+        .sidebar-menu > .sidebar-link:nth-child(6) {
+            animation-delay: .48s;
         }
 
 
@@ -783,7 +966,15 @@
                 );
 
             border-top:
-                1px solid rgba(255, 255, 255, .10);
+                1px solid
+                rgba(255, 255, 255, .10);
+
+            animation:
+                astraSidebarFooterEnter
+                .5s
+                ease-out
+                .55s
+                both;
         }
 
 
@@ -826,6 +1017,12 @@
             overflow-x: hidden;
 
             flex: 1;
+
+            animation:
+                astraPageEnter
+                .65s
+                ease-out
+                both;
         }
 
 
@@ -838,6 +1035,13 @@
             width: 100%;
 
             margin-bottom: 22px;
+
+            animation:
+                astraPageHeaderEnter
+                .6s
+                ease-out
+                .08s
+                both;
         }
 
 
@@ -873,6 +1077,13 @@
             flex-shrink: 0;
 
             margin-top: 4px;
+
+            animation:
+                astraIconPulse
+                .7s
+                ease-out
+                .25s
+                both;
         }
 
 
@@ -919,13 +1130,30 @@
             background: #ffffff;
 
             border:
-                1px solid var(--border-light);
+                1px solid
+                var(--border-light);
 
             border-radius: var(--radius);
 
             box-shadow: var(--shadow-md);
 
             overflow: hidden;
+
+            animation:
+                astraCardEnter
+                .55s
+                ease-out
+                both;
+        }
+
+
+        .card:nth-of-type(2) {
+            animation-delay: .16s;
+        }
+
+
+        .card:nth-of-type(3) {
+            animation-delay: .28s;
         }
 
 
@@ -945,7 +1173,8 @@
             gap: 9px;
 
             border-bottom:
-                1px solid var(--border-light);
+                1px solid
+                var(--border-light);
 
             font-size:
                 clamp(
@@ -996,7 +1225,8 @@
 
             display: grid;
 
-            grid-template-columns: minmax(0, 1fr);
+            grid-template-columns:
+                minmax(0, 1fr);
 
             gap: 0;
 
@@ -1058,7 +1288,8 @@
                 13px;
 
             border:
-                1px solid #cbd5e1;
+                1px solid
+                #cbd5e1;
 
             border-radius: 9px;
 
@@ -1207,7 +1438,9 @@
 
 
         .status-message i {
+
             flex-shrink: 0;
+
             margin-top: 2px;
         }
 
@@ -1260,7 +1493,8 @@
                 #f0fdf4;
 
             border:
-                1px solid #bbf7d0;
+                1px solid
+                #bbf7d0;
 
             border-radius: 10px;
 
@@ -1271,7 +1505,14 @@
 
 
         .token-result.show {
+
             display: block;
+
+            animation:
+                astraTokenResultEnter
+                .45s
+                ease-out
+                both;
         }
 
 
@@ -1308,7 +1549,8 @@
             background: #ffffff;
 
             border:
-                1px dashed #22c55e;
+                1px dashed
+                #22c55e;
 
             border-radius: 8px;
 
@@ -1394,7 +1636,8 @@
                 13px;
 
             border-top:
-                1px solid #e2e8f0;
+                1px solid
+                #e2e8f0;
 
             vertical-align: middle;
 
@@ -1605,24 +1848,171 @@
 
 
         /* =========================================================
+           ANIMATIONS
+        ========================================================== */
+
+        @keyframes astraMobileHeaderEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes astraSidebarBrandEnter {
+
+            from {
+                opacity: 0;
+                transform: translateX(-22px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        @keyframes astraSidebarItemEnter {
+
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        @keyframes astraSidebarFooterEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes astraPageEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes astraPageHeaderEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(-12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes astraIconPulse {
+
+            from {
+                opacity: 0;
+                transform: scale(.65) rotate(-15deg);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+
+        @keyframes astraCardEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes astraTokenResultEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+
+        /* =========================================================
            PETIT MOBILE
         ========================================================== */
 
         @media (max-width: 359px) {
 
             .mobile-header {
+
                 min-height: 58px;
-                padding: 8px 10px;
+
+                padding:
+                    8px
+                    10px;
+            }
+
+
+            .mobile-brand-title {
+                font-size: 15px;
+            }
+
+
+            .mobile-brand-logo {
+                width: 34px;
+                height: 34px;
             }
 
 
             .mobile-menu-btn {
+
                 width: 40px;
                 height: 40px;
             }
 
 
             .main-content {
+
                 padding:
                     18px
                     10px
@@ -1636,7 +2026,9 @@
 
 
             .card-header {
-                padding: 13px 12px;
+                padding:
+                    13px
+                    12px;
             }
 
 
@@ -1663,6 +2055,7 @@
         @media (min-width: 480px) {
 
             .main-content {
+
                 padding:
                     25px
                     20px
@@ -1676,6 +2069,7 @@
 
 
             .card-header {
+
                 padding:
                     17px
                     20px;
@@ -1760,6 +2154,7 @@
 
 
             .card-header {
+
                 padding:
                     19px
                     24px;
@@ -1806,9 +2201,11 @@
                 max-width: var(--sidebar-width);
 
                 height: 100vh;
+
                 height: 100dvh;
 
-                transform: translateX(0);
+                transform:
+                    translate3d(0, 0, 0);
 
                 visibility: visible;
 
@@ -1834,7 +2231,8 @@
 
                 width:
                     calc(
-                        100% - var(--sidebar-width)
+                        100% -
+                        var(--sidebar-width)
                     );
 
                 max-width: none;
@@ -1858,6 +2256,7 @@
 
 
             .card-header {
+
                 padding:
                     20px
                     24px;
@@ -1942,6 +2341,7 @@
 
 
             .sidebar {
+
                 width:
                     min(
                         320px,
@@ -1951,6 +2351,7 @@
 
 
             .main-content {
+
                 padding:
                     20px
                     15px
@@ -1975,14 +2376,19 @@
         ) {
 
             .sidebar-menu {
+
                 padding-top: 12px;
+
                 padding-bottom: 12px;
             }
 
 
             .sidebar-link {
+
                 min-height: 44px;
+
                 padding-top: 9px;
+
                 padding-bottom: 9px;
             }
 
@@ -2042,6 +2448,21 @@
 
     <header class="mobile-header">
 
+        <div class="mobile-brand">
+
+            <img
+                src="{% static 'image/logoo.png' %}"
+                alt="ASTRA TECH"
+                class="mobile-brand-logo"
+            >
+
+            <div class="mobile-brand-title">
+                ASTRA <span>TECH</span>
+            </div>
+
+        </div>
+
+
         <button
             type="button"
             class="mobile-menu-btn"
@@ -2068,6 +2489,7 @@
     <div
         class="sidebar-overlay"
         id="sidebarOverlay"
+        aria-hidden="true"
     ></div>
 
 
@@ -2088,11 +2510,11 @@
 
         <div class="sidebar-brand">
 
-            <div class="sidebar-logo">
-
-                <div class="sidebar-logo-inner"></div>
-
-            </div>
+            <img
+                src="{% static 'image/logoo.png' %}"
+                alt="ASTRA TECH"
+                class="sidebar-logo-image"
+            >
 
 
             <div class="sidebar-title">
@@ -2102,33 +2524,32 @@
 
             </div>
 
+
+            <button
+                type="button"
+                class="sidebar-close"
+                id="sidebarClose"
+                aria-label="Fermer le menu"
+            >
+
+                <i
+                    class="fa-solid fa-xmark"
+                    aria-hidden="true"
+                ></i>
+
+            </button>
+
         </div>
-
-
-        <!-- =====================================================
-             BOUTON FERMER
-        ====================================================== -->
-
-        <button
-            type="button"
-            class="sidebar-close"
-            id="sidebarClose"
-            aria-label="Fermer le menu"
-        >
-
-            <i
-                class="fa-solid fa-xmark"
-                aria-hidden="true"
-            ></i>
-
-        </button>
 
 
         <!-- =====================================================
              MENU
         ====================================================== -->
 
-        <nav class="sidebar-menu">
+        <nav
+            class="sidebar-menu"
+            aria-label="Menu administration"
+        >
 
 
             <!-- TOKENS -->
@@ -2136,6 +2557,7 @@
             <a
                 href="{% url 'astra:token_accueil' %}"
                 class="sidebar-link active"
+                aria-current="page"
             >
 
                 <i
@@ -2693,9 +3115,7 @@
                                             {% else %}
 
                                                 <span class="badge">
-
                                                     {{ token.role }}
-
                                                 </span>
 
                                             {% endif %}
@@ -2822,6 +3242,8 @@
             'DOMContentLoaded',
             function () {
 
+                'use strict';
+
 
                 /* =================================================
                    ÉLÉMENTS
@@ -2882,12 +3304,23 @@
 
 
                 /* =================================================
-                   MENU MOBILE
+                   DÉTECTION MOBILE
+                ================================================== */
+
+                function isMobile() {
+
+                    return window.innerWidth < 992;
+
+                }
+
+
+                /* =================================================
+                   OUVRIR SIDEBAR
                 ================================================== */
 
                 function openSidebar() {
 
-                    if (!sidebar) {
+                    if (!sidebar || !isMobile()) {
                         return;
                     }
 
@@ -2902,22 +3335,58 @@
                         sidebarOverlay.classList.add(
                             'active'
                         );
+
+                        sidebarOverlay.setAttribute(
+                            'aria-hidden',
+                            'false'
+                        );
                     }
 
 
                     if (mobileMenuBtn) {
 
+                        mobileMenuBtn.classList.add(
+                            'menu-open'
+                        );
+
                         mobileMenuBtn.setAttribute(
                             'aria-expanded',
                             'true'
                         );
+
+                        mobileMenuBtn.setAttribute(
+                            'aria-label',
+                            'Fermer le menu'
+                        );
+
+
+                        const icon =
+                            mobileMenuBtn.querySelector(
+                                'i'
+                            );
+
+                        if (icon) {
+
+                            icon.classList.remove(
+                                'fa-bars'
+                            );
+
+                            icon.classList.add(
+                                'fa-xmark'
+                            );
+                        }
                     }
 
 
                     document.body.style.overflow =
                         'hidden';
+
                 }
 
+
+                /* =================================================
+                   FERMER SIDEBAR
+                ================================================== */
 
                 function closeSidebar() {
 
@@ -2934,31 +3403,89 @@
                         sidebarOverlay.classList.remove(
                             'active'
                         );
+
+                        sidebarOverlay.setAttribute(
+                            'aria-hidden',
+                            'true'
+                        );
                     }
 
 
                     if (mobileMenuBtn) {
 
+                        mobileMenuBtn.classList.remove(
+                            'menu-open'
+                        );
+
                         mobileMenuBtn.setAttribute(
                             'aria-expanded',
                             'false'
                         );
+
+                        mobileMenuBtn.setAttribute(
+                            'aria-label',
+                            'Ouvrir le menu'
+                        );
+
+
+                        const icon =
+                            mobileMenuBtn.querySelector(
+                                'i'
+                            );
+
+                        if (icon) {
+
+                            icon.classList.remove(
+                                'fa-xmark'
+                            );
+
+                            icon.classList.add(
+                                'fa-bars'
+                            );
+                        }
                     }
 
 
                     document.body.style.overflow =
                         '';
+
                 }
 
+
+                /* =================================================
+                   BOUTON MENU
+                ================================================== */
 
                 if (mobileMenuBtn) {
 
                     mobileMenuBtn.addEventListener(
                         'click',
-                        openSidebar
+                        function () {
+
+                            if (
+                                sidebar &&
+                                sidebar.classList.contains(
+                                    'active'
+                                )
+                            ) {
+
+                                closeSidebar();
+
+                            } else {
+
+                                openSidebar();
+
+                            }
+
+                        }
                     );
+
                 }
 
+
+                /* =================================================
+                   BOUTON FERMER
+                ================================================== */
 
                 if (sidebarClose) {
 
@@ -2966,8 +3493,13 @@
                         'click',
                         closeSidebar
                     );
+
                 }
 
+
+                /* =================================================
+                   OVERLAY
+                ================================================== */
 
                 if (sidebarOverlay) {
 
@@ -2975,11 +3507,12 @@
                         'click',
                         closeSidebar
                     );
+
                 }
 
 
                 /* =================================================
-                   FERMER APRÈS CLIC
+                   FERMER APRÈS CLIC SUR UN LIEN
                 ================================================== */
 
                 document
@@ -2993,11 +3526,10 @@
                                 'click',
                                 function () {
 
-                                    if (
-                                        window.innerWidth < 992
-                                    ) {
+                                    if (isMobile()) {
 
                                         closeSidebar();
+
                                     }
 
                                 }
@@ -3008,7 +3540,7 @@
 
 
                 /* =================================================
-                   ESCAPE
+                   TOUCHE ESCAPE
                 ================================================== */
 
                 document.addEventListener(
@@ -3020,6 +3552,7 @@
                         ) {
 
                             closeSidebar();
+
                         }
 
                     }
@@ -3030,16 +3563,31 @@
                    REDIMENSIONNEMENT
                 ================================================== */
 
+                let resizeTimer = null;
+
+
                 window.addEventListener(
                     'resize',
                     function () {
 
-                        if (
-                            window.innerWidth >= 992
-                        ) {
+                        clearTimeout(
+                            resizeTimer
+                        );
 
-                            closeSidebar();
-                        }
+
+                        resizeTimer =
+                            setTimeout(
+                                function () {
+
+                                    if (!isMobile()) {
+
+                                        closeSidebar();
+
+                                    }
+
+                                },
+                                120
+                            );
 
                     }
                 );
@@ -3103,6 +3651,7 @@
 
                         statusMessage.className =
                             'status-message show status-error';
+
                     }
 
 
@@ -3124,12 +3673,16 @@
                     statusMessage.appendChild(
                         span
                     );
+
                 }
 
 
                 /* =================================================
                    TOAST
                 ================================================== */
+
+                let toastTimer = null;
+
 
                 function showToast(
                     message
@@ -3155,16 +3708,23 @@
                     );
 
 
-                    setTimeout(
-                        function () {
-
-                            toast.classList.remove(
-                                'show'
-                            );
-
-                        },
-                        3500
+                    clearTimeout(
+                        toastTimer
                     );
+
+
+                    toastTimer =
+                        setTimeout(
+                            function () {
+
+                                toast.classList.remove(
+                                    'show'
+                                );
+
+                            },
+                            3500
+                        );
+
                 }
 
 
@@ -3181,6 +3741,7 @@
 
                         statusMessage.innerHTML =
                             '';
+
                     }
 
 
@@ -3189,7 +3750,9 @@
                         tokenResult.classList.remove(
                             'show'
                         );
+
                     }
+
                 }
 
 
@@ -3246,6 +3809,7 @@
                                 );
 
                                 return;
+
                             }
 
 
@@ -3297,6 +3861,7 @@
                                     throw new Error(
                                         'Token CSRF introuvable.'
                                     );
+
                                 }
 
 
@@ -3325,6 +3890,7 @@
 
                                                 'X-Requested-With':
                                                     'XMLHttpRequest'
+
                                             },
 
                                             credentials:
@@ -3367,6 +3933,7 @@
                                     throw new Error(
                                         'Le serveur a retourné une réponse invalide.'
                                     );
+
                                 }
 
 
@@ -3379,6 +3946,7 @@
                                         data.message ||
                                         'Une erreur est survenue lors de la génération du token.'
                                     );
+
                                 }
 
 
@@ -3390,6 +3958,7 @@
 
                                     tokenValue.textContent =
                                         data.token;
+
                                 }
 
 
@@ -3398,6 +3967,7 @@
                                     tokenResult.classList.add(
                                         'show'
                                     );
+
                                 }
 
 
@@ -3439,6 +4009,7 @@
 
                                     emailInput.value =
                                         '';
+
                                 }
 
 
@@ -3446,6 +4017,7 @@
 
                                     roleInput.value =
                                         '';
+
                                 }
 
 
@@ -3453,6 +4025,7 @@
 
                                     validityInput.value =
                                         '30';
+
                                 }
 
                             }
@@ -3497,10 +4070,12 @@
                                     </span>
 
                                 `;
+
                             }
 
                         }
                     );
+
                 }
 
 
@@ -3537,11 +4112,12 @@
                         'Font weight :',
                         iconStyle.fontWeight
                     );
+
                 }
 
 
                 /* =================================================
-                   ACCESSIBILITÉ
+                   ACCESSIBILITÉ CLAVIER
                 ================================================== */
 
                 document.addEventListener(
@@ -3555,6 +4131,7 @@
                             document.body.classList.add(
                                 'keyboard-navigation'
                             );
+
                         }
 
                     }
@@ -3569,4 +4146,3 @@
 </body>
 
 </html>
-
