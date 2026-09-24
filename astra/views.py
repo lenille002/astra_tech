@@ -2715,9 +2715,8 @@ def espace_client(request, client_id):
     """
     Espace privé du client.
 
-    Le bouton "Accès Cahier" arrive d'abord ici.
-    Si le client n'est pas authentifié, il est envoyé
-    vers l'espace sécurisé de connexion.
+    Le client doit obligatoirement être authentifié
+    avant d'accéder à espace_client.html.
     """
 
     client = get_object_or_404(
@@ -2726,15 +2725,17 @@ def espace_client(request, client_id):
         is_active=True
     )
 
+    # ==================================================
+    # VÉRIFICATION DE LA SESSION CLIENT
+    # ==================================================
+
     client_connecte_id = request.session.get(
         "client_connecte_id"
     )
 
-    # ==================================================
-    # CLIENT NON CONNECTÉ
-    # ==================================================
-
+    # Aucun client connecté
     if not client_connecte_id:
+
         messages.warning(
             request,
             "Veuillez vous connecter pour accéder à votre espace."
@@ -2746,11 +2747,13 @@ def espace_client(request, client_id):
         )
 
     # ==================================================
-    # VÉRIFICATION DE L'ID DE SESSION
+    # NORMALISATION DE L'ID
     # ==================================================
 
     try:
-        client_connecte_id = int(client_connecte_id)
+        client_connecte_id = int(
+            client_connecte_id
+        )
 
     except (TypeError, ValueError):
 
@@ -2765,7 +2768,7 @@ def espace_client(request, client_id):
         )
 
     # ==================================================
-    # VÉRIFICATION DE SÉCURITÉ
+    # VÉRIFICATION DU CLIENT CONNECTÉ
     # ==================================================
 
     if client_connecte_id != client.id:
@@ -2798,9 +2801,31 @@ def espace_client(request, client_id):
     total_depenses = (
         historique_achats.aggregate(
             total=Sum("montant_total")
-        )["total"] or 0
+        )["total"]
+        or 0
     )
 
+    # ==================================================
+    # CONTEXTE
+    # ==================================================
+
+    context = {
+        "client": client,
+        "client_user": client,
+        "historique_achats": historique_achats,
+        "nombre_achats": nombre_achats,
+        "total_depenses": total_depenses,
+    }
+
+    # ==================================================
+    # ESPACE CLIENT
+    # ==================================================
+
+    return render(
+        request,
+        "astra/espace_client.html",
+        context
+    )
     # ==================================================
     # CONTEXTE
     # ==================================================
