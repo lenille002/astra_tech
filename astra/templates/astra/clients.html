@@ -1183,26 +1183,13 @@
                     </td>
 
                     <td style="text-align: center;">
-
-                        <a href="{% url 'astra:client_login' client.id %}"
-                           style="display: inline-flex;
-                                  align-items: center;
-                                  gap: 5px;
-                                  background-color: #e0e7ff;
-                                  color: #3730a3;
-                                  padding: 6px 12px;
-                                  border-radius: 6px;
-                                  font-size: 0.85rem;
-                                  font-weight: 600;
-                                  text-decoration: none;"
-                           title="Accéder au cahier sécurisé">
-
-                            <i class="fa-solid fa-lock"></i>
-
-                            Accès Cahier
-
-                        </a>
-
+  <a
+    href="{% url 'astra:espace_client' client.id %}"
+    class="btn-acces-cahier"
+>
+    <i class="fa-solid fa-lock"></i>
+    Accès Cahier
+</a>
                     </td>
 
                     <td style="text-align: center;

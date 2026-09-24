@@ -231,103 +231,60 @@ urlpatterns = [
         name="propos"
     ),
 
+# =========================================================
+# CLIENTS
+# =========================================================
 
-    # =========================================================
-    # CLIENTS
-    # =========================================================
+path(
+    "clients/",
+    views.gestion_clients,
+    name="clients"
+),
 
-    path(
-        "clients/",
-        views.gestion_clients,
-        name="clients"
-    ),
+path(
+    "client/inscription/",
+    views.client_register,
+    name="client_register"
+),
 
-    path(
-        "client/inscription/",
-        views.client_register,
-        name="client_register"
-    ),
+path(
+    "client/register/",
+    views.client_register,
+    name="register"
+),
 
-    # Alias conservé pour les anciens templates
-    path(
-        "client/register/",
-        views.client_register,
-        name="register"
-    ),
+# Connexion privée du client
+path(
+    "client/<int:client_id>/connexion/",
+    views.client_login,
+    name="client_login"
+),
 
-    # ---------------------------------------------------------
-    # CONNEXION CLIENT
-    # ---------------------------------------------------------
+# Espace sécurisé
+path(
+    "client/<int:client_id>/espace/",
+    views.espace_client,
+    name="espace_client"
+),
 
-    path(
-        "client/<int:client_id>/connexion/",
-        views.client_login,
-        name="client_login"
-    ),
-
-    # ---------------------------------------------------------
-    # CAHIER CLIENT
-    #
-    # IMPORTANT :
-    # Le clic sur "Cahier" ouvre maintenant espace_client.html
-    # ---------------------------------------------------------
-
-    # ---------------------------------------------------------
-# CAHIER CLIENT
-# ---------------------------------------------------------
-
+# Cahier/détails
 path(
     "client/<int:client_id>/cahier/",
     views.detail_client_activites,
     name="detail_client_activites"
 ),
 
-    # ---------------------------------------------------------
-    # ESPACE CLIENT
-    # ---------------------------------------------------------
+path(
+    "client/<int:client_id>/supprimer/",
+    views.supprimer_client,
+    name="supprimer_client"
+),
 
-    path(
-        "client/<int:client_id>/espace/",
-        views.espace_client,
-        name="espace_client"
-    ),
-
-    # ---------------------------------------------------------
-    # SUPPRESSION CLIENT
-    # ---------------------------------------------------------
-
-    path(
-        "client/<int:client_id>/supprimer/",
-        views.supprimer_client,
-        name="supprimer_client"
-    ),
-
-    # ---------------------------------------------------------
-    # MODIFICATION CLIENT
-    # ---------------------------------------------------------
-
-    path(
-        "client/<int:client_id>/modifier/",
-        views.modifier_client,
-        name="modifier_client"
-    ),
-
-    # ---------------------------------------------------------
-    # MOT DE PASSE CLIENT
-    # ---------------------------------------------------------
-
-    path(
-        "client/mot-de-passe-oublie/",
-        views.mot_de_passe_oublie_client,
-        name="mot_de_passe_oublie_client"
-    ),
-
-    path(
-        "client/<int:client_id>/modifier-mdp/",
-        views.modifier_mot_de_passe_client,
-        name="modifier_mot_de_passe_client"
-    ),
-
+path(
+    "client/<int:client_id>/modifier/",
+    views.modifier_client,
+    name="modifier_client"
+),
 
     # =========================================================
     # API & TOKENS

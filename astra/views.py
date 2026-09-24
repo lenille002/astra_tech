@@ -2714,9 +2714,23 @@ def client_login(request, client_id):
 
 def espace_client(request, client_id):
     """
-    Espace privé du client.
-    Accessible uniquement au client correspondant.
+    Espace sécurisé d'un client.
+
+    Règles :
+    - admin : accès à tous les espaces clients
+    - vente : accès à tous les espaces clients
+    - client : accès uniquement à son propre espace
+    - utilisateur non connecté : retour vers la connexion générale
     """
+
+    print("\n" + "=" * 80)
+    print("🔐 ESPACE CLIENT")
+    print("CLIENT ID DEMANDÉ :", client_id)
+    print("=" * 80)
+
+    # ==========================================================
+    # RÉCUPÉRER LE CLIENT
+    # ==========================================================
 
     client = get_object_or_404(
         Client,
@@ -2725,72 +2739,156 @@ def espace_client(request, client_id):
     )
 
     # ==========================================================
-    # RÉCUPÉRATION DE LA SESSION CLIENT
+    # RÉCUPÉRER LA SESSION ASTRA
+    # ==========================================================
+
+    utilisateur_id = request.session.get("utilisateur_id")
+    user_id = request.session.get("user_id")
+    role = (
+        request.session.get("user_role") or ""
+    ).strip().lower()
+
+    connecte = request.session.get("connecte", False)
+
+    print("UTILISATEUR ID :", utilisateur_id)
+    print("USER ID        :", user_id)
+    print("ROLE           :", role)
+    print("CONNECTE       :", connecte)
+
+    # ==========================================================
+    # RÉCUPÉRER LA SESSION CLIENT
     # ==========================================================
 
     client_connecte_id = request.session.get(
         "client_connecte_id"
     )
 
-    if client_connecte_id is None:
+    # ==========================================================
+    # CAS 1 — ADMINISTRATEUR
+    # ==========================================================
+
+    if role in [
+        "admin",
+        "administrateur",
+        "administrateurs"
+    ]:
+
+        print("✅ ACCÈS ADMINISTRATEUR")
+
+    # ==========================================================
+    # CAS 2 — UTILISATEUR VENTE
+    # ==========================================================
+
+    elif role in [
+        "vente",
+        "vendeur",
+        "vendeurs",
+        "caissier"
+    ]:
+
+        print("✅ ACCÈS UTILISATEUR VENTE")
+
+    # ==========================================================
+    # CAS 3 — CLIENT
+    # ==========================================================
+
+    elif role in [
+        "client",
+        "clients"
+    ]:
+
+        print("👤 ACCÈS CLIENT")
+
+        # ------------------------------------------------------
+        # Le client doit avoir une session client
+        # ------------------------------------------------------
+
+        if client_connecte_id is None:
+
+            messages.warning(
+                request,
+                "Veuillez vous connecter à votre espace client."
+            )
+
+            return redirect(
+                "astra:client_login",
+                client_id=client.id
+            )
+
+        # ------------------------------------------------------
+        # Conversion de l'identifiant
+        # ------------------------------------------------------
+
+        try:
+
+            client_connecte_id = int(
+                client_connecte_id
+            )
+
+        except (TypeError, ValueError):
+
+            request.session.pop(
+                "client_connecte_id",
+                None
+            )
+
+            request.session.pop(
+                "client_connecte_nom",
+                None
+            )
+
+            request.session.pop(
+                "client_connecte_email",
+                None
+            )
+
+            return redirect(
+                "astra:client_login",
+                client_id=client.id
+            )
+
+        # ------------------------------------------------------
+        # PROTECTION CLIENT A / CLIENT B
+        # ------------------------------------------------------
+
+        if client_connecte_id != client.id:
+
+            messages.error(
+                request,
+                "Vous n'êtes pas autorisé à accéder à cet espace."
+            )
+
+            return redirect(
+                "astra:client_login",
+                client_id=client.id
+            )
+
+        print(
+            "✅ CLIENT AUTORISÉ :",
+            client_connecte_id
+        )
+
+    # ==========================================================
+    # CAS 4 — UTILISATEUR NON CONNECTÉ
+    # ==========================================================
+
+    else:
+
+        print(
+            "❌ UTILISATEUR NON AUTORISÉ"
+        )
 
         messages.warning(
             request,
-            "Veuillez vous connecter pour accéder à votre espace."
+            "Veuillez vous connecter pour accéder à cet espace."
         )
 
         return redirect(
-            "astra:client_login",
-            client_id=client.id
+            "astra:login"
         )
 
     # ==========================================================
-    # CONVERSION DE L'ID
-    # ==========================================================
-
-    try:
-        client_connecte_id = int(client_connecte_id)
-
-    except (TypeError, ValueError):
-
-        request.session.pop(
-            "client_connecte_id",
-            None
-        )
-
-        request.session.pop(
-            "client_connecte_nom",
-            None
-        )
-
-        request.session.pop(
-            "client_connecte_email",
-            None
-        )
-
-        return redirect(
-            "astra:client_login",
-            client_id=client.id
-        )
-
-    # ==========================================================
-    # VÉRIFICATION CLIENT X ≠ CLIENT Y
-    # ==========================================================
-
-    if client_connecte_id != client.id:
-
-        messages.error(
-            request,
-            "Vous n'êtes pas autorisé à accéder à cet espace."
-        )
-
-        return redirect(
-            "astra:client_login",
-            client_id=client.id
-        )
-
-    # ==========================================================
-    # HISTORIQUE
+    # HISTORIQUE DES ACHATS
     # ==========================================================
 
     historique_achats = (
@@ -2810,6 +2908,10 @@ def espace_client(request, client_id):
         )["total"] or 0
     )
 
+    # ==========================================================
+    # CONTEXTE
+    # ==========================================================
+
     context = {
         "client": client,
         "client_user": client,
@@ -2817,6 +2919,15 @@ def espace_client(request, client_id):
         "nombre_achats": nombre_achats,
         "total_depenses": total_depenses,
     }
+
+    # ==========================================================
+    # AFFICHAGE
+    # ==========================================================
+
+    print(
+        "✅ AFFICHAGE ESPACE CLIENT :",
+        client.id
+    )
 
     return render(
         request,
