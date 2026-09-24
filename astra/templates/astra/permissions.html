@@ -1,36 +1,21 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    >
+    <title>ASTRA TECH - Permissions</title>
 
-    <meta
-        name="theme-color"
-        content="#003366"
-    >
+    <meta name="theme-color" content="#003366">
 
-    <title>
-        ASTRA TECH - Matrice de Sécurité & Permissions
-    </title>
-
-
-    <!-- =====================================================
-         INITIALISATION MODE SOMBRE
-         ===================================================== -->
-
+    <!-- =========================================================
+         MODE SOMBRE AVANT AFFICHAGE
+    ========================================================== -->
     <script>
         (function () {
             try {
-                if (
-                    localStorage.getItem("astra_dark_mode") === "true"
-                ) {
+                if (localStorage.getItem("astra_dark_mode") === "true") {
                     document.documentElement.classList.add("dark");
                 }
             } catch (error) {
@@ -39,3239 +24,2978 @@
         })();
     </script>
 
-
-    <!-- =====================================================
-         CSS RESPONSIVE
-         ===================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="{% static 'css/responsive.css' %}"
-    >
-
-
-    <!-- =====================================================
+    <!-- =========================================================
          TAILWIND
-         ===================================================== -->
-
+    ========================================================== -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
         tailwind.config = {
-            darkMode: "class"
+            darkMode: 'class'
         };
     </script>
 
-
-    <!-- =====================================================
+    <!-- =========================================================
          FONT AWESOME
-         ===================================================== -->
-
+    ========================================================== -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     >
 
+    <!-- =========================================================
+         RESPONSIVE CSS
+    ========================================================== -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-    <!-- =====================================================
+    <!-- =========================================================
          POLICE
-         ===================================================== -->
-
+    ========================================================== -->
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-        @import url(
-            'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
-        );
-
-
-        /* =====================================================
+        /* =========================================================
            VARIABLES
-           ===================================================== */
+        ========================================================== */
 
         :root {
-
             --tech-blue: #0078D7;
+            --tech-blue-light: #2196F3;
             --tech-blue-dark: #004E8C;
+
             --tech-sidebar-bg: #003366;
 
             --tech-orange: #FF8C00;
             --tech-orange-light: #FFA726;
 
+            --tech-white: #ffffff;
+            --tech-gray: #f5f7fa;
+            --tech-gray-dark: #64748b;
+
             --sidebar-width: 280px;
+            --mobile-header-height: 68px;
 
-            --page-bg: #f8fafc;
-            --card-bg: #ffffff;
-
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-
-            --border-light: #e2e8f0;
-
-            --mobile-header-height: 64px;
-
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, .08);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, .12);
         }
 
+        /* =========================================================
+           RESET
+        ========================================================== */
 
-        /* =====================================================
-           RESET GLOBAL
-           ===================================================== */
-
-        *,
-        *::before,
-        *::after {
-
+        * {
             box-sizing: border-box;
-
         }
 
-
-        html {
-
-            width: 100%;
-            max-width: 100%;
-
-            min-height: 100%;
-
-            overflow-x: hidden;
-
-            scroll-behavior: smooth;
-
-        }
-
-
+        html,
         body {
-
-            width: 100%;
-            max-width: 100%;
-
-            min-width: 0;
-            min-height: 100vh;
-
             margin: 0;
             padding: 0;
-
-            font-family: "Inter", sans-serif;
-
-            background-color: var(--page-bg);
-
-            color: var(--text-main);
-
+            width: 100%;
+            min-height: 100%;
             overflow-x: hidden;
-
-            display: block;
-
         }
 
-
-        img {
-
-            display: block;
-
-            max-width: 100%;
-
-            height: auto;
-
+        body {
+            font-family: "Inter", sans-serif;
+            background: #f5f7fa;
+            color: #1e293b;
+            transition:
+                background-color .25s ease,
+                color .25s ease;
         }
-
 
         button,
-        input,
-        select,
-        textarea {
-
-            font: inherit;
-
+        a {
+            -webkit-tap-highlight-color: transparent;
         }
 
+        button {
+            font-family: inherit;
+        }
 
         a {
-
             text-decoration: none;
-
         }
 
-
-        body.menu-open {
-
-            overflow: hidden;
-
-        }
-
-
-        /* =====================================================
-           MODE SOMBRE
-           ===================================================== */
-
-        html.dark body {
-
-            background-color: #0f172a !important;
-
-            color: #f1f5f9 !important;
-
-        }
-
-
-        html.dark .main-content {
-
-            background-color: #0f172a;
-
-        }
-
-
-        html.dark .card-custom {
-
-            background-color: #1e293b !important;
-
-            border-color: #334155 !important;
-
-            color: #f1f5f9 !important;
-
-        }
-
-
-        html.dark .card-custom > div:first-child {
-
-            background-color: rgba(15, 23, 42, 0.45) !important;
-
-            border-color: #334155 !important;
-
-        }
-
-
-        html.dark .card-custom form > div:last-child {
-
-            background-color: rgba(15, 23, 42, 0.45) !important;
-
-            border-color: #334155 !important;
-
-        }
-
-
-        html.dark table {
-
-            color: #f1f5f9;
-
-        }
-
-
-        html.dark thead tr {
-
-            background-color: #0f172a !important;
-
-            border-color: #334155 !important;
-
-        }
-
-
-        html.dark tbody tr {
-
-            border-color: #334155 !important;
-
-        }
-
-
-        html.dark tbody tr:hover {
-
-            background-color: rgba(51, 65, 85, 0.45) !important;
-
-        }
-
-
-        html.dark .text-slate-900,
-        html.dark .text-slate-800,
-        html.dark .text-slate-700 {
-
-            color: #f1f5f9 !important;
-
-        }
-
-
-        html.dark .text-slate-500,
-        html.dark .text-slate-400 {
-
-            color: #94a3b8 !important;
-
-        }
-
-
-        /* =====================================================
-           HEADER MOBILE
-           ===================================================== */
+        /* =========================================================
+           MOBILE HEADER
+           IDENTIQUE AU SIDEBAR PARAMÈTRES
+        ========================================================== */
 
         .mobile-header {
-
-            position: sticky;
-
-            top: 0;
-            left: 0;
-
-            width: 100%;
-
-            min-height: var(--mobile-header-height);
-
-            padding:
-                max(10px, env(safe-area-inset-top))
-                12px
-                10px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--tech-dark-blue),
-                    var(--tech-sidebar-bg)
-                );
-
-            color: #ffffff;
-
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
 
-            gap: 12px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
 
-            z-index: 1500;
+            height: var(--mobile-header-height);
 
-            box-shadow:
-                0 3px 15px rgba(0, 0, 0, 0.15);
+            padding:
+                0 16px
+                env(safe-area-inset-right)
+                0
+                env(safe-area-inset-left);
 
+            background: linear-gradient(
+                135deg,
+                #004E8C 0%,
+                #003366 100%
+            );
+
+            z-index: 9998;
+
+            box-shadow: 0 4px 18px rgba(0, 0, 0, .18);
         }
-
 
         .mobile-brand {
-
-            min-width: 0;
-
             display: flex;
-
             align-items: center;
-
             gap: 10px;
-
+            min-width: 0;
         }
-
 
         .mobile-brand-logo {
-
-            width: 32px;
-            height: 32px;
-
-            flex: 0 0 32px;
-
-            background: #ffffff;
-
-            border-radius: 7px;
-
-            transform: rotate(45deg);
+            width: 38px;
+            height: 38px;
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
 
-        }
+            position: relative;
+            flex-shrink: 0;
 
+            border-radius: 9px;
+            background: rgba(255, 255, 255, .08);
+        }
 
         .mobile-brand-logo-inner {
+            width: 23px;
+            height: 23px;
 
-            width: 22px;
-            height: 22px;
+            background: #fff;
+            border: 3px solid var(--tech-orange);
 
-            border: 2px solid var(--tech-orange);
+            transform: rotate(45deg);
+            border-radius: 3px;
 
-            border-radius: 5px;
-
-            transform: rotate(-45deg);
-
+            position: relative;
         }
 
+        .mobile-brand-logo-inner::after {
+            content: "";
+
+            position: absolute;
+
+            width: 8px;
+            height: 8px;
+
+            background: var(--tech-orange);
+
+            top: 50%;
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%)
+                rotate(-45deg);
+
+            border-radius: 2px;
+        }
 
         .mobile-brand-title {
-
-            min-width: 0;
-
-            font-size: 16px;
-
-            font-weight: 700;
-
-            letter-spacing: 0.7px;
-
+            color: #fff;
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: .5px;
             white-space: nowrap;
-
-            overflow: hidden;
-
-            text-overflow: ellipsis;
-
         }
-
 
         .mobile-brand-title span {
-
             color: var(--tech-orange);
-
         }
 
-
         .mobile-menu-btn {
-
-            width: 42px;
-            height: 42px;
-
-            flex: 0 0 42px;
-
-            border: 1px solid
-                rgba(255, 255, 255, 0.20);
-
-            border-radius: 10px;
-
-            background:
-                rgba(255, 255, 255, 0.08);
-
-            color: #ffffff;
+            width: 44px;
+            height: 44px;
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
+
+            border: 0;
+            border-radius: 10px;
+
+            background: rgba(255, 255, 255, .10);
+            color: #fff;
 
             cursor: pointer;
 
+            font-size: 21px;
+
             transition:
-                background-color 0.2s ease,
-                transform 0.2s ease;
-
+                background .2s ease,
+                transform .2s ease;
         }
 
-
-        .mobile-menu-btn:hover {
-
-            background:
-                rgba(255, 255, 255, 0.16);
-
+        .mobile-menu-btn:hover,
+        .mobile-menu-btn:focus-visible {
+            background: rgba(255, 255, 255, .18);
         }
-
 
         .mobile-menu-btn:active {
-
-            transform: scale(0.96);
-
+            transform: scale(.94);
         }
 
-
-        /* =====================================================
-           OVERLAY MOBILE
-           ===================================================== */
+        /* =========================================================
+           OVERLAY
+        ========================================================== */
 
         .sidebar-overlay {
-
             position: fixed;
-
             inset: 0;
 
-            width: 100%;
-            height: 100%;
-
-            background:
-                rgba(2, 6, 23, 0.65);
-
-            backdrop-filter: blur(2px);
-
-            -webkit-backdrop-filter: blur(2px);
+            background: rgba(0, 0, 0, .55);
 
             opacity: 0;
-
             visibility: hidden;
-
             pointer-events: none;
 
-            z-index: 1800;
+            z-index: 9999;
 
             transition:
-                opacity 0.25s ease,
-                visibility 0.25s ease;
-
+                opacity .25s ease,
+                visibility .25s ease;
         }
-
 
         .sidebar-overlay.active {
-
             opacity: 1;
-
             visibility: visible;
-
             pointer-events: auto;
-
         }
 
-
-        /* =====================================================
-           SIDEBAR MOBILE FIRST
-           ===================================================== */
+        /* =========================================================
+           SIDEBAR
+           MÊME STRUCTURE QUE PARAMÈTRES
+        ========================================================== */
 
         .sidebar {
-
             position: fixed;
 
             top: 0;
             left: 0;
+            bottom: 0;
 
             width: min(86vw, 320px);
-
-            height: 100vh;
             height: 100dvh;
 
-            max-height: 100vh;
-            max-height: 100dvh;
-
-            margin: 0;
-            padding: 0;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    var(--tech-dark-blue) 0%,
-                    var(--tech-sidebar-bg) 100%
-                );
-
-            color: #ffffff;
-
             display: flex;
-
             flex-direction: column;
 
-            overflow-x: hidden;
+            background: linear-gradient(
+                180deg,
+                #004E8C 0%,
+                #003366 100%
+            );
 
-            overflow-y: auto;
+            color: #fff;
 
-            -webkit-overflow-scrolling: touch;
-
-            z-index: 2000;
+            z-index: 10000;
 
             transform: translateX(-105%);
 
             transition:
-                transform 0.28s ease;
+                transform .28s cubic-bezier(.4, 0, .2, 1);
 
-            box-shadow:
-                8px 0 30px rgba(0, 0, 0, 0.20);
-
-        }
-
-
-        .sidebar.active {
-
-            transform: translateX(0);
-
-        }
-
-
-        /* =====================================================
-           FERMETURE SIDEBAR
-           ===================================================== */
-
-        .sidebar-close {
-
-            width: 38px;
-            height: 38px;
-
-            flex: 0 0 38px;
-
-            border: 1px solid
-                rgba(255, 255, 255, 0.18);
-
-            border-radius: 9px;
-
-            background:
-                rgba(255, 255, 255, 0.08);
-
-            color: #ffffff;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            cursor: pointer;
-
-        }
-
-
-        .sidebar-close:hover {
-
-            background:
-                rgba(255, 255, 255, 0.16);
-
-        }
-
-
-        /* =====================================================
-           BRAND SIDEBAR
-           ===================================================== */
-
-        .sidebar-brand {
-
-            width: 100%;
-
-            min-height: 68px;
-
-            padding:
-                14px 14px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            gap: 10px;
-
-            flex-shrink: 0;
-
-            border-bottom:
-                1px solid rgba(255, 255, 255, 0.10);
-
-        }
-
-
-        .sidebar-brand-left {
-
-            min-width: 0;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 12px;
-
-        }
-
-
-        .sidebar-logo {
-
-            width: 36px;
-            height: 36px;
-
-            flex: 0 0 36px;
-
-            background: #ffffff;
-
-            border-radius: 7px;
-
-            transform: rotate(45deg);
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            box-shadow:
-                0 4px 12px rgba(0, 0, 0, 0.15);
-
-        }
-
-
-        .sidebar-logo-inner {
-
-            width: 25px;
-            height: 25px;
-
-            border:
-                2px solid var(--tech-orange);
-
-            border-radius: 5px;
-
-            transform: rotate(-45deg);
-
-        }
-
-
-        .sidebar-title {
-
-            min-width: 0;
-
-            font-weight: 700;
-
-            font-size: 18px;
-
-            letter-spacing: 0.8px;
-
-            color: #ffffff !important;
-
-            white-space: nowrap;
+            box-shadow: 8px 0 30px rgba(0, 0, 0, .20);
 
             overflow: hidden;
-
-            text-overflow: ellipsis;
-
         }
 
-
-        .sidebar-title span {
-
-            color: var(--tech-orange);
-
+        .sidebar.active {
+            transform: translateX(0);
         }
 
+        /* =========================================================
+           SIDEBAR BRAND
+        ========================================================== */
 
-        /* =====================================================
-           NAVIGATION
-           ===================================================== */
-
-        .nav-menu {
-
-            width: 100%;
-
-            flex: 1;
-
-            min-height: 0;
-
-            list-style: none;
-
-            padding:
-                14px 12px;
-
-            margin: 0;
+        .sidebar-brand {
+            min-height: 86px;
 
             display: flex;
-
-            flex-direction: column;
-
-            align-items: stretch;
-
-            gap: 5px;
-
-            overflow-x: hidden;
-
-            overflow-y: auto;
-
-        }
-
-
-        .nav-link {
-
-            width: 100%;
-
-            min-height: 46px;
-
-            flex: 0 0 auto;
-
-            display: flex;
-
             align-items: center;
-
-            gap: 11px;
+            justify-content: space-between;
 
             padding:
-                11px 13px;
+                16px
+                18px
+                16px
+                20px;
 
-            color:
-                rgba(255, 255, 255, 0.82);
-
-            text-decoration: none;
-
-            font-weight: 500;
-
-            font-size: 13px;
-
-            line-height: 1.3;
-
-            border-radius: 10px;
-
-            white-space: normal;
-
-            overflow-wrap: anywhere;
-
-            transition:
-                background-color 0.2s ease,
-                color 0.2s ease,
-                border-color 0.2s ease;
-
-        }
-
-
-        .nav-link i {
-
-            width: 20px;
-
-            flex: 0 0 20px;
-
-            text-align: center;
-
-            font-size: 15px;
-
-        }
-
-
-        .nav-link:hover {
-
-            color: #ffffff;
-
-            background-color:
-                rgba(255, 255, 255, 0.08);
-
-        }
-
-
-        .nav-link.active {
-
-            color: #ffffff;
-
-            background-color:
-                rgba(255, 255, 255, 0.12);
-
-            border-left:
-                3px solid var(--tech-orange);
-
-            padding-left: 10px;
-
-            font-weight: 600;
-
-        }
-
-
-        .nav-link.back-link {
-
-            margin-top: auto;
-
-            background-color:
-                rgba(255, 255, 255, 0.05);
-
-            border:
-                1px solid rgba(255, 255, 255, 0.10);
-
-        }
-
-
-        /* =====================================================
-           FOOTER SIDEBAR
-           ===================================================== */
-
-        .sidebar-footer {
-
-            width: 100%;
+            border-bottom: 1px solid rgba(255, 255, 255, .10);
 
             flex-shrink: 0;
-
-            padding:
-                12px
-                12px
-                calc(12px + env(safe-area-inset-bottom));
-
-            border-top:
-                1px solid rgba(255, 255, 255, 0.10);
-
         }
 
+        .sidebar-brand-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
 
-        .btn-logout {
-
-            width: 100%;
-
-            min-height: 44px;
-
-            background:
-                rgba(255, 77, 77, 0.14);
-
-            color: #ff9090;
-
-            border:
-                1px solid rgba(255, 77, 77, 0.30);
-
-            padding:
-                10px 12px;
-
-            border-radius: 10px;
-
-            cursor: pointer;
+        .sidebar-logo {
+            width: 46px;
+            height: 46px;
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
-            gap: 9px;
-
-            font-weight: 600;
-
-            font-size: 13px;
-
-            transition:
-                background-color 0.2s ease,
-                color 0.2s ease,
-                box-shadow 0.2s ease;
-
-            text-decoration: none;
-
-        }
-
-
-        .btn-logout:hover {
-
-            background-color: #ff4d4d;
-
-            color: #ffffff;
-
-            border-color: #ff4d4d;
-
-            box-shadow:
-                0 4px 12px rgba(255, 77, 77, 0.30);
-
-        }
-
-
-        /* =====================================================
-           CONTENU PRINCIPAL MOBILE FIRST
-           ===================================================== */
-
-        .main-content {
 
             position: relative;
 
-            width: 100%;
+            border-radius: 11px;
 
-            max-width: 100%;
+            background: rgba(255, 255, 255, .08);
 
-            min-width: 0;
+            flex-shrink: 0;
+        }
 
-            margin: 0 !important;
+        .sidebar-logo-inner {
+            width: 29px;
+            height: 29px;
 
-            padding:
-                18px 12px
-                calc(30px + env(safe-area-inset-bottom)) !important;
+            background: #fff;
 
-            display: block;
+            border: 4px solid var(--tech-orange);
 
+            transform: rotate(45deg);
+
+            border-radius: 4px;
+
+            position: relative;
+        }
+
+        .sidebar-logo-inner::after {
+            content: "";
+
+            position: absolute;
+
+            width: 10px;
+            height: 10px;
+
+            background: var(--tech-orange);
+
+            top: 50%;
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%)
+                rotate(-45deg);
+
+            border-radius: 2px;
+        }
+
+        .sidebar-title {
+            font-size: 20px;
+            font-weight: 800;
+
+            letter-spacing: .4px;
+
+            white-space: nowrap;
+        }
+
+        .sidebar-title span {
+            color: var(--tech-orange);
+        }
+
+        .sidebar-close {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 0;
+            border-radius: 9px;
+
+            background: rgba(255, 255, 255, .08);
+
+            color: #fff;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+            transition:
+                background .2s ease,
+                transform .2s ease;
+        }
+
+        .sidebar-close:hover,
+        .sidebar-close:focus-visible {
+            background: rgba(255, 255, 255, .16);
+        }
+
+        .sidebar-close:active {
+            transform: scale(.94);
+        }
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================== */
+
+        .nav-menu {
+            flex: 1;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 5px;
+
+            padding: 18px 12px;
+
+            overflow-y: auto;
             overflow-x: hidden;
 
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,.25) transparent;
         }
 
+        .nav-menu::-webkit-scrollbar {
+            width: 5px;
+        }
 
-        .main-content > * {
+        .nav-menu::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .nav-menu::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,.25);
+            border-radius: 10px;
+        }
+
+        .nav-link {
+            min-height: 48px;
 
             width: 100%;
 
-            max-width: 100%;
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 12px 15px;
+
+            border-radius: 10px;
+
+            color: rgba(255,255,255,.88);
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition:
+                background .2s ease,
+                color .2s ease,
+                transform .2s ease;
+        }
+
+        .nav-link i {
+            width: 22px;
+
+            text-align: center;
+
+            font-size: 16px;
+
+            flex-shrink: 0;
+
+            transition: color .2s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus-visible {
+            background: rgba(255,255,255,.09);
+            color: #fff;
+        }
+
+        .nav-link:active {
+            transform: translateX(2px);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 140, 0, .16);
+
+            color: #fff;
+
+            box-shadow:
+                inset 3px 0 0 var(--tech-orange);
+        }
+
+        .nav-link.active i {
+            color: var(--tech-orange);
+        }
+
+        .nav-link.back-link {
+            margin-top: 8px;
+
+            color: rgba(255,255,255,.72);
+
+            border-top: 1px solid rgba(255,255,255,.08);
+
+            border-radius: 0 0 10px 10px;
+
+            padding-top: 16px;
+        }
+
+        .nav-link.back-link i {
+            color: var(--tech-orange);
+        }
+
+        /* =========================================================
+           FOOTER SIDEBAR
+        ========================================================== */
+
+        .sidebar-footer {
+            padding:
+                14px
+                14px
+                calc(14px + env(safe-area-inset-bottom));
+
+            border-top: 1px solid rgba(255,255,255,.10);
+
+            flex-shrink: 0;
+        }
+
+        .btn-logout {
+            width: 100%;
+
+            min-height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            border-radius: 10px;
+
+            background: rgba(255,255,255,.08);
+
+            color: #fff;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            transition:
+                background .2s ease,
+                transform .2s ease;
+        }
+
+        .btn-logout i {
+            color: var(--tech-orange);
+        }
+
+        .btn-logout:hover,
+        .btn-logout:focus-visible {
+            background: rgba(255, 140, 0, .15);
+            color: #fff;
+        }
+
+        .btn-logout:active {
+            transform: scale(.98);
+        }
+
+        /* =========================================================
+           MAIN CONTENT
+        ========================================================== */
+
+        .main-content {
+            width: 100%;
 
             min-width: 0;
 
+            padding:
+                calc(var(--mobile-header-height) + 20px)
+                14px
+                30px;
+
+            transition:
+                margin-left .25s ease,
+                width .25s ease;
         }
 
-
-        /* =====================================================
-           EN-TÊTE
-           ===================================================== */
+        /* =========================================================
+           PAGE HEADER
+        ========================================================== */
 
         .page-header {
-
             width: 100%;
 
-            min-width: 0;
+            display: flex;
+            flex-direction: column;
 
-            margin-bottom: 20px;
+            gap: 14px;
 
+            margin-bottom: 22px;
         }
 
+        .page-header-left {
+            min-width: 0;
+        }
 
-        .page-header h1 {
-
-            width: 100%;
-
+        .page-title {
             margin: 0;
 
-            font-size:
-                clamp(1.25rem, 5vw, 1.875rem) !important;
+            color: #003366;
 
-            line-height: 1.3;
+            font-size: clamp(22px, 5vw, 30px);
 
-            overflow-wrap: anywhere;
+            line-height: 1.2;
 
-            word-break: normal;
-
+            font-weight: 800;
         }
 
+        .page-subtitle {
+            margin: 7px 0 0;
 
-        .page-header p {
+            color: #64748b;
 
-            width: 100%;
+            font-size: 13px;
 
-            margin-top: 7px;
-
-            line-height: 1.55;
-
-            overflow-wrap: anywhere;
-
+            line-height: 1.6;
         }
 
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
 
-        /* =====================================================
-           NOTIFICATION
-           ===================================================== */
+            width: fit-content;
 
-        #alert-box {
+            padding: 8px 12px;
 
-            width: 100%;
+            border-radius: 999px;
 
-            max-width: 100%;
+            background: rgba(0, 120, 215, .08);
 
-            margin-bottom: 18px;
+            color: var(--tech-blue-dark);
 
-            overflow-wrap: anywhere;
-
-            word-break: break-word;
-
+            font-size: 12px;
+            font-weight: 700;
         }
 
+        .security-badge i {
+            color: var(--tech-orange);
+        }
 
-        /* =====================================================
-           CARTE PRINCIPALE
-           ===================================================== */
+        /* =========================================================
+           CARD
+        ========================================================== */
 
         .card-custom {
-
             width: 100%;
 
-            max-width: 100%;
+            background: #fff;
 
-            min-width: 0;
+            border-radius: 16px;
 
-            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+
+            box-shadow: var(--shadow-sm);
 
             overflow: hidden;
-
         }
-
-
-        /* =====================================================
-           HEADER CARTE
-           ===================================================== */
 
         .card-header-custom {
+            display: flex;
+            flex-direction: column;
 
-            width: 100%;
+            gap: 10px;
 
-            padding: 16px !important;
+            padding: 18px;
 
-            min-width: 0;
-
+            border-bottom: 1px solid #e2e8f0;
         }
 
+        .card-header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
 
-        .card-header-custom h2 {
+            color: #003366;
 
-            width: 100%;
-
-            font-size: 1rem;
-
-            line-height: 1.4;
-
-            overflow-wrap: anywhere;
-
+            font-size: 16px;
+            font-weight: 800;
         }
 
-
-        .card-header-custom p {
-
-            width: 100%;
-
-            line-height: 1.5;
-
-            overflow-wrap: anywhere;
-
+        .card-header-title i {
+            color: var(--tech-orange);
         }
 
+        .card-header-description {
+            margin: 0;
 
-        /* =====================================================
-           ZONE TABLEAU
-           ===================================================== */
+            color: #64748b;
 
-        .permissions-table-wrapper {
+            font-size: 12px;
 
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           TABLE WRAPPER
+        ========================================================== */
+
+        .table-container {
             width: 100%;
-
-            max-width: 100%;
 
             overflow-x: auto;
-
             overflow-y: hidden;
 
             -webkit-overflow-scrolling: touch;
 
             scrollbar-width: thin;
-
-            overscroll-behavior-x: contain;
-
         }
 
-
-        .permissions-table-wrapper::-webkit-scrollbar {
-
+        .table-container::-webkit-scrollbar {
             height: 7px;
-
         }
 
+        .table-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
 
         .permissions-table {
-
             width: 100%;
-
-            min-width: 760px;
+            min-width: 850px;
 
             border-collapse: collapse;
-
-            table-layout: auto;
-
         }
-
 
         .permissions-table th,
         .permissions-table td {
+            padding: 14px 12px;
 
-            vertical-align: middle;
-
-        }
-
-
-        .permissions-table th {
-
-            min-width: 130px;
-
-            font-size: 10px;
-
-            line-height: 1.4;
-
-            white-space: normal;
-
-        }
-
-
-        .permissions-table th:first-child {
-
-            min-width: 255px;
-
-        }
-
-
-        .permissions-table td {
-
-            min-width: 110px;
-
-            font-size: 13px;
-
-        }
-
-
-        .permissions-table td:first-child {
-
-            min-width: 255px;
-
-            line-height: 1.5;
-
-            overflow-wrap: anywhere;
-
-        }
-
-
-        .permissions-table td:first-child > div {
-
-            overflow-wrap: anywhere;
-
-        }
-
-
-        .permissions-table input[type="checkbox"] {
-
-            width: 20px !important;
-
-            min-width: 20px;
-
-            height: 20px;
-
-            min-height: 20px;
-
-            margin: 0 auto;
-
-            cursor: pointer;
-
-            accent-color: var(--tech-orange);
-
-        }
-
-
-        /* =====================================================
-           PIED DE CARTE
-           ===================================================== */
-
-        .card-footer-custom {
-
-            width: 100%;
-
-            padding: 16px !important;
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: stretch;
-
-            justify-content: flex-start;
-
-            gap: 14px;
-
-        }
-
-
-        .card-footer-custom p {
-
-            width: 100%;
-
-            min-width: 0;
-
-            margin: 0;
-
-            line-height: 1.5;
-
-            overflow-wrap: anywhere;
-
-        }
-
-
-        #btn-save {
-
-            width: 100% !important;
-
-            min-height: 48px;
-
-            padding:
-                12px 16px !important;
-
-            justify-content: center;
+            border-bottom: 1px solid #e2e8f0;
 
             text-align: center;
 
-            white-space: normal;
+            font-size: 12px;
+        }
 
-            line-height: 1.35;
+        .permissions-table th {
+            background: #f8fafc;
+
+            color: #334155;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .4px;
+
+            white-space: nowrap;
+        }
+
+        .permissions-table th:first-child,
+        .permissions-table td:first-child {
+            position: sticky;
+            left: 0;
+
+            z-index: 2;
+
+            text-align: left;
+
+            min-width: 190px;
+        }
+
+        .permissions-table th:first-child {
+            background: #f8fafc;
+            z-index: 4;
+        }
+
+        .permissions-table td:first-child {
+            background: #fff;
+
+            font-weight: 700;
+
+            color: #334155;
+        }
+
+        .permissions-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .permissions-table tbody tr:hover td {
+            background: #f8fafc;
+        }
+
+        .permissions-table tbody tr:hover td:first-child {
+            background: #f8fafc;
+        }
+
+        /* =========================================================
+           ROLE HEADER
+        ========================================================== */
+
+        .role-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            gap: 5px;
+        }
+
+        .role-icon {
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 8px;
+
+            background: rgba(0, 120, 215, .09);
+
+            color: var(--tech-blue);
+
+            font-size: 14px;
+        }
+
+        .role-name {
+            color: #334155;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           PERMISSION NAME
+        ========================================================== */
+
+        .permission-name {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .permission-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             flex-shrink: 0;
 
+            border-radius: 8px;
+
+            background: rgba(0, 78, 140, .08);
+
+            color: var(--tech-blue-dark);
         }
 
+        .permission-text {
+            min-width: 0;
+        }
 
-        #btn-save:disabled {
+        .permission-title {
+            display: block;
 
-            opacity: 0.70;
+            color: #334155;
 
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .permission-description {
+            display: block;
+
+            margin-top: 3px;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        /* =========================================================
+           CHECKBOX
+        ========================================================== */
+
+        .permission-checkbox {
+            width: 19px;
+            height: 19px;
+
+            appearance: none;
+            -webkit-appearance: none;
+
+            border: 2px solid #cbd5e1;
+
+            border-radius: 5px;
+
+            background: #fff;
+
+            cursor: pointer;
+
+            position: relative;
+
+            transition:
+                background .2s ease,
+                border-color .2s ease,
+                transform .15s ease;
+        }
+
+        .permission-checkbox:hover {
+            border-color: var(--tech-blue);
+        }
+
+        .permission-checkbox:checked {
+            background: var(--tech-blue);
+            border-color: var(--tech-blue);
+        }
+
+        .permission-checkbox:checked::after {
+            content: "";
+
+            position: absolute;
+
+            width: 5px;
+            height: 9px;
+
+            left: 5px;
+            top: 2px;
+
+            border:
+                solid #fff;
+
+            border-width:
+                0 2px 2px 0;
+
+            transform: rotate(45deg);
+        }
+
+        .permission-checkbox:active {
+            transform: scale(.92);
+        }
+
+        .permission-checkbox:disabled {
+            opacity: .55;
             cursor: not-allowed;
-
         }
 
+        /* =========================================================
+           CARD FOOTER
+        ========================================================== */
 
-        /* =====================================================
-           TRÈS PETITS ÉCRANS
-           ===================================================== */
+        .card-footer-custom {
+            display: flex;
+            flex-direction: column;
 
-        @media (max-width: 359px) {
+            gap: 12px;
 
-            .mobile-header {
+            padding: 16px 18px;
 
-                padding-left: 9px;
+            border-top: 1px solid #e2e8f0;
 
-                padding-right: 9px;
-
-            }
-
-
-            .mobile-brand {
-
-                gap: 8px;
-
-            }
-
-
-            .mobile-brand-logo {
-
-                width: 29px;
-                height: 29px;
-
-                flex-basis: 29px;
-
-            }
-
-
-            .mobile-brand-logo-inner {
-
-                width: 20px;
-                height: 20px;
-
-            }
-
-
-            .mobile-brand-title {
-
-                font-size: 14px;
-
-            }
-
-
-            .mobile-menu-btn {
-
-                width: 38px;
-                height: 38px;
-
-                flex-basis: 38px;
-
-            }
-
-
-            .sidebar {
-
-                width: min(90vw, 300px);
-
-            }
-
-
-            .sidebar-brand {
-
-                min-height: 62px;
-
-                padding:
-                    12px;
-
-            }
-
-
-            .sidebar-logo {
-
-                width: 32px;
-                height: 32px;
-
-                flex-basis: 32px;
-
-            }
-
-
-            .sidebar-logo-inner {
-
-                width: 22px;
-                height: 22px;
-
-            }
-
-
-            .sidebar-title {
-
-                font-size: 16px;
-
-            }
-
-
-            .main-content {
-
-                padding:
-                    15px 9px
-                    calc(25px + env(safe-area-inset-bottom))
-                    !important;
-
-            }
-
-
-            .page-header h1 {
-
-                font-size:
-                    1.18rem !important;
-
-            }
-
-
-            .card-custom {
-
-                border-radius: 11px;
-
-            }
-
-
-            .card-header-custom {
-
-                padding: 14px !important;
-
-            }
-
-
-            .card-footer-custom {
-
-                padding: 14px !important;
-
-            }
-
-
-            .permissions-table {
-
-                min-width: 720px;
-
-            }
-
-
-            .permissions-table th:first-child,
-            .permissions-table td:first-child {
-
-                min-width: 235px;
-
-            }
-
+            background: #fafcff;
         }
 
+        .permission-info {
+            display: flex;
+            align-items: flex-start;
 
-        /* =====================================================
-           MOBILE LARGE
-           ===================================================== */
+            gap: 9px;
 
-        @media (min-width: 480px) {
+            color: #64748b;
 
-            .main-content {
+            font-size: 11px;
 
-                padding-left: 16px !important;
-
-                padding-right: 16px !important;
-
-            }
-
-
-            .card-header-custom {
-
-                padding: 20px !important;
-
-            }
-
-
-            .card-footer-custom {
-
-                padding: 18px !important;
-
-            }
-
+            line-height: 1.5;
         }
 
+        .permission-info i {
+            color: var(--tech-orange);
 
-        /* =====================================================
-           TABLETTE
-           ===================================================== */
-
-        @media (min-width: 576px) {
-
-            .mobile-header {
-
-                min-height: 68px;
-
-                padding-left: 18px;
-
-                padding-right: 18px;
-
-            }
-
-
-            .mobile-brand-title {
-
-                font-size: 18px;
-
-            }
-
-
-            .main-content {
-
-                padding:
-                    25px 20px
-                    calc(35px + env(safe-area-inset-bottom))
-                    !important;
-
-            }
-
-
-            .page-header {
-
-                margin-bottom: 24px;
-
-            }
-
-
-            .page-header h1 {
-
-                font-size:
-                    1.6rem !important;
-
-            }
-
-
-            .card-custom {
-
-                border-radius: 16px;
-
-            }
-
-
-            .card-header-custom {
-
-                padding: 22px !important;
-
-            }
-
-
-            .card-footer-custom {
-
-                padding: 18px 22px !important;
-
-            }
-
-
-            .card-footer-custom {
-
-                flex-direction: row;
-
-                align-items: center;
-
-                justify-content: space-between;
-
-            }
-
-
-            .card-footer-custom p {
-
-                flex: 1;
-
-                padding-right: 15px;
-
-            }
-
-
-            #btn-save {
-
-                width: auto !important;
-
-                min-width: 220px;
-
-            }
-
+            margin-top: 2px;
         }
 
+        .save-btn {
+            width: 100%;
 
-        /* =====================================================
-           TABLETTE LARGE
-           ===================================================== */
+            min-height: 46px;
 
-        @media (min-width: 768px) {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
 
-            .main-content {
+            gap: 9px;
 
-                padding:
-                    30px 24px
-                    calc(40px + env(safe-area-inset-bottom))
-                    !important;
+            border: 0;
 
-            }
+            border-radius: 10px;
 
+            background: linear-gradient(
+                135deg,
+                var(--tech-blue),
+                var(--tech-blue-dark)
+            );
 
-            .page-header {
+            color: #fff;
 
-                margin-bottom: 28px;
+            font-size: 13px;
+            font-weight: 700;
 
-            }
+            cursor: pointer;
 
+            box-shadow: 0 5px 14px rgba(0, 120, 215, .22);
 
-            .page-header h1 {
-
-                font-size:
-                    1.75rem !important;
-
-            }
-
-
-            .card-header-custom {
-
-                padding: 24px !important;
-
-            }
-
-
-            .card-footer-custom {
-
-                padding:
-                    20px 24px !important;
-
-            }
-
-
-            .permissions-table {
-
-                min-width: 850px;
-
-            }
-
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease,
+                opacity .2s ease;
         }
 
+        .save-btn:hover {
+            transform: translateY(-1px);
 
-        /* =====================================================
-           DESKTOP
-           ===================================================== */
+            box-shadow:
+                0 8px 20px rgba(0, 120, 215, .28);
+        }
+
+        .save-btn:active {
+            transform: translateY(0);
+        }
+
+        .save-btn:disabled {
+            opacity: .65;
+            cursor: wait;
+        }
+
+        /* =========================================================
+           TOAST
+        ========================================================== */
+
+        .toast-message {
+            position: fixed;
+
+            left: 14px;
+            right: 14px;
+            bottom: calc(20px + env(safe-area-inset-bottom));
+
+            max-width: 420px;
+
+            margin: auto;
+
+            padding: 13px 16px;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            border-radius: 12px;
+
+            background: #003366;
+            color: #fff;
+
+            box-shadow: var(--shadow-md);
+
+            font-size: 12px;
+            font-weight: 600;
+
+            opacity: 0;
+            visibility: hidden;
+
+            transform: translateY(20px);
+
+            z-index: 11000;
+
+            transition:
+                opacity .25s ease,
+                visibility .25s ease,
+                transform .25s ease;
+        }
+
+        .toast-message.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .toast-message.success i {
+            color: #4ade80;
+        }
+
+        .toast-message.error i {
+            color: #f87171;
+        }
+
+        /* =========================================================
+           DARK MODE
+        ========================================================== */
+
+        html.dark body {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        html.dark .main-content {
+            background: #0f172a;
+        }
+
+        html.dark .page-title {
+            color: #f8fafc;
+        }
+
+        html.dark .page-subtitle {
+            color: #94a3b8;
+        }
+
+        html.dark .security-badge {
+            background: rgba(33, 150, 243, .12);
+            color: #93c5fd;
+        }
+
+        html.dark .card-custom {
+            background: #111827;
+            border-color: #1e293b;
+            box-shadow: 0 8px 30px rgba(0,0,0,.18);
+        }
+
+        html.dark .card-header-custom {
+            border-color: #1e293b;
+        }
+
+        html.dark .card-header-title {
+            color: #f8fafc;
+        }
+
+        html.dark .card-header-description {
+            color: #94a3b8;
+        }
+
+        html.dark .permissions-table th {
+            background: #1e293b;
+            color: #cbd5e1;
+            border-color: #334155;
+        }
+
+        html.dark .permissions-table td {
+            border-color: #1e293b;
+        }
+
+        html.dark .permissions-table th:first-child {
+            background: #1e293b;
+        }
+
+        html.dark .permissions-table td:first-child {
+            background: #111827;
+            color: #e2e8f0;
+        }
+
+        html.dark .permissions-table tbody tr:hover td {
+            background: #172033;
+        }
+
+        html.dark .permissions-table tbody tr:hover td:first-child {
+            background: #172033;
+        }
+
+        html.dark .role-name {
+            color: #cbd5e1;
+        }
+
+        html.dark .permission-title {
+            color: #e2e8f0;
+        }
+
+        html.dark .permission-description {
+            color: #64748b;
+        }
+
+        html.dark .permission-checkbox {
+            background: #1e293b;
+            border-color: #475569;
+        }
+
+        html.dark .permission-checkbox:checked {
+            background: var(--tech-blue);
+            border-color: var(--tech-blue);
+        }
+
+        html.dark .card-footer-custom {
+            background: #0f172a;
+            border-color: #1e293b;
+        }
+
+        html.dark .permission-info {
+            color: #94a3b8;
+        }
+
+        /* =========================================================
+           ACCESSIBILITÉ
+        ========================================================== */
+
+        :focus-visible {
+            outline: 3px solid rgba(255, 140, 0, .55);
+            outline-offset: 2px;
+        }
+
+        /* =========================================================
+           DESKTOP ≥ 992px
+        ========================================================== */
 
         @media (min-width: 992px) {
 
-            body {
-
-                display: block;
-
-                min-height: 100vh;
-
-                overflow-x: hidden;
-
-            }
-
-
-            /* -------------------------------------------------
-               HEADER MOBILE CACHÉ
-               ------------------------------------------------- */
-
             .mobile-header {
-
                 display: none;
-
             }
-
 
             .sidebar-overlay {
-
                 display: none;
-
             }
-
-
-            /* -------------------------------------------------
-               SIDEBAR FIXE
-               ------------------------------------------------- */
 
             .sidebar {
+                width: var(--sidebar-width);
 
-                position: fixed;
-
-                top: 0;
-                left: 0;
-                bottom: 0;
-
-                width:
-                    var(--sidebar-width);
-
-                height: 100vh;
-
-                max-height: 100vh;
-
-                transform: none;
-
-                transition: none;
-
-                overflow-x: hidden;
-
-                overflow-y: auto;
+                transform: translateX(0);
 
                 box-shadow:
-                    4px 0 25px rgba(0, 0, 0, 0.08);
-
-                border-right:
-                    1px solid rgba(255, 255, 255, 0.05);
-
+                    5px 0 25px rgba(0,0,0,.10);
             }
-
-
-            .sidebar-brand {
-
-                min-height: 86px;
-
-                padding:
-                    24px;
-
-            }
-
-
-            .sidebar-brand-left {
-
-                gap: 14px;
-
-            }
-
-
-            .sidebar-logo {
-
-                width: 40px;
-                height: 40px;
-
-                flex-basis: 40px;
-
-            }
-
-
-            .sidebar-logo-inner {
-
-                width: 28px;
-                height: 28px;
-
-            }
-
-
-            .sidebar-title {
-
-                font-size: 20px;
-
-            }
-
 
             .sidebar-close {
-
                 display: none;
-
             }
-
-
-            /* -------------------------------------------------
-               MENU DESKTOP
-               ------------------------------------------------- */
-
-            .nav-menu {
-
-                padding:
-                    24px 16px;
-
-                gap: 6px;
-
-                overflow-y: auto;
-
-                overflow-x: hidden;
-
-            }
-
-
-            .nav-link {
-
-                min-height: 48px;
-
-                padding:
-                    13px 18px;
-
-                font-size: 14px;
-
-                white-space: normal;
-
-            }
-
-
-            .nav-link i {
-
-                width: 22px;
-
-                flex-basis: 22px;
-
-                font-size: 16px;
-
-            }
-
-
-            .nav-link.active {
-
-                border-left-width: 4px;
-
-                padding-left: 14px;
-
-            }
-
-
-            .nav-link.back-link {
-
-                margin-top: auto;
-
-            }
-
-
-            /* -------------------------------------------------
-               FOOTER DESKTOP
-               ------------------------------------------------- */
-
-            .sidebar-footer {
-
-                padding:
-                    20px
-                    24px
-                    calc(20px + env(safe-area-inset-bottom));
-
-            }
-
-
-            .btn-logout {
-
-                min-height: 44px;
-
-                font-size: 14px;
-
-            }
-
-
-            /* -------------------------------------------------
-               CONTENU DESKTOP
-               ------------------------------------------------- */
 
             .main-content {
+                width: calc(100% - var(--sidebar-width));
 
-                width:
-                    calc(100% - var(--sidebar-width));
-
-                max-width:
-                    calc(100% - var(--sidebar-width));
-
-                min-width: 0;
-
-                margin-left:
-                    var(--sidebar-width) !important;
+                margin-left: var(--sidebar-width);
 
                 padding:
-                    40px !important;
-
-                overflow-x: hidden;
-
+                    30px
+                    30px
+                    40px;
             }
 
+            .page-header {
+                flex-direction: row;
 
-            .page-header h1 {
-
-                font-size:
-                    1.875rem !important;
-
+                align-items: flex-start;
+                justify-content: space-between;
             }
-
-
-            .card-custom {
-
-                border-radius: 16px;
-
-            }
-
 
             .card-header-custom {
-
-                padding: 24px !important;
-
+                padding: 22px 24px;
             }
-
 
             .card-footer-custom {
+                flex-direction: row;
 
-                padding:
-                    20px 24px !important;
+                align-items: center;
+                justify-content: space-between;
 
+                padding: 18px 24px;
             }
 
-
-            /* -------------------------------------------------
-               TABLEAU DESKTOP
-               ------------------------------------------------- */
-
-            .permissions-table-wrapper {
-
-                overflow-x: auto;
-
+            .permission-info {
+                max-width: 70%;
             }
 
+            .save-btn {
+                width: auto;
+
+                min-width: 180px;
+            }
+
+            .toast-message {
+                left: auto;
+                right: 24px;
+                bottom: 24px;
+                margin: 0;
+            }
+        }
+
+        /* =========================================================
+           GRAND ÉCRAN
+        ========================================================== */
+
+        @media (min-width: 1400px) {
+
+            .main-content {
+                padding-left: 42px;
+                padding-right: 42px;
+            }
+        }
+
+        /* =========================================================
+           PETITS MOBILES
+        ========================================================== */
+
+        @media (max-width: 480px) {
+
+            .mobile-brand-title {
+                font-size: 16px;
+            }
+
+            .main-content {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .page-title {
+                font-size: 21px;
+            }
+
+            .card-custom {
+                border-radius: 13px;
+            }
+
+            .card-header-custom {
+                padding: 15px;
+            }
+
+            .card-footer-custom {
+                padding: 14px 15px;
+            }
 
             .permissions-table {
-
-                width: 100%;
-
-                min-width: 0;
-
-                table-layout: fixed;
-
+                min-width: 790px;
             }
-
-
-            .permissions-table th,
-            .permissions-table td {
-
-                white-space: normal;
-
-                overflow-wrap: anywhere;
-
-            }
-
-
-            .permissions-table th:first-child,
-            .permissions-table td:first-child {
-
-                width: 40%;
-
-                min-width: 0;
-
-            }
-
-
-            .permissions-table th:not(:first-child),
-            .permissions-table td:not(:first-child) {
-
-                width: 15%;
-
-                min-width: 0;
-
-            }
-
-
-            .permissions-table input[type="checkbox"] {
-
-                width: 17px !important;
-
-                min-width: 17px;
-
-                height: 17px;
-
-                min-height: 17px;
-
-            }
-
-
-            #btn-save {
-
-                width: auto !important;
-
-                min-width: 0;
-
-            }
-
         }
 
-
-        /* =====================================================
-           GRAND ÉCRAN
-           ===================================================== */
-
-        @media (min-width: 1200px) {
-
-            .main-content {
-
-                padding:
-                    40px 45px !important;
-
-            }
-
-        }
-
-
-        /* =====================================================
-           TRÈS GRAND ÉCRAN
-           ===================================================== */
-
-        @media (min-width: 1600px) {
-
-            .main-content {
-
-                padding:
-                    45px 55px !important;
-
-            }
-
-
-            .page-header,
-            .card-custom {
-
-                max-width: 1700px;
-
-                margin-left: auto;
-
-                margin-right: auto;
-
-            }
-
-        }
-
-
-        /* =====================================================
-           ACCESSIBILITÉ
-           ===================================================== */
-
-        button:focus-visible,
-        a:focus-visible,
-        input:focus-visible,
-        select:focus-visible {
-
-            outline:
-                2px solid var(--tech-orange);
-
-            outline-offset: 2px;
-
-        }
-
-
-        /* =====================================================
+        /* =========================================================
            RÉDUCTION DES ANIMATIONS
-           ===================================================== */
+        ========================================================== */
 
         @media (prefers-reduced-motion: reduce) {
-
-            html {
-
-                scroll-behavior: auto;
-
-            }
-
 
             *,
             *::before,
             *::after {
-
-                transition: none !important;
-
-                animation: none !important;
-
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
             }
-
         }
 
+        /* =========================================================
+           VERROUILLAGE DU SCROLL MOBILE
+        ========================================================== */
+
+        body.menu-open {
+            overflow: hidden;
+        }
     </style>
-
 </head>
-
 
 <body>
 
+<!-- =============================================================
+     MOBILE HEADER
+============================================================== -->
 
-    <!-- =====================================================
-         HEADER MOBILE
-         ===================================================== -->
+<header class="mobile-header">
 
-    <header class="mobile-header">
+    <div class="mobile-brand">
 
-        <div class="mobile-brand">
+        <div class="mobile-brand-logo">
+            <div class="mobile-brand-logo-inner"></div>
+        </div>
 
-            <div class="mobile-brand-logo">
+        <div class="mobile-brand-title">
+            ASTRA <span>TECH</span>
+        </div>
 
-                <div class="mobile-brand-logo-inner"></div>
+    </div>
 
+    <button
+        type="button"
+        class="mobile-menu-btn"
+        id="mobileMenuBtn"
+        aria-label="Ouvrir le menu"
+        aria-controls="sidebar"
+        aria-expanded="false"
+    >
+        <i class="fas fa-bars"></i>
+    </button>
+
+</header>
+
+
+<!-- =============================================================
+     SIDEBAR OVERLAY
+============================================================== -->
+
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+    aria-hidden="true"
+></div>
+
+
+<!-- =============================================================
+     SIDEBAR
+     IDENTIQUE AU SIDEBAR PARAMÈTRES
+============================================================== -->
+
+<aside
+    class="sidebar"
+    id="sidebar"
+    aria-label="Menu principal"
+>
+
+    <!-- BRAND -->
+
+    <div class="sidebar-brand">
+
+        <div class="sidebar-brand-left">
+
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-inner"></div>
             </div>
 
-            <div class="mobile-brand-title">
-
+            <div class="sidebar-title">
                 ASTRA <span>TECH</span>
-
             </div>
 
         </div>
-
 
         <button
             type="button"
-            class="mobile-menu-btn"
-            id="mobileMenuBtn"
-            aria-label="Ouvrir le menu"
-            aria-controls="sidebar"
-            aria-expanded="false"
+            class="sidebar-close"
+            id="sidebarClose"
+            aria-label="Fermer le menu"
         >
-
-            <i class="fas fa-bars"></i>
-
+            <i class="fas fa-times"></i>
         </button>
 
-    </header>
+    </div>
 
 
-    <!-- =====================================================
-         OVERLAY
-         ===================================================== -->
+    <!-- NAVIGATION -->
 
-    <div
-        class="sidebar-overlay"
-        id="sidebarOverlay"
-        aria-hidden="true"
-    ></div>
-
-
-    <!-- =====================================================
-         SIDEBAR
-         ===================================================== -->
-
-    <aside
-        class="sidebar"
-        id="sidebar"
+    <nav
+        class="nav-menu"
+        aria-label="Navigation administration"
     >
 
+        <!-- TOKENS -->
 
-        <!-- BRAND -->
-
-        <div class="sidebar-brand">
-
-            <div class="sidebar-brand-left">
-
-                <div class="sidebar-logo">
-
-                    <div class="sidebar-logo-inner"></div>
-
-                </div>
-
-
-                <div class="sidebar-title">
-
-                    ASTRA <span>TECH</span>
-
-                </div>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="sidebar-close"
-                id="sidebarClose"
-                aria-label="Fermer le menu"
-            >
-
-                <i class="fas fa-times"></i>
-
-            </button>
-
-        </div>
-
-
-        <!-- NAVIGATION -->
-
-        <nav
-            class="nav-menu"
-            aria-label="Navigation administration"
+        <a
+            href="{% url 'astra:token_accueil' %}"
+            class="nav-link"
         >
+            <i class="fas fa-key"></i>
+            <span>Gestion des Tokens</span>
+        </a>
 
 
-            <a
-                href="{% url 'astra:token_accueil' %}"
-                class="nav-link"
-            >
+        <!-- UTILISATEURS -->
 
-                <i class="fas fa-key"></i>
-
-                <span>
-                    Gestion des Tokens
-                </span>
-
-            </a>
+        <a
+            href="{% url 'astra:page_utilisateurs' %}"
+            class="nav-link"
+        >
+            <i class="fas fa-users"></i>
+            <span>Utilisateurs</span>
+        </a>
 
 
-            <a
-                href="{% url 'astra:page_utilisateurs' %}"
-                class="nav-link"
-            >
+        <!-- PERMISSIONS -->
 
-                <i class="fas fa-users"></i>
-
-                <span>
-                    Utilisateurs
-                </span>
-
-            </a>
+        <a
+            href="{% url 'astra:permissions_page' %}"
+            class="nav-link active"
+            aria-current="page"
+        >
+            <i class="fas fa-user-shield"></i>
+            <span>Permissions</span>
+        </a>
 
 
-            <a
-                href="{% url 'astra:permissions_page' %}"
-                class="nav-link active"
-                aria-current="page"
-            >
+        <!-- HISTORIQUE -->
 
-                <i class="fas fa-shield-alt"></i>
-
-                <span>
-                    Permissions
-                </span>
-
-            </a>
+        <a
+            href="{% url 'astra:historiques_page' %}"
+            class="nav-link"
+        >
+            <i class="fas fa-clock-rotate-left"></i>
+            <span>Historique</span>
+        </a>
 
 
-            <a
-                href="{% url 'astra:historiques_page' %}"
-                class="nav-link"
-            >
+        <!-- PARAMÈTRES -->
 
-                <i class="fas fa-history"></i>
-
-                <span>
-                    Historique
-                </span>
-
-            </a>
+        <a
+            href="{% url 'astra:parametres_page' %}"
+            class="nav-link"
+        >
+            <i class="fas fa-sliders"></i>
+            <span>Paramètres</span>
+        </a>
 
 
-            <a
-                href="{% url 'astra:parametres_page' %}"
-                class="nav-link"
-            >
+        <!-- RETOUR -->
 
-                <i class="fas fa-cog"></i>
+        <a
+            href="#"
+            class="nav-link back-link"
+            onclick="history.back(); return false;"
+        >
+            <i class="fas fa-arrow-left"></i>
+            <span>Retour</span>
+        </a>
 
-                <span>
-                    Paramètres
-                </span>
-
-            </a>
-
-
-            <a
-                href="#"
-                onclick="history.back(); return false;"
-                class="nav-link back-link"
-            >
-
-                <i class="fas fa-arrow-left"></i>
-
-                <span>
-                    Retour
-                </span>
-
-            </a>
+    </nav>
 
 
-        </nav>
+    <!-- FOOTER -->
+
+    <div class="sidebar-footer">
+
+        <a
+            href="{% url 'astra:login' %}"
+            class="btn-logout"
+            id="loginBtn"
+        >
+            <i class="fas fa-right-from-bracket"></i>
+            <span>Déconnexion</span>
+        </a>
+
+    </div>
+
+</aside>
 
 
-        <!-- FOOTER -->
+<!-- =============================================================
+     CONTENU PRINCIPAL
+============================================================== -->
 
-        <div class="sidebar-footer">
+<main class="main-content">
 
-            <a
-                href="{% url 'astra:login' %}"
-                class="btn-logout"
-                id="loginBtn"
-            >
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
 
-                <i class="fas fa-sign-out-alt"></i>
+    <section class="page-header">
 
-                <span>
-                    Déconnexion
-                </span>
+        <div class="page-header-left">
 
-            </a>
-
-        </div>
-
-    </aside>
-
-
-    <!-- =====================================================
-         CONTENU PRINCIPAL
-         ===================================================== -->
-
-    <main class="main-content">
-
-
-        <!-- =================================================
-             EN-TÊTE
-             ================================================= -->
-
-        <div class="page-header">
-
-            <h1
-                class="font-bold tracking-tight text-slate-900 dark:text-white"
-            >
-
+            <h1 class="page-title">
                 Matrice des Rôles & Sécurité
-
             </h1>
 
+            <p class="page-subtitle">
+                Gérez les droits d'accès des différents rôles
+                utilisateurs de la plateforme ASTRA TECH.
+            </p>
 
-            <p
-                class="text-slate-500 dark:text-slate-400 text-sm"
-            >
+        </div>
 
-                Contrôlez les autorisations d'accès aux modules
-                de gestion de matériel informatique.
+        <div class="security-badge">
+            <i class="fas fa-shield-halved"></i>
+            Sécurité des accès
+        </div>
 
+    </section>
+
+
+    <!-- =========================================================
+         MATRICE DES PERMISSIONS
+    ========================================================== -->
+
+    <section class="card-custom">
+
+        <!-- CARD HEADER -->
+
+        <div class="card-header-custom">
+
+            <div class="card-header-title">
+                <i class="fas fa-user-lock"></i>
+                Matrice des permissions
+            </div>
+
+            <p class="card-header-description">
+                Activez ou désactivez les accès de chaque rôle.
+                Les modifications sont appliquées après
+                l'enregistrement.
             </p>
 
         </div>
 
 
-        <!-- =================================================
-             NOTIFICATION
-             ================================================= -->
+        <!-- =====================================================
+             TABLEAU
+        ====================================================== -->
 
-        <div
-            id="alert-box"
-            class="hidden mb-6 p-4 rounded-xl text-sm font-medium transition-all shadow-sm"
-        ></div>
+        <div class="table-container">
 
+            <table class="permissions-table">
 
-        <!-- =================================================
-             CARTE MATRICE
-             ================================================= -->
+                <thead>
 
-        <div
-            class="card-custom bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
-        >
+                    <tr>
 
+                        <th>
+                            Fonctionnalités
+                        </th>
 
-            <!-- =================================================
-                 EN-TÊTE CARTE
-                 ================================================= -->
-
-            <div
-                class="card-header-custom border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40"
-            >
-
-                <h2
-                    class="font-bold text-slate-800 dark:text-white text-base"
-                >
-
-                    Attribution des Permissions par Groupe
-
-                </h2>
-
-
-                <p
-                    class="text-xs text-slate-500 dark:text-slate-400 mt-1"
-                >
-
-                    Enregistrez vos choix pour valider les droits
-                    d'accès directement dans le backend.
-
-                </p>
-
-            </div>
-
-
-            <!-- =================================================
-                 FORMULAIRE
-                 ================================================= -->
-
-            <form
-                id="real-permissions-form"
-                onsubmit="saveRealPermissions(event)"
-            >
-
-                {% csrf_token %}
-
-
-                <!-- =================================================
-                     TABLEAU
-                     ================================================= -->
-
-                <div class="permissions-table-wrapper">
-
-                    <table
-                        class="permissions-table w-full text-left"
-                    >
-
-                        <thead>
-
-                            <tr
-                                class="bg-slate-50 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 text-[11px] font-semibold text-slate-400 uppercase tracking-wider"
-                            >
-
-                                <th class="py-4 px-6">
-
-                                    Fonctionnalité /
-                                    Module Technique
-
-                                </th>
-
-
-                                <th class="py-4 px-6 text-center">
-
+                        <th>
+                            <div class="role-header">
+                                <div class="role-icon">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <span class="role-name">
                                     Administrateur
+                                </span>
+                            </div>
+                        </th>
 
-                                </th>
+                        <th>
+                            <div class="role-header">
+                                <div class="role-icon">
+                                    <i class="fas fa-cash-register"></i>
+                                </div>
+                                <span class="role-name">
+                                    Vente
+                                </span>
+                            </div>
+                        </th>
+
+                        <th>
+                            <div class="role-header">
+                                <div class="role-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <span class="role-name">
+                                    Client
+                                </span>
+                            </div>
+                        </th>
+
+                        <th>
+                            <div class="role-header">
+                                <div class="role-icon">
+                                    <i class="fas fa-truck"></i>
+                                </div>
+                                <span class="role-name">
+                                    Fournisseur
+                                </span>
+                            </div>
+                        </th>
+
+                        <th>
+                            <div class="role-header">
+                                <div class="role-icon">
+                                    <i class="fas fa-boxes-stacked"></i>
+                                </div>
+                                <span class="role-name">
+                                    Approvisionnement
+                                </span>
+                            </div>
+                        </th>
+
+                    </tr>
+
+                </thead>
 
 
-                                <th class="py-4 px-6 text-center">
+                <tbody>
 
-                                    Gestionnaire Stock
+                    <!-- =================================================
+                         VENTES
+                    ================================================== -->
 
-                                </th>
+                    <tr>
 
+                        <td>
 
-                                <th class="py-4 px-6 text-center">
+                            <div class="permission-name">
 
-                                    Commercial / Vendeur
+                                <div class="permission-icon">
+                                    <i class="fas fa-cart-shopping"></i>
+                                </div>
 
-                                </th>
+                                <div class="permission-text">
 
+                                    <span class="permission-title">
+                                        Ventes
+                                    </span>
 
-                                <th class="py-4 px-6 text-center">
+                                    <span class="permission-description">
+                                        Gestion des ventes
+                                    </span>
 
-                                    Caissier(ère)
+                                </div>
 
-                                </th>
+                            </div>
 
-                            </tr>
+                        </td>
 
-                        </thead>
-
-
-                        <tbody
-                            class="divide-y divide-slate-100 dark:divide-slate-800 text-sm"
-                        >
-
-
-                            <!-- =================================================
-                                 VENTES
-                                 ================================================= -->
-
-                            <tr
-                                class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition"
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="ventes"
+                                data-role="admin"
+                                checked
                             >
+                        </td>
 
-                                <td
-                                    class="py-4 px-6 font-medium text-slate-700 dark:text-slate-200"
-                                >
-
-                                    <div
-                                        class="font-bold text-xs text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-1"
-                                    >
-
-                                        Module Ventes &
-                                        Facturation
-
-                                    </div>
-
-                                    Valider une transaction ou émettre
-                                    un devis matériel (PC, Composants)
-
-                                </td>
-
-
-                                <td class="py-4 px-6 text-center">
-
-                                    <input
-                                        type="checkbox"
-                                        name="admin_vente"
-                                        checked
-                                        aria-label="Administrateur - Ventes"
-                                    >
-
-                                </td>
-
-
-                                <td class="py-4 px-6 text-center">
-
-                                    <input
-                                        type="checkbox"
-                                        name="stock_vente"
-                                        aria-label="Gestionnaire Stock - Ventes"
-                                    >
-
-                                </td>
-
-
-                                <td class="py-4 px-6 text-center">
-
-                                    <input
-                                        type="checkbox"
-                                        name="vendeur_vente"
-                                        checked
-                                        aria-label="Commercial Vendeur - Ventes"
-                                    >
-
-                                </td>
-
-
-                                <td class="py-4 px-6 text-center">
-
-                                    <input
-                                        type="checkbox"
-                                        name="caissier_vente"
-                                        checked
-                                        aria-label="Caissier - Ventes"
-                                    >
-
-                                </td>
-
-                            </tr>
-
-
-                            <!-- =================================================
-                                 STOCK
-                                 ================================================= -->
-
-                            <tr
-                                class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition"
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="ventes"
+                                data-role="vente"
+                                checked
                             >
+                        </td>
 
-                                <td
-                                    class="py-4 px-6 font-medium text-slate-700 dark:text-slate-200"
-                                >
-
-                                    <div
-                                        class="font-bold text-xs text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-1"
-                                    >
-
-                                        Module Stock &
-                                        Entrepôt
-
-                                    </div>
-
-                                    Ajouter, modifier ou supprimer
-                                    des équipements informatiques
-                                    en stock
-
-                                </td>
-
-
-                                <td class="py-4 px-6 text-center">
-
-                                    <input
-                                        type="checkbox"
-                                        name="admin_stock"
-                                        checked
-                                        aria-label="Administrateur - Stock"
-                                    >
-
-                                </td>
-
-
-                                <td class="py-4 px-6 text-center">
-
-                                    <input
-                                        type="checkbox"
-                                        name="stock_stock"
-                                        checked
-                                        aria-label="Gestionnaire Stock - Stock"
-                                    >
-
-                                </td>
-
-
-                                <td class="py-4 px-6 text-center">
-
-                                    <input
-                                        type="checkbox"
-                                        name="vendeur_stock"
-                                        aria-label="Commercial Vendeur - Stock"
-                                    >
-
-                                </td>
-
-
-                                <td class="py-4 px-6 text-center">
-
-                                    <input
-                                        type="checkbox"
-                                        name="caissier_stock"
-                                        aria-label="Caissier - Stock"
-                                    >
-
-                                </td>
-
-                            </tr>
-
-
-                            <!-- =================================================
-                                 ADMINISTRATION
-                                 ================================================= -->
-
-                            <tr
-                                class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition"
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="ventes"
+                                data-role="client"
+                                checked
                             >
+                        </td>
 
-                                <td
-                                    class="py-4 px-6 font-medium text-slate-700 dark:text-slate-200"
-                                >
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="ventes"
+                                data-role="fournisseur"
+                            >
+                        </td>
 
-                                    <div
-                                        class="font-bold text-xs text-orange-600 dark:text-orange-400 uppercase tracking-wide mb-1"
-                                    >
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="ventes"
+                                data-role="approvisionnement"
+                            >
+                        </td>
 
-                                        Administration &
-                                        Sécurité
-
-                                    </div>
-
-                                    Générer des jetons d'accès API
-                                    et modifier les paramètres système
-
-                                </td>
-
-
-                                <td class="py-4 px-6 text-center">
-
-                                    <input
-                                        type="checkbox"
-                                        name="admin_tokens"
-                                        checked
-                                        aria-label="Administrateur - Administration"
-                                    >
-
-                                </td>
+                    </tr>
 
 
-                                <td class="py-4 px-6 text-center">
+                    <!-- =================================================
+                         CLIENTS
+                    ================================================== -->
 
-                                    <input
-                                        type="checkbox"
-                                        name="stock_tokens"
-                                        aria-label="Gestionnaire Stock - Administration"
-                                    >
+                    <tr>
 
-                                </td>
+                        <td>
+
+                            <div class="permission-name">
+
+                                <div class="permission-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+
+                                <div class="permission-text">
+
+                                    <span class="permission-title">
+                                        Clients
+                                    </span>
+
+                                    <span class="permission-description">
+                                        Gestion des clients
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="clients"
+                                data-role="admin"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="clients"
+                                data-role="vente"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="clients"
+                                data-role="client"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="clients"
+                                data-role="fournisseur"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="clients"
+                                data-role="approvisionnement"
+                            >
+                        </td>
+
+                    </tr>
 
 
-                                <td class="py-4 px-6 text-center">
+                    <!-- =================================================
+                         FOURNISSEURS
+                    ================================================== -->
 
-                                    <input
-                                        type="checkbox"
-                                        name="vendeur_tokens"
-                                        aria-label="Commercial Vendeur - Administration"
-                                    >
+                    <tr>
 
-                                </td>
+                        <td>
+
+                            <div class="permission-name">
+
+                                <div class="permission-icon">
+                                    <i class="fas fa-truck"></i>
+                                </div>
+
+                                <div class="permission-text">
+
+                                    <span class="permission-title">
+                                        Fournisseurs
+                                    </span>
+
+                                    <span class="permission-description">
+                                        Gestion des fournisseurs
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="fournisseurs"
+                                data-role="admin"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="fournisseurs"
+                                data-role="vente"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="fournisseurs"
+                                data-role="client"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="fournisseurs"
+                                data-role="fournisseur"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="fournisseurs"
+                                data-role="approvisionnement"
+                                checked
+                            >
+                        </td>
+
+                    </tr>
 
 
-                                <td class="py-4 px-6 text-center">
+                    <!-- =================================================
+                         APPROVISIONNEMENTS
+                    ================================================== -->
 
-                                    <input
-                                        type="checkbox"
-                                        name="caissier_tokens"
-                                        aria-label="Caissier - Administration"
-                                    >
+                    <tr>
 
-                                </td>
+                        <td>
 
-                            </tr>
+                            <div class="permission-name">
+
+                                <div class="permission-icon">
+                                    <i class="fas fa-boxes-stacked"></i>
+                                </div>
+
+                                <div class="permission-text">
+
+                                    <span class="permission-title">
+                                        Approvisionnements
+                                    </span>
+
+                                    <span class="permission-description">
+                                        Gestion des entrées de stock
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="approvisionnements"
+                                data-role="admin"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="approvisionnements"
+                                data-role="vente"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="approvisionnements"
+                                data-role="client"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="approvisionnements"
+                                data-role="fournisseur"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="approvisionnements"
+                                data-role="approvisionnement"
+                                checked
+                            >
+                        </td>
+
+                    </tr>
 
 
-                        </tbody>
+                    <!-- =================================================
+                         STOCKS
+                    ================================================== -->
 
-                    </table>
+                    <tr>
 
-                </div>
+                        <td>
+
+                            <div class="permission-name">
+
+                                <div class="permission-icon">
+                                    <i class="fas fa-box"></i>
+                                </div>
+
+                                <div class="permission-text">
+
+                                    <span class="permission-title">
+                                        Stocks
+                                    </span>
+
+                                    <span class="permission-description">
+                                        Gestion du stock
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="stocks"
+                                data-role="admin"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="stocks"
+                                data-role="vente"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="stocks"
+                                data-role="client"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="stocks"
+                                data-role="fournisseur"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="stocks"
+                                data-role="approvisionnement"
+                            >
+                        </td>
+
+                    </tr>
 
 
-                <!-- =================================================
-                     PIED DE CARTE
-                     ================================================= -->
+                    <!-- =================================================
+                         RAPPORTS
+                    ================================================== -->
 
-                <div
-                    class="card-footer-custom bg-slate-50/50 dark:bg-slate-900/40 border-t border-slate-100 dark:border-slate-800"
-                >
+                    <tr>
 
-                    <p
-                        class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5"
-                    >
+                        <td>
 
-                        <i class="fas fa-server text-blue-500"></i>
+                            <div class="permission-name">
 
-                        <span>
-                            Communication active avec la base de données
-                            de l'application.
-                        </span>
+                                <div class="permission-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
 
-                    </p>
+                                <div class="permission-text">
+
+                                    <span class="permission-title">
+                                        Rapports
+                                    </span>
+
+                                    <span class="permission-description">
+                                        Rapports et statistiques
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="rapports"
+                                data-role="admin"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="rapports"
+                                data-role="vente"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="rapports"
+                                data-role="client"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="rapports"
+                                data-role="fournisseur"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="rapports"
+                                data-role="approvisionnement"
+                            >
+                        </td>
+
+                    </tr>
 
 
-                    <button
-                        type="submit"
-                        id="btn-save"
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2.5 rounded-xl text-sm transition shadow-sm flex items-center gap-2 cursor-pointer"
-                    >
+                    <!-- =================================================
+                         UTILISATEURS
+                    ================================================== -->
 
-                        <i class="fas fa-save text-xs"></i>
+                    <tr>
 
-                        <span>
-                            Enregistrer les permissions
-                        </span>
+                        <td>
 
-                    </button>
+                            <div class="permission-name">
 
-                </div>
+                                <div class="permission-icon">
+                                    <i class="fas fa-user-gear"></i>
+                                </div>
 
-            </form>
+                                <div class="permission-text">
+
+                                    <span class="permission-title">
+                                        Utilisateurs
+                                    </span>
+
+                                    <span class="permission-description">
+                                        Gestion des comptes
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="utilisateurs"
+                                data-role="admin"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="utilisateurs"
+                                data-role="vente"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="utilisateurs"
+                                data-role="client"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="utilisateurs"
+                                data-role="fournisseur"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="utilisateurs"
+                                data-role="approvisionnement"
+                            >
+                        </td>
+
+                    </tr>
+
+
+                    <!-- =================================================
+                         HISTORIQUE
+                    ================================================== -->
+
+                    <tr>
+
+                        <td>
+
+                            <div class="permission-name">
+
+                                <div class="permission-icon">
+                                    <i class="fas fa-clock-rotate-left"></i>
+                                </div>
+
+                                <div class="permission-text">
+
+                                    <span class="permission-title">
+                                        Historique
+                                    </span>
+
+                                    <span class="permission-description">
+                                        Journal des activités
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="historique"
+                                data-role="admin"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="historique"
+                                data-role="vente"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="historique"
+                                data-role="client"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="historique"
+                                data-role="fournisseur"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="historique"
+                                data-role="approvisionnement"
+                            >
+                        </td>
+
+                    </tr>
+
+
+                    <!-- =================================================
+                         TOKENS
+                    ================================================== -->
+
+                    <tr>
+
+                        <td>
+
+                            <div class="permission-name">
+
+                                <div class="permission-icon">
+                                    <i class="fas fa-key"></i>
+                                </div>
+
+                                <div class="permission-text">
+
+                                    <span class="permission-title">
+                                        Gestion des Tokens
+                                    </span>
+
+                                    <span class="permission-description">
+                                        Sécurité et authentification
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="tokens"
+                                data-role="admin"
+                                checked
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="tokens"
+                                data-role="vente"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="tokens"
+                                data-role="client"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="tokens"
+                                data-role="fournisseur"
+                            >
+                        </td>
+
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="permission-checkbox"
+                                data-permission="tokens"
+                                data-role="approvisionnement"
+                            >
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
 
         </div>
 
-    </main>
+
+        <!-- =========================================================
+             FOOTER CARD
+        ========================================================== -->
+
+        <div class="card-footer-custom">
+
+            <div class="permission-info">
+
+                <i class="fas fa-circle-info"></i>
+
+                <span>
+                    Les modifications de permissions doivent être
+                    enregistrées pour être prises en compte.
+                    L'administrateur conserve l'accès aux
+                    fonctionnalités d'administration.
+                </span>
+
+            </div>
+
+            <button
+                type="button"
+                class="save-btn"
+                id="savePermissionsBtn"
+                onclick="saveRealPermissions()"
+            >
+                <i class="fas fa-floppy-disk"></i>
+                <span>Enregistrer les permissions</span>
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
 
 
-    <!-- =====================================================
-         JAVASCRIPT
-         ===================================================== -->
+<!-- =============================================================
+     TOAST
+============================================================== -->
 
-    <script>
+<div
+    class="toast-message"
+    id="toastMessage"
+    role="status"
+    aria-live="polite"
+>
+    <i class="fas fa-circle-check"></i>
+    <span id="toastText">
+        Opération effectuée.
+    </span>
+</div>
 
-        /* =====================================================
-           SIDEBAR MOBILE
-           ===================================================== */
 
-        document.addEventListener(
-            "DOMContentLoaded",
+<!-- =============================================================
+     JAVASCRIPT
+============================================================== -->
+
+<script>
+
+    /* =========================================================
+       VARIABLES SIDEBAR
+    ========================================================== */
+
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+    const sidebar = document.getElementById("sidebar");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+    const sidebarClose = document.getElementById("sidebarClose");
+
+
+    /* =========================================================
+       OUVRIR SIDEBAR
+    ========================================================== */
+
+    function openSidebar() {
+
+        if (!sidebar) return;
+
+        sidebar.classList.add("active");
+
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.add("active");
+            sidebarOverlay.setAttribute("aria-hidden", "false");
+        }
+
+        document.body.classList.add("menu-open");
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.setAttribute("aria-expanded", "true");
+            mobileMenuBtn.setAttribute(
+                "aria-label",
+                "Fermer le menu"
+            );
+        }
+    }
+
+
+    /* =========================================================
+       FERMER SIDEBAR
+    ========================================================== */
+
+    function closeSidebar() {
+
+        if (!sidebar) return;
+
+        sidebar.classList.remove("active");
+
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.remove("active");
+            sidebarOverlay.setAttribute("aria-hidden", "true");
+        }
+
+        document.body.classList.remove("menu-open");
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.setAttribute("aria-expanded", "false");
+            mobileMenuBtn.setAttribute(
+                "aria-label",
+                "Ouvrir le menu"
+            );
+        }
+    }
+
+
+    /* =========================================================
+       BOUTON MOBILE
+    ========================================================== */
+
+    if (mobileMenuBtn) {
+
+        mobileMenuBtn.addEventListener(
+            "click",
             function () {
 
-                const sidebar =
-                    document.getElementById(
-                        "sidebar"
-                    );
-
-                const overlay =
-                    document.getElementById(
-                        "sidebarOverlay"
-                    );
-
-                const menuBtn =
-                    document.getElementById(
-                        "mobileMenuBtn"
-                    );
-
-                const closeBtn =
-                    document.getElementById(
-                        "sidebarClose"
-                    );
-
-
-                function openSidebar() {
-
-                    if (!sidebar) {
-                        return;
-                    }
-
-                    sidebar.classList.add("active");
-
-                    if (overlay) {
-                        overlay.classList.add("active");
-                    }
-
-                    document.body.classList.add(
-                        "menu-open"
-                    );
-
-                    if (menuBtn) {
-                        menuBtn.setAttribute(
-                            "aria-expanded",
-                            "true"
-                        );
-
-                        menuBtn.setAttribute(
-                            "aria-label",
-                            "Fermer le menu"
-                        );
-                    }
-
+                if (sidebar.classList.contains("active")) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
                 }
-
-
-                function closeSidebar() {
-
-                    if (!sidebar) {
-                        return;
-                    }
-
-                    sidebar.classList.remove(
-                        "active"
-                    );
-
-                    if (overlay) {
-                        overlay.classList.remove(
-                            "active"
-                        );
-                    }
-
-                    document.body.classList.remove(
-                        "menu-open"
-                    );
-
-                    if (menuBtn) {
-                        menuBtn.setAttribute(
-                            "aria-expanded",
-                            "false"
-                        );
-
-                        menuBtn.setAttribute(
-                            "aria-label",
-                            "Ouvrir le menu"
-                        );
-                    }
-
-                }
-
-
-                if (menuBtn) {
-
-                    menuBtn.addEventListener(
-                        "click",
-                        openSidebar
-                    );
-
-                }
-
-
-                if (closeBtn) {
-
-                    closeBtn.addEventListener(
-                        "click",
-                        closeSidebar
-                    );
-
-                }
-
-
-                if (overlay) {
-
-                    overlay.addEventListener(
-                        "click",
-                        closeSidebar
-                    );
-
-                }
-
-
-                document.addEventListener(
-                    "keydown",
-                    function (event) {
-
-                        if (
-                            event.key === "Escape"
-                        ) {
-
-                            closeSidebar();
-
-                        }
-
-                    }
-                );
-
-
-                /*
-                 * Fermer automatiquement
-                 * le menu après sélection
-                 * sur mobile.
-                 */
-
-                document
-                    .querySelectorAll(
-                        ".sidebar .nav-link"
-                    )
-                    .forEach(
-                        function (link) {
-
-                            link.addEventListener(
-                                "click",
-                                function () {
-
-                                    if (
-                                        window.innerWidth <
-                                        992
-                                    ) {
-
-                                        closeSidebar();
-
-                                    }
-
-                                }
-                            );
-
-                        }
-                    );
-
-
-                /*
-                 * Sur desktop :
-                 * le sidebar doit toujours
-                 * être visible.
-                 */
-
-                window.addEventListener(
-                    "resize",
-                    function () {
-
-                        if (
-                            window.innerWidth >=
-                            992
-                        ) {
-
-                            closeSidebar();
-
-                        }
-
-                    }
-                );
 
             }
         );
 
-
-        /* =====================================================
-           NOTIFICATION
-           ===================================================== */
-
-        function showNotification(
-            message,
-            isSuccess = true
-        ) {
-
-            const box =
-                document.getElementById(
-                    "alert-box"
-                );
+    }
 
 
-            if (!box) {
-                return;
+    /* =========================================================
+       BOUTON FERMER
+    ========================================================== */
+
+    if (sidebarClose) {
+
+        sidebarClose.addEventListener(
+            "click",
+            closeSidebar
+        );
+
+    }
+
+
+    /* =========================================================
+       OVERLAY
+    ========================================================== */
+
+    if (sidebarOverlay) {
+
+        sidebarOverlay.addEventListener(
+            "click",
+            closeSidebar
+        );
+
+    }
+
+
+    /* =========================================================
+       TOUCHE ESCAPE
+    ========================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Escape") {
+                closeSidebar();
             }
 
+        }
+    );
 
-            box.className =
-                `
-                mb-6
-                p-4
-                rounded-xl
-                text-sm
-                font-medium
-                transition-all
-                shadow-sm
-                ${
-                    isSuccess
-                        ?
-                        "bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800"
-                        :
-                        "bg-red-50 text-red-800 border border-red-200 dark:bg-red-950/50 dark:text-red-300 dark:border-red-800"
+
+    /* =========================================================
+       FERMER APRÈS CLIC SUR UN LIEN MOBILE
+    ========================================================== */
+
+    document.querySelectorAll(".nav-link").forEach(
+        function (link) {
+
+            link.addEventListener(
+                "click",
+                function () {
+
+                    if (window.innerWidth < 992) {
+                        closeSidebar();
+                    }
+
                 }
-                `;
-
-
-            const icon =
-                isSuccess
-                    ? "fa-check-circle"
-                    : "fa-exclamation-circle";
-
-
-            box.innerHTML =
-                `
-                <div class="flex items-start gap-2">
-
-                    <i
-                        class="fas ${icon} mt-0.5 flex-shrink-0"
-                    ></i>
-
-                    <span class="min-w-0 break-words">
-                        ${message}
-                    </span>
-
-                </div>
-                `;
-
-
-            box.classList.remove(
-                "hidden"
             );
 
-
-            clearTimeout(
-                window.astraNotificationTimer
-            );
+        }
+    );
 
 
-            window.astraNotificationTimer =
-                setTimeout(
-                    function () {
+    /* =========================================================
+       RESIZE
+    ========================================================== */
 
-                        box.classList.add(
-                            "hidden"
-                        );
+    window.addEventListener(
+        "resize",
+        function () {
 
-                    },
-                    4000
-                );
+            if (window.innerWidth >= 992) {
+                closeSidebar();
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       TOAST
+    ========================================================== */
+
+    let toastTimeout = null;
+
+    function showToast(
+        message,
+        type = "success"
+    ) {
+
+        const toast = document.getElementById("toastMessage");
+        const toastText = document.getElementById("toastText");
+
+        if (!toast || !toastText) {
+            return;
+        }
+
+        toastText.textContent = message;
+
+        toast.classList.remove(
+            "success",
+            "error",
+            "show"
+        );
+
+        toast.classList.add(type);
+
+        const icon = toast.querySelector("i");
+
+        if (icon) {
+
+            if (type === "error") {
+
+                icon.className =
+                    "fas fa-circle-exclamation";
+
+            } else {
+
+                icon.className =
+                    "fas fa-circle-check";
+
+            }
 
         }
 
-
-        /* =====================================================
-           SAUVEGARDE DES PERMISSIONS
-           ===================================================== */
-
-        function saveRealPermissions(event) {
-
-            event.preventDefault();
-
-
-            const btn =
-                document.getElementById(
-                    "btn-save"
-                );
-
-
-            if (!btn) {
-                return;
+        requestAnimationFrame(
+            function () {
+                toast.classList.add("show");
             }
+        );
+
+        clearTimeout(toastTimeout);
+
+        toastTimeout = setTimeout(
+            function () {
+                toast.classList.remove("show");
+            },
+            3500
+        );
+    }
 
 
-            btn.disabled = true;
+    /* =========================================================
+       CSRF
+    ========================================================== */
+
+    function getCookie(name) {
+
+        let cookieValue = null;
+
+        if (document.cookie && document.cookie !== "") {
+
+            const cookies =
+                document.cookie.split(";");
+
+            for (
+                let i = 0;
+                i < cookies.length;
+                i++
+            ) {
+
+                const cookie =
+                    cookies[i].trim();
+
+                if (
+                    cookie.substring(
+                        0,
+                        name.length + 1
+                    ) === name + "="
+                ) {
+
+                    cookieValue =
+                        decodeURIComponent(
+                            cookie.substring(
+                                name.length + 1
+                            )
+                        );
+
+                    break;
+                }
+            }
+        }
+
+        return cookieValue;
+    }
 
 
-            btn.innerHTML =
-                `
-                <i class="fas fa-spinner fa-spin text-xs"></i>
+    /* =========================================================
+       SAUVEGARDE DES PERMISSIONS
+    ========================================================== */
 
-                <span>
-                    Enregistrement en cours...
-                </span>
-                `;
+    async function saveRealPermissions() {
+
+        const button =
+            document.getElementById(
+                "savePermissionsBtn"
+            );
+
+        if (!button) {
+            return;
+        }
+
+        const originalHTML =
+            button.innerHTML;
+
+        button.disabled = true;
+
+        button.innerHTML = `
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Enregistrement...</span>
+        `;
 
 
-            const dataObj = {};
+        /* -----------------------------------------------------
+           CONSTRUCTION DES DONNÉES
+        ------------------------------------------------------ */
 
+        const permissions = {};
 
-            document
-                .querySelectorAll(
-                    "#real-permissions-form input[type='checkbox']"
-                )
-                .forEach(
-                    function (checkbox) {
+        document
+            .querySelectorAll(
+                ".permission-checkbox"
+            )
+            .forEach(
+                function (checkbox) {
 
-                        dataObj[
-                            checkbox.name
-                        ] =
-                            checkbox.checked;
+                    const permission =
+                        checkbox.dataset.permission;
 
+                    const role =
+                        checkbox.dataset.role;
+
+                    if (!permissions[permission]) {
+                        permissions[permission] = {};
                     }
-                );
+
+                    permissions[permission][role] =
+                        checkbox.checked;
+
+                }
+            );
 
 
-            /*
-             * Récupération CSRF.
-             */
+        /* -----------------------------------------------------
+           REQUÊTE DJANGO
+        ------------------------------------------------------ */
 
-            const csrfInput =
-                document.querySelector(
-                    "#real-permissions-form input[name='csrfmiddlewaretoken']"
-                );
+        try {
 
-
-            const csrfToken =
-                csrfInput
-                    ? csrfInput.value
-                    : "";
-
-
-            if (!csrfToken) {
-
-                btn.disabled = false;
-
-                btn.innerHTML =
-                    `
-                    <i class="fas fa-save text-xs"></i>
-
-                    <span>
-                        Enregistrer les permissions
-                    </span>
-                    `;
-
-                showNotification(
-                    "Jeton CSRF introuvable. Rechargez la page.",
-                    false
-                );
-
-                return;
-
-            }
-
-
-            fetch(
+            const response = await fetch(
                 "{% url 'astra:permissions_page' %}",
                 {
-
                     method: "POST",
 
-                    headers: {
+                    credentials: "same-origin",
 
+                    headers: {
                         "Content-Type":
                             "application/json",
 
                         "X-CSRFToken":
-                            csrfToken,
+                            getCookie("csrftoken"),
 
                         "X-Requested-With":
                             "XMLHttpRequest"
-
                     },
 
-                    credentials:
-                        "same-origin",
-
-                    body:
-                        JSON.stringify(
-                            dataObj
-                        )
-
-                }
-            )
-
-            .then(
-                async function (response) {
-
-                    const contentType =
-                        response.headers.get(
-                            "content-type"
-                        ) || "";
-
-
-                    if (
-                        contentType.includes(
-                            "application/json"
-                        )
-                    ) {
-
-                        const json =
-                            await response.json();
-
-
-                        return {
-
-                            ok:
-                                response.ok,
-
-                            data:
-                                json
-
-                        };
-
-                    }
-
-
-                    /*
-                     * Django a renvoyé du HTML
-                     * au lieu du JSON attendu.
-                     */
-
-                    await response.text();
-
-
-                    throw new Error(
-                        `Réponse serveur inattendue (${response.status}).`
-                    );
-
-                }
-            )
-
-            .then(
-                function (result) {
-
-                    btn.disabled = false;
-
-
-                    btn.innerHTML =
-                        `
-                        <i class="fas fa-save text-xs"></i>
-
-                        <span>
-                            Enregistrer les permissions
-                        </span>
-                        `;
-
-
-                    const resData =
-                        result.data || {};
-
-
-                    if (
-                        result.ok &&
-                        resData.status === "success"
-                    ) {
-
-                        showNotification(
-                            resData.message ||
-                            "Les permissions ont été enregistrées avec succès.",
-                            true
-                        );
-
-                    } else {
-
-                        showNotification(
-                            resData.message ||
-                            resData.error ||
-                            "Erreur lors de l'enregistrement des droits.",
-                            false
-                        );
-
-                    }
-
-                }
-            )
-
-            .catch(
-                function (error) {
-
-                    console.error(
-                        "Erreur permissions :",
-                        error
-                    );
-
-
-                    btn.disabled = false;
-
-
-                    btn.innerHTML =
-                        `
-                        <i class="fas fa-save text-xs"></i>
-
-                        <span>
-                            Enregistrer les permissions
-                        </span>
-                        `;
-
-
-                    showNotification(
-                        error.message ||
-                        "Erreur de communication avec le serveur Django.",
-                        false
-                    );
-
+                    body: JSON.stringify({
+                        permissions: permissions
+                    })
                 }
             );
 
+
+            const contentType =
+                response.headers.get(
+                    "content-type"
+                ) || "";
+
+
+            let data = null;
+
+
+            if (
+                contentType.includes(
+                    "application/json"
+                )
+            ) {
+
+                data = await response.json();
+
+            } else {
+
+                const text =
+                    await response.text();
+
+                data = {
+                    success: response.ok,
+                    message: text
+                };
+
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Erreur lors de l'enregistrement."
+                );
+
+            }
+
+
+            if (
+                data.success === false
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "Les permissions n'ont pas pu être enregistrées."
+                );
+
+            }
+
+
+            showToast(
+                data.message ||
+                "Les permissions ont été enregistrées avec succès.",
+                "success"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Erreur permissions :",
+                error
+            );
+
+            showToast(
+                error.message ||
+                "Une erreur est survenue lors de l'enregistrement.",
+                "error"
+            );
+
+        } finally {
+
+            button.disabled = false;
+
+            button.innerHTML =
+                originalHTML;
+
         }
 
+    }
 
-        /* =====================================================
-           DÉCONNEXION
-           ===================================================== */
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
+    /* =========================================================
+       DÉCONNEXION
+    ========================================================== */
 
-                const loginBtn =
-                    document.getElementById(
-                        "loginBtn"
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+    if (loginBtn) {
+
+        loginBtn.addEventListener(
+            "click",
+            function (event) {
+
+                const confirmation =
+                    confirm(
+                        "Voulez-vous vraiment vous déconnecter ?"
                     );
 
-
-                if (loginBtn) {
-
-                    loginBtn.addEventListener(
-                        "click",
-                        function (event) {
-
-                            const confirmed =
-                                confirm(
-                                    "Voulez-vous vraiment vous déconnecter ?"
-                                );
-
-
-                            if (!confirmed) {
-
-                                event.preventDefault();
-
-                            }
-
-                        }
-                    );
-
+                if (!confirmation) {
+                    event.preventDefault();
                 }
 
             }
         );
 
-    </script>
+    }
 
+
+    /* =========================================================
+       INITIALISATION
+    ========================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            /*
+             * Le sidebar reste fermé sur mobile
+             * et visible automatiquement sur desktop.
+             */
+
+            if (window.innerWidth < 992) {
+                closeSidebar();
+            }
+
+        }
+    );
+
+</script>
 
 </body>
-
 </html>
