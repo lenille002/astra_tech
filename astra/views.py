@@ -2492,14 +2492,24 @@ def gestion_clients(request):
     
     return render(request, 'astra/clients.html', context)
 
-
 def client_login(request, client_id):
     """
-    Connexion privée d'un client à son espace personnel.
+    Connexion privée du client.
 
-    Le client connecté est strictement lié au client_id
-    présent dans l'URL.
+    Cette fonction affiche la page "Espace Sécurisé"
+    et traite le mot de passe.
     """
+
+    print("\n" + "=" * 80)
+    print("🔐 CLIENT LOGIN")
+    print("CLIENT ID :", client_id)
+    print("PATH :", request.path)
+    print("METHOD :", request.method)
+    print("=" * 80)
+
+    # ==================================================
+    # RÉCUPÉRER LE CLIENT
+    # ==================================================
 
     client = get_object_or_404(
         Client,
@@ -2507,9 +2517,9 @@ def client_login(request, client_id):
         is_active=True
     )
 
-    # ==========================================================
-    # CONTEXTE COMMUN POUR LA PAGE DE CONNEXION CLIENT
-    # ==========================================================
+    # ==================================================
+    # CONTEXTE
+    # ==================================================
 
     contexte_client = {
         "client": client,
@@ -2517,18 +2527,25 @@ def client_login(request, client_id):
         "connexion_client": True,
     }
 
-    # ==========================================================
-    # SI CE CLIENT EST DÉJÀ CONNECTÉ
-    # ==========================================================
+    # ==================================================
+    # VÉRIFIER SI DÉJÀ CONNECTÉ
+    # ==================================================
 
     client_connecte_id = request.session.get(
         "client_connecte_id"
     )
 
+    print(
+        "SESSION ACTUELLE :",
+        client_connecte_id
+    )
+
     if client_connecte_id is not None:
 
         try:
-            client_connecte_id = int(client_connecte_id)
+            client_connecte_id = int(
+                client_connecte_id
+            )
 
         except (TypeError, ValueError):
 
@@ -2539,38 +2556,39 @@ def client_login(request, client_id):
 
             client_connecte_id = None
 
-        if client_connecte_id == client.id:
+    # Si c'est déjà le bon client
+    if client_connecte_id == client.id:
 
-            return redirect(
-                "astra:espace_client",
-                client_id=client.id
-            )
+        print("✅ CLIENT DÉJÀ CONNECTÉ")
+        print("➡️ ESPACE CLIENT")
 
-    # ==========================================================
+        return redirect(
+            "astra:espace_client",
+            client_id=client.id
+        )
+
+    # ==================================================
     # TRAITEMENT DU FORMULAIRE
-    # ==========================================================
+    # ==================================================
 
     if request.method == "POST":
-
-        identifiant = request.POST.get(
-            "identifiant",
-            request.POST.get("username", "")
-        ).strip()
 
         password = request.POST.get(
             "password",
             ""
-        )
+        ).strip()
 
-        # ------------------------------------------------------
-        # VÉRIFICATION DES CHAMPS
-        # ------------------------------------------------------
+        print("🔑 MOT DE PASSE REÇU :", bool(password))
 
-        if not identifiant or not password:
+        # ----------------------------------------------
+        # MOT DE PASSE VIDE
+        # ----------------------------------------------
+
+        if not password:
 
             messages.error(
                 request,
-                "Veuillez remplir tous les champs."
+                "Veuillez saisir votre mot de passe."
             )
 
             return render(
@@ -2579,73 +2597,55 @@ def client_login(request, client_id):
                 contexte_client
             )
 
-        # ======================================================
-        # VÉRIFICATION DE L'IDENTITÉ DU CLIENT
-        # ======================================================
-
-        email_client = (
-            client.email or ""
-        ).strip().lower()
-
-        telephone_client = (
-            client.telephone or ""
-        ).strip().lower()
-
-        identifiant_normalise = (
-            identifiant.strip().lower()
-        )
-
-        identifiant_correct = (
-            identifiant_normalise == email_client
-            or identifiant_normalise == telephone_client
-        )
-
-        if not identifiant_correct:
-
-            messages.error(
-                request,
-                "Cet identifiant ne correspond pas à ce client."
-            )
-
-            return render(
-                request,
-                "astra/login.html",
-                contexte_client
-            )
-
-        # ======================================================
-        # VÉRIFICATION DU MOT DE PASSE
-        # ======================================================
-
-        password_correct = False
+        # ----------------------------------------------
+        # RÉCUPÉRER LE MOT DE PASSE DU CLIENT
+        # ----------------------------------------------
 
         mot_de_passe_client = (
             client.mot_de_passe or ""
         )
 
+        password_correct = False
+
+        # ----------------------------------------------
+        # TEST HASH DJANGO
+        # ----------------------------------------------
+
         if mot_de_passe_client:
 
-            # --------------------------------------------------
-            # Mot de passe hashé Django
-            # --------------------------------------------------
+            try:
 
-            password_correct = check_password(
-                password,
-                mot_de_passe_client
-            )
-
-            # --------------------------------------------------
-            # Compatibilité temporaire avec les anciens
-            # mots de passe enregistrés en clair
-            # --------------------------------------------------
-
-            if not password_correct:
-
-                password_correct = (
-                    password == mot_de_passe_client
+                password_correct = check_password(
+                    password,
+                    mot_de_passe_client
                 )
 
+            except Exception as e:
+
+                print(
+                    "⚠️ Erreur check_password :",
+                    e
+                )
+
+                password_correct = False
+
+        # ----------------------------------------------
+        # COMPATIBILITÉ ANCIENS MOTS DE PASSE
+        # ----------------------------------------------
+
         if not password_correct:
+
+            password_correct = (
+                password == mot_de_passe_client
+            )
+
+        # ----------------------------------------------
+        # MOT DE PASSE INCORRECT
+        # ----------------------------------------------
+
+        if not password_correct:
+
+            print("❌ MOT DE PASSE INCORRECT")
 
             messages.error(
                 request,
@@ -2658,52 +2658,66 @@ def client_login(request, client_id):
                 contexte_client
             )
 
-        # ======================================================
-        # CONNEXION DU CLIENT
-        # ======================================================
+        # ==================================================
+        # AUTHENTIFICATION RÉUSSIE
+        # ==================================================
+
+        print("✅ MOT DE PASSE CORRECT")
+
+        # --------------------------------------------------
+        # CRÉATION DE LA SESSION
+        # --------------------------------------------------
 
         request.session["client_connecte_id"] = client.id
-
-        request.session["client_connecte_nom"] = (
-            client.nom
-        )
-
-        request.session["client_connecte_email"] = (
-            client.email
-        )
+        request.session["client_connecte_nom"] = client.nom
+        request.session["client_connecte_email"] = client.email
 
         request.session.modified = True
 
-        print("========================================")
-        print("✅ CLIENT CONNECTÉ")
-        print("CLIENT ID :", client.id)
-        print("CLIENT NOM :", client.nom)
-        print("CLIENT EMAIL :", client.email)
+        # Force Django à sauvegarder la session
+        request.session.save()
+
         print(
-            "SESSION CLIENT :",
+            "✅ SESSION CRÉÉE"
+        )
+
+        print(
+            "CLIENT ID SESSION :",
             request.session.get(
                 "client_connecte_id"
             )
         )
-        print("========================================")
+
+        print(
+            "SESSION KEY :",
+            request.session.session_key
+        )
+
+        # ==================================================
+        # REDIRECTION
+        # ==================================================
 
         messages.success(
             request,
             f"Bienvenue {client.nom} !"
         )
 
-        # ======================================================
-        # REDIRECTION VERS L'ESPACE CLIENT
-        # ======================================================
+        print(
+            "➡️ REDIRECTION → ESPACE CLIENT"
+        )
 
         return redirect(
             "astra:espace_client",
             client_id=client.id
         )
 
-    # ==========================================================
-    # AFFICHAGE DE LA PAGE DE CONNEXION CLIENT
-    # ==========================================================
+    # ==================================================
+    # AFFICHER LA PAGE ESPACE SÉCURISÉ
+    # ==================================================
+
+    print(
+        "🔐 AFFICHAGE : PAGE ESPACE SÉCURISÉ"
+    )
 
     return render(
         request,
@@ -2713,11 +2727,25 @@ def client_login(request, client_id):
 
 def espace_client(request, client_id):
     """
-    Espace privé du client.
+    Porte d'entrée de l'espace client.
 
-    Le client doit obligatoirement être authentifié
-    avant d'accéder à espace_client.html.
+    1. Le bouton "Accès Cahier" arrive ici.
+    2. Si le client n'est pas connecté :
+       → affichage de la page "Espace Sécurisé".
+    3. Si le client est connecté :
+       → affichage de espace_client.html.
     """
+
+    print("\n" + "=" * 80)
+    print("🔐 ESPACE CLIENT")
+    print("CLIENT ID :", client_id)
+    print("PATH :", request.path)
+    print("METHOD :", request.method)
+    print("=" * 80)
+
+    # ==================================================
+    # RÉCUPÉRER LE CLIENT
+    # ==================================================
 
     client = get_object_or_404(
         Client,
@@ -2725,21 +2753,28 @@ def espace_client(request, client_id):
         is_active=True
     )
 
+    print("✅ CLIENT TROUVÉ :", client.id)
+    print("NOM :", client.nom)
+    print("EMAIL :", client.email)
+
     # ==================================================
-    # VÉRIFICATION DE LA SESSION CLIENT
+    # RÉCUPÉRER LA SESSION
     # ==================================================
 
     client_connecte_id = request.session.get(
         "client_connecte_id"
     )
 
-    # Aucun client connecté
+    print("SESSION client_connecte_id :", client_connecte_id)
+
+    # ==================================================
+    # CLIENT NON CONNECTÉ
+    # ==================================================
+
     if not client_connecte_id:
 
-        messages.warning(
-            request,
-            "Veuillez vous connecter pour accéder à votre espace."
-        )
+        print("🔒 CLIENT NON CONNECTÉ")
+        print("➡️ REDIRECTION VERS CONNEXION")
 
         return redirect(
             "astra:client_login",
@@ -2747,15 +2782,18 @@ def espace_client(request, client_id):
         )
 
     # ==================================================
-    # NORMALISATION DE L'ID
+    # CONVERTIR L'ID
     # ==================================================
 
     try:
+
         client_connecte_id = int(
             client_connecte_id
         )
 
     except (TypeError, ValueError):
+
+        print("❌ SESSION CLIENT INVALIDE")
 
         request.session.pop(
             "client_connecte_id",
@@ -2768,10 +2806,25 @@ def espace_client(request, client_id):
         )
 
     # ==================================================
-    # VÉRIFICATION DU CLIENT CONNECTÉ
+    # VÉRIFIER QUE C'EST LE BON CLIENT
     # ==================================================
 
     if client_connecte_id != client.id:
+
+        print("🚫 MAUVAIS CLIENT")
+        print(
+            "SESSION :",
+            client_connecte_id
+        )
+        print(
+            "CLIENT URL :",
+            client.id
+        )
+
+        request.session.pop(
+            "client_connecte_id",
+            None
+        )
 
         messages.error(
             request,
@@ -2784,7 +2837,15 @@ def espace_client(request, client_id):
         )
 
     # ==================================================
-    # HISTORIQUE DES ACHATS
+    # CLIENT AUTHENTIFIÉ
+    # ==================================================
+
+    print("✅ CLIENT AUTHENTIFIÉ")
+    print("CLIENT CONNECTÉ :", client_connecte_id)
+    print("➡️ AFFICHAGE ESPACE CLIENT")
+
+    # ==================================================
+    # HISTORIQUE
     # ==================================================
 
     historique_achats = (
@@ -2805,27 +2866,6 @@ def espace_client(request, client_id):
         or 0
     )
 
-    # ==================================================
-    # CONTEXTE
-    # ==================================================
-
-    context = {
-        "client": client,
-        "client_user": client,
-        "historique_achats": historique_achats,
-        "nombre_achats": nombre_achats,
-        "total_depenses": total_depenses,
-    }
-
-    # ==================================================
-    # ESPACE CLIENT
-    # ==================================================
-
-    return render(
-        request,
-        "astra/espace_client.html",
-        context
-    )
     # ==================================================
     # CONTEXTE
     # ==================================================
