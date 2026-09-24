@@ -11,9 +11,11 @@
 
     <title>À Propos de Nous - Astra Tech</title>
 
-    <!-- Script d’initialisation immédiate du mode nuit global -->
+    <!-- =====================================================
+         INITIALISATION IMMÉDIATE DU MODE SOMBRE
+    ====================================================== -->
     <script>
-        (function() {
+        (function () {
             const savedDarkMode = localStorage.getItem('astra_dark_mode');
 
             if (savedDarkMode === 'true') {
@@ -28,8 +30,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- FontAwesome v6 -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -51,6 +55,7 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -69,6 +74,7 @@
         button {
             -webkit-tap-highlight-color: transparent;
         }
+
 
         /* =====================================================
            MODE NUIT GLOBAL
@@ -111,6 +117,7 @@
             background-color: rgba(249, 115, 22, 0.1) !important;
         }
 
+
         /* =====================================================
            HEADER - MOBILE FIRST
         ===================================================== */
@@ -119,18 +126,49 @@
             width: 100%;
             min-height: auto;
             padding: 12px;
+
             display: flex;
             flex-direction: column;
             align-items: stretch;
             justify-content: center;
+
             gap: 12px;
 
-            background: linear-gradient(135deg, #1a237e, #2563eb);
+            background: linear-gradient(
+                135deg,
+                #1a237e,
+                #2563eb
+            );
+
             border-bottom: 4px solid #ff6f00;
 
             position: relative;
             z-index: 1000;
+
+            animation: headerReveal 0.8s cubic-bezier(.22, 1, .36, 1) both;
         }
+
+        .app-header::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    circle at 15% 30%,
+                    rgba(255, 255, 255, 0.10),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 70%,
+                    rgba(255, 111, 0, 0.14),
+                    transparent 30%
+                );
+
+            pointer-events: none;
+            animation: headerGlow 5s ease-in-out infinite alternate;
+        }
+
 
         /* =====================================================
            LOGO
@@ -138,19 +176,38 @@
 
         .logo-container {
             width: 100%;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             flex-shrink: 0;
+
+            position: relative;
+            z-index: 2;
+
+            animation: logoReveal 0.8s 0.1s cubic-bezier(.22, 1, .36, 1) both;
         }
 
         .logo-container img {
             display: block;
+
             width: 115px;
             max-width: 100%;
             height: auto;
+
             object-fit: contain;
+
+            transition:
+                transform 0.35s ease,
+                filter 0.35s ease;
         }
+
+        .logo-container img:hover {
+            transform: scale(1.06) rotate(-1deg);
+            filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.25));
+        }
+
 
         /* =====================================================
            NAVIGATION
@@ -174,6 +231,11 @@
 
             scrollbar-width: none;
             -ms-overflow-style: none;
+
+            position: relative;
+            z-index: 2;
+
+            animation: navReveal 0.8s 0.2s cubic-bezier(.22, 1, .36, 1) both;
         }
 
         .nav-menu::-webkit-scrollbar {
@@ -184,25 +246,28 @@
             flex: 0 0 auto;
 
             color: white;
+
             font-size: 0.95rem;
             font-weight: 800;
 
             padding: 9px 14px;
 
             position: relative;
-            text-decoration: none;
 
+            text-decoration: none;
             white-space: nowrap;
 
             transition:
                 color 0.3s ease,
-                background-color 0.3s ease;
+                background-color 0.3s ease,
+                transform 0.25s ease;
         }
 
         .nav-item::after {
             content: "";
 
             position: absolute;
+
             bottom: 1px;
             left: 8px;
 
@@ -211,10 +276,16 @@
 
             background: #ff6f00;
 
+            border-radius: 999px;
+
             transition: width 0.3s ease;
         }
 
-        .nav-item:hover,
+        .nav-item:hover {
+            color: #ff6f00;
+            transform: translateY(-2px);
+        }
+
         .nav-item.active {
             color: #ff6f00;
         }
@@ -223,6 +294,7 @@
         .nav-item.active::after {
             width: calc(100% - 16px);
         }
+
 
         /* =====================================================
            MENU UTILISATEUR
@@ -236,7 +308,13 @@
             justify-content: center;
 
             gap: 10px;
+
             flex-shrink: 0;
+
+            position: relative;
+            z-index: 2;
+
+            animation: userMenuReveal 0.8s 0.3s cubic-bezier(.22, 1, .36, 1) both;
         }
 
         .btn-retour {
@@ -261,18 +339,59 @@
 
             text-decoration: none;
 
+            position: relative;
+            overflow: hidden;
+
             transition:
                 background-color 0.3s ease,
-                transform 0.2s ease;
+                transform 0.25s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .btn-retour::before {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            left: -120%;
+
+            width: 70%;
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.35),
+                transparent
+            );
+
+            transform: skewX(-20deg);
+
+            transition: left 0.6s ease;
         }
 
         .btn-retour:hover {
             background: #e65100;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 111, 0, 0.30);
+        }
+
+        .btn-retour:hover::before {
+            left: 140%;
+        }
+
+        .btn-retour i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-retour:hover i {
+            transform: translateX(-4px);
         }
 
         .btn-retour:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
+
 
         /* =====================================================
            CONTENU PRINCIPAL
@@ -281,20 +400,28 @@
         main {
             width: 100%;
             min-width: 0;
+
+            animation: mainReveal 0.9s 0.15s cubic-bezier(.22, 1, .36, 1) both;
         }
 
         .max-w-7xl {
             max-width: 1280px;
         }
 
-        /* =====================================================
-           CONTENEUR PRINCIPAL
-        ===================================================== */
-
         main > div {
             width: 100%;
             min-width: 0;
         }
+
+
+        /* =====================================================
+           CARTE PRINCIPALE
+        ===================================================== */
+
+        main > div > div {
+            animation: contentCardReveal 0.9s 0.25s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
 
         /* =====================================================
            TITRES
@@ -307,9 +434,94 @@
             overflow-wrap: anywhere;
         }
 
+        main h1 {
+            animation: titleReveal 0.9s 0.4s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        main h1 span {
+            display: inline-block;
+
+            animation:
+                orangeTextReveal 0.8s 0.65s cubic-bezier(.22, 1, .36, 1) both,
+                orangeTextFloat 3s 1.6s ease-in-out infinite;
+        }
+
+        main h1 + p {
+            animation: subtitleReveal 0.8s 0.75s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+
         /* =====================================================
-           IMAGES
+           BADGE HISTOIRE
         ===================================================== */
+
+        .inline-flex.items-center.gap-2 {
+            animation:
+                badgeReveal 0.7s 0.35s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+
+        /* =====================================================
+           SECTION MISSION
+        ===================================================== */
+
+        .grid.grid-cols-1.lg\:grid-cols-2 {
+            animation: sectionReveal 0.9s 0.45s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .grid.grid-cols-1.lg\:grid-cols-2 h2 {
+            animation: headingReveal 0.7s 0.55s both;
+        }
+
+        .grid.grid-cols-1.lg\:grid-cols-2 p {
+            animation: paragraphReveal 0.7s 0.65s both;
+        }
+
+        .grid.grid-cols-1.lg\:grid-cols-2 p:nth-of-type(2) {
+            animation-delay: 0.78s;
+        }
+
+
+        /* =====================================================
+           BARRE ORANGE DES TITRES
+        ===================================================== */
+
+        h2 .w-3 {
+            animation:
+                missionBarReveal 0.6s 0.55s cubic-bezier(.22, 1, .36, 1) both,
+                missionBarPulse 2.5s 1.3s ease-in-out infinite;
+        }
+
+
+        /* =====================================================
+           IMAGE MISSION
+        ===================================================== */
+
+        .group {
+            animation: imageReveal 0.9s 0.65s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .group::after {
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            right: -20px;
+            bottom: -20px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 111, 0, 0.10);
+
+            filter: blur(5px);
+
+            animation: imageOrb 4s ease-in-out infinite alternate;
+
+            pointer-events: none;
+        }
 
         .group img {
             width: 100%;
@@ -317,30 +529,239 @@
             height: auto;
             min-height: 220px;
             object-fit: cover;
+
+            transition:
+                transform 0.7s cubic-bezier(.22, 1, .36, 1),
+                filter 0.5s ease;
         }
+
+        .group:hover img {
+            transform: scale(1.035);
+            filter: brightness(1.04) saturate(1.08);
+        }
+
+        .group > div {
+            transition:
+                opacity 0.4s ease,
+                transform 0.4s ease;
+        }
+
+        .group:hover > div {
+            transform: scale(1.02);
+        }
+
 
         /* =====================================================
-           CARTES DES VALEURS
+           LIGNE DE SÉPARATION
         ===================================================== */
 
-        .grid {
-            min-width: 0;
+        hr {
+            animation: separatorReveal 1s 0.9s cubic-bezier(.22, 1, .36, 1) both;
+            transform-origin: center;
         }
 
-        .grid > div {
-            min-width: 0;
+
+        /* =====================================================
+           SECTION VALEURS
+        ===================================================== */
+
+        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 {
+            perspective: 1000px;
         }
+
+        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 > div {
+            animation: valueCardReveal 0.75s cubic-bezier(.22, 1, .36, 1) both;
+
+            transition:
+                transform 0.35s cubic-bezier(.22, 1, .36, 1),
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
+        }
+
+        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 > div:nth-child(1) {
+            animation-delay: 0.45s;
+        }
+
+        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 > div:nth-child(2) {
+            animation-delay: 0.58s;
+        }
+
+        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 > div:nth-child(3) {
+            animation-delay: 0.71s;
+        }
+
+        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 > div:hover {
+            transform: translateY(-10px) scale(1.015);
+            box-shadow: 0 22px 40px rgba(15, 23, 42, 0.13);
+            border-color: rgba(255, 111, 0, 0.35);
+        }
+
+        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 > div > div:first-child {
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease;
+        }
+
+        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 > div:hover > div:first-child {
+            transform: translateY(-4px) rotate(-4deg) scale(1.08);
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.16);
+        }
+
+        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 > div i {
+            transition:
+                transform 0.35s ease;
+        }
+
+        .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 > div:hover i {
+            transform: scale(1.15) rotate(8deg);
+        }
+
+
+        /* =====================================================
+           ANIMATION DES ICÔNES
+        ===================================================== */
+
+        .fa-microchip {
+            animation: microchipPulse 2.8s ease-in-out infinite;
+        }
+
+        .fa-shield-halved {
+            animation: shieldPulse 2.8s 0.4s ease-in-out infinite;
+        }
+
+        .fa-headset {
+            animation: headsetPulse 2.8s 0.8s ease-in-out infinite;
+        }
+
+
+        /* =====================================================
+           TITRE VALEURS
+        ===================================================== */
+
+        .text-center.max-w-xl.mx-auto.mb-12 {
+            animation: valuesTitleReveal 0.8s 0.35s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
 
         /* =====================================================
            CTA
         ===================================================== */
 
-        .inline-flex {
-            max-width: 100%;
+        .bg-gradient-to-br.from-blue-900 {
+            animation: ctaReveal 0.9s 0.85s cubic-bezier(.22, 1, .36, 1) both;
+
+            transition:
+                transform 0.4s ease,
+                box-shadow 0.4s ease;
         }
 
+        .bg-gradient-to-br.from-blue-900:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 25px 50px rgba(15, 23, 42, 0.25);
+        }
+
+        .bg-gradient-to-br.from-blue-900::before {
+            content: "";
+
+            position: absolute;
+
+            width: 260px;
+            height: 260px;
+
+            top: -130px;
+            right: -100px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 111, 0, 0.10);
+
+            animation: ctaOrb 5s ease-in-out infinite alternate;
+        }
+
+        .bg-gradient-to-br.from-blue-900::after {
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            bottom: -100px;
+            left: -70px;
+
+            border-radius: 50%;
+
+            background: rgba(37, 99, 235, 0.16);
+
+            animation: ctaOrbReverse 6s ease-in-out infinite alternate;
+        }
+
+        .bg-gradient-to-br.from-blue-900 h2 {
+            animation: ctaTitleReveal 0.8s 1s both;
+        }
+
+        .bg-gradient-to-br.from-blue-900 p {
+            animation: ctaTextReveal 0.8s 1.1s both;
+        }
+
+        .bg-gradient-to-br.from-blue-900 a {
+            position: relative;
+            overflow: hidden;
+
+            animation: ctaButtonReveal 0.8s 1.2s cubic-bezier(.22, 1, .36, 1) both;
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                background-color 0.3s ease;
+        }
+
+        .bg-gradient-to-br.from-blue-900 a::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -120%;
+
+            width: 80%;
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.40),
+                transparent
+            );
+
+            transform: skewX(-20deg);
+
+            transition: left 0.65s ease;
+        }
+
+        .bg-gradient-to-br.from-blue-900 a:hover {
+            transform: translateY(-5px) scale(1.06);
+            box-shadow:
+                0 16px 35px rgba(255, 111, 0, 0.35);
+        }
+
+        .bg-gradient-to-br.from-blue-900 a:hover::before {
+            left: 140%;
+        }
+
+        .bg-gradient-to-br.from-blue-900 a i {
+            transition:
+                transform 0.3s ease;
+        }
+
+        .bg-gradient-to-br.from-blue-900 a:hover i {
+            transform: translateX(4px) rotate(-8deg);
+        }
+
+
         /* =====================================================
-           FOOTER - MOBILE FIRST
+           FOOTER
         ===================================================== */
 
         .site-footer {
@@ -356,6 +777,8 @@
             padding: 20px 14px;
 
             text-align: center;
+
+            animation: footerReveal 0.8s 1s cubic-bezier(.22, 1, .36, 1) both;
         }
 
         .footer-bottom {
@@ -369,7 +792,448 @@
             line-height: 1.6;
 
             overflow-wrap: anywhere;
+
+            transition:
+                color 0.3s ease,
+                transform 0.3s ease;
         }
+
+        .footer-bottom:hover {
+            color: #ff6f00;
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           ANIMATIONS PRINCIPALES
+        ===================================================== */
+
+        @keyframes headerReveal {
+            from {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes headerGlow {
+            from {
+                opacity: 0.6;
+                transform: scale(1);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes logoReveal {
+            from {
+                opacity: 0;
+                transform: translateY(-15px) scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes navReveal {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes userMenuReveal {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes mainReveal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes contentCardReveal {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.985);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes badgeReveal {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes titleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes orangeTextReveal {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes orangeTextFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        @keyframes subtitleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes sectionReveal {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes headingReveal {
+            from {
+                opacity: 0;
+                transform: translateX(-18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes paragraphReveal {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes missionBarReveal {
+            from {
+                opacity: 0;
+                transform: scaleY(0);
+            }
+
+            to {
+                opacity: 1;
+                transform: scaleY(1);
+            }
+        }
+
+        @keyframes missionBarPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 rgba(255, 111, 0, 0);
+            }
+
+            50% {
+                box-shadow:
+                    0 0 18px rgba(255, 111, 0, 0.45);
+            }
+        }
+
+        @keyframes imageReveal {
+            from {
+                opacity: 0;
+                transform: translateX(30px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @keyframes imageOrb {
+            from {
+                transform: translate(0, 0) scale(1);
+            }
+
+            to {
+                transform: translate(-15px, -12px) scale(1.15);
+            }
+        }
+
+        @keyframes separatorReveal {
+            from {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+
+            to {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+        }
+
+        @keyframes valuesTitleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes valueCardReveal {
+            from {
+                opacity: 0;
+                transform: translateY(35px) rotateX(8deg) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0) scale(1);
+            }
+        }
+
+        @keyframes microchipPulse {
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: scale(1.08) rotate(4deg);
+            }
+        }
+
+        @keyframes shieldPulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        @keyframes headsetPulse {
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(-6deg);
+            }
+        }
+
+        @keyframes ctaReveal {
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes ctaOrb {
+            from {
+                transform: translate(0, 0) scale(1);
+            }
+
+            to {
+                transform: translate(-25px, 25px) scale(1.2);
+            }
+        }
+
+        @keyframes ctaOrbReverse {
+            from {
+                transform: translate(0, 0) scale(1);
+            }
+
+            to {
+                transform: translate(30px, -20px) scale(1.15);
+            }
+        }
+
+        @keyframes ctaTitleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes ctaTextReveal {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes ctaButtonReveal {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes footerReveal {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* =====================================================
+           MODE SOMBRE - CONTENU
+        ===================================================== */
+
+        html.dark main > div {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+
+        html.dark main h1,
+        html.dark main h2,
+        html.dark main h3 {
+            color: #f8fafc !important;
+        }
+
+        html.dark main p {
+            color: #cbd5e1 !important;
+        }
+
+        html.dark main strong {
+            color: #ffffff !important;
+        }
+
+        html.dark .bg-slate-50\/70 {
+            background-color: #172033 !important;
+            border-color: #334155 !important;
+        }
+
+        html.dark .border-slate-100 {
+            border-color: #334155 !important;
+        }
+
+        html.dark .text-slate-900 {
+            color: #f8fafc !important;
+        }
+
+        html.dark .text-slate-600,
+        html.dark .text-slate-500 {
+            color: #cbd5e1 !important;
+        }
+
+        html.dark .text-orange-600 {
+            color: #fb923c !important;
+        }
+
+        html.dark .bg-orange-50 {
+            background-color: rgba(249, 115, 22, 0.12) !important;
+        }
+
+        html.dark .border-orange-100 {
+            border-color: rgba(249, 115, 22, 0.30) !important;
+        }
+
 
         /* =====================================================
            TRÈS PETITS ÉCRANS
@@ -412,6 +1276,7 @@
             }
         }
 
+
         /* =====================================================
            PETITS MOBILES
         ===================================================== */
@@ -431,6 +1296,7 @@
                 padding-right: 14px !important;
             }
         }
+
 
         /* =====================================================
            TABLETTES / MOBILE LARGE
@@ -481,6 +1347,7 @@
                 min-height: 260px;
             }
         }
+
 
         /* =====================================================
            TABLETTE
@@ -545,6 +1412,7 @@
             }
         }
 
+
         /* =====================================================
            DESKTOP
         ===================================================== */
@@ -553,7 +1421,9 @@
 
             .app-header {
                 min-height: 80px;
+
                 padding: 10px 35px;
+
                 gap: 0;
             }
 
@@ -567,7 +1437,7 @@
             }
 
             .nav-item {
-                font-size: 1.9rem;
+                font-size: 1.15rem;
                 font-weight: 800;
                 padding: 8px 12px;
             }
@@ -586,6 +1456,7 @@
             }
         }
 
+
         /* =====================================================
            GRAND ÉCRAN
         ===================================================== */
@@ -600,7 +1471,16 @@
             .logo-container img {
                 width: 140px;
             }
+
+            .nav-menu {
+                gap: 30px;
+            }
+
+            .nav-item {
+                font-size: 1.2rem;
+            }
         }
+
 
         /* =====================================================
            ACCESSIBILITÉ / RÉDUCTION DES ANIMATIONS
@@ -620,39 +1500,138 @@
     </style>
 </head>
 
+
 <body class="antialiased min-h-screen flex flex-col justify-between">
 
+
     <!-- =====================================================
-         HEADER D'ORIGINE
+         HEADER ASTRA TECH
     ===================================================== -->
 
     <header class="app-header">
 
+        <!-- LOGO -->
+
         <div class="logo-container">
-            <img src="{% static 'image/logoo.png' %}"
+
+            <img
+                src="{% static 'image/logoo.png' %}"
                 alt="Astra Tech Logo"
-                onerror="this.onerror=null; this.src='image/logoo.png';">
+            >
+
         </div>
+
+
+        <!-- NAVIGATION -->
 
         <nav class="nav-menu">
 
-            <a href="{% url 'astra:propos' %}"
-                class="nav-item active">
+            <a
+                href="{% url 'astra:propos' %}"
+                class="nav-item active"
+            >
                 À Propos
             </a>
 
         </nav>
 
+
+        <!-- MENU UTILISATEUR -->
+
         <div class="user-menu">
 
-            <a href="{% url 'astra:accueil' %}"
-                class="btn-retour">
 
-                <i class="fas fa-arrow-left"></i>
+            <!-- ADMIN -->
 
-                <span>Retour</span>
+            {% if request.session.user_role == "admin" or request.session.user_role == "administrateur" or request.session.user_role == "administrateurs" %}
 
-            </a>
+                <a
+                    href="{% url 'astra:accueil' %}"
+                    class="btn-retour"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Retour</span>
+                </a>
+
+
+            <!-- VENTE / CLIENT -->
+
+            {% elif request.session.user_role == "vente" or request.session.user_role == "vendeur" or request.session.user_role == "vendeurs" or request.session.user_role == "caissier" or request.session.user_role == "client" or request.session.user_role == "clients" %}
+
+                <a
+                    href="{% url 'astra:ventes' %}"
+                    class="btn-retour"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Retour</span>
+                </a>
+
+
+            <!-- FOURNISSEUR -->
+
+            {% elif request.session.user_role == "fournisseur" or request.session.user_role == "fournisseurs" %}
+
+                <a
+                    href="{% url 'astra:fournisseur_dashboard' %}"
+                    class="btn-retour"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Retour</span>
+                </a>
+
+
+            <!-- APPROVISIONNEMENT -->
+
+            {% elif request.session.user_role == "approvisionnement" or request.session.user_role == "approvisionnements" or request.session.user_role == "approvisionneur" %}
+
+                <a
+                    href="{% url 'astra:approvisionnement' %}"
+                    class="btn-retour"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Retour</span>
+                </a>
+
+
+            <!-- STOCK -->
+
+            {% elif request.session.user_role == "stock" or request.session.user_role == "stocks" %}
+
+                <a
+                    href="{% url 'astra:stocks' %}"
+                    class="btn-retour"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Retour</span>
+                </a>
+
+
+            <!-- RAPPORTS -->
+
+            {% elif request.session.user_role == "rapport" or request.session.user_role == "rapports" %}
+
+                <a
+                    href="{% url 'astra:rapports' %}"
+                    class="btn-retour"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Retour</span>
+                </a>
+
+
+            <!-- UTILISATEUR NON CONNECTÉ -->
+
+            {% else %}
+
+                <a
+                    href="{% url 'astra:login' %}"
+                    class="btn-retour"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Retour</span>
+                </a>
+
+            {% endif %}
 
         </div>
 
@@ -717,11 +1696,15 @@
                     <p class="text-slate-600 leading-relaxed text-base sm:text-lg">
 
                         Chez
+
                         <strong class="text-slate-900 font-bold">
                             ASTRA Tech
                         </strong>,
+
                         notre mission est de simplifier l'accès à une technologie de pointe.
+
                         Nous ne vendons pas seulement des équipements informatiques :
+
                         nous concevons des solutions fiables et performantes adaptées
                         aux exigences des étudiants, professionnels et passionnés.
 
@@ -745,9 +1728,11 @@
                         <div class="absolute -inset-1 bg-gradient-to-r from-orange-500 to-blue-900 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-300">
                         </div>
 
-                        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80"
+                        <img
+                            src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=800&q=80"
                             alt="Mission Astra Tech"
-                            class="relative rounded-2xl shadow-lg w-full max-w-lg object-cover transform transition duration-500 hover:scale-[1.01]">
+                            class="relative rounded-2xl shadow-lg w-full max-w-lg object-cover transform transition duration-500 hover:scale-[1.01]"
+                        >
 
                     </div>
 
@@ -785,7 +1770,9 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
 
-                    <!-- CARTE 1 : EXPERTISE -->
+                    <!-- =================================================
+                         CARTE 1 : EXPERTISE
+                    ================================================= -->
 
                     <div class="bg-slate-50/70 p-8 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
 
@@ -812,7 +1799,9 @@
                     </div>
 
 
-                    <!-- CARTE 2 : QUALITÉ -->
+                    <!-- =================================================
+                         CARTE 2 : QUALITÉ
+                    ================================================= -->
 
                     <div class="bg-slate-50/70 p-8 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
 
@@ -838,7 +1827,9 @@
                     </div>
 
 
-                    <!-- CARTE 3 : SATISFACTION -->
+                    <!-- =================================================
+                         CARTE 3 : SATISFACTION
+                    ================================================= -->
 
                     <div class="bg-slate-50/70 p-8 rounded-3xl border border-slate-200/60 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 sm:col-span-2 lg:col-span-1">
 
@@ -856,7 +1847,9 @@
 
                         <p class="text-slate-600 text-sm leading-relaxed">
 
-                            Votre satisfaction est notre priorité. Notre équipe reste
+                            Votre satisfaction est notre priorité.
+
+                            Notre équipe reste
                             à votre disposition à chaque étape de votre achat et après-vente.
 
                         </p>
@@ -885,16 +1878,19 @@
                     <p class="text-blue-100/80 text-base">
 
                         Besoin d'un conseil spécifique ou d'un devis sur mesure ?
+
                         Notre équipe est là pour vous accompagner.
 
                     </p>
 
                     <div>
 
-                        <a href="https://wa.me/237695102672?text=Bonjour%20Astra%20Tech,%20je%20souhaite%20avoir%20plus%20d'informations."
+                        <a
+                            href="https://wa.me/237695102672?text=Bonjour%20Astra%20Tech,%20je%20souhaite%20avoir%20plus%20d'informations."
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="inline-flex items-center justify-center gap-3 px-8 py-4 text-base font-bold rounded-full text-white bg-orange-500 hover:bg-orange-600 transition-all duration-200 shadow-lg shadow-orange-500/30 hover:scale-105">
+                            class="inline-flex items-center justify-center gap-3 px-8 py-4 text-base font-bold rounded-full text-white bg-orange-500 hover:bg-orange-600 transition-all duration-200 shadow-lg shadow-orange-500/30 hover:scale-105"
+                        >
 
                             <i class="fas fa-paper-plane text-white"></i>
 
@@ -926,6 +1922,7 @@
         </div>
 
     </footer>
+
 
 </body>
 

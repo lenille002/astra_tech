@@ -1,538 +1,1229 @@
 {% load static %}
 
 <!DOCTYPE html>
-
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>ASTRA TECH</title>
 
-<title>ASTRA TECH</title>
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-<!-- CSS principal -->
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- CSS responsive -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-<!-- CSS responsive : chargé une seule fois -->
-<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Initialisation immédiate du mode nuit -->
+    <script>
+        if (localStorage.getItem('astra_dark_mode') === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
 
-<!-- Initialisation immédiate du mode nuit -->
-<script>
-    if (localStorage.getItem('astra_dark_mode') === 'true') {
-        document.documentElement.classList.add('dark');
-    }
-</script>
+    <style>
 
-<!-- Styles du mode nuit + Mobile First -->
-<style>
+        /* =========================================================
+           VARIABLES
+        ========================================================= */
 
-    /* =========================================================
-       MODE NUIT
-    ========================================================= */
+        :root {
+            --astra-blue: #004E8C;
+            --astra-blue-light: #0078D7;
+            --astra-dark-blue: #003366;
+            --astra-orange: #FF8C00;
+            --astra-orange-light: #FFA726;
+            --astra-white: #ffffff;
+            --astra-bg: #f4f8fc;
+            --astra-text: #1e293b;
 
-    html.dark body {
-        background-color: #0f172a;
-        color: #f1f5f9;
-    }
+            --shadow-soft:
+                0 10px 30px rgba(0, 51, 102, 0.10);
 
-    html.dark .app-section,
-    html.dark .card,
-    html.dark .stat-card,
-    html.dark .feature-card {
-        background-color: #1e293b !important;
-        border-color: #334155 !important;
-        color: #f1f5f9 !important;
-    }
-
-    html.dark h1,
-    html.dark h3,
-    html.dark p,
-    html.dark .user-name,
-    html.dark .stat-value,
-    html.dark .feature-desc,
-    html.dark .card-title {
-        color: #f1f5f9 !important;
-    }
-
-    html.dark .welcome-subtitle {
-        color: #94a3b8 !important;
-    }
-
-
-    /* =========================================================
-       MOBILE FIRST
-       Téléphone : 320px → 575px
-    ========================================================= */
-
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
-    }
-
-    html,
-    body {
-        width: 100%;
-        max-width: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-    }
-
-    body {
-        min-width: 0;
-    }
-
-    /* Conteneur principal */
-    .container {
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 10px;
-    }
-
-    .app-section {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-    }
-
-
-    /* =========================================================
-       HEADER MOBILE
-    ========================================================= */
-
-    .header {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 18px;
-        padding: 18px 12px;
-    }
-
-    .logo {
-        max-width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .user-info {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        min-width: 0;
-    }
-
-    .user-details {
-        min-width: 0;
-        text-align: left;
-    }
-
-    .user-name,
-    .user-role {
-        max-width: 100%;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .user-avatar {
-        flex-shrink: 0;
-    }
-
-    .logout-btn {
-        width: 100%;
-        max-width: 220px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        text-align: center;
-    }
-
-
-    /* =========================================================
-       MESSAGE D'ACCUEIL
-    ========================================================= */
-
-    .welcome-message {
-        width: 100%;
-        max-width: 100%;
-        padding: 20px 10px;
-        text-align: center;
-    }
-
-    .welcome-title {
-        width: 100%;
-        margin: 0;
-        font-size: 1.5rem;
-        line-height: 1.3;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .dynamic-shop-name {
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .welcome-subtitle {
-        width: 100%;
-        margin: 10px auto 0;
-        font-size: 0.95rem;
-        line-height: 1.6;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-
-    /* =========================================================
-       STATISTIQUES
-    ========================================================= */
-
-    .stats-container {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 15px;
-        margin: 15px 0;
-    }
-
-    .stat-card {
-        width: 100%;
-        min-width: 0;
-        max-width: 100%;
-        overflow: hidden;
-        padding: 20px 15px;
-    }
-
-    .stat-label {
-        max-width: 100%;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .stat-value {
-        max-width: 100%;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-        font-size: clamp(1.4rem, 7vw, 2rem);
-    }
-
-
-    /* =========================================================
-       CARTE FONCTIONNALITÉS
-    ========================================================= */
-
-    .card {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
-        margin-top: 20px;
-        overflow: hidden;
-    }
-
-    .card-header {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .card-title {
-        max-width: 100%;
-        font-size: 1.2rem;
-        line-height: 1.4;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-
-    /* =========================================================
-       FONCTIONNALITÉS
-    ========================================================= */
-
-    .features {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    .feature-card {
-        width: 100%;
-        min-width: 0;
-        max-width: 100%;
-        overflow: hidden;
-    }
-
-    .feature-title {
-        max-width: 100%;
-        font-size: 1.05rem;
-        line-height: 1.4;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .feature-desc {
-        max-width: 100%;
-        font-size: 0.92rem;
-        line-height: 1.6;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .feature-card ul {
-        max-width: 100%;
-        padding-left: 20px;
-        overflow-wrap: anywhere;
-    }
-
-    .feature-card li {
-        max-width: 100%;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .feature-card a {
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    .feature-icon {
-        flex-shrink: 0;
-    }
-
-
-    /* =========================================================
-       TRÈS PETITS ÉCRANS
-       320px → 359px
-    ========================================================= */
-
-    @media (max-width: 359px) {
-
-        .container {
-            padding: 7px;
+            --shadow-hover:
+                0 20px 45px rgba(0, 78, 140, 0.20);
         }
 
-        .header {
-            padding: 15px 8px;
-            gap: 15px;
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
         }
 
-        .welcome-message {
-            padding: 15px 5px;
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        .welcome-title {
-            font-size: 1.3rem;
+        body {
+            min-width: 0;
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(0, 120, 215, 0.08),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(255, 140, 0, 0.08),
+                    transparent 30%
+                ),
+                var(--astra-bg);
+
+            color: var(--astra-text);
         }
 
-        .welcome-subtitle {
-            font-size: 0.88rem;
+
+        /* =========================================================
+           MODE NUIT
+        ========================================================= */
+
+        html.dark body {
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(0, 120, 215, 0.08),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(255, 140, 0, 0.06),
+                    transparent 30%
+                ),
+                #0f172a;
+
+            color: #f1f5f9;
         }
 
-        .stats-container,
-        .features {
-            gap: 12px;
+        html.dark .app-section,
+        html.dark .card,
+        html.dark .stat-card,
+        html.dark .feature-card {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+            color: #f1f5f9 !important;
         }
 
-        .stat-card {
-            padding: 16px 12px;
+        html.dark h1,
+        html.dark h3,
+        html.dark p,
+        html.dark .user-name,
+        html.dark .stat-value,
+        html.dark .feature-desc,
+        html.dark .card-title {
+            color: #f1f5f9 !important;
         }
 
-        .feature-card {
-            padding: 16px 12px;
+        html.dark .welcome-subtitle {
+            color: #94a3b8 !important;
         }
 
-        .card-title {
-            font-size: 1.05rem;
-        }
-    }
 
-
-    /* =========================================================
-       PETIT MOBILE / GRAND TÉLÉPHONE
-       360px → 575px
-    ========================================================= */
-
-    @media (min-width: 360px) {
-
-        .container {
-            padding: 12px;
-        }
-
-        .welcome-title {
-            font-size: 1.6rem;
-        }
-
-        .stats-container {
-            gap: 16px;
-        }
-
-        .features {
-            gap: 16px;
-        }
-    }
-
-
-    /* =========================================================
-       TABLETTE
-       À partir de 576px
-    ========================================================= */
-
-    @media (min-width: 576px) {
+        /* =========================================================
+           CONTENEUR
+        ========================================================= */
 
         .container {
             width: 100%;
-            max-width: 720px;
-            padding: 20px;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10px;
         }
+
+        .app-section {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+        }
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
 
         .header {
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 15px;
+            justify-content: center;
+            gap: 18px;
+            padding: 18px 12px;
+
+            animation: headerReveal 0.8s ease both;
         }
+
+
+        /* =========================================================
+           LOGO
+        ========================================================= */
+
+        .logo {
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            animation: logoEntrance 1s cubic-bezier(.2,.8,.2,1) both;
+        }
+
+        .logo-shape {
+            position: relative;
+            animation:
+                logoFloat 4s ease-in-out infinite,
+                logoGlow 3s ease-in-out infinite;
+        }
+
+        .logo-inner {
+            animation: logoPulse 2.5s ease-in-out infinite;
+        }
+
+        .logo-text {
+            animation: textReveal 1s ease 0.25s both;
+        }
+
+        .astra {
+            transition: all 0.3s ease;
+        }
+
+        .tech {
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover .astra,
+        .logo:hover .tech {
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================================
+           UTILISATEUR
+        ========================================================= */
 
         .user-info {
-            width: auto;
-            justify-content: flex-start;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 0;
+
+            animation: userReveal 0.8s ease 0.25s both;
         }
+
+        .user-details {
+            min-width: 0;
+            text-align: left;
+        }
+
+        .user-name,
+        .user-role {
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .user-name {
+            font-weight: 700;
+        }
+
+        .user-role {
+            opacity: 0.7;
+        }
+
+        .user-avatar {
+            flex-shrink: 0;
+            transition:
+                transform 0.4s ease,
+                box-shadow 0.4s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.08) rotate(3deg);
+            box-shadow:
+                0 0 0 5px rgba(0, 120, 215, 0.12),
+                0 10px 25px rgba(0, 78, 140, 0.20);
+        }
+
+
+        /* =========================================================
+           BOUTON DECONNEXION
+        ========================================================= */
 
         .logout-btn {
-            width: auto;
-            max-width: none;
+            width: 100%;
+            max-width: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                background 0.3s ease;
+
+            animation: buttonReveal 0.8s ease 0.4s both;
         }
 
+        .logout-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow:
+                0 12px 25px rgba(0, 78, 140, 0.20);
+        }
+
+        .logout-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .logout-btn:hover i {
+            transform: translateX(4px);
+        }
+
+
+        /* =========================================================
+           MESSAGE D'ACCUEIL
+        ========================================================= */
+
         .welcome-message {
-            padding: 25px 15px;
+            width: 100%;
+            max-width: 100%;
+            padding: 20px 10px;
+            text-align: center;
+
+            animation:
+                welcomeReveal 1s cubic-bezier(.2,.8,.2,1) 0.25s both;
         }
 
         .welcome-title {
-            font-size: 1.8rem;
+            width: 100%;
+            margin: 0;
+            font-size: 1.5rem;
+            line-height: 1.3;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .welcome-title::after {
+            content: "";
+            display: block;
+            width: 70px;
+            height: 4px;
+            margin: 14px auto 0;
+
+            background: linear-gradient(
+                90deg,
+                var(--astra-blue),
+                var(--astra-orange)
+            );
+
+            border-radius: 999px;
+
+            animation:
+                lineExpand 1s ease 1s both,
+                lineGlow 2.5s ease-in-out 1.5s infinite;
+        }
+
+        .dynamic-shop-name {
+            display: inline-block;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+
+            color: var(--astra-orange);
+
+            animation: shopNameGlow 3s ease-in-out infinite;
         }
 
         .welcome-subtitle {
-            font-size: 1rem;
+            width: 100%;
+            margin: 10px auto 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+
+            animation: subtitleReveal 1s ease 0.7s both;
         }
+
+
+        /* =========================================================
+           STATISTIQUES
+        ========================================================= */
 
         .stats-container {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 18px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 15px 0;
         }
+
+        .stat-card {
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            overflow: hidden;
+            padding: 20px 15px;
+
+            position: relative;
+
+            border-radius: 18px;
+
+            box-shadow: var(--shadow-soft);
+
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease;
+
+            animation:
+                cardReveal 0.8s cubic-bezier(.2,.8,.2,1) both;
+        }
+
+        .stat-card:nth-child(1) {
+            animation-delay: 0.35s;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 0.48s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 0.61s;
+        }
+
+        .stat-card:nth-child(4) {
+            animation-delay: 0.74s;
+        }
+
+        .stat-card::before {
+            content: "";
+            position: absolute;
+
+            width: 120px;
+            height: 120px;
+
+            right: -45px;
+            top: -45px;
+
+            border-radius: 50%;
+
+            background: rgba(0, 120, 215, 0.08);
+
+            transition:
+                transform 0.5s ease,
+                background 0.5s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-card:hover::before {
+            transform: scale(1.8);
+            background: rgba(0, 120, 215, 0.12);
+        }
+
+        .stat-card.orange::before {
+            background: rgba(255, 140, 0, 0.10);
+        }
+
+        .stat-card.orange:hover::before {
+            background: rgba(255, 140, 0, 0.15);
+        }
+
+        .stat-label {
+            position: relative;
+            z-index: 1;
+
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .stat-label i {
+            margin-right: 5px;
+
+            transition:
+                transform 0.4s ease,
+                color 0.4s ease;
+        }
+
+        .stat-card:hover .stat-label i {
+            transform: scale(1.2) rotate(-8deg);
+            color: var(--astra-orange);
+        }
+
+        .stat-value {
+            position: relative;
+            z-index: 1;
+
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            font-size: clamp(1.4rem, 7vw, 2rem);
+
+            margin: 8px 0;
+
+            font-weight: 800;
+
+            transition:
+                transform 0.3s ease,
+                color 0.3s ease;
+        }
+
+        .stat-card:hover .stat-value {
+            transform: scale(1.04);
+        }
+
+
+        /* =========================================================
+           CARTE FONCTIONNALITES
+        ========================================================= */
+
+        .card {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            margin-top: 20px;
+            overflow: hidden;
+
+            border-radius: 22px;
+
+            box-shadow: var(--shadow-soft);
+
+            animation:
+                sectionReveal 1s ease 0.8s both;
+        }
+
+        .card-header {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .card-title {
+            max-width: 100%;
+            font-size: 1.2rem;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .card-title::after {
+            content: "";
+            display: block;
+
+            width: 45px;
+            height: 3px;
+
+            margin-top: 8px;
+
+            background: var(--astra-orange);
+            border-radius: 20px;
+
+            animation: linePulse 2s ease-in-out infinite;
+        }
+
+
+        /* =========================================================
+           FONCTIONNALITES
+        ========================================================= */
 
         .features {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 18px;
-        }
-    }
-
-
-    /* =========================================================
-       TABLETTE LARGE
-       À partir de 768px
-    ========================================================= */
-
-    @media (min-width: 768px) {
-
-        .container {
-            max-width: 960px;
-            padding: 25px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
         }
 
-        .header {
-            flex-wrap: nowrap;
+        .feature-card {
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            overflow: hidden;
+
+            position: relative;
+
+            transition:
+                transform 0.4s cubic-bezier(.2,.8,.2,1),
+                box-shadow 0.4s ease;
+
+            animation:
+                featureReveal 0.8s cubic-bezier(.2,.8,.2,1) both;
         }
 
-        .welcome-message {
-            padding: 30px 20px;
+        .feature-card:nth-child(1) {
+            animation-delay: 0.9s;
         }
 
-        .welcome-title {
-            font-size: 2rem;
+        .feature-card:nth-child(2) {
+            animation-delay: 1.0s;
         }
 
-        .stats-container {
-            gap: 20px;
+        .feature-card:nth-child(3) {
+            animation-delay: 1.1s;
         }
 
-        .features {
-            gap: 20px;
-        }
-    }
-
-
-    /* =========================================================
-       DESKTOP
-       À partir de 992px
-    ========================================================= */
-
-    @media (min-width: 992px) {
-
-        .container {
-            max-width: 1200px;
-            padding: 30px;
+        .feature-card:nth-child(4) {
+            animation-delay: 1.2s;
         }
 
-        .header {
-            flex-wrap: nowrap;
-            gap: 20px;
+        .feature-card:nth-child(5) {
+            animation-delay: 1.3s;
         }
 
-        .welcome-title {
-            font-size: 2.2rem;
+        .feature-card:nth-child(6) {
+            animation-delay: 1.4s;
         }
 
-        .stats-container {
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+        .feature-card::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 100%;
+            height: 3px;
+
+            background: linear-gradient(
+                90deg,
+                var(--astra-blue),
+                var(--astra-orange)
+            );
+
+            transform: scaleX(0);
+            transform-origin: left;
+
+            transition: transform 0.4s ease;
         }
 
-        .features {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-    }
+        .feature-card:hover {
+            transform:
+                translateY(-9px)
+                rotateX(1deg);
 
-
-    /* =========================================================
-       GRAND ÉCRAN
-       À partir de 1200px
-    ========================================================= */
-
-    @media (min-width: 1200px) {
-
-        .container {
-            max-width: 1300px;
+            box-shadow:
+                0 18px 40px rgba(0, 78, 140, 0.16);
         }
 
-        .welcome-title {
-            font-size: 2.4rem;
+        .feature-card:hover::after {
+            transform: scaleX(1);
         }
-    }
 
-</style>
+        .feature-icon {
+            flex-shrink: 0;
 
+            transition:
+                transform 0.5s cubic-bezier(.2,.8,.2,1),
+                box-shadow 0.4s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform:
+                translateY(-5px)
+                rotate(8deg)
+                scale(1.08);
+        }
+
+        .feature-title {
+            max-width: 100%;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+
+            transition:
+                color 0.3s ease,
+                transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-title {
+            transform: translateX(4px);
+            color: var(--astra-blue);
+        }
+
+        .feature-desc {
+            max-width: 100%;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .feature-card ul {
+            max-width: 100%;
+            padding-left: 20px;
+            overflow-wrap: anywhere;
+        }
+
+        .feature-card li {
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .feature-card a {
+            overflow-wrap: anywhere;
+            word-break: break-word;
+
+            transition:
+                color 0.25s ease,
+                padding-left 0.25s ease;
+        }
+
+        .feature-card a:hover {
+            padding-left: 5px;
+            color: var(--astra-orange);
+        }
+
+
+        /* =========================================================
+           APPARITION DES LIENS
+        ========================================================= */
+
+        .feature-card li {
+            opacity: 0;
+            animation: listReveal 0.6s ease forwards;
+        }
+
+        .feature-card li:nth-child(1) {
+            animation-delay: 1.6s;
+        }
+
+        .feature-card li:nth-child(2) {
+            animation-delay: 1.75s;
+        }
+
+
+        /* =========================================================
+           ANIMATIONS
+        ========================================================= */
+
+        @keyframes headerReveal {
+
+            from {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes logoEntrance {
+
+            from {
+                opacity: 0;
+                transform: scale(0.7) rotate(-8deg);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+
+        @keyframes logoFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+
+        @keyframes logoGlow {
+
+            0%,
+            100% {
+                filter: drop-shadow(
+                    0 0 0 rgba(0, 120, 215, 0)
+                );
+            }
+
+            50% {
+                filter: drop-shadow(
+                    0 0 10px rgba(0, 120, 215, 0.28)
+                );
+            }
+        }
+
+
+        @keyframes logoPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.04);
+            }
+        }
+
+
+        @keyframes textReveal {
+
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        @keyframes userReveal {
+
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        @keyframes buttonReveal {
+
+            from {
+                opacity: 0;
+                transform: translateX(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        @keyframes welcomeReveal {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes subtitleReveal {
+
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes lineExpand {
+
+            from {
+                width: 0;
+                opacity: 0;
+            }
+
+            to {
+                width: 70px;
+                opacity: 1;
+            }
+        }
+
+
+        @keyframes lineGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 rgba(255, 140, 0, 0);
+            }
+
+            50% {
+                box-shadow:
+                    0 0 14px rgba(255, 140, 0, 0.45);
+            }
+        }
+
+
+        @keyframes shopNameGlow {
+
+            0%,
+            100% {
+                text-shadow:
+                    0 0 0 rgba(255, 140, 0, 0);
+            }
+
+            50% {
+                text-shadow:
+                    0 0 12px rgba(255, 140, 0, 0.25);
+            }
+        }
+
+
+        @keyframes cardReveal {
+
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+
+        @keyframes sectionReveal {
+
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        @keyframes featureReveal {
+
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+
+        @keyframes listReveal {
+
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        @keyframes linePulse {
+
+            0%,
+            100% {
+                transform: scaleX(1);
+            }
+
+            50% {
+                transform: scaleX(1.25);
+            }
+        }
+
+
+        /* =========================================================
+           ACCESSIBILITE
+        ========================================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+        }
+
+
+        /* =========================================================
+           TRES PETITS ECRANS
+        ========================================================= */
+
+        @media (max-width: 359px) {
+
+            .container {
+                padding: 7px;
+            }
+
+            .header {
+                padding: 15px 8px;
+                gap: 15px;
+            }
+
+            .welcome-message {
+                padding: 15px 5px;
+            }
+
+            .welcome-title {
+                font-size: 1.3rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 0.88rem;
+            }
+
+            .stats-container,
+            .features {
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 16px 12px;
+            }
+
+            .feature-card {
+                padding: 16px 12px;
+            }
+
+            .card-title {
+                font-size: 1.05rem;
+            }
+        }
+
+
+        /* =========================================================
+           GRAND TELEPHONE
+        ========================================================= */
+
+        @media (min-width: 360px) {
+
+            .container {
+                padding: 12px;
+            }
+
+            .welcome-title {
+                font-size: 1.6rem;
+            }
+
+            .stats-container {
+                gap: 16px;
+            }
+
+            .features {
+                gap: 16px;
+            }
+        }
+
+
+        /* =========================================================
+           TABLETTE
+        ========================================================= */
+
+        @media (min-width: 576px) {
+
+            .container {
+                width: 100%;
+                max-width: 720px;
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .user-info {
+                width: auto;
+                justify-content: flex-start;
+            }
+
+            .logout-btn {
+                width: auto;
+                max-width: none;
+            }
+
+            .welcome-message {
+                padding: 25px 15px;
+            }
+
+            .welcome-title {
+                font-size: 1.8rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 1rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 18px;
+            }
+
+            .features {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 18px;
+            }
+        }
+
+
+        /* =========================================================
+           TABLETTE LARGE
+        ========================================================= */
+
+        @media (min-width: 768px) {
+
+            .container {
+                max-width: 960px;
+                padding: 25px;
+            }
+
+            .header {
+                flex-wrap: nowrap;
+            }
+
+            .welcome-message {
+                padding: 30px 20px;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .stats-container {
+                gap: 20px;
+            }
+
+            .features {
+                gap: 20px;
+            }
+        }
+
+
+        /* =========================================================
+           DESKTOP
+        ========================================================= */
+
+        @media (min-width: 992px) {
+
+            .container {
+                max-width: 1200px;
+                padding: 30px;
+            }
+
+            .header {
+                flex-wrap: nowrap;
+                gap: 20px;
+            }
+
+            .welcome-title {
+                font-size: 2.2rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+
+            .features {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .stat-card:hover {
+                transform:
+                    translateY(-10px)
+                    scale(1.015);
+            }
+
+            .feature-card:hover {
+                transform:
+                    translateY(-10px)
+                    perspective(800px)
+                    rotateX(2deg);
+            }
+        }
+
+
+        /* =========================================================
+           GRAND ECRAN
+        ========================================================= */
+
+        @media (min-width: 1200px) {
+
+            .container {
+                max-width: 1300px;
+            }
+
+            .welcome-title {
+                font-size: 2.4rem;
+            }
+
+            .feature-card:hover {
+                transform:
+                    translateY(-12px)
+                    scale(1.015);
+            }
+        }
+
+    </style>
 
 </head>
 
+
 <body>
 
-```
 <div class="container">
 
     <div class="app-section">
 
+
         <!-- =====================================================
              HEADER
         ====================================================== -->
+
         <div class="header">
 
             <div class="logo">
@@ -542,6 +1233,7 @@
                 </div>
 
                 <div class="logo-text">
+
                     <div class="astra" style="color:#004E8C;">
                         ASTRA
                     </div>
@@ -549,6 +1241,7 @@
                     <div class="tech">
                         TECH
                     </div>
+
                 </div>
 
             </div>
@@ -577,7 +1270,10 @@
             </div>
 
 
-            <a href="{% url 'astra:logout' %}" class="logout-btn">
+            <a
+                href="{% url 'astra:logout' %}"
+                class="logout-btn"
+            >
                 <i class="fas fa-sign-out-alt"></i>
                 Déconnexion
             </a>
@@ -588,98 +1284,139 @@
         <!-- =====================================================
              MESSAGE D'ACCUEIL
         ====================================================== -->
+
         <div class="welcome-message">
 
             <h1 class="welcome-title">
+
                 Bienvenue dans
+
                 <span class="dynamic-shop-name">
                     ASTRA TECH
                 </span>
+
             </h1>
 
             <p class="welcome-subtitle">
-                Plateforme sécurisée de gestion des ventes et des approvisionnements.
+
+                Plateforme sécurisée de gestion des ventes et des
+                approvisionnements.
+
             </p>
 
         </div>
 
 
         <!-- =====================================================
-             STATISTIQUES DYNAMIQUES
+             STATISTIQUES
         ====================================================== -->
+
         <div class="stats-container">
 
+
             <!-- VENTES -->
+
             <div class="stat-card">
 
                 <div class="stat-label">
+
                     <i class="fas fa-shopping-cart"></i>
+
                     Ventes aujourd'hui
+
                 </div>
 
                 <div class="stat-value">
+
                     {{ ventes_aujourd_hui }}
+
                 </div>
 
                 <div class="stat-label">
+
                     Activité du jour
+
                 </div>
 
             </div>
 
 
             <!-- CHIFFRE D'AFFAIRES -->
+
             <div class="stat-card orange">
 
                 <div class="stat-label">
+
                     <i class="fas fa-chart-line"></i>
+
                     Chiffre d'affaires
+
                 </div>
 
                 <div class="stat-value">
+
                     {{ chiffre_affaires|floatformat:0 }} FCFA
+
                 </div>
 
                 <div class="stat-label">
+
                     Total cumulé
+
                 </div>
 
             </div>
 
 
             <!-- CLIENTS -->
+
             <div class="stat-card">
 
                 <div class="stat-label">
+
                     <i class="fas fa-users"></i>
+
                     Nouveaux clients
+
                 </div>
 
                 <div class="stat-value">
+
                     {{ nouveaux_clients }}
+
                 </div>
 
                 <div class="stat-label">
+
                     Ce mois-ci
+
                 </div>
 
             </div>
 
 
             <!-- STOCK -->
+
             <div class="stat-card">
 
                 <div class="stat-label">
+
                     <i class="fas fa-box"></i>
+
                     Produits en stock
+
                 </div>
 
                 <div class="stat-value">
+
                     {{ produits_en_stock }}
+
                 </div>
 
                 <div class="stat-label">
+
                     Unités disponibles
+
                 </div>
 
             </div>
@@ -688,14 +1425,17 @@
 
 
         <!-- =====================================================
-             FONCTIONNALITÉS PRINCIPALES
+             FONCTIONNALITÉS
         ====================================================== -->
+
         <div class="card">
 
             <div class="card-header">
 
                 <div class="card-title">
+
                     Fonctionnalités Principales
+
                 </div>
 
             </div>
@@ -704,35 +1444,45 @@
             <div class="features">
 
 
-                <!-- =================================================
-                     VENTES
-                ================================================== -->
+                <!-- VENTES -->
+
                 <div class="feature-card">
 
                     <div class="feature-icon">
+
                         <i class="fas fa-file-invoice-dollar"></i>
+
                     </div>
 
                     <h3 class="feature-title">
+
                         Gestion des Ventes
+
                     </h3>
 
                     <p class="feature-desc">
-                        Gérez vos factures et suivez les transactions en temps réel.
+
+                        Gérez vos factures et suivez les transactions
+                        en temps réel.
+
                     </p>
 
                     <ul>
 
                         <li>
+
                             <a href="{% url 'astra:accueil' %}">
                                 Accueil
                             </a>
+
                         </li>
 
                         <li>
+
                             <a href="{% url 'astra:ventes' %}">
                                 En savoir plus
                             </a>
+
                         </li>
 
                     </ul>
@@ -740,35 +1490,45 @@
                 </div>
 
 
-                <!-- =================================================
-                     RAPPORTS
-                ================================================== -->
+                <!-- RAPPORTS -->
+
                 <div class="feature-card orange">
 
                     <div class="feature-icon">
+
                         <i class="fas fa-chart-pie"></i>
+
                     </div>
 
                     <h3 class="feature-title">
+
                         Rapports Avancés
+
                     </h3>
 
                     <p class="feature-desc">
-                        Analysez les ventes avec des rapports journaliers et mensuels.
+
+                        Analysez les ventes avec des rapports
+                        journaliers et mensuels.
+
                     </p>
 
                     <ul>
 
                         <li>
+
                             <a href="{% url 'astra:accueil' %}">
                                 Accueil
                             </a>
+
                         </li>
 
                         <li>
+
                             <a href="{% url 'astra:rapports' %}">
                                 En savoir plus
                             </a>
+
                         </li>
 
                     </ul>
@@ -776,35 +1536,45 @@
                 </div>
 
 
-                <!-- =================================================
-                     APPROVISIONNEMENT
-                ================================================== -->
+                <!-- APPROVISIONNEMENT -->
+
                 <div class="feature-card">
 
                     <div class="feature-icon">
+
                         <i class="fas fa-boxes"></i>
+
                     </div>
 
                     <h3 class="feature-title">
+
                         Gestion des Approvisionnements
+
                     </h3>
 
                     <p class="feature-desc">
-                        Suivez les entrées de stock et les réapprovisionnements.
+
+                        Suivez les entrées de stock et les
+                        réapprovisionnements.
+
                     </p>
 
                     <ul>
 
                         <li>
+
                             <a href="{% url 'astra:accueil' %}">
                                 Accueil
                             </a>
+
                         </li>
 
                         <li>
+
                             <a href="{% url 'astra:approvisionnement' %}">
                                 En savoir plus
                             </a>
+
                         </li>
 
                     </ul>
@@ -812,37 +1582,47 @@
                 </div>
 
 
-                <!-- =================================================
-                     SECURITE
-                ================================================== -->
+                <!-- SECURITE -->
+
                 <div class="feature-card">
 
                     <div class="feature-icon">
+
                         <i class="fas fa-user-shield"></i>
+
                     </div>
 
                     <h3 class="feature-title">
+
                         Sécurité Renforcée
+
                     </h3>
 
                     <p class="feature-desc">
-                        Protégez vos données grâce à un système sécurisé.
+
+                        Protégez vos données grâce à un système
+                        sécurisé.
+
                     </p>
 
                     <ul>
 
                         <li>
+
                             <a href="{% url 'astra:accueil' %}">
                                 Accueil
                             </a>
+
                         </li>
 
                         {% if request.session.user_role == 'admin' or request.user.is_staff or request.user.is_superuser %}
 
                             <li>
+
                                 <a href="{% url 'astra:connexion_admin' %}">
                                     En savoir plus
                                 </a>
+
                             </li>
 
                         {% endif %}
@@ -852,35 +1632,44 @@
                 </div>
 
 
-                <!-- =================================================
-                     FOURNISSEURS
-                ================================================== -->
+                <!-- FOURNISSEURS -->
+
                 <div class="feature-card orange">
 
                     <div class="feature-icon">
+
                         <i class="fas fa-truck-moving"></i>
+
                     </div>
 
                     <h3 class="feature-title">
+
                         Gestion des Fournisseurs
+
                     </h3>
 
                     <p class="feature-desc">
+
                         Gérez vos fournisseurs et vos commandes.
+
                     </p>
 
                     <ul>
 
                         <li>
+
                             <a href="{% url 'astra:accueil' %}">
                                 Accueil
                             </a>
+
                         </li>
 
                         <li>
+
                             <a href="{% url 'astra:fournisseurs' %}">
                                 En savoir plus
                             </a>
+
                         </li>
 
                     </ul>
@@ -888,35 +1677,45 @@
                 </div>
 
 
-                <!-- =================================================
-                     A PROPOS
-                ================================================== -->
+                <!-- A PROPOS -->
+
                 <div class="feature-card">
 
                     <div class="feature-icon">
+
                         <i class="fas fa-info-circle"></i>
+
                     </div>
 
                     <h3 class="feature-title">
+
                         À propos de ASTRA TECH
+
                     </h3>
 
                     <p class="feature-desc">
-                        Découvrez notre plateforme de gestion informatique.
+
+                        Découvrez notre plateforme de gestion
+                        informatique.
+
                     </p>
 
                     <ul>
 
                         <li>
+
                             <a href="{% url 'astra:accueil' %}">
                                 Accueil
                             </a>
+
                         </li>
 
                         <li>
+
                             <a href="{% url 'astra:propos' %}">
                                 En savoir plus
                             </a>
+
                         </li>
 
                     </ul>
@@ -935,10 +1734,12 @@
 <!-- =============================================================
      JAVASCRIPT
 ============================================================= -->
+
 <script>
 
+
     /* =========================================================
-       Synchronisation du mode nuit
+       MODE NUIT + NOM BOUTIQUE
     ========================================================= */
 
     window.addEventListener('storage', (event) => {
@@ -958,10 +1759,6 @@
         }
 
 
-        /* =====================================================
-           Synchronisation du nom de la boutique
-        ====================================================== */
-
         if (event.key === 'astra_shop_name' && event.newValue) {
 
             document
@@ -978,7 +1775,7 @@
 
 
     /* =========================================================
-       Chargement initial du nom de la boutique
+       CHARGEMENT INITIAL
     ========================================================= */
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -998,7 +1795,185 @@
 
         }
 
+
+        /* =====================================================
+           ANIMATION DES COMPTEURS
+        ===================================================== */
+
+        const statValues =
+            document.querySelectorAll('.stat-value');
+
+
+        statValues.forEach((element, index) => {
+
+            const originalText =
+                element.textContent.trim();
+
+            /*
+             * On récupère uniquement le nombre.
+             * Exemple :
+             * 25
+             * 150000 FCFA
+             */
+
+            const match =
+                originalText.replace(/\s/g, '').match(/[\d,.]+/);
+
+            if (!match) {
+                return;
+            }
+
+
+            const numericValue =
+                parseFloat(
+                    match[0]
+                        .replace(/,/g, '')
+                        .replace(/\./g, '')
+                );
+
+
+            if (isNaN(numericValue)) {
+                return;
+            }
+
+
+            const suffix =
+                originalText.replace(match[0], '').trim();
+
+
+            let start = 0;
+
+            const duration = 1200;
+
+            const startTime =
+                performance.now();
+
+
+            function animateCounter(currentTime) {
+
+                const progress =
+                    Math.min(
+                        (currentTime - startTime) / duration,
+                        1
+                    );
+
+
+                /*
+                 * Effet d'accélération puis ralentissement
+                 */
+
+                const eased =
+                    1 - Math.pow(1 - progress, 3);
+
+
+                const currentValue =
+                    Math.floor(
+                        start +
+                        (numericValue - start) * eased
+                    );
+
+
+                element.textContent =
+                    currentValue.toLocaleString('fr-FR')
+                    + (suffix ? ' ' + suffix : '');
+
+
+                if (progress < 1) {
+
+                    requestAnimationFrame(
+                        animateCounter
+                    );
+
+                } else {
+
+                    element.textContent =
+                        numericValue
+                            .toLocaleString('fr-FR')
+                        + (suffix ? ' ' + suffix : '');
+
+                }
+
+            }
+
+
+            setTimeout(() => {
+
+                requestAnimationFrame(
+                    animateCounter
+                );
+
+            }, 350 + (index * 120));
+
+        });
+
+
+        /* =====================================================
+           PETIT EFFET DE SOURIS SUR LES CARTES
+        ===================================================== */
+
+        const featureCards =
+            document.querySelectorAll('.feature-card');
+
+
+        featureCards.forEach(card => {
+
+            card.addEventListener('mousemove', (event) => {
+
+                if (window.innerWidth < 992) {
+                    return;
+                }
+
+
+                const rect =
+                    card.getBoundingClientRect();
+
+
+                const x =
+                    event.clientX - rect.left;
+
+
+                const y =
+                    event.clientY - rect.top;
+
+
+                const centerX =
+                    rect.width / 2;
+
+
+                const centerY =
+                    rect.height / 2;
+
+
+                const rotateY =
+                    ((x - centerX) / centerX) * 2;
+
+
+                const rotateX =
+                    ((centerY - y) / centerY) * 2;
+
+
+                card.style.transform =
+                    `
+                    translateY(-10px)
+                    perspective(800px)
+                    rotateX(${rotateX}deg)
+                    rotateY(${rotateY}deg)
+                    scale(1.015)
+                    `;
+
+            });
+
+
+            card.addEventListener('mouseleave', () => {
+
+                card.style.transform = '';
+
+            });
+
+        });
+
     });
+
 
 </script>
 

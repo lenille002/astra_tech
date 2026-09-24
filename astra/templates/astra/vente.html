@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block content %}
+
 <!-- Script d’initialisation immédiate du mode nuit global -->
 <script>
-    (function() {
+    (function () {
         const savedDarkMode = localStorage.getItem('astra_dark_mode');
+
         if (savedDarkMode === 'true') {
             document.documentElement.classList.add('dark');
         } else {
@@ -15,431 +18,1025 @@
 </script>
 
 <link rel="stylesheet" href="{% static 'css/vente.css' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
     /* =========================================================
-   MOBILE FIRST — AJOUT SANS MODIFIER LE DESIGN EXISTANT
-   ========================================================= */
+       MOBILE FIRST — RESPONSIVE
+    ========================================================== */
 
-/* ---------- BASE : TÉLÉPHONE ---------- */
-
-html,
-body {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-.page-vente {
-    width: 100%;
-    max-width: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-/* Les statistiques s'empilent sur téléphone */
-.stats-container {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-}
-
-/* Zone des actions */
-.actions {
-    width: 100%;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 10px !important;
-}
-
-/* Groupe des boutons */
-.actions > div {
-    width: 100%;
-}
-
-.actions > div:first-child {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100%;
-    gap: 8px !important;
-}
-
-/* Boutons adaptés au mobile */
-.actions > div:first-child .btn-primary,
-.actions > div:first-child .btn-stock {
-    width: 100%;
-    min-height: 44px;
-}
-
-/* Recherche */
-.search-filter-container {
-    width: 100%;
-    max-width: none;
-    min-height: 44px;
-    flex: none;
-}
-
-.search-filter-container input {
-    width: 100%;
-    min-width: 0;
-}
-
-/* =========================================================
-   TABLEAU
-   ========================================================= */
-
-/*
-   On ne change PAS le design du tableau.
-   On permet simplement son défilement horizontal
-   sur les petits écrans.
-*/
-
-.table-box {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-}
-
-.table-responsive {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-}
-
-/*
-   Le tableau garde sa largeur normale.
-   Sur téléphone, l'utilisateur peut faire glisser
-   horizontalement.
-*/
-.table-responsive table {
-    min-width: 850px;
-}
-
-/* Les boutons d'action restent sur une seule ligne */
-.actions-cell {
-    display: flex;
-    flex-wrap: nowrap;
-    white-space: nowrap;
-}
-
-/* =========================================================
-   MODALES
-   ========================================================= */
-
-.modal-overlay {
-    width: 100%;
-    max-width: 100%;
-    padding: 10px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-.modal-content {
-    width: 100%;
-    max-width: 100%;
-    margin: 10px auto;
-}
-
-/* Le contenu des formulaires ne dépasse jamais */
-.modal-content form {
-    width: 100%;
-    max-width: 100%;
-}
-
-/* =========================================================
-   FORMULAIRE NOUVELLE VENTE
-   ========================================================= */
-
-.form-group {
-    width: 100%;
-    max-width: 100%;
-}
-
-.form-group input,
-.form-group select,
-.form-control {
-    width: 100%;
-    max-width: 100%;
-}
-
-/* Sélection des produits */
-.form-select-list {
-    width: 100%;
-    max-width: 100%;
-}
-
-/* Quantité + bouton */
-.form-row-inline {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.form-row-inline .flex-grow {
-    width: 100%;
-}
-
-.form-row-inline .btn-primary {
-    width: 100%;
-}
-
-/* =========================================================
-   PANIER
-   ========================================================= */
-
-.panier-box {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-}
-
-.panier-list {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-.panier-item {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-}
-
-.panier-item > span:first-child {
-    min-width: 0;
-    overflow-wrap: anywhere;
-}
-
-/* =========================================================
-   TOTAUX
-   ========================================================= */
-
-.total-box {
-    width: 100%;
-    max-width: 100%;
-    overflow-wrap: anywhere;
-}
-
-.monnaie-box {
-    width: 100%;
-    max-width: 100%;
-}
-
-/* =========================================================
-   ACTIONS DES MODALES
-   ========================================================= */
-
-.modal-actions {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.modal-actions button {
-    width: 100%;
-    min-height: 42px;
-}
-
-/* =========================================================
-   DÉTAILS / REÇU
-   ========================================================= */
-
-.details-content {
-    width: 100%;
-    max-width: 100%;
-    overflow-wrap: anywhere;
-}
-
-.recu-container {
-    width: 100%;
-    max-width: 100%;
-}
-
-.recu-item {
-    width: 100%;
-    max-width: 100%;
-    overflow-wrap: anywhere;
-}
-
-.recu-item p,
-.recu-item li {
-    overflow-wrap: anywhere;
-}
-
-/* =========================================================
-   MODE NUIT — CONSERVÉ
-   ========================================================= */
-
-html.dark .search-filter-container,
-html.dark .search-box {
-    max-width: 100%;
-}
-
-/* =========================================================
-   PETITS TÉLÉPHONES
-   ========================================================= */
-
-@media (max-width: 360px) {
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
 
     .page-vente {
-        padding-left: 7px;
-        padding-right: 7px;
+        width: 100%;
+        max-width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        animation: pageVenteReveal 0.7s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    /* =========================================================
+       ANIMATIONS GLOBALES
+    ========================================================== */
+
+    @keyframes pageVenteReveal {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes sectionReveal {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes statReveal {
+        from {
+            opacity: 0;
+            transform: translateY(18px) scale(.97);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes buttonShine {
+        0% {
+            left: -120%;
+        }
+
+        45%,
+        100% {
+            left: 130%;
+        }
+    }
+
+    @keyframes iconFloat {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-3px);
+        }
+    }
+
+    @keyframes rowReveal {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes modalBackdrop {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes modalContentReveal {
+        from {
+            opacity: 0;
+            transform: translateY(25px) scale(.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes modalTitleReveal {
+        from {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fieldReveal {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes cartItemReveal {
+        from {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes toastReveal {
+        from {
+            opacity: 0;
+            transform: translateY(15px) scale(.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* =========================================================
+       STATISTIQUES
+    ========================================================== */
+
+    .stats-container {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
 
     .stat-card {
-        padding: 12px;
+        animation: statReveal .55s cubic-bezier(.22, 1, .36, 1) both;
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease,
+            border-color .25s ease;
+    }
+
+    .stats-container .stat-card:nth-child(1) {
+        animation-delay: .08s;
+    }
+
+    .stats-container .stat-card:nth-child(2) {
+        animation-delay: .16s;
+    }
+
+    .stats-container .stat-card:nth-child(3) {
+        animation-delay: .24s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 30px rgba(15, 23, 42, .12);
     }
 
     .stat-card h4 {
-        font-size: 13px;
+        transition: transform .25s ease;
     }
 
     .stat-card span {
-        font-size: 22px;
+        display: inline-block;
+        transition:
+            transform .25s ease,
+            color .25s ease;
     }
 
-    .actions-cell button {
-        padding: 5px 8px;
-        font-size: 13px;
+    .stat-card:hover h4 {
+        transform: translateX(3px);
     }
 
-    .modal-overlay {
-        padding: 5px;
+    .stat-card:hover span {
+        transform: scale(1.05);
     }
 
-    .modal-content {
-        margin: 5px auto;
-        border-radius: 8px;
-    }
-}
-
-/* =========================================================
-   TABLETTE — À PARTIR DE 576px
-   ========================================================= */
-
-@media (min-width: 576px) {
-
-    .page-vente {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    .stats-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    /* =========================================================
+       ACTIONS
+    ========================================================== */
 
     .actions {
-        flex-direction: row !important;
-        align-items: center !important;
-        justify-content: space-between !important;
+        width: 100%;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+
+        animation: sectionReveal .65s .18s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    .actions > div {
+        width: 100%;
     }
 
     .actions > div:first-child {
-        flex-direction: row !important;
-        width: auto;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100%;
+        gap: 8px !important;
     }
 
     .actions > div:first-child .btn-primary,
     .actions > div:first-child .btn-stock {
-        width: auto;
+        width: 100%;
+        min-height: 44px;
     }
+
+    /* =========================================================
+       BOUTONS ANIMÉS
+    ========================================================== */
+
+    .btn-primary,
+    .btn-stock,
+    .btn-secondary,
+    .btn-view,
+    .btn-edit,
+    .btn-delete,
+    .btn-delete-item {
+        transition:
+            transform .22s ease,
+            box-shadow .22s ease,
+            background-color .22s ease,
+            color .22s ease;
+    }
+
+    .btn-primary,
+    .btn-stock {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary::before,
+    .btn-stock::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -120%;
+        width: 70%;
+        height: 100%;
+
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, .30),
+            transparent
+        );
+
+        transform: skewX(-20deg);
+        transition: left .55s ease;
+        pointer-events: none;
+    }
+
+    .btn-primary:hover,
+    .btn-stock:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(0, 78, 140, .20);
+    }
+
+    .btn-primary:hover::before,
+    .btn-stock:hover::before {
+        left: 130%;
+    }
+
+    .btn-primary:active,
+    .btn-stock:active,
+    .btn-secondary:active {
+        transform: scale(.97);
+    }
+
+    .btn-primary i,
+    .btn-stock i {
+        transition: transform .25s ease;
+    }
+
+    .btn-primary:hover i {
+        transform: rotate(90deg) scale(1.08);
+    }
+
+    .btn-stock:hover i {
+        transform: translateY(-2px) scale(1.08);
+    }
+
+    /* =========================================================
+       RECHERCHE
+    ========================================================== */
 
     .search-filter-container {
-        width: auto;
-        max-width: 350px;
-        flex: 1;
+        width: 100%;
+        max-width: none;
+        min-height: 44px;
+        flex: none;
+
+        animation: sectionReveal .55s .28s both;
     }
 
-    .form-row-inline {
-        flex-direction: row;
-        align-items: flex-end;
+    .search-filter-container input {
+        width: 100%;
+        min-width: 0;
+
+        transition:
+            border-color .2s ease,
+            box-shadow .2s ease,
+            transform .2s ease;
     }
 
-    .form-row-inline .flex-grow {
-        flex: 1;
+    .search-filter-container input:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 3px rgba(0, 120, 215, .12);
+        outline: none;
     }
 
-    .form-row-inline .btn-primary {
-        width: auto;
+    /* =========================================================
+       TABLEAU
+    ========================================================== */
+
+    .table-box {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+
+        animation: sectionReveal .7s .25s cubic-bezier(.22, 1, .36, 1) both;
     }
 
-    .modal-actions {
-        flex-direction: row;
-        justify-content: flex-end;
+    .table-header {
+        animation: sectionReveal .5s .3s both;
     }
 
-    .modal-actions button {
-        width: auto;
-    }
-}
-
-/* =========================================================
-   TABLETTE — À PARTIR DE 768px
-   ========================================================= */
-
-@media (min-width: 768px) {
-
-    .page-vente {
-        padding-left: 20px;
-        padding-right: 20px;
+    .table-responsive {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
     }
 
-    .stats-container {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* =========================================================
-   DESKTOP — À PARTIR DE 992px
-   ========================================================= */
-
-@media (min-width: 992px) {
-
-    .page-vente {
-        padding-left: 25px;
-        padding-right: 25px;
+    .table-responsive table {
+        min-width: 850px;
     }
 
-    /*
-       À partir de l'ordinateur,
-       on revient au comportement naturel du design original.
-    */
-    .actions {
-        flex-direction: row !important;
+    /* =========================================================
+       EN-TÊTE DU TABLEAU
+    ========================================================== */
+
+    .table-responsive thead th {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .table-responsive thead th::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -120%;
+        width: 55%;
+        height: 100%;
+
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, .10),
+            transparent
+        );
+
+        animation: tableHeaderShine 4s 1s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    @keyframes tableHeaderShine {
+        0%,
+        70%,
+        100% {
+            left: -120%;
+        }
+
+        85% {
+            left: 130%;
+        }
+    }
+
+    /* =========================================================
+       LIGNES
+    ========================================================== */
+
+    #tableBody tr[data-montant] {
+        animation: rowReveal .45s both;
+        transition:
+            background-color .25s ease,
+            box-shadow .25s ease;
+    }
+
+    #tableBody tr[data-montant]:nth-child(1) {
+        animation-delay: .05s;
+    }
+
+    #tableBody tr[data-montant]:nth-child(2) {
+        animation-delay: .10s;
+    }
+
+    #tableBody tr[data-montant]:nth-child(3) {
+        animation-delay: .15s;
+    }
+
+    #tableBody tr[data-montant]:nth-child(4) {
+        animation-delay: .20s;
+    }
+
+    #tableBody tr[data-montant]:nth-child(5) {
+        animation-delay: .25s;
+    }
+
+    #tableBody tr[data-montant]:nth-child(6) {
+        animation-delay: .30s;
+    }
+
+    #tableBody tr[data-montant]:nth-child(7) {
+        animation-delay: .35s;
+    }
+
+    #tableBody tr[data-montant]:nth-child(8) {
+        animation-delay: .40s;
+    }
+
+    #tableBody tr[data-montant]:nth-child(9) {
+        animation-delay: .45s;
+    }
+
+    #tableBody tr[data-montant]:nth-child(10) {
+        animation-delay: .50s;
+    }
+
+    #tableBody tr[data-montant]:nth-child(n + 11) {
+        animation-delay: .55s;
+    }
+
+    #tableBody tr[data-montant]:hover {
+        background: #f8fbff !important;
+        box-shadow: inset 4px 0 0 #FF8C00;
+    }
+
+    html.dark #tableBody tr[data-montant]:hover {
+        background: #172554 !important;
+        box-shadow: inset 4px 0 0 #FF8C00;
+    }
+
+    /* =========================================================
+       ACTIONS DU TABLEAU
+    ========================================================== */
+
+    .actions-cell {
+        display: flex;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+    }
+
+    .actions-cell button {
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease,
+            color .2s ease,
+            background-color .2s ease;
+    }
+
+    .actions-cell button:hover {
+        transform: translateY(-2px) scale(1.08);
+        box-shadow: 0 7px 14px rgba(15, 23, 42, .12);
+    }
+
+    .actions-cell button:active {
+        transform: scale(.94);
+    }
+
+    .actions-cell button i {
+        transition: transform .2s ease;
+    }
+
+    .btn-view:hover i {
+        transform: scale(1.15);
+    }
+
+    .btn-edit:hover i {
+        transform: rotate(-8deg) scale(1.12);
+    }
+
+    .btn-delete:hover i {
+        transform: rotate(8deg) scale(1.12);
+    }
+
+    /* =========================================================
+       MODALES
+    ========================================================== */
+
+    .modal-overlay {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        animation: modalBackdrop .25s ease both;
+        backdrop-filter: blur(4px);
     }
 
     .modal-content {
-        max-width: 700px;
+        width: 100%;
+        max-width: 100%;
+        margin: 10px auto;
+
+        animation: modalContentReveal .35s cubic-bezier(.22, 1, .36, 1) both;
+        transform-origin: center;
     }
-}
 
-/* =========================================================
-   GRAND ÉCRAN — À PARTIR DE 1200px
-   ========================================================= */
-
-@media (min-width: 1200px) {
-
-    .page-vente {
-        padding-left: 30px;
-        padding-right: 30px;
+    .modal-header h2 {
+        animation: modalTitleReveal .45s .08s both;
     }
-}
- 
+
+    .modal-header button {
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .modal-header button:hover {
+        transform: rotate(90deg) scale(1.05);
+    }
+
+    .modal-content form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .form-group {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-control {
+        width: 100%;
+        max-width: 100%;
+
+        transition:
+            border-color .2s ease,
+            box-shadow .2s ease,
+            transform .2s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-control:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 3px rgba(0, 120, 215, .12);
+        outline: none;
+    }
+
+    /* Animation des champs */
+    #formVente .form-group,
+    #formModifierVente .form-group {
+        animation: fieldReveal .4s both;
+    }
+
+    #formVente .form-group:nth-child(1),
+    #formModifierVente .form-group:nth-child(1) {
+        animation-delay: .05s;
+    }
+
+    #formVente .form-group:nth-child(2),
+    #formModifierVente .form-group:nth-child(2) {
+        animation-delay: .10s;
+    }
+
+    #formVente .form-group:nth-child(3),
+    #formModifierVente .form-group:nth-child(3) {
+        animation-delay: .15s;
+    }
+
+    #formVente .form-group:nth-child(4),
+    #formModifierVente .form-group:nth-child(4) {
+        animation-delay: .20s;
+    }
+
+    #formVente .form-group:nth-child(5),
+    #formModifierVente .form-group:nth-child(5) {
+        animation-delay: .25s;
+    }
+
+    /* =========================================================
+       SÉLECTION PRODUITS
+    ========================================================== */
+
+    .form-select-list {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .form-select-list option {
+        transition: background-color .2s ease;
+    }
+
+    /* =========================================================
+       FORMULAIRE QUANTITÉ
+    ========================================================== */
+
+    .form-row-inline {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form-row-inline .flex-grow {
+        width: 100%;
+    }
+
+    .form-row-inline .btn-primary {
+        width: 100%;
+    }
+
+    /* =========================================================
+       PANIER
+    ========================================================== */
+
+    .panier-box {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+
+        animation: sectionReveal .55s .15s both;
+    }
+
+    .panier-list {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .panier-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+
+        animation: cartItemReveal .3s both;
+
+        transition:
+            background-color .2s ease,
+            transform .2s ease;
+    }
+
+    .panier-item:hover {
+        transform: translateX(3px);
+    }
+
+    .panier-item > span:first-child {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .btnSupprimerPanier {
+        transition:
+            transform .2s ease,
+            color .2s ease;
+    }
+
+    .btnSupprimerPanier:hover {
+        transform: rotate(10deg) scale(1.12);
+    }
+
+    /* =========================================================
+       TOTAUX
+    ========================================================== */
+
+    .total-box {
+        width: 100%;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .monnaie-box {
+        width: 100%;
+        max-width: 100%;
+
+        transition:
+            background-color .25s ease,
+            transform .25s ease;
+    }
+
+    .monnaie-box:hover {
+        transform: translateY(-2px);
+    }
+
+    #totalPanier {
+        display: inline-block;
+        transition:
+            transform .25s ease,
+            color .25s ease;
+    }
+
+    #totalPanier:not(:empty) {
+        animation: totalPulse .35s ease;
+    }
+
+    @keyframes totalPulse {
+        0% {
+            transform: scale(.96);
+        }
+
+        60% {
+            transform: scale(1.06);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    /* =========================================================
+       ACTIONS MODALES
+    ========================================================== */
+
+    .modal-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .modal-actions button {
+        width: 100%;
+        min-height: 42px;
+
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .modal-actions button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(15, 23, 42, .12);
+    }
+
+    .modal-actions button:active {
+        transform: scale(.97);
+    }
+
+    /* =========================================================
+       DÉTAILS / REÇU
+    ========================================================== */
+
+    .details-content {
+        width: 100%;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .recu-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .recu-item {
+        width: 100%;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+
+        animation: sectionReveal .5s both;
+    }
+
+    .recu-item p,
+    .recu-item li {
+        overflow-wrap: anywhere;
+    }
+
+    .recu-item li {
+        transition:
+            transform .2s ease,
+            color .2s ease;
+    }
+
+    .recu-item li:hover {
+        transform: translateX(4px);
+    }
+
+    /* =========================================================
+       TOAST
+    ========================================================== */
+
+    .toast {
+        animation: toastReveal .35s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    /* =========================================================
+       MODE NUIT
+    ========================================================== */
+
+    html.dark .search-filter-container,
+    html.dark .search-box {
+        max-width: 100%;
+    }
+
+    /* =========================================================
+       PETITS TÉLÉPHONES
+    ========================================================== */
+
+    @media (max-width: 360px) {
+
+        .page-vente {
+            padding-left: 7px;
+            padding-right: 7px;
+        }
+
+        .stat-card {
+            padding: 12px;
+        }
+
+        .stat-card h4 {
+            font-size: 13px;
+        }
+
+        .stat-card span {
+            font-size: 22px;
+        }
+
+        .actions-cell button {
+            padding: 5px 8px;
+            font-size: 13px;
+        }
+
+        .modal-overlay {
+            padding: 5px;
+        }
+
+        .modal-content {
+            margin: 5px auto;
+            border-radius: 8px;
+        }
+    }
+
+    /* =========================================================
+       TABLETTE — 576px
+    ========================================================== */
+
+    @media (min-width: 576px) {
+
+        .page-vente {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .stats-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .actions {
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+        }
+
+        .actions > div:first-child {
+            flex-direction: row !important;
+            width: auto;
+        }
+
+        .actions > div:first-child .btn-primary,
+        .actions > div:first-child .btn-stock {
+            width: auto;
+        }
+
+        .search-filter-container {
+            width: auto;
+            max-width: 350px;
+            flex: 1;
+        }
+
+        .form-row-inline {
+            flex-direction: row;
+            align-items: flex-end;
+        }
+
+        .form-row-inline .flex-grow {
+            flex: 1;
+        }
+
+        .form-row-inline .btn-primary {
+            width: auto;
+        }
+
+        .modal-actions {
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+        .modal-actions button {
+            width: auto;
+        }
+    }
+
+    /* =========================================================
+       TABLETTE — 768px
+    ========================================================== */
+
+    @media (min-width: 768px) {
+
+        .page-vente {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .stats-container {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    /* =========================================================
+       DESKTOP — 992px
+    ========================================================== */
+
+    @media (min-width: 992px) {
+
+        .page-vente {
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+
+        .actions {
+            flex-direction: row !important;
+        }
+
+        .modal-content {
+            max-width: 700px;
+        }
+    }
+
+    /* =========================================================
+       GRAND ÉCRAN — 1200px
+    ========================================================== */
+
+    @media (min-width: 1200px) {
+
+        .page-vente {
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+    }
+
+    /* =========================================================
+       ACCESSIBILITÉ — RÉDUCTION DES ANIMATIONS
+    ========================================================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        *,
+        *::before,
+        *::after {
+            animation-duration: .01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: .01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
 </style>
 
 <main class="page-vente">
 
-    <!-- STATISTIQUES -->
+    <!-- =====================================================
+         STATISTIQUES
+    ====================================================== -->
+
     <section class="stats-container">
+
         <div class="stat-card">
             <h4>Total ventes</h4>
             <span>{{ ventes|length }}</span>
@@ -452,38 +1049,75 @@ html.dark .search-box {
 
         <div class="stat-card">
             <h4>Produits vendus</h4>
-            <span id="statProduits">{{ produits_vendus_count|default:"0" }}</span>
+            <span id="statProduits">
+                {{ produits_vendus_count|default:"0" }}
+            </span>
         </div>
+
     </section>
 
-    <!-- BOUTONS ACTION & RECHERCHE -->
-    <section class="actions" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;">
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button id="btnNouvelleVente" class="btn-primary" type="button">
-                <i class="fas fa-plus"></i> Nouvelle vente
+    <!-- =====================================================
+         BOUTONS ACTION & RECHERCHE
+    ====================================================== -->
+
+    <section class="actions"
+             style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px;">
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+            <button id="btnNouvelleVente"
+                    class="btn-primary"
+                    type="button">
+
+                <i class="fas fa-plus"></i>
+                Nouvelle vente
+
             </button>
 
-           <a href="{% url 'astra:stocks' %}" class="btn-stock">
-                <i class="fas fa-boxes"></i> Voir le stock
+            <a href="{% url 'astra:stocks' %}"
+               class="btn-stock">
+
+                <i class="fas fa-boxes"></i>
+                Voir le stock
+
             </a>
+
         </div>
 
         <div class="search-filter-container">
-            <input type="text" id="inputRechercheVente" placeholder="Rechercher une vente (client, réf)...">
+
+            <input type="text"
+                   id="inputRechercheVente"
+                   placeholder="Rechercher une vente (client, réf)...">
+
             <i class="fas fa-search"></i>
+
         </div>
+
     </section>
 
-    <!-- HISTORIQUE DES VENTES -->
+    <!-- =====================================================
+         HISTORIQUE DES VENTES
+    ====================================================== -->
+
     <section class="table-box">
+
         <div class="table-header">
+
             <h2>Historique des ventes</h2>
-            <span>{{ ventes|length }} vente(s)</span>
+
+            <span>
+                {{ ventes|length }} vente(s)
+            </span>
+
         </div>
 
         <div class="table-responsive">
+
             <table>
+
                 <thead>
+
                     <tr>
                         <th>Référence</th>
                         <th>Client</th>
@@ -493,698 +1127,2122 @@ html.dark .search-box {
                         <th>Montant Net</th>
                         <th>Actions</th>
                     </tr>
+
                 </thead>
+
                 <tbody id="tableBody">
+
                     {% if ventes %}
-                    {% for v in ventes %}
-                    <tr data-montant="{{ v.montant_total }}">
-                        <td>{{ v.reference }}</td>
-                        <td>{% if v.client %}{{ v.client.nom }}{% else %}Client comptoir{% endif %}</td>
-                        <td>{% if v.client and v.client.email %}{{ v.client.email }}{% else %}N/A{% endif %}</td>
-                        <td>{% if v.client and v.client.telephone %}{{ v.client.telephone }}{% else %}N/A{% endif %}</td>
-                        <td>{{ v.date_vente|date:"d/m/Y H:i" }}</td>
-                        <td class="money">{{ v.montant_total }} FCFA</td>
-                        <td class="actions-cell">
-                            <button class="btn-view btnVoir" data-url="{% url 'astra:details_vente' v.id %}" type="button" title="Voir les détails & Imprimer">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn-edit btnModifier" data-id="{{ v.id }}"
-                                data-client="{% if v.client %}{{ v.client.nom }}{% else %}Client comptoir{% endif %}"
-                                data-email="{% if v.client and v.client.email %}{{ v.client.email }}{% endif %}"
-                                data-telephone="{% if v.client and v.client.telephone %}{{ v.client.telephone }}{% endif %}"
-                                data-date="{{ v.date_vente|date:'Y-m-d' }}T{{ v.date_vente|time:'H:i' }}"
-                                data-montant="{{ v.montant_total }}" data-paiement="{{ v.mode_paiement }}" type="button"
-                                title="Modifier">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-delete btnSupprimer" data-url="{% url 'astra:supprimer_vente' v.id %}" type="button" title="Mettre dans la corbeille">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
+
+                        {% for v in ventes %}
+
+                        <tr data-montant="{{ v.montant_total }}">
+
+                            <td>
+                                {{ v.reference }}
+                            </td>
+
+                            <td>
+                                {% if v.client %}
+                                    {{ v.client.nom }}
+                                {% else %}
+                                    Client comptoir
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if v.client and v.client.email %}
+                                    {{ v.client.email }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if v.client and v.client.telephone %}
+                                    {{ v.client.telephone }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {{ v.date_vente|date:"d/m/Y H:i" }}
+                            </td>
+
+                            <td class="money">
+                                {{ v.montant_total }} FCFA
+                            </td>
+
+                            <td class="actions-cell">
+
+                                <button class="btn-view btnVoir"
+                                        data-url="{% url 'astra:details_vente' v.id %}"
+                                        type="button"
+                                        title="Voir les détails & Imprimer">
+
+                                    <i class="fas fa-eye"></i>
+
+                                </button>
+
+                                <button class="btn-edit btnModifier"
+                                        data-id="{{ v.id }}"
+                                        data-client="{% if v.client %}{{ v.client.nom }}{% else %}Client comptoir{% endif %}"
+                                        data-email="{% if v.client and v.client.email %}{{ v.client.email }}{% endif %}"
+                                        data-telephone="{% if v.client and v.client.telephone %}{{ v.client.telephone }}{% endif %}"
+                                        data-date="{{ v.date_vente|date:'Y-m-d' }}T{{ v.date_vente|time:'H:i' }}"
+                                        data-montant="{{ v.montant_total }}"
+                                        data-paiement="{{ v.mode_paiement }}"
+                                        type="button"
+                                        title="Modifier">
+
+                                    <i class="fas fa-edit"></i>
+
+                                </button>
+
+                                <button class="btn-delete btnSupprimer"
+                                        data-url="{% url 'astra:supprimer_vente' v.id %}"
+                                        type="button"
+                                        title="Mettre dans la corbeille">
+
+                                    <i class="fas fa-trash-alt"></i>
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
                     {% else %}
-                    <tr>
-                        <td colspan="7" class="empty">
-                            <i class="fas fa-shopping-cart"></i>
-                            <p>Aucune vente enregistrée.</p>
-                        </td>
-                    </tr>
+
+                        <tr>
+
+                            <td colspan="7" class="empty">
+
+                                <i class="fas fa-shopping-cart"></i>
+
+                                <p>
+                                    Aucune vente enregistrée.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
                     {% endif %}
+
                 </tbody>
+
             </table>
+
         </div>
+
     </section>
 
-    <!-- MODAL NOUVELLE VENTE -->
-    <div id="modalVente" class="modal-overlay" style="display: none;">
+    <!-- =====================================================
+         MODAL NOUVELLE VENTE
+    ====================================================== -->
+
+    <div id="modalVente"
+         class="modal-overlay"
+         style="display:none;">
+
         <div class="modal-content">
+
             <div class="modal-header">
-                <h2><i class="fas fa-cart-plus"></i> Nouvelle Vente & Facturation</h2>
-                <button id="btnFermerModal" class="btn-secondary" type="button">
+
+                <h2>
+                    <i class="fas fa-cart-plus"></i>
+                    Nouvelle Vente & Facturation
+                </h2>
+
+                <button id="btnFermerModal"
+                        class="btn-secondary"
+                        type="button">
+
                     <i class="fas fa-times"></i>
+
                 </button>
+
             </div>
 
             {% if produits %}
+
             <form id="formVente">
+
                 {% csrf_token %}
 
                 <div class="form-group">
-                    <label for="clientNom">Nom du Client</label>
-                    <input type="text" name="client_nom" id="clientNom" required placeholder="Ex: Jean Dupont">
+
+                    <label for="clientNom">
+                        Nom du Client
+                    </label>
+
+                    <input type="text"
+                           name="client_nom"
+                           id="clientNom"
+                           required
+                           placeholder="Ex: Jean Dupont">
+
                 </div>
 
                 <div class="form-group">
-                    <label for="clientEmail">Email du Client</label>
-                    <input type="email" name="client_email" id="clientEmail" placeholder="Ex: jean.dupont@example.com">
+
+                    <label for="clientEmail">
+                        Email du Client
+                    </label>
+
+                    <input type="email"
+                           name="client_email"
+                           id="clientEmail"
+                           placeholder="Ex: jean.dupont@example.com">
+
                 </div>
 
                 <div class="form-group">
-                    <label for="clientTelephone">Téléphone du Client</label>
-                    <input type="tel" name="client_telephone" id="clientTelephone" placeholder="Ex: +237600000000">
+
+                    <label for="clientTelephone">
+                        Téléphone du Client
+                    </label>
+
+                    <input type="tel"
+                           name="client_telephone"
+                           id="clientTelephone"
+                           placeholder="Ex: +237600000000">
+
                 </div>
 
                 <div class="form-group">
-                    <label for="inputFiltreProduit"><i class="fas fa-laptop"></i> Matériel informatique disponible</label>
+
+                    <label for="inputFiltreProduit">
+                        <i class="fas fa-laptop"></i>
+                        Matériel informatique disponible
+                    </label>
+
                     <div class="search-box">
-                        <input type="text" id="inputFiltreProduit" placeholder="Filtrer par nom...">
+
+                        <input type="text"
+                               id="inputFiltreProduit"
+                               placeholder="Filtrer par nom...">
+
                         <i class="fas fa-search"></i>
+
                     </div>
+
                 </div>
 
                 <div class="form-group">
-                    <label for="selectProduit">Sélection du matériel :</label>
-                    <select id="selectProduit" size="5" class="form-select-list">
+
+                    <label for="selectProduit">
+                        Sélection du matériel :
+                    </label>
+
+                    <select id="selectProduit"
+                            size="5"
+                            class="form-select-list">
+
                         {% for p in produits %}
-                        <option value="{{ p.id }}" data-prix="{{ p.prix_vente }}" data-stock="{{ p.stock }}" data-nom="{{ p.nom }}" {% if p.stock <= 0 %}style="color: #94a3b8; background-color: #f1f5f9;"{% endif %}>
-                            {{ p.nom }} — {{ p.prix_vente }} FCFA {% if p.stock <= 0 %}(Rupture de stock){% else %}(Stock : {{ p.stock }}){% endif %}
+
+                        <option value="{{ p.id }}"
+                                data-prix="{{ p.prix_vente }}"
+                                data-stock="{{ p.stock }}"
+                                data-nom="{{ p.nom }}"
+                                {% if p.stock <= 0 %}
+                                    style="color:#94a3b8; background-color:#f1f5f9;"
+                                {% endif %}>
+
+                            {{ p.nom }} — {{ p.prix_vente }} FCFA
+
+                            {% if p.stock <= 0 %}
+                                (Rupture de stock)
+                            {% else %}
+                                (Stock : {{ p.stock }})
+                            {% endif %}
+
                         </option>
+
                         {% endfor %}
+
                     </select>
+
                 </div>
 
                 <div class="form-row-inline">
+
                     <div class="form-group flex-grow">
-                        <label for="quantiteProduit">Quantité :</label>
-                        <input type="number" id="quantiteProduit" value="1" min="1" class="form-control">
+
+                        <label for="quantiteProduit">
+                            Quantité :
+                        </label>
+
+                        <input type="number"
+                               id="quantiteProduit"
+                               value="1"
+                               min="1"
+                               class="form-control">
+
                     </div>
-                    <button type="button" id="btnAjouterProduit" class="btn-primary">
-                        <i class="fas fa-plus-circle"></i> Ajouter / Mettre à jour
+
+                    <button type="button"
+                            id="btnAjouterProduit"
+                            class="btn-primary">
+
+                        <i class="fas fa-plus-circle"></i>
+                        Ajouter / Mettre à jour
+
                     </button>
+
                 </div>
 
                 <!-- PANIER -->
+
                 <div class="panier-box">
-                    <h3><i class="fas fa-shopping-cart"></i> Panier d'articles (<span id="panierCount">0</span>)</h3>
-                    <div id="listeProduits" class="panier-list">
-                        <p class="text-muted">Panier vide</p>
+
+                    <h3>
+                        <i class="fas fa-shopping-cart"></i>
+                        Panier d'articles
+                        (<span id="panierCount">0</span>)
+                    </h3>
+
+                    <div id="listeProduits"
+                         class="panier-list">
+
+                        <p class="text-muted">
+                            Panier vide
+                        </p>
+
                     </div>
 
-                    <div class="form-group" style="margin-top: 15px;">
-                        <label for="remisePourcentage"><i class="fas fa-percent"></i> Rabais appliqué (%) :</label>
-                        <input type="number" id="remisePourcentage" value="0" min="0" max="100" step="0.5" class="form-control" placeholder="0">
-                        <small class="text-muted" id="infoRegleRabais" style="display: block; margin-top: 4px; color: #0284c7;"></small>
+                    <div class="form-group"
+                         style="margin-top:15px;">
+
+                        <label for="remisePourcentage">
+
+                            <i class="fas fa-percent"></i>
+                            Rabais appliqué (%) :
+
+                        </label>
+
+                        <input type="number"
+                               id="remisePourcentage"
+                               value="0"
+                               min="0"
+                               max="100"
+                               step="0.5"
+                               class="form-control"
+                               placeholder="0">
+
+                        <small class="text-muted"
+                               id="infoRegleRabais"
+                               style="display:block; margin-top:4px; color:#0284c7;">
+                        </small>
+
                     </div>
 
                     <div class="total-box">
-                        <div>Sous-total : <span id="sousTotalPanier">0</span> FCFA</div>
-                        <div>Montant de la réduction (<span id="txtPourcentageRemise">0</span>%) : - <span id="montantRemise">0</span> FCFA</div>
-                        <hr style="margin: 5px 0; border: 0; border-top: 1px solid #ddd;">
-                        Total net à payer : <strong><span id="totalPanier">0</span> FCFA</strong>
+
+                        <div>
+                            Sous-total :
+                            <span id="sousTotalPanier">0</span>
+                            FCFA
+                        </div>
+
+                        <div>
+                            Montant de la réduction
+                            (<span id="txtPourcentageRemise">0</span>%)
+                            :
+                            -
+                            <span id="montantRemise">0</span>
+                            FCFA
+                        </div>
+
+                        <hr style="margin:5px 0; border:0; border-top:1px solid #ddd;">
+
+                        <div>
+                            Total net à payer :
+                            <strong>
+                                <span id="totalPanier">0</span>
+                                FCFA
+                            </strong>
+                        </div>
+
                     </div>
+
                 </div>
 
                 <div class="form-grid-2">
+
                     <div class="form-group">
-                        <label for="modePaiement">Mode de paiement</label>
-                        <select name="mode_paiement" id="modePaiement" class="form-control">
-                            <option value="especes">Espèces</option>
-                            <option value="mobile_money">Mobile Money / OM</option>
-                            <option value="carte">Carte Bancaire</option>
-                            <option value="virement">Virement</option>
+
+                        <label for="modePaiement">
+                            Mode de paiement
+                        </label>
+
+                        <select name="mode_paiement"
+                                id="modePaiement"
+                                class="form-control">
+
+                            <option value="especes">
+                                Espèces
+                            </option>
+
+                            <option value="mobile_money">
+                                Mobile Money / OM
+                            </option>
+
+                            <option value="carte">
+                                Carte Bancaire
+                            </option>
+
+                            <option value="virement">
+                                Virement
+                            </option>
+
                         </select>
+
                     </div>
+
                     <div class="form-group">
-                        <label for="montantVerse">Montant Versé (FCFA)</label>
-                        <input type="number" id="montantVerse" class="form-control" placeholder="0">
+
+                        <label for="montantVerse">
+                            Montant Versé (FCFA)
+                        </label>
+
+                        <input type="number"
+                               id="montantVerse"
+                               class="form-control"
+                               placeholder="0">
+
                     </div>
+
                 </div>
 
                 <div class="monnaie-box">
-                    Monnaie à rendre : <span id="monnaieARendre">0</span> FCFA
+
+                    Monnaie à rendre :
+                    <span id="monnaieARendre">0</span>
+                    FCFA
+
                 </div>
 
                 <div class="modal-actions">
-                    <button type="button" id="btnAnnuler" class="btn-secondary">Annuler</button>
-                    <button type="submit" class="btn-primary">
-                        <i class="fas fa-print"></i> Enregistrer & Valider
+
+                    <button type="button"
+                            id="btnAnnuler"
+                            class="btn-secondary">
+
+                        Annuler
+
                     </button>
+
+                    <button type="submit"
+                            class="btn-primary">
+
+                        <i class="fas fa-print"></i>
+                        Enregistrer & Valider
+
+                    </button>
+
                 </div>
+
             </form>
+
             {% else %}
+
             <div class="empty">
+
                 <i class="fas fa-exclamation-triangle"></i>
-                <p>Aucun produit disponible en stock.</p>
+
+                <p>
+                    Aucun produit disponible en stock.
+                </p>
+
             </div>
+
             {% endif %}
+
         </div>
+
     </div>
 
-    <!-- MODAL DETAILS VENTE -->
-    <div id="modalDetails" class="modal-overlay" style="display: none;">
+    <!-- =====================================================
+         MODAL DETAILS VENTE
+    ====================================================== -->
+
+    <div id="modalDetails"
+         class="modal-overlay"
+         style="display:none;">
+
         <div class="modal-content modal-sm">
+
             <div class="modal-header">
-                <h2><i class="fas fa-file-invoice"></i> Détails et Reçu de vente</h2>
-                <button id="btnFermerDetails" class="btn-secondary" type="button"><i class="fas fa-times"></i></button>
+
+                <h2>
+                    <i class="fas fa-file-invoice"></i>
+                    Détails et Reçu de vente
+                </h2>
+
+                <button id="btnFermerDetails"
+                        class="btn-secondary"
+                        type="button">
+
+                    <i class="fas fa-times"></i>
+
+                </button>
+
             </div>
 
             <div id="printArea">
-                <div id="detailsContent" class="details-content">
-                    <p>Chargement...</p>
+
+                <div id="detailsContent"
+                     class="details-content">
+
+                    <p>
+                        Chargement...
+                    </p>
+
                 </div>
+
             </div>
 
-            <div class="modal-actions" style="margin-top: 15px;">
-                <button type="button" id="btnImprimerRecu" class="btn-primary">
-                    <i class="fas fa-print"></i> Imprimer le Reçu
+            <div class="modal-actions"
+                 style="margin-top:15px;">
+
+                <button type="button"
+                        id="btnImprimerRecu"
+                        class="btn-primary">
+
+                    <i class="fas fa-print"></i>
+                    Imprimer le Reçu
+
                 </button>
+
             </div>
+
         </div>
+
     </div>
 
-    <!-- Modale Modifier -->
-    <div id="modalModifier" class="modal-overlay" style="display: none;">
+    <!-- =====================================================
+         MODALE MODIFIER
+    ====================================================== -->
+
+    <div id="modalModifier"
+         class="modal-overlay"
+         style="display:none;">
+
         <div class="modal-content modal-sm">
+
             <div class="modal-header">
-                <h2><i class="fas fa-edit"></i> Modifier la vente</h2>
-                <button id="btnFermerModifier" class="btn-secondary" type="button"><i class="fas fa-times"></i></button>
+
+                <h2>
+                    <i class="fas fa-edit"></i>
+                    Modifier la vente
+                </h2>
+
+                <button id="btnFermerModifier"
+                        class="btn-secondary"
+                        type="button">
+
+                    <i class="fas fa-times"></i>
+
+                </button>
+
             </div>
-            <form id="formModifierVente" data-url-template="{% url 'astra:modifier_vente' 0 %}">
-                <input type="hidden" id="modifierVenteId">
+
+            <form id="formModifierVente"
+                  data-url-template="{% url 'astra:modifier_vente' 0 %}">
+
+                <input type="hidden"
+                       id="modifierVenteId">
+
                 <div class="form-group">
-                    <label for="modifierClient">Nom du client</label>
-                    <input type="text" id="modifierClient" class="form-control" required>
+
+                    <label for="modifierClient">
+                        Nom du client
+                    </label>
+
+                    <input type="text"
+                           id="modifierClient"
+                           class="form-control"
+                           required>
+
                 </div>
+
                 <div class="form-group">
-                    <label for="modifierEmail">Email du client</label>
-                    <input type="email" id="modifierEmail" class="form-control">
+
+                    <label for="modifierEmail">
+                        Email du client
+                    </label>
+
+                    <input type="email"
+                           id="modifierEmail"
+                           class="form-control">
+
                 </div>
+
                 <div class="form-group">
-                    <label for="modifierTelephone">Téléphone du client</label>
-                    <input type="tel" id="modifierTelephone" class="form-control">
+
+                    <label for="modifierTelephone">
+                        Téléphone du client
+                    </label>
+
+                    <input type="tel"
+                           id="modifierTelephone"
+                           class="form-control">
+
                 </div>
+
                 <div class="form-group">
-                    <label for="modifierDate">Date et heure de la vente</label>
-                    <input type="datetime-local" id="modifierDate" class="form-control" readonly>
+
+                    <label for="modifierDate">
+                        Date et heure de la vente
+                    </label>
+
+                    <input type="datetime-local"
+                           id="modifierDate"
+                           class="form-control"
+                           readonly>
+
                 </div>
+
                 <div class="form-group">
-                    <label for="modifierMontant">Montant total net (FCFA)</label>
-                    <input type="number" step="any" id="modifierMontant" class="form-control" readonly>
+
+                    <label for="modifierMontant">
+                        Montant total net (FCFA)
+                    </label>
+
+                    <input type="number"
+                           step="any"
+                           id="modifierMontant"
+                           class="form-control"
+                           readonly>
+
                 </div>
+
                 <div class="form-group">
-                    <label for="modifierModePaiement">Mode de paiement</label>
-                    <select id="modifierModePaiement" class="form-control">
-                        <option value="especes">Espèces</option>
-                        <option value="mobile_money">Mobile Money / OM</option>
-                        <option value="carte">Carte Bancaire</option>
-                        <option value="virement">Virement</option>
+
+                    <label for="modifierModePaiement">
+                        Mode de paiement
+                    </label>
+
+                    <select id="modifierModePaiement"
+                            class="form-control">
+
+                        <option value="especes">
+                            Espèces
+                        </option>
+
+                        <option value="mobile_money">
+                            Mobile Money / OM
+                        </option>
+
+                        <option value="carte">
+                            Carte Bancaire
+                        </option>
+
+                        <option value="virement">
+                            Virement
+                        </option>
+
                     </select>
+
                 </div>
+
                 <div class="modal-actions">
-                    <button type="button" id="btnAnnulerModifier" class="btn-secondary">Annuler</button>
-                    <button type="submit" class="btn-primary">Enregistrer les modifications</button>
+
+                    <button type="button"
+                            id="btnAnnulerModifier"
+                            class="btn-secondary">
+
+                        Annuler
+
+                    </button>
+
+                    <button type="submit"
+                            class="btn-primary">
+
+                        Enregistrer les modifications
+
+                    </button>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
 
-    <div id="toast" class="toast" style="display:none;"></div>
+    <div id="toast"
+         class="toast"
+         style="display:none;">
+    </div>
+
 </main>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // --- UTILITAIRE CSRF ---
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* =========================================================
+       UTILITAIRE CSRF
+    ========================================================== */
+
+    function getCookie(name) {
+
+        let cookieValue = null;
+
+        if (document.cookie && document.cookie !== '') {
+
+            const cookies = document.cookie.split(';');
+
+            for (let i = 0; i < cookies.length; i++) {
+
+                const cookie = cookies[i].trim();
+
+                if (
+                    cookie.substring(0, name.length + 1) ===
+                    (name + '=')
+                ) {
+
+                    cookieValue = decodeURIComponent(
+                        cookie.substring(name.length + 1)
+                    );
+
+                    break;
                 }
             }
-            return cookieValue;
         }
 
-        const csrftoken = getCookie('csrftoken') || document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+        return cookieValue;
+    }
 
-        // Calcul du total global
-        let totalMontant = 0;
-        document.querySelectorAll('#tableBody tr[data-montant]').forEach(row => {
-            totalMontant += parseFloat(row.getAttribute('data-montant')) || 0;
+    const csrftoken =
+        getCookie('csrftoken') ||
+        document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+
+
+    /* =========================================================
+       CALCUL DU TOTAL GLOBAL
+    ========================================================== */
+
+    let totalMontant = 0;
+
+    document
+        .querySelectorAll('#tableBody tr[data-montant]')
+        .forEach(row => {
+
+            totalMontant +=
+                parseFloat(row.getAttribute('data-montant')) || 0;
+
         });
-        const statMontantEl = document.getElementById('statMontant');
-        if (statMontantEl) {
-            statMontantEl.textContent = totalMontant.toLocaleString() + ' FCFA';
-        }
 
-        // Barre de recherche
-        const inputRechercheVente = document.getElementById('inputRechercheVente');
-        if (inputRechercheVente) {
-            inputRechercheVente.addEventListener('input', function (e) {
-                const term = e.target.value.toLowerCase().trim();
-                const rows = document.querySelectorAll('#tableBody tr');
+    const statMontantEl =
+        document.getElementById('statMontant');
+
+    if (statMontantEl) {
+
+        statMontantEl.textContent =
+            totalMontant.toLocaleString() + ' FCFA';
+
+    }
+
+
+    /* =========================================================
+       BARRE DE RECHERCHE
+    ========================================================== */
+
+    const inputRechercheVente =
+        document.getElementById('inputRechercheVente');
+
+    if (inputRechercheVente) {
+
+        inputRechercheVente.addEventListener(
+            'input',
+            function (e) {
+
+                const term =
+                    e.target.value.toLowerCase().trim();
+
+                const rows =
+                    document.querySelectorAll('#tableBody tr');
 
                 rows.forEach(row => {
-                    if (row.querySelector('.empty')) return;
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(term) ? '' : 'none';
+
+                    if (row.querySelector('.empty')) {
+                        return;
+                    }
+
+                    const text =
+                        row.textContent.toLowerCase();
+
+                    row.style.display =
+                        text.includes(term) ? '' : 'none';
+
                 });
-            });
+
+            }
+        );
+    }
+
+
+    /* =========================================================
+       MODALES
+    ========================================================== */
+
+    const modalVente =
+        document.getElementById('modalVente');
+
+    const modalDetails =
+        document.getElementById('modalDetails');
+
+    const modalModifier =
+        document.getElementById('modalModifier');
+
+    const btnNouvelleVente =
+        document.getElementById('btnNouvelleVente');
+
+    if (btnNouvelleVente) {
+
+        btnNouvelleVente.addEventListener(
+            'click',
+            () => {
+
+                if (modalVente) {
+                    modalVente.style.display = 'flex';
+                }
+
+            }
+        );
+    }
+
+    const btnFermerModal =
+        document.getElementById('btnFermerModal');
+
+    if (btnFermerModal) {
+
+        btnFermerModal.addEventListener(
+            'click',
+            () => {
+
+                if (modalVente) {
+                    modalVente.style.display = 'none';
+                }
+
+            }
+        );
+    }
+
+    const btnAnnuler =
+        document.getElementById('btnAnnuler');
+
+    if (btnAnnuler) {
+
+        btnAnnuler.addEventListener(
+            'click',
+            () => {
+
+                if (modalVente) {
+                    modalVente.style.display = 'none';
+                }
+
+            }
+        );
+    }
+
+    const btnFermerDetails =
+        document.getElementById('btnFermerDetails');
+
+    if (btnFermerDetails) {
+
+        btnFermerDetails.addEventListener(
+            'click',
+            () => {
+
+                if (modalDetails) {
+                    modalDetails.style.display = 'none';
+                }
+
+            }
+        );
+    }
+
+    const btnFermerModifier =
+        document.getElementById('btnFermerModifier');
+
+    if (btnFermerModifier) {
+
+        btnFermerModifier.addEventListener(
+            'click',
+            () => {
+
+                if (modalModifier) {
+                    modalModifier.style.display = 'none';
+                }
+
+            }
+        );
+    }
+
+    const btnAnnulerModifier =
+        document.getElementById('btnAnnulerModifier');
+
+    if (btnAnnulerModifier) {
+
+        btnAnnulerModifier.addEventListener(
+            'click',
+            () => {
+
+                if (modalModifier) {
+                    modalModifier.style.display = 'none';
+                }
+
+            }
+        );
+    }
+
+
+    /* =========================================================
+       FERMETURE MODALE EN CLIQUANT SUR L'ARRIÈRE-PLAN
+    ========================================================== */
+
+    [
+        modalVente,
+        modalDetails,
+        modalModifier
+    ].forEach(modal => {
+
+        if (!modal) {
+            return;
         }
 
-        // Gestion des modales
-        const modalVente = document.getElementById('modalVente');
-        const modalDetails = document.getElementById('modalDetails');
-        const modalModifier = document.getElementById('modalModifier');
+        modal.addEventListener('click', function (event) {
 
-        const btnNouvelleVente = document.getElementById('btnNouvelleVente');
-        if (btnNouvelleVente) btnNouvelleVente.addEventListener('click', () => { if (modalVente) modalVente.style.display = 'flex'; });
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
 
-        const btnFermerModal = document.getElementById('btnFermerModal');
-        if (btnFermerModal) btnFermerModal.addEventListener('click', () => { if (modalVente) modalVente.style.display = 'none'; });
+        });
 
-        const btnAnnuler = document.getElementById('btnAnnuler');
-        if (btnAnnuler) btnAnnuler.addEventListener('click', () => { if (modalVente) modalVente.style.display = 'none'; });
+    });
 
-        const btnFermerDetails = document.getElementById('btnFermerDetails');
-        if (btnFermerDetails) btnFermerDetails.addEventListener('click', () => { if (modalDetails) modalDetails.style.display = 'none'; });
 
-        const btnFermerModifier = document.getElementById('btnFermerModifier');
-        if (btnFermerModifier) btnFermerModifier.addEventListener('click', () => { if (modalModifier) modalModifier.style.display = 'none'; });
+    /* =========================================================
+       IMPRESSION DU REÇU
+    ========================================================== */
 
-        const btnAnnulerModifier = document.getElementById('btnAnnulerModifier');
-        if (btnAnnulerModifier) btnAnnulerModifier.addEventListener('click', () => { if (modalModifier) modalModifier.style.display = 'none'; });
+    const btnImprimerRecu =
+        document.getElementById('btnImprimerRecu');
 
-        // Impression du reçu
-        const btnImprimerRecu = document.getElementById('btnImprimerRecu');
-        if (btnImprimerRecu) {
-            btnImprimerRecu.addEventListener('click', () => {
+    if (btnImprimerRecu) {
+
+        btnImprimerRecu.addEventListener(
+            'click',
+            () => {
                 window.print();
-            });
+            }
+        );
+    }
+
+
+    /* =========================================================
+       PANIER
+    ========================================================== */
+
+    let panier = [];
+
+
+    /* =========================================================
+       CALCUL RABAIS AUTOMATIQUE
+    ========================================================== */
+
+    function calculerRabaisAutomatique(totalArticles) {
+
+        let pourcentage = 0;
+        let message = "";
+
+        if (totalArticles >= 10) {
+
+            pourcentage = 10;
+
+            message =
+                "✨ Rabais de 10% appliqué (10 articles ou plus)";
+
+        } else if (totalArticles >= 5) {
+
+            pourcentage = 5;
+
+            message =
+                "✨ Rabais de 5% appliqué (5 articles ou plus)";
+
+        } else {
+
+            pourcentage = 0;
+
+            message =
+                "Achetez au moins 5 articles pour bénéficier d'un rabais.";
+
         }
 
-        let panier = [];
+        const infoRegleRabais =
+            document.getElementById('infoRegleRabais');
 
-        function calculerRabaisAutomatique(totalArticles) {
-            let pourcentage = 0;
-            let message = "";
-
-            if (totalArticles >= 10) {
-                pourcentage = 10;
-                message = "✨ Rabais de 10% appliqué (10 articles ou plus)";
-            } else if (totalArticles >= 5) {
-                pourcentage = 5;
-                message = "✨ Rabais de 5% appliqué (5 articles ou plus)";
-            } else {
-                pourcentage = 0;
-                message = "Achetez au moins 5 articles pour bénéficier d'un rabais.";
-            }
-
-            const infoRegleRabais = document.getElementById('infoRegleRabais');
-            if (infoRegleRabais) {
-                infoRegleRabais.textContent = message;
-            }
-            return pourcentage;
+        if (infoRegleRabais) {
+            infoRegleRabais.textContent = message;
         }
 
-        const btnAjouterProduit = document.getElementById('btnAjouterProduit');
-        if (btnAjouterProduit) {
-            btnAjouterProduit.addEventListener('click', () => {
-                const select = document.getElementById('selectProduit');
-                if (!select) return;
-                const opt = select.options[select.selectedIndex];
+        return pourcentage;
+    }
 
-                if (!opt || !opt.value) {
-                    alert("Veuillez sélectionner un produit valide.");
+
+    /* =========================================================
+       AJOUT PRODUIT
+    ========================================================== */
+
+    const btnAjouterProduit =
+        document.getElementById('btnAjouterProduit');
+
+    if (btnAjouterProduit) {
+
+        btnAjouterProduit.addEventListener(
+            'click',
+            () => {
+
+                const select =
+                    document.getElementById('selectProduit');
+
+                if (!select) {
                     return;
                 }
 
-                const id = opt.value;
-                const nom = opt.getAttribute('data-nom');
-                const prix = parseFloat(opt.getAttribute('data-prix')) || 0;
-                const stockMax = parseInt(opt.getAttribute('data-stock'), 10) || 0;
-                const quantiteInputEl = document.getElementById('quantiteProduit');
-                const quantiteInput = quantiteInputEl ? parseInt(quantiteInputEl.value, 10) || 1 : 1;
+                const opt =
+                    select.options[select.selectedIndex];
+
+                if (!opt || !opt.value) {
+
+                    alert(
+                        "Veuillez sélectionner un produit valide."
+                    );
+
+                    return;
+                }
+
+                const id =
+                    opt.value;
+
+                const nom =
+                    opt.getAttribute('data-nom');
+
+                const prix =
+                    parseFloat(
+                        opt.getAttribute('data-prix')
+                    ) || 0;
+
+                const stockMax =
+                    parseInt(
+                        opt.getAttribute('data-stock'),
+                        10
+                    ) || 0;
+
+                const quantiteInputEl =
+                    document.getElementById('quantiteProduit');
+
+                const quantiteInput =
+                    quantiteInputEl
+                        ? parseInt(
+                            quantiteInputEl.value,
+                            10
+                        ) || 1
+                        : 1;
 
                 if (stockMax <= 0) {
-                    alert("Ce produit est en rupture de stock.");
+
+                    alert(
+                        "Ce produit est en rupture de stock."
+                    );
+
                     return;
                 }
 
                 if (quantiteInput <= 0) {
-                    alert("Veuillez entrer une quantité valide supérieure à 0.");
+
+                    alert(
+                        "Veuillez entrer une quantité valide supérieure à 0."
+                    );
+
                     return;
                 }
 
-                const existing = panier.find(item => item.id === id);
-                const quantiteTotaleDemandee = quantiteInput;
+                const existing =
+                    panier.find(
+                        item => item.id === id
+                    );
+
+                const quantiteTotaleDemandee =
+                    quantiteInput;
 
                 if (quantiteTotaleDemandee > stockMax) {
-                    alert(`Stock insuffisant ! Stock disponible : ${stockMax} | Demandé : ${quantiteInput}`);
+
+                    alert(
+                        `Stock insuffisant ! Stock disponible : ${stockMax} | Demandé : ${quantiteInput}`
+                    );
+
                     return;
                 }
 
                 if (existing) {
-                    existing.quantite = quantiteTotaleDemandee;
+
+                    existing.quantite =
+                        quantiteTotaleDemandee;
+
                 } else {
-                    panier.push({ id, nom, prix, quantite: quantiteInput, stock: stockMax });
+
+                    panier.push({
+                        id,
+                        nom,
+                        prix,
+                        quantite: quantiteInput,
+                        stock: stockMax
+                    });
+
                 }
+
                 renderPanier();
-            });
+            }
+        );
+    }
+
+
+    /* =========================================================
+       AFFICHAGE PANIER
+    ========================================================== */
+
+    function renderPanier() {
+
+        const container =
+            document.getElementById('listeProduits');
+
+        if (!container) {
+            return;
         }
 
-        function renderPanier() {
-            const container = document.getElementById('listeProduits');
-            if (!container) return;
-            container.innerHTML = '';
-            let sousTotal = 0;
-            let totalArticles = 0;
+        container.innerHTML = '';
 
-            if (panier.length === 0) {
-                container.innerHTML = '<p class="text-muted">Panier vide</p>';
-            }
+        let sousTotal = 0;
+        let totalArticles = 0;
 
-            panier.forEach((item, index) => {
-                sousTotal += item.prix * item.quantite;
-                totalArticles += item.quantite;
+        if (panier.length === 0) {
 
-                const div = document.createElement('div');
-                div.className = 'panier-item';
-                div.innerHTML = `
-                <span>${item.nom} (x${item.quantite})</span>
-                <span class="panier-item-price">${(item.prix * item.quantite).toLocaleString()} FCFA 
-                    <button type="button" data-index="${index}" class="btn-delete-item btnSupprimerPanier" title="Supprimer"><i class="fas fa-trash"></i></button>
+            container.innerHTML =
+                '<p class="text-muted">Panier vide</p>';
+        }
+
+        panier.forEach((item, index) => {
+
+            sousTotal +=
+                item.prix * item.quantite;
+
+            totalArticles +=
+                item.quantite;
+
+            const div =
+                document.createElement('div');
+
+            div.className =
+                'panier-item';
+
+            div.style.animationDelay =
+                `${index * 0.05}s`;
+
+            div.innerHTML = `
+                <span>
+                    ${item.nom} (x${item.quantite})
+                </span>
+
+                <span class="panier-item-price">
+
+                    ${(item.prix * item.quantite).toLocaleString()}
+                    FCFA
+
+                    <button
+                        type="button"
+                        data-index="${index}"
+                        class="btn-delete-item btnSupprimerPanier"
+                        title="Supprimer">
+
+                        <i class="fas fa-trash"></i>
+
+                    </button>
+
                 </span>
             `;
-                container.appendChild(div);
+
+            container.appendChild(div);
+        });
+
+
+        document
+            .querySelectorAll('.btnSupprimerPanier')
+            .forEach(btn => {
+
+                btn.addEventListener(
+                    'click',
+                    function () {
+
+                        const idx =
+                            parseInt(
+                                this.getAttribute('data-index'),
+                                10
+                            );
+
+                        supprimerDuPanier(idx);
+
+                    }
+                );
+
             });
 
-            document.querySelectorAll('.btnSupprimerPanier').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const idx = parseInt(this.getAttribute('data-index'), 10);
-                    supprimerDuPanier(idx);
-                });
-            });
 
-            const sousTotalPanier = document.getElementById('sousTotalPanier');
-            const panierCount = document.getElementById('panierCount');
-            const remisePourcentage = document.getElementById('remisePourcentage');
+        const sousTotalPanier =
+            document.getElementById('sousTotalPanier');
 
-            if (sousTotalPanier) sousTotalPanier.textContent = sousTotal.toLocaleString();
-            if (panierCount) panierCount.textContent = totalArticles;
+        const panierCount =
+            document.getElementById('panierCount');
 
-            const pourcentageAutomatique = calculerRabaisAutomatique(totalArticles);
-            if (remisePourcentage) remisePourcentage.value = pourcentageAutomatique;
+        const remisePourcentage =
+            document.getElementById('remisePourcentage');
 
-            calculerTotauxFinaux(sousTotal);
+
+        if (sousTotalPanier) {
+
+            sousTotalPanier.textContent =
+                sousTotal.toLocaleString();
         }
 
-        function supprimerDuPanier(index) {
-            panier.splice(index, 1);
-            renderPanier();
+        if (panierCount) {
+
+            panierCount.textContent =
+                totalArticles;
         }
 
-        const remisePourcentageEl = document.getElementById('remisePourcentage');
-        if (remisePourcentageEl) {
-            remisePourcentageEl.addEventListener('input', () => {
-                const sousTotalEl = document.getElementById('sousTotalPanier');
-                const sousTotalText = sousTotalEl ? sousTotalEl.textContent.replace(/\s/g, '').replace('FCFA', '') : '0';
-                calculerTotauxFinaux(parseFloat(sousTotalText) || 0);
-            });
+
+        const pourcentageAutomatique =
+            calculerRabaisAutomatique(totalArticles);
+
+        if (remisePourcentage) {
+
+            remisePourcentage.value =
+                pourcentageAutomatique;
         }
 
-        const montantVerseEl = document.getElementById('montantVerse');
-        if (montantVerseEl) {
-            montantVerseEl.addEventListener('input', () => {
+        calculerTotauxFinaux(sousTotal);
+    }
+
+
+    function supprimerDuPanier(index) {
+
+        panier.splice(index, 1);
+
+        renderPanier();
+    }
+
+
+    /* =========================================================
+       REMISE
+    ========================================================== */
+
+    const remisePourcentageEl =
+        document.getElementById('remisePourcentage');
+
+    if (remisePourcentageEl) {
+
+        remisePourcentageEl.addEventListener(
+            'input',
+            () => {
+
+                const sousTotalEl =
+                    document.getElementById(
+                        'sousTotalPanier'
+                    );
+
+                const sousTotalText =
+                    sousTotalEl
+                        ? sousTotalEl.textContent
+                            .replace(/\s/g, '')
+                            .replace('FCFA', '')
+                        : '0';
+
+                calculerTotauxFinaux(
+                    parseFloat(sousTotalText) || 0
+                );
+            }
+        );
+    }
+
+
+    /* =========================================================
+       MONNAIE
+    ========================================================== */
+
+    const montantVerseEl =
+        document.getElementById('montantVerse');
+
+    if (montantVerseEl) {
+
+        montantVerseEl.addEventListener(
+            'input',
+            () => {
                 calculerMonnaie();
-            });
+            }
+        );
+    }
+
+
+    function calculerTotauxFinaux(sousTotal) {
+
+        const remiseInput =
+            document.getElementById(
+                'remisePourcentage'
+            );
+
+        const pourcentageRemise =
+            remiseInput
+                ? parseFloat(remiseInput.value) || 0
+                : 0;
+
+        const montantRemise =
+            (sousTotal * pourcentageRemise) / 100;
+
+        const totalNet =
+            Math.max(
+                0,
+                sousTotal - montantRemise
+            );
+
+        const txtPourcentageRemise =
+            document.getElementById(
+                'txtPourcentageRemise'
+            );
+
+        const montantRemiseEl =
+            document.getElementById(
+                'montantRemise'
+            );
+
+        const totalPanier =
+            document.getElementById(
+                'totalPanier'
+            );
+
+        if (txtPourcentageRemise) {
+
+            txtPourcentageRemise.textContent =
+                pourcentageRemise;
         }
 
-        function calculerTotauxFinaux(sousTotal) {
-            const remiseInput = document.getElementById('remisePourcentage');
-            const pourcentageRemise = remiseInput ? parseFloat(remiseInput.value) || 0 : 0;
-            const montantRemise = (sousTotal * pourcentageRemise) / 100;
-            const totalNet = Math.max(0, sousTotal - montantRemise);
+        if (montantRemiseEl) {
 
-            const txtPourcentageRemise = document.getElementById('txtPourcentageRemise');
-            const montantRemiseEl = document.getElementById('montantRemise');
-            const totalPanier = document.getElementById('totalPanier');
-
-            if (txtPourcentageRemise) txtPourcentageRemise.textContent = pourcentageRemise;
-            if (montantRemiseEl) montantRemiseEl.textContent = montantRemise.toLocaleString();
-            if (totalPanier) totalPanier.textContent = totalNet.toLocaleString();
-
-            calculerMonnaie();
+            montantRemiseEl.textContent =
+                montantRemise.toLocaleString();
         }
 
-        function calculerMonnaie() {
-            const totalPanierEl = document.getElementById('totalPanier');
-            const montantVerseEl = document.getElementById('montantVerse');
-            const monnaieARendreEl = document.getElementById('monnaieARendre');
+        if (totalPanier) {
 
-            if (!totalPanierEl || !montantVerseEl || !monnaieARendreEl) return;
+            totalPanier.textContent =
+                totalNet.toLocaleString();
 
-            const totalText = totalPanierEl.textContent.replace(/\s/g, '').replace('FCFA', '');
-            const total = parseFloat(totalText) || 0;
-            const verse = parseFloat(montantVerseEl.value) || 0;
-            const monnaie = verse - total;
-            monnaieARendreEl.textContent = monnaie >= 0 ? monnaie.toLocaleString() : '0';
-        }
-
-        const inputFiltreProduit = document.getElementById('inputFiltreProduit');
-        if (inputFiltreProduit) {
-            inputFiltreProduit.addEventListener('input', function (e) {
-                const term = e.target.value.toLowerCase();
-                const selectProduit = document.getElementById('selectProduit');
-                if (!selectProduit) return;
-                const options = selectProduit.options;
-                for (let i = 0; i < options.length; i++) {
-                    const text = options[i].text.toLowerCase();
-                    options[i].style.display = text.includes(term) ? '' : 'none';
+            totalPanier.animate(
+                [
+                    {
+                        transform: 'scale(.96)'
+                    },
+                    {
+                        transform: 'scale(1.05)'
+                    },
+                    {
+                        transform: 'scale(1)'
+                    }
+                ],
+                {
+                    duration: 300,
+                    easing: 'ease-out'
                 }
-            });
+            );
         }
 
-        const formVente = document.getElementById('formVente');
-        if (formVente) {
-            formVente.addEventListener('submit', function (e) {
-                e.preventDefault();
-                if (panier.length === 0) {
-                    alert("Ajoutez au moins un produit au panier.");
+        calculerMonnaie();
+    }
+
+
+    function calculerMonnaie() {
+
+        const totalPanierEl =
+            document.getElementById('totalPanier');
+
+        const montantVerseEl =
+            document.getElementById('montantVerse');
+
+        const monnaieARendreEl =
+            document.getElementById('monnaieARendre');
+
+        if (
+            !totalPanierEl ||
+            !montantVerseEl ||
+            !monnaieARendreEl
+        ) {
+            return;
+        }
+
+        const totalText =
+            totalPanierEl.textContent
+                .replace(/\s/g, '')
+                .replace('FCFA', '');
+
+        const total =
+            parseFloat(totalText) || 0;
+
+        const verse =
+            parseFloat(montantVerseEl.value) || 0;
+
+        const monnaie =
+            verse - total;
+
+        monnaieARendreEl.textContent =
+            monnaie >= 0
+                ? monnaie.toLocaleString()
+                : '0';
+    }
+
+
+    /* =========================================================
+       FILTRE PRODUITS
+    ========================================================== */
+
+    const inputFiltreProduit =
+        document.getElementById(
+            'inputFiltreProduit'
+        );
+
+    if (inputFiltreProduit) {
+
+        inputFiltreProduit.addEventListener(
+            'input',
+            function (e) {
+
+                const term =
+                    e.target.value.toLowerCase();
+
+                const selectProduit =
+                    document.getElementById(
+                        'selectProduit'
+                    );
+
+                if (!selectProduit) {
                     return;
                 }
 
-                const totalPanierEl = document.getElementById('totalPanier');
-                const sousTotalPanierEl = document.getElementById('sousTotalPanier');
-                const remisePourcentageEl = document.getElementById('remisePourcentage');
-                const montantRemiseEl = document.getElementById('montantRemise');
-                const montantVerseInput = document.getElementById('montantVerse');
+                const options =
+                    selectProduit.options;
 
-                const totalText = totalPanierEl ? totalPanierEl.textContent.replace(/\s/g, '').replace('FCFA', '') : '0';
-                const sousTotalText = sousTotalPanierEl ? sousTotalPanierEl.textContent.replace(/\s/g, '').replace('FCFA', '') : '0';
-                const remisePourcentage = remisePourcentageEl ? parseFloat(remisePourcentageEl.value) || 0 : 0;
-                const montantRemiseText = montantRemiseEl ? montantRemiseEl.textContent.replace(/\s/g, '').replace('FCFA', '') : '0';
-                const montantVerse = montantVerseInput ? parseFloat(montantVerseInput.value) || 0 : 0;
+                for (
+                    let i = 0;
+                    i < options.length;
+                    i++
+                ) {
 
-                const clientNomInput = document.getElementById('clientNom');
-                const clientEmailInput = document.getElementById('clientEmail');
-                const clientTelephoneInput = document.getElementById('clientTelephone');
-                const modePaiementInput = document.getElementById('modePaiement');
+                    const text =
+                        options[i].text.toLowerCase();
 
-                const data = {
-                    client_nom: clientNomInput ? clientNomInput.value : 'Client comptoir',
-                    client_email: clientEmailInput ? clientEmailInput.value : '',
-                    client_telephone: clientTelephoneInput ? clientTelephoneInput.value : '',
-                    montant_total: parseFloat(totalText) || 0,
-                    montant_verse: montantVerse,
-                    sous_total: parseFloat(sousTotalText) || 0,
-                    remise_pourcentage: remisePourcentage,
-                    montant_remise: parseFloat(montantRemiseText) || 0,
-                    mode_paiement: modePaiementInput ? modePaiementInput.value : 'especes',
-                    produits: panier
-                };
+                    options[i].style.display =
+                        text.includes(term)
+                            ? ''
+                            : 'none';
+                }
+            }
+        );
+    }
 
-                fetch("{% url 'astra:enregistrer_vente' %}", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrftoken
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(res => res.json())
-                    .then(response => {
-                        if (response.success) {
-                            alert("Vente validée avec succès ! Stock mis à jour.");
-                            location.reload();
-                        } else {
-                            alert("Erreur de validation : " + (response.error || "Une erreur est survenue lors de l'enregistrement."));
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Erreur:', err);
-                        alert("Erreur de communication avec le serveur.");
-                    });
-            });
-        }
 
-        // ==========================================
-        // 1. BOUTON VOIR (DÉTAILS)
-        // ==========================================
-        document.querySelectorAll('.btnVoir').forEach(btn => {
-            btn.addEventListener('click', function () {
-                const urlDetails = this.getAttribute('data-url');
-                modalDetails.style.display = 'flex';
-                const detailsContent = document.getElementById('detailsContent');
-                if (detailsContent) detailsContent.innerHTML = '<p>Chargement en cours...</p>';
-                
-                fetch(urlDetails)
-                    .then(res => {
-                        if (!res.ok) throw new Error("Erreur HTTP " + res.status);
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (detailsContent) {
-                            detailsContent.innerHTML = `
-                                <div class="recu-container">
-                                    <div class="recu-item">
-                                        <p><strong>Référence :</strong> ${data.reference}</p>
-                                        <p><strong>Client :</strong> ${data.client}</p>
-                                        <p><strong>Téléphone :</strong> ${data.client_telephone || 'N/A'}</p>
-                                        <p><strong>Email :</strong> ${data.client_email || 'N/A'}</p>
-                                        <p><strong>Date :</strong> ${data.date}</p>
-                                        <p><strong>Mode de paiement :</strong> ${data.mode_paiement}</p>
-                                        <p><strong>Statut :</strong> ${data.statut}</p>
-                                        <hr style="margin: 8px 0; border: 0; border-top: 1px dashed #ccc;">
-                                        <p><strong>Articles achetés :</strong></p>
-                                        <ul style="padding-left: 15px; margin: 5px 0;">
-                                            ${data.lignes.map(l => `<li>${l.produit} (x${l.quantite}) — ${l.sous_total.toLocaleString()} FCFA</li>`).join('')}
-                                        </ul>
-                                        <hr style="margin: 8px 0; border: 0; border-top: 1px dashed #ccc;">
-                                        <p style="font-size: 1.1em;"><strong>Montant Net Global :</strong> ${data.montant_total.toLocaleString()} FCFA</p>
-                                    </div>
-                                </div>
-                            `;
-                        }
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        if (detailsContent) detailsContent.innerHTML = '<p style="color: red;">Erreur lors du chargement des détails de la vente.</p>';
-                    });
-            });
-        });
+    /* =========================================================
+       ENREGISTRER UNE VENTE
+    ========================================================== */
 
-        // ==========================================
-        // 2. BOUTON MODIFIER
-        // ==========================================
-        document.querySelectorAll('.btnModifier').forEach(btn => {
-            btn.addEventListener('click', function () {
-                document.getElementById('modifierVenteId').value = this.getAttribute('data-id');
-                document.getElementById('modifierClient').value = this.getAttribute('data-client') || '';
-                document.getElementById('modifierEmail').value = this.getAttribute('data-email') || '';
-                document.getElementById('modifierTelephone').value = this.getAttribute('data-telephone') || '';
-                document.getElementById('modifierDate').value = this.getAttribute('data-date') || '';
-                document.getElementById('modifierMontant').value = this.getAttribute('data-montant') || '';
-                
-                const modePaiement = this.getAttribute('data-paiement');
-                if(modePaiement) {
-                    document.getElementById('modifierModePaiement').value = modePaiement;
+    const formVente =
+        document.getElementById('formVente');
+
+    if (formVente) {
+
+        formVente.addEventListener(
+            'submit',
+            function (e) {
+
+                e.preventDefault();
+
+                if (panier.length === 0) {
+
+                    alert(
+                        "Ajoutez au moins un produit au panier."
+                    );
+
+                    return;
                 }
 
-                modalModifier.style.display = 'flex';
-            });
-        });
+                const totalPanierEl =
+                    document.getElementById(
+                        'totalPanier'
+                    );
 
-        const formModifierVente = document.getElementById('formModifierVente');
-        if (formModifierVente) {
-            formModifierVente.addEventListener('submit', function (e) {
-                e.preventDefault();
-                const venteId = document.getElementById('modifierVenteId').value;
-                const clientNom = document.getElementById('modifierClient').value;
-                const clientEmail = document.getElementById('modifierEmail').value;
-                const clientTelephone = document.getElementById('modifierTelephone').value;
-                const modePaiement = document.getElementById('modifierModePaiement').value;
+                const sousTotalPanierEl =
+                    document.getElementById(
+                        'sousTotalPanier'
+                    );
 
-                // Construction dynamique de l'URL via le modèle de l'attribut
-                const urlTemplate = formModifierVente.getAttribute('data-url-template');
-                const updateUrl = urlTemplate.replace('/0/', '/' + venteId + '/');
+                const remisePourcentageEl =
+                    document.getElementById(
+                        'remisePourcentage'
+                    );
+
+                const montantRemiseEl =
+                    document.getElementById(
+                        'montantRemise'
+                    );
+
+                const montantVerseInput =
+                    document.getElementById(
+                        'montantVerse'
+                    );
+
+                const totalText =
+                    totalPanierEl
+                        ? totalPanierEl.textContent
+                            .replace(/\s/g, '')
+                            .replace('FCFA', '')
+                        : '0';
+
+                const sousTotalText =
+                    sousTotalPanierEl
+                        ? sousTotalPanierEl.textContent
+                            .replace(/\s/g, '')
+                            .replace('FCFA', '')
+                        : '0';
+
+                const remisePourcentage =
+                    remisePourcentageEl
+                        ? parseFloat(
+                            remisePourcentageEl.value
+                        ) || 0
+                        : 0;
+
+                const montantRemiseText =
+                    montantRemiseEl
+                        ? montantRemiseEl.textContent
+                            .replace(/\s/g, '')
+                            .replace('FCFA', '')
+                        : '0';
+
+                const montantVerse =
+                    montantVerseInput
+                        ? parseFloat(
+                            montantVerseInput.value
+                        ) || 0
+                        : 0;
+
+
+                const clientNomInput =
+                    document.getElementById(
+                        'clientNom'
+                    );
+
+                const clientEmailInput =
+                    document.getElementById(
+                        'clientEmail'
+                    );
+
+                const clientTelephoneInput =
+                    document.getElementById(
+                        'clientTelephone'
+                    );
+
+                const modePaiementInput =
+                    document.getElementById(
+                        'modePaiement'
+                    );
+
 
                 const data = {
-                    client_nom: clientNom,
-                    client_email: clientEmail,
-                    client_telephone: clientTelephone,
-                    mode_paiement: modePaiement
+
+                    client_nom:
+                        clientNomInput
+                            ? clientNomInput.value
+                            : 'Client comptoir',
+
+                    client_email:
+                        clientEmailInput
+                            ? clientEmailInput.value
+                            : '',
+
+                    client_telephone:
+                        clientTelephoneInput
+                            ? clientTelephoneInput.value
+                            : '',
+
+                    montant_total:
+                        parseFloat(totalText) || 0,
+
+                    montant_verse:
+                        montantVerse,
+
+                    sous_total:
+                        parseFloat(sousTotalText) || 0,
+
+                    remise_pourcentage:
+                        remisePourcentage,
+
+                    montant_remise:
+                        parseFloat(
+                            montantRemiseText
+                        ) || 0,
+
+                    mode_paiement:
+                        modePaiementInput
+                            ? modePaiementInput.value
+                            : 'especes',
+
+                    produits:
+                        panier
                 };
 
-                fetch(updateUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrftoken
-                    },
-                    body: JSON.stringify(data)
-                })
+
+                fetch(
+                    "{% url 'astra:enregistrer_vente' %}",
+                    {
+                        method: 'POST',
+
+                        headers: {
+                            'Content-Type':
+                                'application/json',
+
+                            'X-CSRFToken':
+                                csrftoken
+                        },
+
+                        body:
+                            JSON.stringify(data)
+                    }
+                )
                 .then(res => res.json())
                 .then(response => {
+
                     if (response.success) {
-                        alert(response.message);
+
+                        alert(
+                            "Vente validée avec succès ! Stock mis à jour."
+                        );
+
                         location.reload();
+
                     } else {
-                        alert("Erreur : " + (response.error || "Impossible de modifier cette vente."));
+
+                        alert(
+                            "Erreur de validation : " +
+                            (
+                                response.error ||
+                                "Une erreur est survenue lors de l'enregistrement."
+                            )
+                        );
                     }
+
                 })
                 .catch(err => {
-                    console.error('Erreur:', err);
-                    alert("Erreur de communication avec le serveur.");
-                });
-            });
-        }
 
-        // ==========================================
-        // 3. BOUTON SUPPRIMER (ARCHIVER)
-        // ==========================================
-        document.querySelectorAll('.btnSupprimer').forEach(btn => {
-            btn.addEventListener('click', function () {
-                const deleteUrl = this.getAttribute('data-url');
-                if (confirm("Voulez-vous vraiment placer cette vente dans la corbeille ?")) {
-                    fetch(deleteUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': csrftoken
-                        }
-                    })
-                    .then(res => res.json())
-                    .then(response => {
-                        if (response.success) {
-                            alert(response.message);
-                            location.reload();
-                        } else {
-                            alert("Erreur : " + (response.error || "Impossible de supprimer cette vente."));
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Erreur:', err);
-                        alert("Erreur de communication avec le serveur.");
-                    });
+                    console.error(
+                        'Erreur:',
+                        err
+                    );
+
+                    alert(
+                        "Erreur de communication avec le serveur."
+                    );
+
+                });
+
+            }
+        );
+    }
+
+
+    /* =========================================================
+       BOUTON VOIR — DÉTAILS
+    ========================================================== */
+
+    document
+        .querySelectorAll('.btnVoir')
+        .forEach(btn => {
+
+            btn.addEventListener(
+                'click',
+                function () {
+
+                    const urlDetails =
+                        this.getAttribute(
+                            'data-url'
+                        );
+
+                    modalDetails.style.display =
+                        'flex';
+
+                    const detailsContent =
+                        document.getElementById(
+                            'detailsContent'
+                        );
+
+                    if (detailsContent) {
+
+                        detailsContent.innerHTML =
+                            '<p>Chargement en cours...</p>';
+                    }
+
+
+                    fetch(urlDetails)
+
+                        .then(res => {
+
+                            if (!res.ok) {
+
+                                throw new Error(
+                                    "Erreur HTTP " +
+                                    res.status
+                                );
+                            }
+
+                            return res.json();
+
+                        })
+
+                        .then(data => {
+
+                            if (!detailsContent) {
+                                return;
+                            }
+
+                            detailsContent.innerHTML = `
+
+                                <div class="recu-container">
+
+                                    <div class="recu-item">
+
+                                        <p>
+                                            <strong>Référence :</strong>
+                                            ${data.reference}
+                                        </p>
+
+                                        <p>
+                                            <strong>Client :</strong>
+                                            ${data.client}
+                                        </p>
+
+                                        <p>
+                                            <strong>Téléphone :</strong>
+                                            ${data.client_telephone || 'N/A'}
+                                        </p>
+
+                                        <p>
+                                            <strong>Email :</strong>
+                                            ${data.client_email || 'N/A'}
+                                        </p>
+
+                                        <p>
+                                            <strong>Date :</strong>
+                                            ${data.date}
+                                        </p>
+
+                                        <p>
+                                            <strong>Mode de paiement :</strong>
+                                            ${data.mode_paiement}
+                                        </p>
+
+                                        <p>
+                                            <strong>Statut :</strong>
+                                            ${data.statut}
+                                        </p>
+
+                                        <hr style="
+                                            margin:8px 0;
+                                            border:0;
+                                            border-top:1px dashed #ccc;
+                                        ">
+
+                                        <p>
+                                            <strong>
+                                                Articles achetés :
+                                            </strong>
+                                        </p>
+
+                                        <ul style="
+                                            padding-left:15px;
+                                            margin:5px 0;
+                                        ">
+
+                                            ${data.lignes.map(
+                                                l => `
+                                                    <li>
+                                                        ${l.produit}
+                                                        (x${l.quantite})
+                                                        —
+                                                        ${l.sous_total.toLocaleString()}
+                                                        FCFA
+                                                    </li>
+                                                `
+                                            ).join('')}
+
+                                        </ul>
+
+                                        <hr style="
+                                            margin:8px 0;
+                                            border:0;
+                                            border-top:1px dashed #ccc;
+                                        ">
+
+                                        <p style="font-size:1.1em;">
+
+                                            <strong>
+                                                Montant Net Global :
+                                            </strong>
+
+                                            ${data.montant_total.toLocaleString()}
+                                            FCFA
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                            `;
+                        })
+
+                        .catch(err => {
+
+                            console.error(err);
+
+                            if (detailsContent) {
+
+                                detailsContent.innerHTML = `
+                                    <p style="color:red;">
+                                        Erreur lors du chargement
+                                        des détails de la vente.
+                                    </p>
+                                `;
+                            }
+
+                        });
+
                 }
-            });
+            );
+
         });
-    });
+
+
+    /* =========================================================
+       BOUTON MODIFIER
+    ========================================================== */
+
+    document
+        .querySelectorAll('.btnModifier')
+        .forEach(btn => {
+
+            btn.addEventListener(
+                'click',
+                function () {
+
+                    document.getElementById(
+                        'modifierVenteId'
+                    ).value =
+                        this.getAttribute('data-id');
+
+
+                    document.getElementById(
+                        'modifierClient'
+                    ).value =
+                        this.getAttribute(
+                            'data-client'
+                        ) || '';
+
+
+                    document.getElementById(
+                        'modifierEmail'
+                    ).value =
+                        this.getAttribute(
+                            'data-email'
+                        ) || '';
+
+
+                    document.getElementById(
+                        'modifierTelephone'
+                    ).value =
+                        this.getAttribute(
+                            'data-telephone'
+                        ) || '';
+
+
+                    document.getElementById(
+                        'modifierDate'
+                    ).value =
+                        this.getAttribute(
+                            'data-date'
+                        ) || '';
+
+
+                    document.getElementById(
+                        'modifierMontant'
+                    ).value =
+                        this.getAttribute(
+                            'data-montant'
+                        ) || '';
+
+
+                    const modePaiement =
+                        this.getAttribute(
+                            'data-paiement'
+                        );
+
+                    if (modePaiement) {
+
+                        document.getElementById(
+                            'modifierModePaiement'
+                        ).value =
+                            modePaiement;
+                    }
+
+
+                    modalModifier.style.display =
+                        'flex';
+
+                }
+            );
+
+        });
+
+
+    /* =========================================================
+       FORMULAIRE MODIFICATION
+    ========================================================== */
+
+    const formModifierVente =
+        document.getElementById(
+            'formModifierVente'
+        );
+
+    if (formModifierVente) {
+
+        formModifierVente.addEventListener(
+            'submit',
+            function (e) {
+
+                e.preventDefault();
+
+                const venteId =
+                    document.getElementById(
+                        'modifierVenteId'
+                    ).value;
+
+                const clientNom =
+                    document.getElementById(
+                        'modifierClient'
+                    ).value;
+
+                const clientEmail =
+                    document.getElementById(
+                        'modifierEmail'
+                    ).value;
+
+                const clientTelephone =
+                    document.getElementById(
+                        'modifierTelephone'
+                    ).value;
+
+                const modePaiement =
+                    document.getElementById(
+                        'modifierModePaiement'
+                    ).value;
+
+
+                const urlTemplate =
+                    formModifierVente.getAttribute(
+                        'data-url-template'
+                    );
+
+                const updateUrl =
+                    urlTemplate.replace(
+                        '/0/',
+                        '/' + venteId + '/'
+                    );
+
+
+                const data = {
+
+                    client_nom:
+                        clientNom,
+
+                    client_email:
+                        clientEmail,
+
+                    client_telephone:
+                        clientTelephone,
+
+                    mode_paiement:
+                        modePaiement
+                };
+
+
+                fetch(updateUrl, {
+
+                    method: 'POST',
+
+                    headers: {
+
+                        'Content-Type':
+                            'application/json',
+
+                        'X-CSRFToken':
+                            csrftoken
+                    },
+
+                    body:
+                        JSON.stringify(data)
+
+                })
+
+                .then(res => res.json())
+
+                .then(response => {
+
+                    if (response.success) {
+
+                        alert(
+                            response.message
+                        );
+
+                        location.reload();
+
+                    } else {
+
+                        alert(
+                            "Erreur : " +
+                            (
+                                response.error ||
+                                "Impossible de modifier cette vente."
+                            )
+                        );
+                    }
+
+                })
+
+                .catch(err => {
+
+                    console.error(
+                        'Erreur:',
+                        err
+                    );
+
+                    alert(
+                        "Erreur de communication avec le serveur."
+                    );
+
+                });
+
+            }
+        );
+    }
+
+
+    /* =========================================================
+       BOUTON SUPPRIMER / ARCHIVER
+    ========================================================== */
+
+    document
+        .querySelectorAll('.btnSupprimer')
+        .forEach(btn => {
+
+            btn.addEventListener(
+                'click',
+                function () {
+
+                    const deleteUrl =
+                        this.getAttribute(
+                            'data-url'
+                        );
+
+
+                    if (
+                        confirm(
+                            "Voulez-vous vraiment placer cette vente dans la corbeille ?"
+                        )
+                    ) {
+
+                        fetch(deleteUrl, {
+
+                            method: 'POST',
+
+                            headers: {
+
+                                'Content-Type':
+                                    'application/json',
+
+                                'X-CSRFToken':
+                                    csrftoken
+                            }
+
+                        })
+
+                        .then(res =>
+                            res.json()
+                        )
+
+                        .then(response => {
+
+                            if (response.success) {
+
+                                alert(
+                                    response.message
+                                );
+
+                                location.reload();
+
+                            } else {
+
+                                alert(
+                                    "Erreur : " +
+                                    (
+                                        response.error ||
+                                        "Impossible de supprimer cette vente."
+                                    )
+                                );
+                            }
+
+                        })
+
+                        .catch(err => {
+
+                            console.error(
+                                'Erreur:',
+                                err
+                            );
+
+                            alert(
+                                "Erreur de communication avec le serveur."
+                            );
+
+                        });
+                    }
+
+                }
+            );
+
+        });
+
+});
 </script>
+
 {% endblock %}

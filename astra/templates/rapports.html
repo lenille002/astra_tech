@@ -58,10 +58,160 @@ body {
     max-width: 100%;
     min-width: 0;
     overflow-x: hidden;
+
+    animation: reportsPageReveal 0.75s cubic-bezier(.22, 1, .36, 1) both;
 }
 
 .reports-page > div {
     min-width: 0;
+}
+
+
+/* =========================================================
+   ANIMATIONS GÉNÉRALES
+========================================================= */
+
+@keyframes reportsPageReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes reportsHeaderReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-14px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes reportsSectionReveal {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes reportsKpiReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes reportsIconFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes reportsButtonShine {
+    0% {
+        left: -120%;
+    }
+
+    45%,
+    100% {
+        left: 130%;
+    }
+}
+
+@keyframes reportsTableRowReveal {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes reportsModalBackdrop {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes reportsModalReveal {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes reportsModalIcon {
+    0% {
+        opacity: 0;
+        transform: scale(.5) rotate(-15deg);
+    }
+
+    70% {
+        transform: scale(1.12) rotate(4deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+@keyframes reportsChartReveal {
+    from {
+        opacity: 0;
+        transform: scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes reportsPulse {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 140, 0, 0);
+    }
+
+    50% {
+        box-shadow: 0 0 0 6px rgba(255, 140, 0, .08);
+    }
 }
 
 
@@ -129,6 +279,233 @@ body.dark p {
 
 
 /* =========================================================
+   ANIMATION HEADER
+========================================================= */
+
+.reports-page .page-header {
+    animation: reportsHeaderReveal .7s .05s cubic-bezier(.22, 1, .36, 1) both;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        border-color .3s ease;
+}
+
+.reports-page .page-header:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, .08);
+}
+
+.reports-page .page-header h1 {
+    animation: reportsSectionReveal .65s .15s both;
+}
+
+.reports-page .page-header p {
+    animation: reportsSectionReveal .65s .22s both;
+}
+
+
+/* =========================================================
+   BOUTONS HEADER
+========================================================= */
+
+.reports-page .page-header-actions a,
+.reports-page .page-header-actions button {
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background-color .25s ease;
+}
+
+.reports-page .page-header-actions a::before,
+.reports-page .page-header-actions button::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: -120%;
+
+    width: 75%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, .28),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    transition: left .6s ease;
+}
+
+.reports-page .page-header-actions a:hover,
+.reports-page .page-header-actions button:hover {
+    transform: translateY(-3px);
+}
+
+.reports-page .page-header-actions a:hover::before,
+.reports-page .page-header-actions button:hover::before {
+    left: 130%;
+}
+
+.reports-page .page-header-actions a:active,
+.reports-page .page-header-actions button:active {
+    transform: translateY(-1px) scale(.97);
+}
+
+.reports-page .page-header-actions i {
+    transition: transform .25s ease;
+}
+
+.reports-page .page-header-actions a:hover i,
+.reports-page .page-header-actions button:hover i {
+    transform: scale(1.12);
+}
+
+#mainPrintBtn:hover i {
+    transform: rotate(-8deg) scale(1.15);
+}
+
+.reports-page .page-header-actions form button:hover i {
+    transform: rotate(12deg) scale(1.1);
+}
+
+
+/* =========================================================
+   KPI
+========================================================= */
+
+.reports-page .kpi-card {
+    animation: reportsKpiReveal .6s cubic-bezier(.22, 1, .36, 1) both;
+
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.reports-page .kpi-card::after {
+    content: "";
+
+    position: absolute;
+    width: 130px;
+    height: 130px;
+
+    right: -50px;
+    top: -50px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, .07);
+
+    transition:
+        transform .5s ease,
+        opacity .5s ease;
+}
+
+.reports-page .kpi-card:hover {
+    transform: translateY(-7px) scale(1.015);
+
+    box-shadow:
+        0 20px 40px rgba(15, 23, 42, .18);
+}
+
+.reports-page .kpi-card:hover::after {
+    transform: scale(1.4);
+    opacity: .75;
+}
+
+.reports-page .kpi-card:nth-child(1) {
+    animation-delay: .08s;
+}
+
+.reports-page .kpi-card:nth-child(2) {
+    animation-delay: .15s;
+}
+
+.reports-page .kpi-card:nth-child(3) {
+    animation-delay: .22s;
+}
+
+.reports-page .kpi-card:nth-child(4) {
+    animation-delay: .29s;
+}
+
+.reports-page .kpi-card:nth-child(5) {
+    animation-delay: .36s;
+}
+
+.reports-page .kpi-card p {
+    transition: transform .3s ease;
+}
+
+.reports-page .kpi-card:hover p {
+    transform: scale(1.06);
+}
+
+.reports-page .kpi-card span {
+    position: relative;
+    z-index: 2;
+}
+
+.reports-page .kpi-card p {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   GRAPHIQUES
+========================================================= */
+
+.reports-page .chart-card {
+    animation: reportsChartReveal .7s .35s cubic-bezier(.22, 1, .36, 1) both;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        border-color .3s ease;
+}
+
+.reports-page .chart-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 18px 38px rgba(15, 23, 42, .10);
+}
+
+.reports-page .chart-card h2 {
+    transition:
+        color .25s ease,
+        transform .25s ease;
+}
+
+.reports-page .chart-card:hover h2 {
+    transform: translateX(3px);
+}
+
+.reports-page .chart-wrapper {
+    animation: reportsChartReveal .8s .48s both;
+}
+
+.reports-page canvas {
+    max-width: 100% !important;
+    transition: transform .3s ease;
+}
+
+.reports-page .chart-card:hover canvas {
+    transform: scale(1.008);
+}
+
+
+/* =========================================================
    TABLEAUX — MODE SOMBRE
 ========================================================= */
 
@@ -159,6 +536,63 @@ body.dark tr:hover {
 
 
 /* =========================================================
+   LIGNES TABLEAUX — ANIMATION
+========================================================= */
+
+.reports-page .table-container tbody tr {
+    animation: reportsTableRowReveal .45s both;
+    transition:
+        background-color .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.reports-page .table-container tbody tr:nth-child(1) {
+    animation-delay: .05s;
+}
+
+.reports-page .table-container tbody tr:nth-child(2) {
+    animation-delay: .10s;
+}
+
+.reports-page .table-container tbody tr:nth-child(3) {
+    animation-delay: .15s;
+}
+
+.reports-page .table-container tbody tr:nth-child(4) {
+    animation-delay: .20s;
+}
+
+.reports-page .table-container tbody tr:nth-child(5) {
+    animation-delay: .25s;
+}
+
+.reports-page .table-container tbody tr:nth-child(6) {
+    animation-delay: .30s;
+}
+
+.reports-page .table-container tbody tr:nth-child(7) {
+    animation-delay: .35s;
+}
+
+.reports-page .table-container tbody tr:nth-child(8) {
+    animation-delay: .40s;
+}
+
+.reports-page .table-container tbody tr:nth-child(9) {
+    animation-delay: .45s;
+}
+
+.reports-page .table-container tbody tr:nth-child(10) {
+    animation-delay: .50s;
+}
+
+.reports-page .table-container tbody tr:hover {
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
    CHAMPS
 ========================================================= */
 
@@ -180,6 +614,37 @@ body.dark select {
 .reports-page button {
     max-width: 100%;
     touch-action: manipulation;
+}
+
+
+/* =========================================================
+   BOUTONS CAHIERS
+========================================================= */
+
+.reports-page table button {
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background-color .25s ease;
+}
+
+.reports-page table button:hover {
+    transform: translateY(-2px) scale(1.02);
+
+    box-shadow:
+        0 8px 18px rgba(15, 23, 42, .10);
+}
+
+.reports-page table button:active {
+    transform: scale(.96);
+}
+
+.reports-page table button i {
+    transition: transform .25s ease;
+}
+
+.reports-page table button:hover i {
+    transform: rotate(-5deg) scale(1.12);
 }
 
 
@@ -266,6 +731,43 @@ body.dark select {
     width: 100%;
     min-width: 0;
     overflow: hidden;
+
+    animation: reportsSectionReveal .7s .45s cubic-bezier(.22, 1, .36, 1) both;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.reports-page .report-section:hover {
+    box-shadow:
+        0 18px 38px rgba(15, 23, 42, .08);
+}
+
+
+/* =========================================================
+   BILANS
+========================================================= */
+
+.reports-page .balance-item {
+    width: 100%;
+    min-width: 0;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background-color .25s ease;
+}
+
+.reports-page .balance-item:hover {
+    transform: translateX(4px);
+
+    box-shadow:
+        0 7px 16px rgba(15, 23, 42, .06);
+}
+
+.reports-page .balance-item span {
+    min-width: 0;
 }
 
 
@@ -294,16 +796,59 @@ body.dark select {
 
 
 /* =========================================================
-   BILANS
+   EN-TÊTES DES TABLEAUX
 ========================================================= */
 
-.reports-page .balance-item {
-    width: 100%;
+.reports-page .table-container thead th {
+    position: relative;
+    overflow: hidden;
+}
+
+.reports-page .table-container thead th::after {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: -120%;
+
+    width: 55%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, .18),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    animation: reportsTableShine 4.5s 1.2s ease-in-out infinite;
+}
+
+@keyframes reportsTableShine {
+    0%,
+    65%,
+    100% {
+        left: -120%;
+    }
+
+    82% {
+        left: 130%;
+    }
+}
+
+
+/* =========================================================
+   BILANS / INDICATEURS
+========================================================= */
+
+.reports-page .report-section > div {
     min-width: 0;
 }
 
-.reports-page .balance-item span {
-    min-width: 0;
+.reports-page .report-section h2 i {
+    animation: reportsIconFloat 2.8s ease-in-out infinite;
 }
 
 
@@ -326,6 +871,12 @@ body.dark select {
     align-items: flex-start !important;
 
     -webkit-overflow-scrolling: touch;
+
+    animation: reportsModalBackdrop .25s ease both;
+}
+
+.reports-modal:not(.hidden) {
+    animation: reportsModalBackdrop .25s ease both;
 }
 
 .reports-modal-content {
@@ -341,6 +892,20 @@ body.dark select {
     overflow-x: hidden;
 
     border-radius: 24px;
+
+    animation: reportsModalReveal .4s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.reports-modal-content .reports-modal-header {
+    animation: reportsSectionReveal .4s .08s both;
+}
+
+.reports-modal-content .reports-modal-stats {
+    animation: reportsSectionReveal .4s .15s both;
+}
+
+.reports-modal-content .reports-modal-list {
+    animation: reportsSectionReveal .4s .22s both;
 }
 
 .reports-modal-header {
@@ -359,12 +924,60 @@ body.dark select {
 
 .reports-modal-close {
     flex: 0 0 auto;
+
+    transition:
+        transform .25s ease,
+        background-color .25s ease,
+        box-shadow .25s ease;
 }
+
+.reports-modal-close:hover {
+    transform: rotate(90deg) scale(1.08);
+
+    box-shadow:
+        0 7px 15px rgba(15, 23, 42, .10);
+}
+
+.reports-modal-close:active {
+    transform: rotate(90deg) scale(.94);
+}
+
+
+/* =========================================================
+   ICÔNES MODALES
+========================================================= */
+
+.reports-modal-content .w-10.h-10 {
+    animation: reportsModalIcon .55s .12s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+
+/* =========================================================
+   STATS MODALES
+========================================================= */
 
 .reports-modal-stats {
     width: 100%;
     grid-template-columns: 1fr !important;
 }
+
+.reports-modal-stats > div {
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.reports-modal-stats > div:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 22px rgba(15, 23, 42, .07);
+}
+
+
+/* =========================================================
+   LISTES MODALES
+========================================================= */
 
 .reports-modal-list {
     width: 100%;
@@ -375,11 +988,47 @@ body.dark select {
     width: 100%;
     min-width: 0;
     gap: 10px;
+
+    animation: reportsTableRowReveal .35s both;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.reports-modal-list > div:hover {
+    transform: translateX(3px);
+
+    box-shadow:
+        0 7px 16px rgba(15, 23, 42, .07);
 }
 
 .reports-modal-list span {
     min-width: 0;
     overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   BOUTONS MODALES
+========================================================= */
+
+.reports-modal-content button {
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background-color .25s ease;
+}
+
+.reports-modal-content button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(15, 23, 42, .10);
+}
+
+.reports-modal-content button:active {
+    transform: scale(.96);
 }
 
 
@@ -561,6 +1210,30 @@ body.dark select {
     .shadow-xl,
     .shadow-2xl {
         box-shadow: none !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITÉ — RÉDUCTION DES ANIMATIONS
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
 
@@ -1348,9 +2021,6 @@ body.dark select {
 
     <div class="reports-modal-content bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl overflow-hidden p-5 sm:p-6 space-y-6 m-0 sm:m-4">
 
-
-        <!-- En-tête -->
-
         <div class="reports-modal-header flex items-start justify-between border-b border-slate-100 pb-4">
 
             <div class="flex items-start gap-3 min-w-0">
@@ -1394,8 +2064,6 @@ body.dark select {
         </div>
 
 
-        <!-- Statistiques -->
-
         <div class="reports-modal-stats grid grid-cols-2 gap-4">
 
             <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
@@ -1432,8 +2100,6 @@ body.dark select {
         </div>
 
 
-        <!-- Historique -->
-
         <div class="space-y-2">
 
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">
@@ -1447,8 +2113,6 @@ body.dark select {
 
         </div>
 
-
-        <!-- Actions -->
 
         <div class="flex justify-end pt-2 border-t border-slate-100">
 
@@ -1477,9 +2141,6 @@ body.dark select {
 >
 
     <div class="reports-modal-content bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-xl overflow-hidden p-5 sm:p-6 space-y-6 m-0 sm:m-4">
-
-
-        <!-- En-tête -->
 
         <div class="reports-modal-header flex items-start justify-between border-b border-slate-100 pb-4">
 
@@ -1525,8 +2186,6 @@ body.dark select {
         </div>
 
 
-        <!-- Statistiques -->
-
         <div class="reports-modal-stats grid grid-cols-2 gap-4">
 
             <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
@@ -1563,8 +2222,6 @@ body.dark select {
         </div>
 
 
-        <!-- Transactions -->
-
         <div class="space-y-2">
 
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">
@@ -1578,8 +2235,6 @@ body.dark select {
 
         </div>
 
-
-        <!-- Actions -->
 
         <div class="flex justify-end pt-2 border-t border-slate-100">
 
@@ -1836,6 +2491,14 @@ body.dark select {
 
                     maintainAspectRatio: false,
 
+                    animation: {
+
+                        duration: 1500,
+
+                        easing: 'easeOutQuart'
+
+                    },
+
                     plugins: {
 
                         legend: {
@@ -1930,6 +2593,18 @@ body.dark select {
                     responsive: true,
 
                     maintainAspectRatio: false,
+
+                    animation: {
+
+                        animateRotate: true,
+
+                        animateScale: true,
+
+                        duration: 1500,
+
+                        easing: 'easeOutQuart'
+
+                    },
 
                     plugins: {
 
@@ -2071,7 +2746,7 @@ body.dark select {
         if (clientSales.length > 0) {
 
             clientSales.forEach(
-                sale => {
+                (sale, index) => {
 
                     const ref =
                         getProp(
@@ -2105,6 +2780,10 @@ body.dark select {
 
                     item.className =
                         "flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100 text-sm gap-2";
+
+
+                    item.style.animationDelay =
+                        `${index * 0.06}s`;
 
 
                     item.innerHTML =
@@ -2262,7 +2941,7 @@ body.dark select {
         ) {
 
             found.operations.forEach(
-                op => {
+                (op, index) => {
 
                     const ref =
                         op.reference ||
@@ -2288,6 +2967,10 @@ body.dark select {
 
                     item.className =
                         "flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100 text-sm gap-2";
+
+
+                    item.style.animationDelay =
+                        `${index * 0.06}s`;
 
 
                     item.innerHTML =

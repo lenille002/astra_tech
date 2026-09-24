@@ -2,45 +2,63 @@
 
 <style>
     /* =========================================================
-       HEADER ASTRA TECH — MOBILE FIRST
+       HEADER ASTRA TECH
+       Structure :
+       LOGO | NAVIGATION | NOTIFICATIONS + RETOUR
        ========================================================= */
 
     .header-mobile {
         width: 100%;
         max-width: 100%;
         min-width: 0;
+
         box-sizing: border-box;
+
         position: relative;
         z-index: 1000;
 
         display: flex;
         align-items: center;
-        justify-content: space-between;
 
-        padding: 10px 12px !important;
-        gap: 10px;
+        padding: 8px 12px !important;
+
+        gap: 12px;
 
         overflow: visible;
     }
+
 
     /* =========================================================
        LOGO
        ========================================================= */
 
     .header-mobile .logo-container {
+        flex: 0 0 auto;
+
         display: flex;
         align-items: center;
-        flex-shrink: 0;
+        justify-content: flex-start;
+
         min-width: 0;
+
+        position: relative;
+        z-index: 3;
     }
 
     .header-mobile .logo-container img {
-        height: 32px !important;
-        width: auto;
-        max-width: 130px;
-        object-fit: contain;
         display: block;
+
+        width: auto !important;
+        height: 32px !important;
+
+        max-width: 130px;
+        min-width: 0;
+
+        object-fit: contain;
+
+        flex-shrink: 0;
     }
+
 
     /* =========================================================
        NAVIGATION
@@ -49,45 +67,121 @@
     .header-mobile .nav-menu {
         display: flex !important;
         align-items: center;
-        gap: 16px !important;
+
+        gap: 15px !important;
 
         flex: 1 1 auto;
+
         min-width: 0;
 
         overflow-x: auto;
         overflow-y: hidden;
 
         white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
+
+        padding: 4px 5px;
+
         scrollbar-width: none;
 
-        padding: 3px 2px;
+        -webkit-overflow-scrolling: touch;
+
+        overscroll-behavior-x: contain;
     }
 
     .header-mobile .nav-menu::-webkit-scrollbar {
         display: none;
     }
 
+
+    /* =========================================================
+       LIENS NAVIGATION
+       ========================================================= */
+
     .header-mobile .nav-item {
+        position: relative;
+
         flex: 0 0 auto;
+
         white-space: nowrap;
+
         text-decoration: none;
+
+        color: inherit;
+
+        font-size: 13px;
+
+        line-height: 1.3;
+
+        transition:
+            color 0.25s ease,
+            transform 0.25s ease;
     }
+
+    .header-mobile .nav-item:hover {
+        transform: translateY(-1px);
+    }
+
+    .header-mobile .nav-item.active {
+        color: #FF8C00 !important;
+
+        font-weight: 700;
+    }
+
+    .header-mobile .nav-item.active::after {
+        content: "";
+
+        position: absolute;
+
+        left: 0;
+        right: 0;
+
+        bottom: -6px;
+
+        height: 3px;
+
+        background: #FF8C00;
+
+        border-radius: 999px;
+
+        animation: astraNavUnderline 0.25s ease;
+    }
+
+    @keyframes astraNavUnderline {
+
+        from {
+            width: 0;
+            opacity: 0;
+        }
+
+        to {
+            width: 100%;
+            opacity: 1;
+        }
+    }
+
 
     /* =========================================================
        MENU UTILISATEUR
        ========================================================= */
 
     .header-mobile .user-menu {
+        flex: 0 0 auto;
+
         display: flex !important;
+
         align-items: center;
         justify-content: flex-end;
 
         gap: 8px !important;
 
-        flex-shrink: 0;
-        min-width: 0;
+        min-width: max-content;
+
+        margin-left: auto;
+
+        position: relative;
+        z-index: 4;
     }
+
 
     /* =========================================================
        NOTIFICATIONS
@@ -95,36 +189,63 @@
 
     .header-mobile .notification-container {
         position: relative;
-        display: inline-block;
-        flex-shrink: 0;
+
+        flex: 0 0 auto;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
     }
 
     .header-mobile .notification-icon {
-        font-size: 1.05rem !important;
-        padding: 7px !important;
+        width: 36px;
+        height: 36px;
+
         min-width: 36px;
         min-height: 36px;
 
         display: flex;
+
         align-items: center;
         justify-content: center;
 
+        padding: 6px !important;
+
+        font-size: 1rem !important;
+
         cursor: pointer;
+
+        position: relative;
+
+        flex-shrink: 0;
     }
 
     .header-mobile .notification-badge {
-        top: 0 !important;
-        right: 0 !important;
+        position: absolute;
+
+        top: -2px !important;
+        right: -3px !important;
+
         min-width: 16px;
         min-height: 16px;
 
         display: flex;
+
         align-items: center;
         justify-content: center;
 
-        font-size: 0.58rem !important;
         padding: 2px 4px !important;
+
+        font-size: 0.58rem !important;
+
+        line-height: 1;
+
+        border-radius: 999px;
+
+        box-sizing: border-box;
     }
+
 
     /* =========================================================
        PANNEAU NOTIFICATIONS
@@ -134,18 +255,23 @@
         position: fixed !important;
 
         top: 58px !important;
+
         right: 10px !important;
         left: auto !important;
 
         width: min(320px, calc(100vw - 20px)) !important;
+
         max-width: calc(100vw - 20px);
 
         max-height: calc(100vh - 80px);
 
         overflow: hidden;
+
         padding: 12px !important;
 
         box-sizing: border-box;
+
+        z-index: 99999 !important;
     }
 
     .header-mobile .notification-panel > div:first-child {
@@ -158,42 +284,139 @@
 
     .header-mobile .notification-panel button {
         font-size: 0.68rem !important;
+
         white-space: nowrap;
+
+        padding: 3px !important;
     }
 
     .header-mobile .notification-panel > div:nth-child(2) {
         max-height: calc(100vh - 160px) !important;
+
         overflow-y: auto;
+
+        -webkit-overflow-scrolling: touch;
     }
+
 
     /* =========================================================
        BOUTON RETOUR
        ========================================================= */
 
-    .header-mobile .btn {
-        flex-shrink: 0;
+    .header-mobile .user-menu .btn {
+        flex: 0 0 auto;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
         white-space: nowrap;
+
         font-size: 12px;
+
+        line-height: 1.2;
+
         padding: 7px 12px !important;
     }
 
-    .header-mobile .btn .me-2 {
+    .header-mobile .user-menu .btn .me-2 {
         margin-right: 5px !important;
     }
 
+
     /* =========================================================
-       PETITS TÉLÉPHONES
+       TRÈS PETITS TÉLÉPHONES
        ========================================================= */
 
     @media (max-width: 360px) {
 
         .header-mobile {
-            padding: 8px !important;
-            gap: 6px;
+            padding: 7px 8px !important;
+
+            gap: 5px;
         }
 
         .header-mobile .logo-container img {
-            height: 28px !important;
+            height: 27px !important;
+
+            max-width: 100px;
+        }
+
+        .header-mobile .nav-menu {
+            gap: 10px !important;
+
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+        .header-mobile .nav-item {
+            font-size: 10px;
+        }
+
+        .header-mobile .user-menu {
+            gap: 4px !important;
+        }
+
+        .header-mobile .notification-icon {
+            width: 30px;
+            height: 30px;
+
+            min-width: 30px;
+            min-height: 30px;
+
+            font-size: 0.85rem !important;
+
+            padding: 4px !important;
+        }
+
+        .header-mobile .notification-badge {
+            min-width: 14px;
+            min-height: 14px;
+
+            font-size: 0.48rem !important;
+
+            top: -1px !important;
+            right: -2px !important;
+        }
+
+        .header-mobile .user-menu .btn {
+            font-size: 10px;
+
+            padding: 5px 7px !important;
+        }
+
+        .header-mobile .user-menu .btn .me-2 {
+            display: none;
+        }
+
+        .header-mobile .notification-panel {
+            top: 48px !important;
+
+            right: 8px !important;
+
+            width: calc(100vw - 16px) !important;
+
+            max-width: calc(100vw - 16px);
+        }
+    }
+
+
+    /* =========================================================
+       TÉLÉPHONES
+       ========================================================= */
+
+    @media (min-width: 361px) and (max-width: 575px) {
+
+        .header-mobile {
+            padding: 8px 9px !important;
+
+            gap: 7px;
+        }
+
+        .header-mobile .logo-container img {
+            height: 29px !important;
+
             max-width: 110px;
         }
 
@@ -202,36 +425,38 @@
         }
 
         .header-mobile .nav-item {
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .header-mobile .user-menu {
-            gap: 4px !important;
+            gap: 5px !important;
         }
 
         .header-mobile .notification-icon {
-            min-width: 32px;
-            min-height: 32px;
-            font-size: 0.95rem !important;
-            padding: 5px !important;
+            width: 33px;
+            height: 33px;
+
+            min-width: 33px;
+            min-height: 33px;
+
+            font-size: 0.92rem !important;
         }
 
-        .header-mobile .btn {
-            font-size: 11px;
+        .header-mobile .user-menu .btn {
+            font-size: 10px;
+
             padding: 6px 9px !important;
         }
 
-        .header-mobile .btn .me-2 {
+        .header-mobile .user-menu .btn .me-2 {
             display: none;
         }
 
         .header-mobile .notification-panel {
-            top: 50px !important;
-            right: 8px !important;
-            width: calc(100vw - 16px) !important;
-            max-width: calc(100vw - 16px);
+            top: 53px !important;
         }
     }
+
 
     /* =========================================================
        TABLETTES
@@ -240,17 +465,19 @@
     @media (min-width: 576px) {
 
         .header-mobile {
-            padding: 10px 18px !important;
-            gap: 14px;
+            padding: 9px 16px !important;
+
+            gap: 12px;
         }
 
         .header-mobile .logo-container img {
             height: 35px !important;
+
             max-width: 140px;
         }
 
         .header-mobile .nav-menu {
-            gap: 18px !important;
+            gap: 17px !important;
         }
 
         .header-mobile .nav-item {
@@ -258,24 +485,39 @@
         }
 
         .header-mobile .notification-icon {
-            font-size: 1.15rem !important;
-            padding: 8px !important;
+            width: 38px;
+            height: 38px;
+
+            min-width: 38px;
+            min-height: 38px;
+
+            font-size: 1.05rem !important;
         }
 
-        .header-mobile .btn {
-            font-size: 13px;
-            padding: 8px 16px !important;
+        .header-mobile .user-menu {
+            gap: 7px !important;
+        }
+
+        .header-mobile .user-menu .btn {
+            font-size: 12px;
+
+            padding: 8px 13px !important;
         }
 
         .header-mobile .notification-panel {
             position: absolute !important;
+
             top: 45px !important;
+
             right: 0 !important;
             left: auto !important;
+
             width: 320px !important;
+
             max-width: 320px;
         }
     }
+
 
     /* =========================================================
        TABLETTE LARGE
@@ -284,13 +526,17 @@
     @media (min-width: 768px) {
 
         .header-mobile {
+            min-height: 58px;
+
             padding: 0 20px !important;
-            gap: 18px;
+
+            gap: 16px;
         }
 
         .header-mobile .logo-container img {
             height: 38px !important;
-            max-width: none;
+
+            max-width: 150px;
         }
 
         .header-mobile .nav-menu {
@@ -302,14 +548,26 @@
         }
 
         .header-mobile .user-menu {
-            gap: 12px !important;
+            gap: 9px !important;
         }
 
-        .header-mobile .btn {
-            font-size: 14px;
-            padding: 8px 18px !important;
+        .header-mobile .notification-icon {
+            width: 40px;
+            height: 40px;
+
+            min-width: 40px;
+            min-height: 40px;
+
+            font-size: 1.1rem !important;
+        }
+
+        .header-mobile .user-menu .btn {
+            font-size: 13px;
+
+            padding: 8px 15px !important;
         }
     }
+
 
     /* =========================================================
        DESKTOP
@@ -318,31 +576,127 @@
     @media (min-width: 992px) {
 
         .header-mobile {
+            min-height: 64px;
+
             padding: 0 24px !important;
+
             gap: 20px;
         }
 
+        .header-mobile .logo-container {
+            width: 160px;
+
+            flex: 0 0 160px;
+        }
+
+        .header-mobile .logo-container img {
+            height: 40px !important;
+
+            max-width: 160px;
+        }
+
         .header-mobile .nav-menu {
-            gap: 24px !important;
+            flex: 1 1 auto;
+
+            gap: 23px !important;
+
             overflow-x: visible;
             overflow-y: visible;
+
             padding: 0;
+
+            justify-content: flex-start;
+        }
+
+        .header-mobile .nav-item {
+            font-size: 14px;
         }
 
         .header-mobile .user-menu {
-            gap: 16px !important;
+            flex: 0 0 auto;
+
+            margin-left: auto;
+
+            gap: 12px !important;
         }
 
         .header-mobile .notification-icon {
-            font-size: 1.2rem !important;
-            padding: 8px !important;
+            width: 42px;
+            height: 42px;
+
+            min-width: 42px;
+            min-height: 42px;
+
+            font-size: 1.15rem !important;
         }
 
-        .header-mobile .btn {
+        .header-mobile .user-menu .btn {
             font-size: 14px;
+
             padding: 8px 16px !important;
         }
     }
+
+
+    /* =========================================================
+       GRAND DESKTOP
+       ========================================================= */
+
+    @media (min-width: 1200px) {
+
+        .header-mobile {
+            padding-left: 30px !important;
+            padding-right: 30px !important;
+
+            gap: 24px;
+        }
+
+        .header-mobile .logo-container {
+            width: 175px;
+
+            flex-basis: 175px;
+        }
+
+        .header-mobile .logo-container img {
+            height: 42px !important;
+
+            max-width: 175px;
+        }
+
+        .header-mobile .nav-menu {
+            gap: 27px !important;
+        }
+
+        .header-mobile .nav-item {
+            font-size: 15px;
+        }
+
+        .header-mobile .user-menu {
+            gap: 14px !important;
+        }
+    }
+
+
+    /* =========================================================
+       TRÈS GRAND ÉCRAN
+       ========================================================= */
+
+    @media (min-width: 1400px) {
+
+        .header-mobile {
+            padding-left: 40px !important;
+            padding-right: 40px !important;
+        }
+
+        .header-mobile .nav-menu {
+            gap: 30px !important;
+        }
+
+        .header-mobile .nav-item {
+            font-size: 15px;
+        }
+    }
+
 
     /* =========================================================
        ACCESSIBILITÉ
@@ -350,198 +704,459 @@
 
     .header-mobile .nav-item:focus-visible,
     .header-mobile .btn:focus-visible,
-    .header-mobile button:focus-visible {
+    .header-mobile button:focus-visible,
+    .header-mobile .notification-icon:focus-visible {
+
         outline: 3px solid rgba(59, 130, 246, 0.35);
+
         outline-offset: 2px;
+
+        border-radius: 5px;
     }
+
+
+    /* =========================================================
+       RÉDUCTION DES ANIMATIONS
+       ========================================================= */
 
     @media (prefers-reduced-motion: reduce) {
 
         .header-mobile *,
         .header-mobile *::before,
         .header-mobile *::after {
+
             animation: none !important;
+
             transition: none !important;
         }
     }
 </style>
 
+
 <header class="app-header header-mobile">
 
+    <!-- =====================================================
+         LOGO
+         ===================================================== -->
 
-<!-- =====================================================
-     LOGO
-     ===================================================== -->
+    <div class="logo-container">
 
-<div class="logo-container">
+        <img
+            src="{% static 'image/logoo.png' %}"
+            alt="ASTRA TECH"
+        >
 
-    <img src="{% static 'image/logoo.png' %}"
-         alt="ASTRA TECH">
-
-</div>
-
-
-<!-- =====================================================
-     NAVIGATION
-     ===================================================== -->
-
-<nav class="nav-menu">
-
-    <a href="{% url 'astra:ventes' %}"
-       class="nav-item {% if request.resolver_match.url_name == 'ventes' %}active{% endif %}">
-        Ventes
-    </a>
-
-    <a href="{% url 'astra:stocks' %}"
-       class="nav-item {% if request.resolver_match.url_name == 'stocks' %}active{% endif %}">
-        Stocks
-    </a>
-
-    <a href="{% url 'astra:approvisionnement' %}"
-       class="nav-item {% if request.resolver_match.url_name == 'approvisionnement' or request.resolver_match.url_name == 'approvisionnements' %}active{% endif %}">
-        Approvisionnement
-    </a>
-
-    <a href="{% url 'astra:clients' %}"
-       class="nav-item {% if request.resolver_match.url_name == 'gestion_clients' %}active{% endif %}">
-        Clients
-    </a>
-
-    <a href="{% url 'astra:fournisseurs' %}"
-       class="nav-item {% if request.resolver_match.url_name == 'fournisseurs' %}active{% endif %}">
-        Fournisseurs
-    </a>
-
-    <a href="{% url 'astra:rapports' %}"
-       class="nav-item {% if request.resolver_match.url_name == 'rapports' %}active{% endif %}">
-        Rapports
-    </a>
-
-</nav>
+    </div>
 
 
-<!-- =====================================================
-     MENU UTILISATEUR & NOTIFICATIONS
-     ===================================================== -->
+    <!-- =====================================================
+         NAVIGATION DYNAMIQUE SELON LE RÔLE
+         ===================================================== -->
 
-<div class="user-menu">
-
-    <!-- Notifications -->
-
-    <div class="notification-container">
-
-        <div class="notification-icon"
-             id="notificationIcon"
-             onclick="toggleNotificationDropdown()"
-             role="button"
-             tabindex="0"
-             aria-label="Notifications">
-
-            <i class="fas fa-bell"></i>
-
-            {% if nombre_notifications and nombre_notifications > 0 %}
-
-                <span class="notification-badge">
-                    {{ nombre_notifications }}
-                </span>
-
-            {% endif %}
-
-        </div>
+    <nav class="nav-menu">
 
 
-        <!-- Menu déroulant dynamique -->
+        <!-- =================================================
+             VENTES
+             ADMIN + VENTE + CLIENT
+             ================================================= -->
 
-        <div id="notificationDropdown"
-             class="notification-panel"
-             style="display: none; background: white; color: black; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border-radius: 10px; z-index: 9999; text-align: left;">
+        {% if request.session.user_role == "admin" or request.session.user_role == "administrateur" or request.session.user_role == "administrateurs" or request.session.user_role == "vente" or request.session.user_role == "vendeur" or request.session.user_role == "vendeurs" or request.session.user_role == "caissier" or request.session.user_role == "client" or request.session.user_role == "clients" %}
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+            <a
+                href="{% url 'astra:ventes' %}"
+                class="nav-item {% if request.resolver_match.url_name == 'ventes' %}active{% endif %}"
+            >
+                Ventes
+            </a>
 
-                <h6 style="margin: 0; font-weight: bold; font-size: 0.9rem;">
-                    Notifications système
-                </h6>
+        {% endif %}
+
+
+        <!-- =================================================
+             STOCKS
+             ADMIN + STOCKS
+             ================================================= -->
+
+        {% if request.session.user_role == "admin" or request.session.user_role == "administrateur" or request.session.user_role == "administrateurs" or request.session.user_role == "stock" or request.session.user_role == "stocks" %}
+
+            <a
+                href="{% url 'astra:stocks' %}"
+                class="nav-item {% if request.resolver_match.url_name == 'stocks' %}active{% endif %}"
+            >
+                Stocks
+            </a>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             APPROVISIONNEMENTS
+             ADMIN + FOURNISSEUR + APPROVISIONNEMENT
+             ================================================= -->
+
+        {% if request.session.user_role == "admin" or request.session.user_role == "administrateur" or request.session.user_role == "administrateurs" or request.session.user_role == "fournisseur" or request.session.user_role == "fournisseurs" or request.session.user_role == "approvisionnement" or request.session.user_role == "approvisionnements" or request.session.user_role == "approvisionneur" %}
+
+            <a
+                href="{% url 'astra:approvisionnement' %}"
+                class="nav-item {% if request.resolver_match.url_name == 'approvisionnement' or request.resolver_match.url_name == 'approvisionnements' %}active{% endif %}"
+            >
+                Approvisionnement
+            </a>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             CLIENTS
+             ADMIN + VENTE + CLIENT
+             ================================================= -->
+
+        {% if request.session.user_role == "admin" or request.session.user_role == "administrateur" or request.session.user_role == "administrateurs" or request.session.user_role == "vente" or request.session.user_role == "vendeur" or request.session.user_role == "vendeurs" or request.session.user_role == "caissier" or request.session.user_role == "client" or request.session.user_role == "clients" %}
+
+            <a
+                href="{% url 'astra:clients' %}"
+                class="nav-item {% if request.resolver_match.url_name == 'clients' or request.resolver_match.url_name == 'gestion_clients' %}active{% endif %}"
+            >
+                Clients
+            </a>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             FOURNISSEURS
+             ADMIN + FOURNISSEUR + APPROVISIONNEMENT
+             ================================================= -->
+
+        {% if request.session.user_role == "admin" or request.session.user_role == "administrateur" or request.session.user_role == "administrateurs" or request.session.user_role == "fournisseur" or request.session.user_role == "fournisseurs" or request.session.user_role == "approvisionnement" or request.session.user_role == "approvisionnements" or request.session.user_role == "approvisionneur" %}
+
+            <a
+                href="{% url 'astra:fournisseurs' %}"
+                class="nav-item {% if request.resolver_match.url_name == 'fournisseurs' %}active{% endif %}"
+            >
+                Fournisseurs
+            </a>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             RAPPORTS
+             ADMIN + RAPPORTS
+             ================================================= -->
+
+        {% if request.session.user_role == "admin" or request.session.user_role == "administrateur" or request.session.user_role == "administrateurs" or request.session.user_role == "rapport" or request.session.user_role == "rapports" %}
+
+            <a
+                href="{% url 'astra:rapports' %}"
+                class="nav-item {% if request.resolver_match.url_name == "rapports" %}active{% endif %}"
+            >
+                Rapports
+            </a>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             À PROPOS
+             PUBLIC
+             ================================================= -->
+
+        <a
+            href="{% url 'astra:propos' %}"
+            class="nav-item {% if request.resolver_match.url_name == "propos" %}active{% endif %}"
+        >
+            À propos
+        </a>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MENU UTILISATEUR
+         ===================================================== -->
+
+    <div class="user-menu">
+
+
+        <!-- =================================================
+             NOTIFICATIONS
+             ================================================= -->
+
+        <div class="notification-container">
+
+            <div
+                class="notification-icon"
+                id="notificationIcon"
+                onclick="toggleNotificationDropdown()"
+                role="button"
+                tabindex="0"
+                aria-label="Notifications"
+            >
+
+                <i class="fas fa-bell"></i>
 
                 {% if nombre_notifications and nombre_notifications > 0 %}
 
-                    <button type="button"
-                            onclick="marquerToutCommeLu(event)"
-                            style="background: none; border: none; color: #007bff; font-size: 0.75rem; cursor: pointer; font-weight: bold; text-decoration: underline;">
-
-                        Tout marquer comme lu
-
-                    </button>
+                    <span class="notification-badge">
+                        {{ nombre_notifications }}
+                    </span>
 
                 {% endif %}
 
             </div>
 
 
-            <div style="max-height: 220px; overflow-y: auto; font-size: 0.8rem;">
+            <!-- =================================================
+                 MENU DÉROULANT NOTIFICATIONS
+                 ================================================= -->
 
-                {% for notification in notifications_non_lues %}
+            <div
+                id="notificationDropdown"
+                class="notification-panel"
+                style="
+                    display: none;
+                    background: white;
+                    color: black;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                    border-radius: 10px;
+                    z-index: 9999;
+                    text-align: left;
+                "
+            >
 
-                    <a href="{% url 'astra:detail_notification' notification.id %}"
-                       style="text-decoration: none; color: inherit; display: block; margin-bottom: 8px;">
+                <div
+                    style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 10px;
+                        border-bottom: 1px solid #eee;
+                        padding-bottom: 8px;
+                    "
+                >
 
-                        <div style="padding: 10px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid #007bff;">
+                    <h6
+                        style="
+                            margin: 0;
+                            font-weight: bold;
+                            font-size: 0.9rem;
+                        "
+                    >
+                        Notifications système
+                    </h6>
 
-                            <strong style="display: block; color: #0056b3;">
-                                {{ notification.titre }}
-                            </strong>
 
-                            <span style="color: #333;">
-                                {{ notification.message }}
-                            </span>
+                    {% if nombre_notifications and nombre_notifications > 0 %}
 
-                            <small style="display: block; color: #888; margin-top: 4px;">
-                                {{ notification.date_creation|date:"d/m/Y H:i" }}
-                            </small>
+                        <button
+                            type="button"
+                            onclick="marquerToutCommeLu(event)"
+                            style="
+                                background: none;
+                                border: none;
+                                color: #007bff;
+                                font-size: 0.75rem;
+                                cursor: pointer;
+                                font-weight: bold;
+                                text-decoration: underline;
+                            "
+                        >
+                            Tout marquer comme lu
+                        </button>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div
+                    style="
+                        max-height: 220px;
+                        overflow-y: auto;
+                        font-size: 0.8rem;
+                    "
+                >
+
+                    {% for notification in notifications_non_lues %}
+
+                        <a
+                            href="{% url 'astra:detail_notification' notification.id %}"
+                            style="
+                                text-decoration: none;
+                                color: inherit;
+                                display: block;
+                                margin-bottom: 8px;
+                            "
+                        >
+
+                            <div
+                                style="
+                                    padding: 10px;
+                                    background: #f8f9fa;
+                                    border-radius: 6px;
+                                    border-left: 4px solid #007bff;
+                                "
+                            >
+
+                                <strong
+                                    style="
+                                        display: block;
+                                        color: #0056b3;
+                                    "
+                                >
+                                    {{ notification.titre }}
+                                </strong>
+
+                                <span style="color: #333;">
+                                    {{ notification.message }}
+                                </span>
+
+                                <small
+                                    style="
+                                        display: block;
+                                        color: #888;
+                                        margin-top: 4px;
+                                    "
+                                >
+                                    {{ notification.date_creation|date:"d/m/Y H:i" }}
+                                </small>
+
+                            </div>
+
+                        </a>
+
+                    {% empty %}
+
+                        <div
+                            style="
+                                text-align: center;
+                                color: #666;
+                                margin: 15px 0;
+                            "
+                        >
+
+                            <i
+                                class="fas fa-check-circle"
+                                style="
+                                    color: #28a745;
+                                    font-size: 1.2rem;
+                                    display: block;
+                                    margin-bottom: 5px;
+                                "
+                            ></i>
+
+                            Aucune nouvelle notification.
 
                         </div>
 
-                    </a>
+                    {% endfor %}
 
-                {% empty %}
-
-                    <div style="text-align: center; color: #666; margin: 15px 0;">
-
-                        <i class="fas fa-check-circle"
-                           style="color: #28a745; font-size: 1.2rem; display: block; margin-bottom: 5px;">
-                        </i>
-
-                        Aucune nouvelle notification.
-
-                    </div>
-
-                {% endfor %}
+                </div>
 
             </div>
 
         </div>
 
+
+        <!-- =================================================
+             BOUTON RETOUR DYNAMIQUE
+             ================================================= -->
+
+        {% if request.session.user_role == "admin" or request.session.user_role == "administrateur" or request.session.user_role == "administrateurs" %}
+
+            <a
+                href="{% url 'astra:accueil' %}"
+                class="btn btn-primary rounded-pill"
+            >
+                <i class="fas fa-arrow-left me-2"></i>
+                Retour
+            </a>
+
+
+        {% elif request.session.user_role == "vente" or request.session.user_role == "vendeur" or request.session.user_role == "vendeurs" or request.session.user_role == "caissier" or request.session.user_role == "client" or request.session.user_role == "clients" %}
+
+            <a
+                href="{% url 'astra:ventes' %}"
+                class="btn btn-primary rounded-pill"
+            >
+                <i class="fas fa-arrow-left me-2"></i>
+                Retour
+            </a>
+
+
+        {% elif request.session.user_role == "fournisseur" or request.session.user_role == "fournisseurs" %}
+
+            <a
+                href="{% url 'astra:fournisseur_dashboard' %}"
+                class="btn btn-primary rounded-pill"
+            >
+                <i class="fas fa-arrow-left me-2"></i>
+                Retour
+            </a>
+
+
+        {% elif request.session.user_role == "approvisionnement" or request.session.user_role == "approvisionnements" or request.session.user_role == "approvisionneur" %}
+
+            <a
+                href="{% url 'astra:approvisionnement' %}"
+                class="btn btn-primary rounded-pill"
+            >
+                <i class="fas fa-arrow-left me-2"></i>
+                Retour
+            </a>
+
+
+        {% elif request.session.user_role == "stock" or request.session.user_role == "stocks" %}
+
+            <a
+                href="{% url 'astra:stocks' %}"
+                class="btn btn-primary rounded-pill"
+            >
+                <i class="fas fa-arrow-left me-2"></i>
+                Retour
+            </a>
+
+
+        {% elif request.session.user_role == "rapport" or request.session.user_role == "rapports" %}
+
+            <a
+                href="{% url 'astra:rapports' %}"
+                class="btn btn-primary rounded-pill"
+            >
+                <i class="fas fa-arrow-left me-2"></i>
+                Retour
+            </a>
+
+
+        {% else %}
+
+            <a
+                href="{% url 'astra:login' %}"
+                class="btn btn-primary rounded-pill"
+            >
+                <i class="fas fa-arrow-left me-2"></i>
+                Retour
+            </a>
+
+        {% endif %}
+
     </div>
-
-
-    <!-- =================================================
-         BOUTON RETOUR
-         ================================================= -->
-
-    <a href="{% url 'astra:accueil' %}"
-       class="btn btn-primary rounded-pill px-4">
-
-        <i class="fas fa-arrow-left me-2"></i>
-
-        Retour
-
-    </a>
-
-</div>
-
 
 </header>
 
+
+<!-- =========================================================
+     JAVASCRIPT NOTIFICATIONS
+     ========================================================= -->
+
 <script>
+
+    /* =========================================================
+       OUVRIR / FERMER LES NOTIFICATIONS
+       ========================================================= */
+
     function toggleNotificationDropdown() {
 
         const dropdown =
@@ -551,34 +1166,48 @@
             return;
         }
 
-        dropdown.style.display =
-            (
-                dropdown.style.display === 'none' ||
-                dropdown.style.display === ''
-            )
-                ? 'block'
-                : 'none';
+        if (
+            dropdown.style.display === 'none' ||
+            dropdown.style.display === ''
+        ) {
+
+            dropdown.style.display = 'block';
+
+        } else {
+
+            dropdown.style.display = 'none';
+
+        }
     }
 
 
+    /* =========================================================
+       MARQUER TOUTES LES NOTIFICATIONS COMME LUES
+       ========================================================= */
+
     function marquerToutCommeLu(event) {
 
-        event.stopPropagation();
+        if (event) {
+            event.stopPropagation();
+        }
 
-        fetch("{% url 'astra:marquer_lues' %}", {
+        fetch(
+            "{% url 'astra:marquer_lues' %}",
+            {
+                method: 'POST',
 
-            method: 'POST',
-
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-                'X-Requested-With': 'XMLHttpRequest'
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
             }
-
-        })
+        )
         .then(function(response) {
 
             if (response.ok) {
+
                 window.location.reload();
+
             }
 
         })
@@ -594,43 +1223,67 @@
     }
 
 
-    window.addEventListener('click', function(e) {
+    /* =========================================================
+       FERMER LE MENU EN CLIQUANT À L'EXTÉRIEUR
+       ========================================================= */
 
-        const container =
-            document.querySelector('.notification-container');
+    window.addEventListener(
+        'click',
+        function(event) {
 
-        const dropdown =
-            document.getElementById('notificationDropdown');
+            const container =
+                document.querySelector(
+                    '.notification-container'
+                );
 
-        if (
-            container &&
-            dropdown &&
-            !container.contains(e.target)
-        ) {
+            const dropdown =
+                document.getElementById(
+                    'notificationDropdown'
+                );
 
-            dropdown.style.display = 'none';
+            if (
+                container &&
+                dropdown &&
+                !container.contains(event.target)
+            ) {
 
-        }
-
-    });
-
-
-    /* Activation du menu notification avec le clavier */
-    const notificationIcon =
-        document.getElementById('notificationIcon');
-
-    if (notificationIcon) {
-
-        notificationIcon.addEventListener('keydown', function(event) {
-
-            if (event.key === 'Enter' || event.key === ' ') {
-
-                event.preventDefault();
-                toggleNotificationDropdown();
+                dropdown.style.display = 'none';
 
             }
 
-        });
+        }
+    );
+
+
+    /* =========================================================
+       ACCESSIBILITÉ CLAVIER
+       ========================================================= */
+
+    const notificationIcon =
+        document.getElementById(
+            'notificationIcon'
+        );
+
+    if (notificationIcon) {
+
+        notificationIcon.addEventListener(
+            'keydown',
+            function(event) {
+
+                if (
+                    event.key === 'Enter' ||
+                    event.key === ' '
+                ) {
+
+                    event.preventDefault();
+
+                    toggleNotificationDropdown();
+
+                }
+
+            }
+        );
 
     }
+
 </script>

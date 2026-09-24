@@ -29,6 +29,7 @@ Astra Tech - Gestion des Fournisseurs
       href="{% static 'css/fournisseurs.css' %}">
 
 <style>
+
     /* =========================================================
        GESTION DES FOURNISSEURS — MOBILE FIRST
        ========================================================= */
@@ -52,7 +53,168 @@ Astra Tech - Gestion des Fournisseurs
         margin-left: auto;
         margin-right: auto;
         padding: 20px 12px;
+
+        /* Animation globale */
+        animation: supplierPageReveal 0.7s cubic-bezier(.22, 1, .36, 1) both;
     }
+
+
+    /* =========================================================
+       ANIMATIONS GLOBALES
+       ========================================================= */
+
+    @keyframes supplierPageReveal {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes supplierHeaderReveal {
+        from {
+            opacity: 0;
+            transform: translateY(-18px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes supplierTitleReveal {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes supplierButtonReveal {
+        from {
+            opacity: 0;
+            transform: translateX(20px) scale(.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+    }
+
+    @keyframes supplierTableReveal {
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes supplierRowReveal {
+        from {
+            opacity: 0;
+            transform: translateX(-12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes supplierIconFloat {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-3px);
+        }
+    }
+
+    @keyframes supplierPulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, .35);
+        }
+
+        70% {
+            box-shadow: 0 0 0 7px rgba(37, 99, 235, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+        }
+    }
+
+    @keyframes supplierShine {
+        0% {
+            transform: translateX(-120%);
+        }
+
+        100% {
+            transform: translateX(120%);
+        }
+    }
+
+    @keyframes supplierModalOverlayIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes supplierModalCardIn {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(.94);
+        }
+
+        60% {
+            opacity: 1;
+            transform: translateY(-3px) scale(1.01);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes supplierToastIn {
+        from {
+            opacity: 0;
+            transform: translateY(-30px) scale(.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes supplierSpin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
 
     /* =========================================================
        EN-TÊTE
@@ -65,11 +227,17 @@ Astra Tech - Gestion des Fournisseurs
         gap: 16px;
         margin-bottom: 24px;
         padding-bottom: 20px;
+
+        animation:
+            supplierHeaderReveal .7s .08s cubic-bezier(.22, 1, .36, 1) both;
     }
 
     .supplier-page-header-content {
         min-width: 0;
         width: 100%;
+
+        animation:
+            supplierTitleReveal .65s .18s cubic-bezier(.22, 1, .36, 1) both;
     }
 
     .supplier-page-title {
@@ -84,11 +252,65 @@ Astra Tech - Gestion des Fournisseurs
         max-width: 100%;
     }
 
+
+    /* =========================================================
+       BOUTON AJOUT
+       ========================================================= */
+
     .supplier-add-btn {
         width: 100%;
         min-height: 44px;
         flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
+
+        animation:
+            supplierButtonReveal .7s .25s cubic-bezier(.22, 1, .36, 1) both;
+
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease,
+            background-color .25s ease !important;
     }
+
+    .supplier-add-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -120%;
+        width: 60%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, .30),
+            transparent
+        );
+        transform: skewX(-20deg);
+    }
+
+    .supplier-add-btn:hover {
+        transform: translateY(-3px);
+        box-shadow:
+            0 10px 24px rgba(249, 115, 22, .25) !important;
+    }
+
+    .supplier-add-btn:hover::before {
+        animation: supplierShine .65s ease;
+    }
+
+    .supplier-add-btn:active {
+        transform: translateY(-1px) scale(.98);
+    }
+
+    .supplier-add-btn i {
+        transition: transform .25s ease;
+    }
+
+    .supplier-add-btn:hover i {
+        transform: rotate(90deg) scale(1.1);
+    }
+
 
     /* =========================================================
        MESSAGES DJANGO
@@ -103,7 +325,20 @@ Astra Tech - Gestion des Fournisseurs
         width: 100%;
         overflow-wrap: anywhere;
         line-height: 1.5;
+
+        animation:
+            supplierRowReveal .5s cubic-bezier(.22, 1, .36, 1) both;
+
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease;
     }
+
+    .supplier-message:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(15, 23, 42, .08);
+    }
+
 
     /* =========================================================
        TABLEAU
@@ -114,6 +349,18 @@ Astra Tech - Gestion des Fournisseurs
         max-width: 100%;
         overflow: hidden;
         border-radius: 16px;
+
+        animation:
+            supplierTableReveal .8s .25s cubic-bezier(.22, 1, .36, 1) both;
+
+        transition:
+            box-shadow .3s ease,
+            transform .3s ease;
+    }
+
+    .supplier-table-card:hover {
+        box-shadow:
+            0 18px 45px rgba(15, 23, 42, .10);
     }
 
     .supplier-table-scroll {
@@ -131,6 +378,11 @@ Astra Tech - Gestion des Fournisseurs
 
     .supplier-table th {
         white-space: nowrap;
+        position: relative;
+    }
+
+    .supplier-table thead tr {
+        animation: supplierHeaderReveal .6s .35s ease both;
     }
 
     .supplier-table td {
@@ -144,6 +396,78 @@ Astra Tech - Gestion des Fournisseurs
         overflow-wrap: anywhere;
     }
 
+    .supplier-table tbody tr {
+        animation:
+            supplierRowReveal .5s cubic-bezier(.22, 1, .36, 1) both;
+
+        transition:
+            background-color .25s ease,
+            box-shadow .25s ease,
+            transform .25s ease;
+    }
+
+    .supplier-table tbody tr:nth-child(1) {
+        animation-delay: .38s;
+    }
+
+    .supplier-table tbody tr:nth-child(2) {
+        animation-delay: .43s;
+    }
+
+    .supplier-table tbody tr:nth-child(3) {
+        animation-delay: .48s;
+    }
+
+    .supplier-table tbody tr:nth-child(4) {
+        animation-delay: .53s;
+    }
+
+    .supplier-table tbody tr:nth-child(5) {
+        animation-delay: .58s;
+    }
+
+    .supplier-table tbody tr:nth-child(6) {
+        animation-delay: .63s;
+    }
+
+    .supplier-table tbody tr:nth-child(7) {
+        animation-delay: .68s;
+    }
+
+    .supplier-table tbody tr:nth-child(8) {
+        animation-delay: .73s;
+    }
+
+    .supplier-table tbody tr:nth-child(9) {
+        animation-delay: .78s;
+    }
+
+    .supplier-table tbody tr:nth-child(10) {
+        animation-delay: .83s;
+    }
+
+    .supplier-table tbody tr:hover {
+        background: #f8fafc !important;
+        box-shadow:
+            inset 4px 0 0 #ff8c00,
+            0 4px 14px rgba(15, 23, 42, .04);
+    }
+
+    .supplier-table tbody tr:hover td {
+        transition: color .2s ease;
+    }
+
+    .supplier-table tbody tr td:first-child {
+        transition:
+            color .25s ease,
+            transform .25s ease;
+    }
+
+    .supplier-table tbody tr:hover td:first-child {
+        color: #0078D7 !important;
+        transform: translateX(3px);
+    }
+
     .supplier-actions {
         min-width: 100px;
     }
@@ -155,6 +479,67 @@ Astra Tech - Gestion des Fournisseurs
         gap: 8px;
         white-space: nowrap;
     }
+
+    .supplier-actions-buttons button,
+    .supplier-actions-buttons a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+
+        transition:
+            color .2s ease,
+            background-color .2s ease,
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .supplier-actions-buttons button:hover,
+    .supplier-actions-buttons a:hover {
+        transform: translateY(-2px) scale(1.08);
+        background: #eff6ff;
+        box-shadow: 0 5px 12px rgba(37, 99, 235, .10);
+    }
+
+    .supplier-actions-buttons a:last-child:hover {
+        background: #fef2f2;
+        box-shadow: 0 5px 12px rgba(239, 68, 68, .10);
+    }
+
+    .supplier-actions-buttons i {
+        transition: transform .2s ease;
+    }
+
+    .supplier-actions-buttons button:hover i,
+    .supplier-actions-buttons a:hover i {
+        transform: scale(1.12);
+    }
+
+
+    /* =========================================================
+       ESPACE FOURNISSEUR
+       ========================================================= */
+
+    .supplier-table tbody button {
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease,
+            background-color .25s ease;
+    }
+
+    .supplier-table tbody button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 7px 16px rgba(37, 99, 235, .12);
+    }
+
+    .supplier-table tbody button .animate-pulse {
+        animation:
+            supplierPulse 1.8s infinite;
+    }
+
 
     /* =========================================================
        TOAST
@@ -171,6 +556,11 @@ Astra Tech - Gestion des Fournisseurs
         z-index: 10000 !important;
     }
 
+    #toastNotification.translate-y-0 {
+        animation:
+            supplierToastIn .4s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
     #toastContent {
         width: 100%;
         min-width: 0;
@@ -181,6 +571,11 @@ Astra Tech - Gestion des Fournisseurs
         overflow-wrap: anywhere;
         line-height: 1.4;
     }
+
+    #toastIcon {
+        animation: supplierIconFloat 1.8s ease-in-out infinite;
+    }
+
 
     /* =========================================================
        SYSTÈME DE MODALES
@@ -197,14 +592,15 @@ Astra Tech - Gestion des Fournisseurs
         align-items: center !important;
         justify-content: center !important;
         background: rgba(15, 23, 42, 0.68) !important;
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(7px);
+        -webkit-backdrop-filter: blur(7px);
         overflow-y: auto !important;
     }
 
     .supplier-modal:not(.hidden) {
         display: flex !important;
-        animation: supplierModalOverlayIn 0.25s ease-out both;
+        animation:
+            supplierModalOverlayIn .28s ease-out both;
     }
 
     .supplier-modal-overlay {
@@ -234,7 +630,9 @@ Astra Tech - Gestion des Fournisseurs
         box-shadow:
             0 25px 60px rgba(0, 0, 0, 0.25),
             0 10px 25px rgba(0, 0, 0, 0.12) !important;
-        animation: supplierModalCardIn 0.3s cubic-bezier(.22, 1, .36, 1) both;
+
+        animation:
+            supplierModalCardIn .4s cubic-bezier(.22, 1, .36, 1) both;
     }
 
     .supplier-modal-card::-webkit-scrollbar {
@@ -250,7 +648,10 @@ Astra Tech - Gestion des Fournisseurs
         border-radius: 20px;
     }
 
-    /* En-tête des modales */
+
+    /* =========================================================
+       EN-TÊTE DES MODALES
+       ========================================================= */
 
     .supplier-modal-card > div:first-child {
         display: flex !important;
@@ -282,19 +683,23 @@ Astra Tech - Gestion des Fournisseurs
         background: transparent !important;
         color: #9ca3af !important;
         cursor: pointer !important;
+
         transition:
-            background-color 0.2s ease,
-            color 0.2s ease,
-            transform 0.2s ease !important;
+            background-color .2s ease,
+            color .2s ease,
+            transform .25s ease;
     }
 
     .supplier-modal-card > div:first-child button:hover {
         background: #f3f4f6 !important;
         color: #ef4444 !important;
-        transform: rotate(90deg);
+        transform: rotate(90deg) scale(1.08);
     }
 
-    /* Formulaire */
+
+    /* =========================================================
+       FORMULAIRE
+       ========================================================= */
 
     #supplierForm,
     #formConnexionFournisseur,
@@ -336,10 +741,12 @@ Astra Tech - Gestion des Fournisseurs
         line-height: 1.4 !important;
         outline: none !important;
         box-shadow: none !important;
+
         transition:
-            border-color 0.2s ease,
-            box-shadow 0.2s ease,
-            background-color 0.2s ease !important;
+            border-color .25s ease,
+            box-shadow .25s ease,
+            background-color .25s ease,
+            transform .2s ease !important;
     }
 
     .supplier-modal-input:hover {
@@ -348,7 +755,10 @@ Astra Tech - Gestion des Fournisseurs
 
     .supplier-modal-input:focus {
         border-color: #0078D7 !important;
-        box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.12) !important;
+        box-shadow:
+            0 0 0 3px rgba(0, 120, 215, .12),
+            0 5px 15px rgba(0, 120, 215, .06) !important;
+        transform: translateY(-1px);
     }
 
     .supplier-modal-input::placeholder {
@@ -359,6 +769,7 @@ Astra Tech - Gestion des Fournisseurs
         min-height: 110px !important;
         resize: vertical !important;
     }
+
 
     /* =========================================================
        PIED DES MODALES
@@ -383,45 +794,42 @@ Astra Tech - Gestion des Fournisseurs
         font-size: 13px !important;
         font-weight: 700 !important;
         cursor: pointer !important;
+
         transition:
-            background-color 0.2s ease,
-            transform 0.2s ease,
-            box-shadow 0.2s ease !important;
+            background-color .2s ease,
+            transform .2s ease,
+            box-shadow .2s ease !important;
     }
 
     .supplier-modal-footer button:hover {
-        transform: translateY(-1px);
+        transform: translateY(-2px);
+        box-shadow: 0 7px 18px rgba(15, 23, 42, .10);
     }
 
     .supplier-modal-footer button:active {
-        transform: translateY(0);
+        transform: translateY(0) scale(.98);
     }
+
+    .supplier-modal-footer button[type="submit"]:hover {
+        box-shadow:
+            0 8px 20px rgba(249, 115, 22, .22);
+    }
+
 
     /* =========================================================
-       ANIMATIONS MODALES
+       ÉTAT CHARGEMENT BOUTON E-MAIL
        ========================================================= */
 
-    @keyframes supplierModalOverlayIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
+    #submitEmailBtn:disabled {
+        opacity: .75;
+        cursor: wait !important;
+        transform: none !important;
     }
 
-    @keyframes supplierModalCardIn {
-        from {
-            opacity: 0;
-            transform: translateY(25px) scale(0.96);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
+    #submitEmailBtn .fa-spinner {
+        animation: supplierSpin .8s linear infinite;
     }
+
 
     /* =========================================================
        PETITS TÉLÉPHONES
@@ -458,6 +866,7 @@ Astra Tech - Gestion des Fournisseurs
             width: 100% !important;
         }
     }
+
 
     @media (max-width: 360px) {
 
@@ -502,6 +911,7 @@ Astra Tech - Gestion des Fournisseurs
             right: 9px;
         }
     }
+
 
     /* =========================================================
        TABLETTES
@@ -566,6 +976,7 @@ Astra Tech - Gestion des Fournisseurs
         }
     }
 
+
     /* =========================================================
        TABLETTE LARGE
        ========================================================= */
@@ -592,6 +1003,7 @@ Astra Tech - Gestion des Fournisseurs
             padding: 28px !important;
         }
     }
+
 
     /* =========================================================
        DESKTOP
@@ -622,6 +1034,7 @@ Astra Tech - Gestion des Fournisseurs
         }
     }
 
+
     /* =========================================================
        FOCUS / ACCESSIBILITÉ
        ========================================================= */
@@ -631,13 +1044,12 @@ Astra Tech - Gestion des Fournisseurs
     #supplierModal button:focus-visible,
     #modalConnexionFournisseur button:focus-visible,
     #modalEmail button:focus-visible,
-    #supplierModal input:focus-visible,
-    #modalConnexionFournisseur input:focus-visible,
     #modalEmail input:focus-visible,
     #modalEmail textarea:focus-visible {
-        outline: 3px solid rgba(59, 130, 246, 0.35) !important;
+        outline: 3px solid rgba(59, 130, 246, .35) !important;
         outline-offset: 2px !important;
     }
+
 
     /* =========================================================
        DARK MODE
@@ -666,10 +1078,17 @@ Astra Tech - Gestion des Fournisseurs
 
     html.dark .supplier-table tbody tr:hover {
         background: #1f2937 !important;
+        box-shadow:
+            inset 4px 0 0 #ff8c00,
+            0 4px 14px rgba(0, 0, 0, .20);
     }
 
     html.dark .supplier-table td {
         color: #d1d5db !important;
+    }
+
+    html.dark .supplier-table tbody tr:hover td:first-child {
+        color: #60a5fa !important;
     }
 
     html.dark .supplier-page-title {
@@ -681,7 +1100,7 @@ Astra Tech - Gestion des Fournisseurs
     }
 
     html.dark .supplier-modal {
-        background: rgba(2, 6, 23, 0.78) !important;
+        background: rgba(2, 6, 23, .78) !important;
     }
 
     html.dark .supplier-modal-card {
@@ -712,7 +1131,8 @@ Astra Tech - Gestion des Fournisseurs
     html.dark .supplier-modal-card input:focus,
     html.dark .supplier-modal-card textarea:focus {
         border-color: #60a5fa !important;
-        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15) !important;
+        box-shadow:
+            0 0 0 3px rgba(96, 165, 250, .15) !important;
     }
 
     html.dark .supplier-modal-card input::placeholder,
@@ -747,6 +1167,16 @@ Astra Tech - Gestion des Fournisseurs
         background: #4b5563 !important;
     }
 
+    html.dark .supplier-actions-buttons button:hover,
+    html.dark .supplier-actions-buttons a:hover {
+        background: #1e3a5f;
+    }
+
+    html.dark .supplier-actions-buttons a:last-child:hover {
+        background: #451a1a;
+    }
+
+
     /* =========================================================
        RÉDUCTION DES ANIMATIONS
        ========================================================= */
@@ -763,6 +1193,7 @@ Astra Tech - Gestion des Fournisseurs
             animation: none !important;
         }
     }
+
 </style>
 
 {% endblock %}
@@ -1417,15 +1848,21 @@ Astra Tech - Gestion des Fournisseurs
 
 
 <script>
+
 document.addEventListener('DOMContentLoaded', () => {
 
     /* =========================================================
        RÉFÉRENCES
        ========================================================= */
 
-    const addBtn = document.getElementById('addSupplierBtn');
-    const supplierModal = document.getElementById('supplierModal');
-    const supplierForm = document.getElementById('supplierForm');
+    const addBtn =
+        document.getElementById('addSupplierBtn');
+
+    const supplierModal =
+        document.getElementById('supplierModal');
+
+    const supplierForm =
+        document.getElementById('supplierForm');
 
 
     /* =========================================================
@@ -1447,7 +1884,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (title) {
-                title.textContent = 'Nouveau Fournisseur';
+                title.textContent =
+                    'Nouveau Fournisseur';
             }
 
             if (supplierId) {
@@ -1465,7 +1903,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     nom.focus();
                 }
 
-            }, 100);
+            }, 180);
 
         });
 
@@ -1500,27 +1938,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
             if (title) {
-                title.textContent = 'Modifier le Fournisseur';
+                title.textContent =
+                    'Modifier le Fournisseur';
             }
 
             if (supplierId) {
-                supplierId.value = btn.dataset.id || '';
+                supplierId.value =
+                    btn.dataset.id || '';
             }
 
             if (nom) {
-                nom.value = btn.dataset.nom || '';
+                nom.value =
+                    btn.dataset.nom || '';
             }
 
             if (contact) {
-                contact.value = btn.dataset.contact || '';
+                contact.value =
+                    btn.dataset.contact || '';
             }
 
             if (telephone) {
-                telephone.value = btn.dataset.telephone || '';
+                telephone.value =
+                    btn.dataset.telephone || '';
             }
 
             if (email) {
-                email.value = btn.dataset.email || '';
+                email.value =
+                    btn.dataset.email || '';
             }
 
 
@@ -1533,7 +1977,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     nom.focus();
                 }
 
-            }, 100);
+            }, 180);
 
         });
 
@@ -1549,105 +1993,126 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (formEmail) {
 
-        formEmail.addEventListener('submit', async function(e) {
+        formEmail.addEventListener(
+            'submit',
+            async function(e) {
 
-            e.preventDefault();
+                e.preventDefault();
 
-            const submitBtn =
-                document.getElementById('submitEmailBtn');
-
-            if (!submitBtn) {
-                return;
-            }
-
-            const originalText =
-                submitBtn.innerHTML;
-
-            submitBtn.disabled = true;
-
-            submitBtn.innerHTML =
-                '<i class="fas fa-spinner fa-spin mr-1"></i> Envoi en cours...';
-
-
-            try {
-
-                const formData =
-                    new FormData(formEmail);
-
-
-                const response =
-                    await fetch(formEmail.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    });
-
-
-                const contentType =
-                    response.headers.get('content-type') || '';
-
-
-                if (!contentType.includes('application/json')) {
-                    throw new Error('Réponse serveur invalide.');
-                }
-
-
-                const data =
-                    await response.json();
-
-
-                fermerModalEmail();
-
-
-                if (response.ok && data.status === 'success') {
-
-                    showToast(
-                        data.message ||
-                        'E-mail envoyé avec succès.',
-                        'success'
+                const submitBtn =
+                    document.getElementById(
+                        'submitEmailBtn'
                     );
 
-                    formEmail.reset();
+                if (!submitBtn) {
+                    return;
+                }
 
-                } else {
+                const originalText =
+                    submitBtn.innerHTML;
+
+                submitBtn.disabled = true;
+
+                submitBtn.innerHTML =
+                    '<i class="fas fa-spinner fa-spin mr-1"></i> Envoi en cours...';
+
+
+                try {
+
+                    const formData =
+                        new FormData(formEmail);
+
+
+                    const response =
+                        await fetch(
+                            formEmail.action,
+                            {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-Requested-With':
+                                        'XMLHttpRequest'
+                                }
+                            }
+                        );
+
+
+                    const contentType =
+                        response.headers.get(
+                            'content-type'
+                        ) || '';
+
+
+                    if (
+                        !contentType.includes(
+                            'application/json'
+                        )
+                    ) {
+                        throw new Error(
+                            'Réponse serveur invalide.'
+                        );
+                    }
+
+
+                    const data =
+                        await response.json();
+
+
+                    fermerModalEmail();
+
+
+                    if (
+                        response.ok &&
+                        data.status === 'success'
+                    ) {
+
+                        showToast(
+                            data.message ||
+                            'E-mail envoyé avec succès.',
+                            'success'
+                        );
+
+                        formEmail.reset();
+
+                    } else {
+
+                        showToast(
+                            data.message ||
+                            "Une erreur est survenue lors de l'envoi.",
+                            'error'
+                        );
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        'Erreur AJAX e-mail :',
+                        error
+                    );
+
+
+                    fermerModalEmail();
+
 
                     showToast(
-                        data.message ||
-                        "Une erreur est survenue lors de l'envoi.",
+                        'Impossible de contacter le serveur.',
                         'error'
                     );
 
+
+                } finally {
+
+                    submitBtn.disabled = false;
+
+                    submitBtn.innerHTML =
+                        originalText;
+
                 }
 
-
-            } catch (error) {
-
-                console.error(
-                    'Erreur AJAX e-mail :',
-                    error
-                );
-
-
-                fermerModalEmail();
-
-
-                showToast(
-                    'Impossible de contacter le serveur.',
-                    'error'
-                );
-
-
-            } finally {
-
-                submitBtn.disabled = false;
-
-                submitBtn.innerHTML = originalText;
-
             }
-
-        });
+        );
 
     }
 
@@ -1656,34 +2121,42 @@ document.addEventListener('DOMContentLoaded', () => {
        FERMETURE PAR CLIC SUR L'ARRIÈRE-PLAN
        ========================================================= */
 
-    document.querySelectorAll('.supplier-modal').forEach(modal => {
+    document
+        .querySelectorAll('.supplier-modal')
+        .forEach(modal => {
 
-        modal.addEventListener('click', function(event) {
+            modal.addEventListener(
+                'click',
+                function(event) {
 
-            if (event.target === modal) {
+                    if (
+                        event.target === modal
+                    ) {
 
-                fermerToutesLesModales();
+                        fermerToutesLesModales();
 
-            }
+                    }
+
+                }
+            );
 
         });
-
-    });
 
 
     /* =========================================================
        TOUCHE ÉCHAP
        ========================================================= */
 
-    document.addEventListener('keydown', function(event) {
+    document.addEventListener(
+        'keydown',
+        function(event) {
 
-        if (event.key === 'Escape') {
-
-            fermerToutesLesModales();
+            if (event.key === 'Escape') {
+                fermerToutesLesModales();
+            }
 
         }
-
-    });
+    );
 
 });
 
@@ -1720,6 +2193,7 @@ function fermerToutesLesModales() {
         'modalEmail'
     ];
 
+
     modals.forEach(id => {
 
         const modal =
@@ -1731,6 +2205,7 @@ function fermerToutesLesModales() {
 
     });
 
+
     document.body.style.overflow = '';
 
 }
@@ -1740,22 +2215,38 @@ function fermerToutesLesModales() {
    SYSTÈME DE NOTIFICATION TOAST
    ============================================================= */
 
-function showToast(message, type = 'success') {
+function showToast(
+    message,
+    type = 'success'
+) {
 
     const toast =
-        document.getElementById('toastNotification');
+        document.getElementById(
+            'toastNotification'
+        );
 
     const content =
-        document.getElementById('toastContent');
+        document.getElementById(
+            'toastContent'
+        );
 
     const icon =
-        document.getElementById('toastIcon');
+        document.getElementById(
+            'toastIcon'
+        );
 
     const text =
-        document.getElementById('toastMessage');
+        document.getElementById(
+            'toastMessage'
+        );
 
 
-    if (!toast || !content || !icon || !text) {
+    if (
+        !toast ||
+        !content ||
+        !icon ||
+        !text
+    ) {
         return;
     }
 
@@ -1819,7 +2310,9 @@ function showToast(message, type = 'success') {
 function fermerModalFournisseur() {
 
     const modal =
-        document.getElementById('supplierModal');
+        document.getElementById(
+            'supplierModal'
+        );
 
     if (modal) {
         modal.classList.add('hidden');
@@ -1867,7 +2360,9 @@ function ouvrirModalConnexionFournisseur(
     }
 
 
-    fermerAutresModales('modalConnexionFournisseur');
+    fermerAutresModales(
+        'modalConnexionFournisseur'
+    );
 
 
     if (modal) {
@@ -1888,7 +2383,7 @@ function ouvrirModalConnexionFournisseur(
                 password.focus();
             }
 
-        }, 100);
+        }, 180);
 
     }
 
@@ -1974,7 +2469,9 @@ function ouvrirModalEmail(
     }
 
 
-    fermerAutresModales('modalEmail');
+    fermerAutresModales(
+        'modalEmail'
+    );
 
 
     if (modal) {
@@ -1995,7 +2492,7 @@ function ouvrirModalEmail(
                 subject.focus();
             }
 
-        }, 100);
+        }, 180);
 
     }
 
@@ -2009,7 +2506,9 @@ function ouvrirModalEmail(
 function fermerModalEmail() {
 
     const modal =
-        document.getElementById('modalEmail');
+        document.getElementById(
+            'modalEmail'
+        );
 
     if (modal) {
         modal.classList.add('hidden');
@@ -2024,7 +2523,9 @@ function fermerModalEmail() {
    FERMER LES AUTRES MODALES
    ============================================================= */
 
-function fermerAutresModales(exceptionId) {
+function fermerAutresModales(
+    exceptionId
+) {
 
     const modalIds = [
         'supplierModal',
@@ -2051,6 +2552,7 @@ function fermerAutresModales(exceptionId) {
     });
 
 }
+
 </script>
 
 {% endblock %}

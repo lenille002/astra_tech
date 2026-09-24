@@ -8,9 +8,11 @@ Astra Tech - Gestion des Stocks
 
 {% block css %}
 
-<!-- Script d’initialisation immédiate du mode nuit global -->
+<!-- =========================================================
+     INITIALISATION DU MODE NUIT
+========================================================= -->
 <script>
-    (function() {
+    (function () {
         const savedDarkMode = localStorage.getItem('astra_dark_mode');
 
         if (savedDarkMode === 'true') {
@@ -29,7 +31,7 @@ Astra Tech - Gestion des Stocks
 <style>
 
     /* =========================================================
-       MOBILE FIRST - BASE
+       RESET / BASE
     ========================================================= */
 
     *,
@@ -51,12 +53,30 @@ Astra Tech - Gestion des Stocks
         min-width: 0;
     }
 
+    /* =========================================================
+       PAGE - ANIMATION PRINCIPALE
+    ========================================================= */
+
     .stock-page {
         width: 100%;
         max-width: 100%;
         min-width: 0;
         padding: 14px 10px 30px;
         overflow-x: hidden;
+
+        animation: stockPageReveal 0.7s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    @keyframes stockPageReveal {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .stock-container {
@@ -77,6 +97,20 @@ Astra Tech - Gestion des Stocks
         align-items: stretch;
         gap: 14px;
         margin-bottom: 18px;
+
+        animation: stockHeaderReveal 0.65s 0.05s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    @keyframes stockHeaderReveal {
+        from {
+            opacity: 0;
+            transform: translateY(-12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .stock-title h1 {
@@ -84,6 +118,31 @@ Astra Tech - Gestion des Stocks
         font-size: clamp(1.45rem, 6vw, 2.3rem);
         line-height: 1.2;
         word-break: break-word;
+    }
+
+    .stock-title h1 span {
+        display: inline-block;
+        animation: stockTitleText 0.6s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    .stock-title h1 span:first-child {
+        animation-delay: 0.12s;
+    }
+
+    .stock-title h1 span:last-child {
+        animation-delay: 0.2s;
+    }
+
+    @keyframes stockTitleText {
+        from {
+            opacity: 0;
+            transform: translateX(-12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
 
     .stock-title > div {
@@ -96,6 +155,66 @@ Astra Tech - Gestion des Stocks
         justify-content: center;
         white-space: nowrap;
         touch-action: manipulation;
+
+        position: relative;
+        overflow: hidden;
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            background-color 0.25s ease;
+
+        animation: stockButtonReveal 0.7s 0.18s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    @keyframes stockButtonReveal {
+        from {
+            opacity: 0;
+            transform: scale(0.92);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .stock-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -120%;
+        width: 70%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.28),
+            transparent
+        );
+        transform: skewX(-20deg);
+        transition: left 0.55s ease;
+    }
+
+    .stock-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(0, 78, 140, 0.22);
+    }
+
+    .stock-btn:hover::before {
+        left: 130%;
+    }
+
+    .stock-btn:active {
+        transform: translateY(-1px) scale(.98);
+    }
+
+    .stock-btn i {
+        transition: transform 0.3s ease;
+    }
+
+    .stock-btn:hover i {
+        transform: rotate(90deg) scale(1.1);
     }
 
     /* =========================================================
@@ -112,16 +231,62 @@ Astra Tech - Gestion des Stocks
         align-items: flex-start !important;
 
         gap: 10px !important;
-
         padding: 13px 14px !important;
         margin-bottom: 18px !important;
 
         overflow-wrap: anywhere;
+
+        animation: stockInfoReveal 0.7s 0.2s cubic-bezier(.22, 1, .36, 1) both;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease,
+            border-left-width 0.3s ease;
+    }
+
+    @keyframes stockInfoReveal {
+        from {
+            opacity: 0;
+            transform: translateY(15px) scale(.98);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .stock-page .stock-container > div[style*="border-left"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 78, 140, .10) !important;
+        border-left-width: 6px !important;
     }
 
     .stock-page .stock-container > div[style*="border-left"] > div:first-child {
         flex: 0 0 auto;
         font-size: 1.35rem !important;
+
+        animation: stockLinkIcon 0.8s 0.35s ease both;
+    }
+
+    @keyframes stockLinkIcon {
+        from {
+            opacity: 0;
+            transform: scale(.5) rotate(-20deg);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1) rotate(0);
+        }
+    }
+
+    .stock-page .stock-container > div[style*="border-left"] > div:first-child i {
+        transition: transform 0.4s ease;
+    }
+
+    .stock-page .stock-container > div[style*="border-left"]:hover > div:first-child i {
+        transform: rotate(12deg) scale(1.12);
     }
 
     .stock-page .stock-container > div[style*="border-left"] > div:last-child {
@@ -136,6 +301,10 @@ Astra Tech - Gestion des Stocks
     #dynamic-available-count {
         margin-top: 4px;
         font-size: 0.85rem !important;
+
+        transition:
+            color 0.3s ease,
+            transform 0.3s ease;
     }
 
     /* =========================================================
@@ -155,21 +324,95 @@ Astra Tech - Gestion des Stocks
         min-width: 0;
         padding: 16px !important;
         overflow: hidden;
+
+        position: relative;
+
+        animation: statCardReveal 0.6s cubic-bezier(.22, 1, .36, 1) both;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease,
+            border-color 0.3s ease;
+    }
+
+    .stat-card:nth-child(1) {
+        animation-delay: .25s;
+    }
+
+    .stat-card:nth-child(2) {
+        animation-delay: .32s;
+    }
+
+    .stat-card:nth-child(3) {
+        animation-delay: .39s;
+    }
+
+    @keyframes statCardReveal {
+        from {
+            opacity: 0;
+            transform: translateY(18px) scale(.96);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .stat-card::after {
+        content: "";
+        position: absolute;
+        width: 90px;
+        height: 90px;
+        right: -35px;
+        top: -35px;
+        border-radius: 50%;
+        background: rgba(0, 78, 140, .05);
+        pointer-events: none;
+        transition: transform .4s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0,0,0,.09);
+    }
+
+    .stat-card:hover::after {
+        transform: scale(1.35);
     }
 
     .stat-card h3 {
         font-size: 0.9rem;
         line-height: 1.4;
+        position: relative;
+        z-index: 1;
     }
 
     .stat-card p {
         font-size: 1.35rem;
         line-height: 1.3;
         overflow-wrap: anywhere;
+
+        position: relative;
+        z-index: 1;
+
+        animation: statNumberReveal .8s .45s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    @keyframes statNumberReveal {
+        from {
+            opacity: 0;
+            transform: scale(.75);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
 
     /* =========================================================
-       CARTE DU TABLEAU
+       CARTE TABLEAU
     ========================================================= */
 
     .card-stock {
@@ -177,6 +420,28 @@ Astra Tech - Gestion des Stocks
         max-width: 100%;
         min-width: 0;
         overflow: hidden;
+
+        animation: stockTableReveal .75s .42s cubic-bezier(.22, 1, .36, 1) both;
+
+        transition:
+            box-shadow .35s ease,
+            transform .35s ease;
+    }
+
+    @keyframes stockTableReveal {
+        from {
+            opacity: 0;
+            transform: translateY(22px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .card-stock:hover {
+        box-shadow: 0 14px 32px rgba(0,0,0,.08);
     }
 
     /* =========================================================
@@ -189,6 +454,20 @@ Astra Tech - Gestion des Stocks
         flex-direction: column;
         gap: 10px;
         padding: 14px !important;
+
+        animation: searchZoneReveal .6s .5s ease both;
+    }
+
+    @keyframes searchZoneReveal {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .search-zone input,
@@ -196,22 +475,28 @@ Astra Tech - Gestion des Stocks
         width: 100% !important;
         max-width: 100%;
         min-width: 0;
-
         min-height: 44px;
-
         font-size: 0.9rem;
-
         padding: 10px 12px !important;
-
         border-radius: 7px;
+
+        transition:
+            border-color .25s ease,
+            box-shadow .25s ease,
+            transform .25s ease,
+            background-color .25s ease;
+    }
+
+    .search-zone input:focus,
+    .search-zone select:focus {
+        outline: none;
+        transform: translateY(-1px);
+        border-color: #0078D7 !important;
+        box-shadow: 0 0 0 3px rgba(0,120,215,.12);
     }
 
     /* =========================================================
        TABLEAU
-       
-       IMPORTANT :
-       On conserve une largeur minimale.
-       Le tableau défile horizontalement sur mobile.
     ========================================================= */
 
     .table-responsive {
@@ -223,16 +508,37 @@ Astra Tech - Gestion des Stocks
         overflow-y: hidden;
 
         -webkit-overflow-scrolling: touch;
-
         scrollbar-width: thin;
     }
 
     .table-responsive table {
         width: 100%;
         min-width: 850px;
-
         border-collapse: collapse;
         table-layout: auto;
+    }
+
+    .table-responsive thead {
+        position: relative;
+    }
+
+    .table-responsive thead::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+
+        background: linear-gradient(
+            90deg,
+            transparent,
+            #FF8C00,
+            #0078D7,
+            transparent
+        );
+
+        opacity: .65;
     }
 
     .table-responsive th,
@@ -244,6 +550,29 @@ Astra Tech - Gestion des Stocks
     .table-responsive th {
         padding: 11px 10px !important;
         font-size: 0.78rem;
+
+        animation: tableHeaderReveal .45s ease both;
+    }
+
+    .table-responsive th:nth-child(1) { animation-delay: .55s; }
+    .table-responsive th:nth-child(2) { animation-delay: .58s; }
+    .table-responsive th:nth-child(3) { animation-delay: .61s; }
+    .table-responsive th:nth-child(4) { animation-delay: .64s; }
+    .table-responsive th:nth-child(5) { animation-delay: .67s; }
+    .table-responsive th:nth-child(6) { animation-delay: .70s; }
+    .table-responsive th:nth-child(7) { animation-delay: .73s; }
+    .table-responsive th:nth-child(8) { animation-delay: .76s; }
+
+    @keyframes tableHeaderReveal {
+        from {
+            opacity: 0;
+            transform: translateY(-7px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .table-responsive td {
@@ -251,8 +580,46 @@ Astra Tech - Gestion des Stocks
         font-size: 0.78rem;
     }
 
+    .table-responsive tbody tr {
+        animation: stockRowReveal .5s cubic-bezier(.22, 1, .36, 1) both;
+
+        transition:
+            background-color .25s ease,
+            box-shadow .25s ease;
+    }
+
+    .table-responsive tbody tr:nth-child(1) { animation-delay: .55s; }
+    .table-responsive tbody tr:nth-child(2) { animation-delay: .60s; }
+    .table-responsive tbody tr:nth-child(3) { animation-delay: .65s; }
+    .table-responsive tbody tr:nth-child(4) { animation-delay: .70s; }
+    .table-responsive tbody tr:nth-child(5) { animation-delay: .75s; }
+    .table-responsive tbody tr:nth-child(6) { animation-delay: .80s; }
+    .table-responsive tbody tr:nth-child(7) { animation-delay: .85s; }
+    .table-responsive tbody tr:nth-child(8) { animation-delay: .90s; }
+    .table-responsive tbody tr:nth-child(9) { animation-delay: .95s; }
+    .table-responsive tbody tr:nth-child(10) { animation-delay: 1s; }
+    .table-responsive tbody tr:nth-child(11) { animation-delay: 1.05s; }
+    .table-responsive tbody tr:nth-child(12) { animation-delay: 1.10s; }
+
+    @keyframes stockRowReveal {
+        from {
+            opacity: 0;
+            transform: translateY(9px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .table-responsive tbody tr:hover {
+        background: #f8fbff !important;
+        box-shadow: inset 4px 0 0 #FF8C00;
+    }
+
     /* =========================================================
-       ACTIONS DU TABLEAU
+       ACTIONS
     ========================================================= */
 
     .action-btns {
@@ -273,6 +640,65 @@ Astra Tech - Gestion des Stocks
         justify-content: center;
 
         touch-action: manipulation;
+
+        transition:
+            transform .22s ease,
+            box-shadow .22s ease,
+            background-color .22s ease,
+            color .22s ease;
+    }
+
+    .action-btns button:hover {
+        transform: translateY(-3px) scale(1.06);
+        box-shadow: 0 7px 14px rgba(0,0,0,.12);
+    }
+
+    .action-btns button:active {
+        transform: scale(.94);
+    }
+
+    .action-btns button i {
+        transition: transform .25s ease;
+    }
+
+    .action-btns button:hover i {
+        transform: scale(1.12);
+    }
+
+    .view-btn:hover i {
+        animation: eyePulse .55s ease;
+    }
+
+    @keyframes eyePulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.25);
+        }
+    }
+
+    .edit-btn:hover i {
+        transform: rotate(-8deg) scale(1.15);
+    }
+
+    .delete-btn:hover i {
+        animation: trashShake .35s ease;
+    }
+
+    @keyframes trashShake {
+        0%, 100% {
+            transform: rotate(0);
+        }
+
+        25% {
+            transform: rotate(-8deg);
+        }
+
+        75% {
+            transform: rotate(8deg);
+        }
     }
 
     /* =========================================================
@@ -283,6 +709,19 @@ Astra Tech - Gestion des Stocks
     .status-faible,
     .status-disponible {
         white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease;
+    }
+
+    .status-rupture:hover,
+    .status-faible:hover,
+    .status-disponible:hover {
+        transform: translateY(-1px);
     }
 
     /* =========================================================
@@ -293,19 +732,65 @@ Astra Tech - Gestion des Stocks
         padding: 10px !important;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+
+        backdrop-filter: blur(4px);
+        animation: modalOverlayIn .25s ease both;
+    }
+
+    @keyframes modalOverlayIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
     }
 
     .modal-content {
         width: calc(100vw - 20px) !important;
         max-width: 450px !important;
-
         max-height: calc(100vh - 20px);
+
         overflow-y: auto;
 
         padding: 18px !important;
         margin: auto;
 
         border-radius: 12px !important;
+
+        animation: modalCardIn .38s cubic-bezier(.22, 1, .36, 1) both;
+
+        transform-origin: center;
+    }
+
+    @keyframes modalCardIn {
+        from {
+            opacity: 0;
+            transform: translateY(24px) scale(.94);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .modal-content h2,
+    .modal-content h3 {
+        animation: modalTitleReveal .4s .08s ease both;
+    }
+
+    @keyframes modalTitleReveal {
+        from {
+            opacity: 0;
+            transform: translateX(-8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
 
     /* =========================================================
@@ -323,6 +808,20 @@ Astra Tech - Gestion des Stocks
         gap: 7px !important;
     }
 
+    #view-product-modal h2 i {
+        animation: infoIconPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes infoIconPulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.12);
+        }
+    }
+
     #view-product-modal .modal-content > div {
         font-size: 0.85rem !important;
     }
@@ -330,11 +829,66 @@ Astra Tech - Gestion des Stocks
     #view-product-modal .modal-content > div > div {
         line-height: 1.5;
         overflow-wrap: anywhere;
+
+        animation: detailLineReveal .35s ease both;
+    }
+
+    #view-product-modal .modal-content > div > div:nth-child(1) {
+        animation-delay: .12s;
+    }
+
+    #view-product-modal .modal-content > div > div:nth-child(2) {
+        animation-delay: .16s;
+    }
+
+    #view-product-modal .modal-content > div > div:nth-child(3) {
+        animation-delay: .20s;
+    }
+
+    #view-product-modal .modal-content > div > div:nth-child(4) {
+        animation-delay: .24s;
+    }
+
+    #view-product-modal .modal-content > div > div:nth-child(5) {
+        animation-delay: .28s;
+    }
+
+    #view-product-modal .modal-content > div > div:nth-child(6) {
+        animation-delay: .32s;
+    }
+
+    #view-product-modal .modal-content > div > div:nth-child(7) {
+        animation-delay: .36s;
+    }
+
+    #view-product-modal .modal-content > div > div:nth-child(8) {
+        animation-delay: .40s;
+    }
+
+    @keyframes detailLineReveal {
+        from {
+            opacity: 0;
+            transform: translateX(-7px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
 
     #close-view-modal {
         width: 100%;
         min-height: 44px;
+
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease;
+    }
+
+    #close-view-modal:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(0,78,140,.20);
     }
 
     /* =========================================================
@@ -350,6 +904,42 @@ Astra Tech - Gestion des Stocks
         width: 100%;
     }
 
+    #product-modal form > div {
+        animation: formFieldReveal .4s ease both;
+    }
+
+    #product-modal form > div:nth-of-type(1) {
+        animation-delay: .10s;
+    }
+
+    #product-modal form > div:nth-of-type(2) {
+        animation-delay: .15s;
+    }
+
+    #product-modal form > div:nth-of-type(3) {
+        animation-delay: .20s;
+    }
+
+    #product-modal form > div:nth-of-type(4) {
+        animation-delay: .25s;
+    }
+
+    #product-modal form > div:nth-of-type(5) {
+        animation-delay: .30s;
+    }
+
+    @keyframes formFieldReveal {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
     #product-modal label {
         display: block;
         line-height: 1.4;
@@ -359,8 +949,20 @@ Astra Tech - Gestion des Stocks
     #product-modal select {
         width: 100% !important;
         min-height: 44px;
-
         font-size: 0.9rem;
+
+        transition:
+            border-color .25s ease,
+            box-shadow .25s ease,
+            transform .25s ease;
+    }
+
+    #product-modal input:focus,
+    #product-modal select:focus {
+        outline: none;
+        transform: translateY(-1px);
+        border-color: #0078D7 !important;
+        box-shadow: 0 0 0 3px rgba(0,120,215,.12);
     }
 
     #product-modal form > div:last-child {
@@ -373,6 +975,15 @@ Astra Tech - Gestion des Stocks
     #product-modal form > div:last-child button {
         width: 100%;
         min-height: 44px;
+
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease;
+    }
+
+    #product-modal form > div:last-child button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 7px 16px rgba(0,0,0,.12);
     }
 
     /* =========================================================
@@ -386,7 +997,6 @@ Astra Tech - Gestion des Stocks
     #notification-modal .modal-content {
         width: calc(100vw - 20px) !important;
         max-width: 350px !important;
-
         padding: 20px !important;
     }
 
@@ -394,13 +1004,29 @@ Astra Tech - Gestion des Stocks
         font-size: 2.2rem !important;
     }
 
+    #notif-icon i {
+        animation: notificationIcon .55s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    @keyframes notificationIcon {
+        from {
+            opacity: 0;
+            transform: scale(.5) rotate(-15deg);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1) rotate(0);
+        }
+    }
+
     #notif-title {
-        font-size: 1.1rem !important;
+        font-size: 1.1rem;
         line-height: 1.4;
     }
 
     #notif-message {
-        font-size: 0.85rem !important;
+        font-size: 0.85rem;
         line-height: 1.5;
         overflow-wrap: anywhere;
     }
@@ -408,6 +1034,15 @@ Astra Tech - Gestion des Stocks
     #close-notif-btn {
         width: 100%;
         min-height: 44px;
+
+        transition:
+            transform .25s ease,
+            box-shadow .25s ease;
+    }
+
+    #close-notif-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(0,78,140,.20);
     }
 
     /* =========================================================
@@ -427,10 +1062,22 @@ Astra Tech - Gestion des Stocks
         color: #dbeafe !important;
     }
 
+    html.dark .stock-page .stock-container > div[style*="border-left"]:hover {
+        box-shadow: 0 10px 24px rgba(0,0,0,.30) !important;
+    }
+
     html.dark .card-stock,
     html.dark .stat-card {
         background-color: #1e293b;
         border-color: #334155;
+    }
+
+    html.dark .stat-card::after {
+        background: rgba(59,130,246,.08);
+    }
+
+    html.dark .stat-card:hover {
+        box-shadow: 0 12px 28px rgba(0,0,0,.28);
     }
 
     html.dark .search-zone input,
@@ -440,8 +1087,19 @@ Astra Tech - Gestion des Stocks
         border-color: #475569 !important;
     }
 
+    html.dark .search-zone input:focus,
+    html.dark .search-zone select:focus {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+    }
+
     html.dark .table-responsive {
         background-color: #1e293b;
+    }
+
+    html.dark .table-responsive tbody tr:hover {
+        background: #243449 !important;
+        box-shadow: inset 4px 0 0 #FF8C00;
     }
 
     html.dark .modal-content {
@@ -726,6 +1384,7 @@ Astra Tech - Gestion des Stocks
             </h1>
 
             <div>
+
                 <button
                     class="stock-btn btn-add"
                     id="add-product-btn"
@@ -735,6 +1394,7 @@ Astra Tech - Gestion des Stocks
                     Ajouter
 
                 </button>
+
             </div>
 
         </div>
@@ -774,7 +1434,9 @@ Astra Tech - Gestion des Stocks
                         font-weight: normal;
                         color: #333;
                     ">
+
                         Chaque vente diminue automatiquement le stock dans la page Stocks.
+
                     </span>
 
                 </div>
@@ -920,9 +1582,13 @@ Astra Tech - Gestion des Stocks
                             <td>
 
                                 {% if produit.categorie %}
+
                                     {{ produit.categorie.nom }}
+
                                 {% else %}
+
                                     Non catégorisé
+
                                 {% endif %}
 
                             </td>
@@ -1163,10 +1829,12 @@ Astra Tech - Gestion des Stocks
 
             <div>
                 <strong>Statut :</strong>
+
                 <span
                     id="view-status"
                     style="font-weight: bold;">
                 </span>
+
             </div>
 
         </div>
@@ -1574,7 +2242,7 @@ Astra Tech - Gestion des Stocks
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
     const urlAjouter = "{% url 'astra:ajouter_produit' %}";
 
@@ -1689,9 +2357,9 @@ document.addEventListener("DOMContentLoaded", function() {
     ===================================================== */
 
     document.querySelectorAll(".view-btn")
-        .forEach(function(btn) {
+        .forEach(function (btn) {
 
-            btn.addEventListener("click", function() {
+            btn.addEventListener("click", function () {
 
                 document.getElementById("view-ref").innerText =
                     btn.getAttribute("data-ref");
@@ -1758,7 +2426,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         closeViewBtn.addEventListener(
             "click",
-            function() {
+            function () {
 
                 viewModal.style.display = "none";
 
@@ -1832,14 +2500,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
         closeNotifBtn.onclick =
-            function() {
+            function () {
 
                 notifModal.style.display = "none";
 
                 if (isSuccess) {
-
                     location.reload();
-
                 }
 
             };
@@ -1855,16 +2521,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
         addBtn.addEventListener(
             "click",
-            function() {
+            function () {
 
                 modalTitle.innerText =
                     "Ajouter un produit";
 
                 productForm.reset();
 
+
                 document.getElementById(
                     "product-id"
                 ).value = "";
+
 
                 modal.style.display = "flex";
 
@@ -1882,7 +2550,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         closeBtn.addEventListener(
             "click",
-            function() {
+            function () {
 
                 modal.style.display = "none";
 
@@ -1900,7 +2568,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         productForm.addEventListener(
             "submit",
-            function(e) {
+            function (e) {
 
                 e.preventDefault();
 
@@ -1951,6 +2619,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                 data => ({
                                     status:
                                         response.status,
+
                                     body:
                                         data
                                 })
@@ -2008,11 +2677,11 @@ document.addEventListener("DOMContentLoaded", function() {
     ===================================================== */
 
     document.querySelectorAll(".edit-btn")
-        .forEach(function(btn) {
+        .forEach(function (btn) {
 
             btn.addEventListener(
                 "click",
-                function() {
+                function () {
 
                     modalTitle.innerText =
                         "Modifier le produit";
@@ -2079,11 +2748,11 @@ document.addEventListener("DOMContentLoaded", function() {
     ===================================================== */
 
     document.querySelectorAll(".delete-btn")
-        .forEach(function(btn) {
+        .forEach(function (btn) {
 
             btn.addEventListener(
                 "click",
-                function() {
+                function () {
 
                     const productId =
                         btn.getAttribute(
@@ -2186,7 +2855,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         searchInput.addEventListener(
             "keyup",
-            function(e) {
+            function (e) {
 
                 const term =
                     e.target.value.toLowerCase();
@@ -2238,7 +2907,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         filterCategory.addEventListener(
             "change",
-            function(e) {
+            function (e) {
 
                 const selectedCat =
                     e.target.value.toLowerCase();
@@ -2289,6 +2958,59 @@ document.addEventListener("DOMContentLoaded", function() {
         );
 
     }
+
+
+    /* =====================================================
+       FERMETURE DES MODALES AVEC ÉCHAP
+    ===================================================== */
+
+    document.addEventListener("keydown", function (event) {
+
+        if (event.key === "Escape") {
+
+            if (modal) {
+                modal.style.display = "none";
+            }
+
+            if (viewModal) {
+                viewModal.style.display = "none";
+            }
+
+            const notificationModal =
+                document.getElementById("notification-modal");
+
+            if (notificationModal) {
+                notificationModal.style.display = "none";
+            }
+
+        }
+
+    });
+
+
+    /* =====================================================
+       FERMETURE EN CLIQUANT SUR L'ARRIÈRE-PLAN
+    ===================================================== */
+
+    [modal, viewModal].forEach(function (currentModal) {
+
+        if (!currentModal) return;
+
+        currentModal.addEventListener(
+            "click",
+            function (event) {
+
+                if (event.target === currentModal) {
+
+                    currentModal.style.display = "none";
+
+                }
+
+            }
+        );
+
+    });
+
 
 });
 

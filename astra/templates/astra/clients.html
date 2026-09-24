@@ -34,6 +34,7 @@
         width: 100%;
         max-width: 100%;
         overflow-x: hidden;
+        scroll-behavior: smooth;
     }
 
     body,
@@ -45,7 +46,151 @@
 
 
     /* =========================================================
-       CONTENEUR PRINCIPAL — MOBILE
+       ANIMATIONS ASTRA TECH
+       ========================================================= */
+
+    @keyframes astraPageReveal {
+        0% {
+            opacity: 0;
+            transform: translateY(22px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes astraHeaderReveal {
+        0% {
+            opacity: 0;
+            transform: translateY(-18px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes astraCardReveal {
+        0% {
+            opacity: 0;
+            transform: translateY(25px) scale(0.96);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes astraContentReveal {
+        0% {
+            opacity: 0;
+            transform: translateY(28px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes astraRowReveal {
+        0% {
+            opacity: 0;
+            transform: translateX(-12px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes astraModalBackdrop {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes astraModalReveal {
+        0% {
+            opacity: 0;
+            transform: translateY(30px) scale(0.94);
+        }
+
+        70% {
+            transform: translateY(-3px) scale(1.01);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes astraButtonShine {
+        0% {
+            left: -120%;
+        }
+
+        100% {
+            left: 130%;
+        }
+    }
+
+    @keyframes astraIconFloat {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-3px);
+        }
+    }
+
+    @keyframes astraSearchPulse {
+        0%,
+        100% {
+            transform: translateY(-50%) scale(1);
+        }
+
+        50% {
+            transform: translateY(-50%) scale(1.08);
+        }
+    }
+
+    @keyframes astraLockPulse {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.12);
+        }
+    }
+
+    @keyframes astraUnderline {
+        0% {
+            width: 0;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+
+
+    /* =========================================================
+       CONTENEUR PRINCIPAL
        ========================================================= */
 
     .astra-clients-wrapper,
@@ -63,11 +208,13 @@
         display: block !important;
 
         background-color: transparent !important;
+
+        animation: astraPageReveal 0.65s ease-out both;
     }
 
 
     /* =========================================================
-       EN-TÊTE — MOBILE
+       EN-TÊTE
        ========================================================= */
 
     .astra-header-bar {
@@ -79,6 +226,8 @@
 
         gap: 15px !important;
         margin-bottom: 22px !important;
+
+        animation: astraHeaderReveal 0.7s ease-out 0.08s both;
     }
 
     .astra-title {
@@ -93,10 +242,16 @@
         font-weight: 800 !important;
 
         overflow-wrap: anywhere;
+
+        letter-spacing: -0.4px;
     }
 
     .astra-title span {
         color: #4338ca !important;
+
+        display: inline-block;
+
+        animation: astraIconFloat 3s ease-in-out infinite;
     }
 
     .astra-header-bar > div {
@@ -119,14 +274,26 @@
         padding: 8px 10px !important;
 
         overflow-wrap: anywhere;
+
+        transition:
+            color 0.25s ease,
+            transform 0.25s ease;
+    }
+
+    .astra-header-bar > div > a:hover {
+        color: #f97316 !important;
+        transform: translateY(-2px);
     }
 
 
     /* =========================================================
-       BOUTON AJOUTER — MOBILE
+       BOUTON AJOUTER
        ========================================================= */
 
     .btn-astra-orange {
+        position: relative !important;
+        overflow: hidden !important;
+
         width: 100% !important;
         min-height: 46px !important;
 
@@ -149,22 +316,70 @@
 
         cursor: pointer !important;
 
-        box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3) !important;
+        box-shadow:
+            0 4px 10px rgba(249, 115, 22, 0.3),
+            0 0 0 rgba(249, 115, 22, 0);
 
         text-decoration: none !important;
 
-        transition: transform 0.2s ease,
-                    background-color 0.2s ease !important;
+        transition:
+            transform 0.25s ease,
+            background-color 0.25s ease,
+            box-shadow 0.25s ease !important;
+    }
+
+    .btn-astra-orange::before {
+        content: "";
+
+        position: absolute;
+
+        top: 0;
+        left: -120%;
+
+        width: 55%;
+        height: 100%;
+
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.35),
+            transparent
+        );
+
+        transform: skewX(-20deg);
+
+        pointer-events: none;
+    }
+
+    .btn-astra-orange:hover::before {
+        animation: astraButtonShine 0.75s ease;
     }
 
     .btn-astra-orange:hover {
-        transform: scale(1.02) !important;
+        transform: translateY(-3px) scale(1.015) !important;
+
         background-color: #ea580c !important;
+
+        box-shadow:
+            0 8px 20px rgba(249, 115, 22, 0.35),
+            0 0 0 4px rgba(249, 115, 22, 0.08);
+    }
+
+    .btn-astra-orange:active {
+        transform: translateY(0) scale(0.98) !important;
+    }
+
+    .btn-astra-orange i {
+        transition: transform 0.25s ease;
+    }
+
+    .btn-astra-orange:hover i {
+        transform: rotate(90deg);
     }
 
 
     /* =========================================================
-       STATISTIQUES — MOBILE
+       STATISTIQUES
        ========================================================= */
 
     .astra-stats-grid {
@@ -179,6 +394,8 @@
     }
 
     .astra-card {
+        position: relative;
+
         width: 100% !important;
         min-width: 0 !important;
         min-height: 100px !important;
@@ -189,24 +406,110 @@
 
         color: white !important;
 
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+        box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.05),
+            0 0 0 rgba(67, 56, 202, 0);
 
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
 
         overflow: hidden;
+
+        animation: astraCardReveal 0.65s ease-out both;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+    .astra-card:nth-child(1) {
+        animation-delay: 0.18s;
+    }
+
+    .astra-card:nth-child(2) {
+        animation-delay: 0.28s;
+    }
+
+    .astra-card:nth-child(3) {
+        animation-delay: 0.38s;
+    }
+
+    .astra-card::before {
+        content: "";
+
+        position: absolute;
+
+        width: 120px;
+        height: 120px;
+
+        right: -35px;
+        top: -45px;
+
+        border-radius: 50%;
+
+        background: rgba(255, 255, 255, 0.08);
+
+        transition:
+            transform 0.4s ease,
+            background 0.4s ease;
+    }
+
+    .astra-card::after {
+        content: "";
+
+        position: absolute;
+
+        width: 70px;
+        height: 70px;
+
+        right: 20px;
+        bottom: -35px;
+
+        border-radius: 50%;
+
+        background: rgba(255, 255, 255, 0.06);
+
+        transition: transform 0.4s ease;
+    }
+
+    .astra-card:hover {
+        transform: translateY(-6px) scale(1.015);
+
+        box-shadow:
+            0 14px 30px rgba(0, 0, 0, 0.12),
+            0 0 0 4px rgba(67, 56, 202, 0.05);
+    }
+
+    .astra-card:hover::before {
+        transform: scale(1.35);
+        background: rgba(255, 255, 255, 0.12);
+    }
+
+    .astra-card:hover::after {
+        transform: scale(1.3);
     }
 
     .astra-card-indigo {
-        background-color: #3730a3 !important;
+        background: linear-gradient(
+            135deg,
+            #3730a3 0%,
+            #4338ca 100%
+        ) !important;
     }
 
     .astra-card-orange {
-        background-color: #f97316 !important;
+        background: linear-gradient(
+            135deg,
+            #f97316 0%,
+            #ea580c 100%
+        ) !important;
     }
 
     .astra-card h3 {
+        position: relative;
+        z-index: 2;
+
         margin: 0 0 7px 0 !important;
 
         color: white !important;
@@ -223,6 +526,9 @@
     }
 
     .astra-card p {
+        position: relative;
+        z-index: 2;
+
         margin: 0 !important;
 
         color: white !important;
@@ -231,11 +537,17 @@
         font-weight: 800 !important;
 
         line-height: 1 !important;
+
+        transition: transform 0.3s ease;
+    }
+
+    .astra-card:hover p {
+        transform: scale(1.06);
     }
 
 
     /* =========================================================
-       BOÎTE PRINCIPALE — MOBILE
+       BOÎTE PRINCIPALE
        ========================================================= */
 
     .astra-content-box {
@@ -249,9 +561,21 @@
         border: 1px solid #e2e8f0 !important;
         border-radius: 15px !important;
 
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+        box-shadow:
+            0 4px 15px rgba(0, 0, 0, 0.05);
 
         overflow: hidden;
+
+        animation: astraContentReveal 0.7s ease-out 0.42s both;
+
+        transition:
+            box-shadow 0.3s ease,
+            border-color 0.3s ease;
+    }
+
+    .astra-content-box:hover {
+        box-shadow:
+            0 10px 28px rgba(0, 0, 0, 0.08);
     }
 
     .astra-content-box > h2 {
@@ -265,7 +589,7 @@
 
 
     /* =========================================================
-       ACTIONS / FILTRES — MOBILE
+       ACTIONS / FILTRES
        ========================================================= */
 
     .astra-top-actions {
@@ -279,6 +603,8 @@
         gap: 14px !important;
 
         margin-bottom: 18px !important;
+
+        animation: astraContentReveal 0.55s ease-out 0.5s both;
     }
 
     .astra-filters-row {
@@ -293,6 +619,8 @@
     }
 
     .btn-filter {
+        position: relative;
+
         width: 100% !important;
         min-height: 42px !important;
 
@@ -316,11 +644,49 @@
 
         line-height: 1.3 !important;
 
+        overflow: hidden;
+
         overflow-wrap: anywhere;
 
         cursor: pointer !important;
 
-        transition: all 0.2s ease !important;
+        transition:
+            all 0.25s ease !important;
+    }
+
+    .btn-filter::after {
+        content: "";
+
+        position: absolute;
+
+        left: 50%;
+        bottom: 0;
+
+        width: 0;
+        height: 2px;
+
+        background: #f97316;
+
+        transform: translateX(-50%);
+
+        transition: width 0.25s ease;
+    }
+
+    .btn-filter:hover {
+        transform: translateY(-2px);
+
+        border-color: #4338ca !important;
+
+        background-color: #eef2ff !important;
+
+        color: #3730a3 !important;
+
+        box-shadow:
+            0 5px 12px rgba(67, 56, 202, 0.12);
+    }
+
+    .btn-filter:hover::after {
+        width: 55%;
     }
 
     .btn-filter.active {
@@ -328,11 +694,18 @@
         color: white !important;
 
         border-color: #3730a3 !important;
+
+        box-shadow:
+            0 5px 14px rgba(55, 48, 163, 0.25);
+    }
+
+    .btn-filter.active::after {
+        width: 65%;
     }
 
 
     /* =========================================================
-       RECHERCHE — MOBILE
+       RECHERCHE
        ========================================================= */
 
     .astra-search-bar-wrapper {
@@ -361,7 +734,11 @@
 
         outline: none !important;
 
-        transition: all 0.2s ease !important;
+        transition:
+            border-color 0.25s ease,
+            background-color 0.25s ease,
+            box-shadow 0.25s ease,
+            transform 0.25s ease !important;
     }
 
     .astra-search-input:focus {
@@ -369,7 +746,11 @@
 
         background-color: #fff !important;
 
-        box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.15) !important;
+        box-shadow:
+            0 0 0 3px rgba(67, 56, 202, 0.15),
+            0 6px 16px rgba(67, 56, 202, 0.08) !important;
+
+        transform: translateY(-1px);
     }
 
     .astra-search-icon {
@@ -383,11 +764,21 @@
         color: #64748b !important;
 
         pointer-events: none !important;
+
+        transition:
+            color 0.25s ease,
+            transform 0.25s ease;
+    }
+
+    .astra-search-bar-wrapper:focus-within .astra-search-icon {
+        color: #4338ca !important;
+
+        animation: astraSearchPulse 1.1s ease-in-out infinite;
     }
 
 
     /* =========================================================
-       TABLEAU — MOBILE
+       TABLEAU
        ========================================================= */
 
     .astra-table-container {
@@ -400,15 +791,13 @@
         -webkit-overflow-scrolling: touch;
 
         scrollbar-width: thin;
+
+        animation: astraContentReveal 0.65s ease-out 0.56s both;
     }
 
     .astra-table {
         width: 100% !important;
 
-        /*
-         * Le tableau garde ses colonnes lisibles.
-         * Le scroll horizontal n'apparaît que sur petit écran.
-         */
         min-width: 850px !important;
 
         border-collapse: collapse !important;
@@ -431,6 +820,8 @@
         letter-spacing: 0.4px !important;
 
         white-space: nowrap !important;
+
+        position: relative;
     }
 
     .astra-table th:first-child {
@@ -451,10 +842,72 @@
         font-size: 0.85rem !important;
 
         white-space: nowrap !important;
+
+        transition:
+            background-color 0.25s ease,
+            color 0.25s ease,
+            box-shadow 0.25s ease;
     }
 
-    .astra-table tbody tr:hover {
+    .astra-table tbody tr.client-row {
+        animation: astraRowReveal 0.45s ease-out both;
+    }
+
+    .astra-table tbody tr.client-row:nth-child(1) {
+        animation-delay: 0.62s;
+    }
+
+    .astra-table tbody tr.client-row:nth-child(2) {
+        animation-delay: 0.68s;
+    }
+
+    .astra-table tbody tr.client-row:nth-child(3) {
+        animation-delay: 0.74s;
+    }
+
+    .astra-table tbody tr.client-row:nth-child(4) {
+        animation-delay: 0.80s;
+    }
+
+    .astra-table tbody tr.client-row:nth-child(5) {
+        animation-delay: 0.86s;
+    }
+
+    .astra-table tbody tr.client-row:nth-child(6) {
+        animation-delay: 0.92s;
+    }
+
+    .astra-table tbody tr.client-row:nth-child(7) {
+        animation-delay: 0.98s;
+    }
+
+    .astra-table tbody tr.client-row:nth-child(8) {
+        animation-delay: 1.04s;
+    }
+
+    .astra-table tbody tr.client-row:nth-child(9) {
+        animation-delay: 1.10s;
+    }
+
+    .astra-table tbody tr.client-row:nth-child(10) {
+        animation-delay: 1.16s;
+    }
+
+    .astra-table tbody tr.client-row:hover {
         background-color: #f8fafc !important;
+    }
+
+    .astra-table tbody tr.client-row:hover td {
+        color: #1e293b !important;
+
+        box-shadow:
+            inset 0 -1px 0 #e2e8f0;
+    }
+
+    .astra-table tbody tr.client-row:hover td:first-child {
+        box-shadow:
+            inset 3px 0 0 #f97316,
+            inset 0 -1px 0 #e2e8f0;
     }
 
 
@@ -477,7 +930,82 @@
 
 
     /* =========================================================
-       MODALES — MOBILE
+       BOUTON ACCÈS CAHIER
+       ========================================================= */
+
+    .client-access-link {
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 6px;
+
+        padding: 7px 12px;
+
+        border-radius: 999px;
+
+        background: #eef2ff;
+
+        color: #3730a3 !important;
+
+        font-size: 0.78rem;
+        font-weight: 700;
+
+        text-decoration: none !important;
+
+        transition:
+            transform 0.25s ease,
+            background-color 0.25s ease,
+            box-shadow 0.25s ease,
+            color 0.25s ease;
+    }
+
+    .client-access-link i {
+        transition: transform 0.25s ease;
+    }
+
+    .client-access-link:hover {
+        transform: translateY(-2px);
+
+        background: #4338ca;
+
+        color: white !important;
+
+        box-shadow:
+            0 6px 14px rgba(67, 56, 202, 0.25);
+    }
+
+    .client-access-link:hover i {
+        animation: astraLockPulse 0.65s ease-in-out;
+    }
+
+
+    /* =========================================================
+       BOUTONS DÉTAILS / ARCHIVER
+       ========================================================= */
+
+    .details-btn,
+    .delete-link {
+        transition:
+            transform 0.2s ease,
+            color 0.2s ease,
+            opacity 0.2s ease;
+    }
+
+    .details-btn:hover {
+        color: #4338ca !important;
+        transform: translateY(-2px);
+    }
+
+    .delete-link:hover {
+        color: #b91c1c !important;
+        transform: translateY(-2px);
+    }
+
+
+    /* =========================================================
+       MODALES
        ========================================================= */
 
     .astra-modal {
@@ -498,10 +1026,21 @@
         overflow-y: auto !important;
 
         z-index: 9999 !important;
+
+        background: rgba(15, 23, 42, 0.58);
+
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+
+        animation: astraModalBackdrop 0.25s ease-out both;
     }
 
     .astra-modal.hidden {
         display: none !important;
+    }
+
+    .astra-modal:not(.hidden) .astra-modal-card {
+        animation: astraModalReveal 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     .astra-modal-card {
@@ -520,7 +1059,9 @@
         border: 1px solid #e2e8f0 !important;
         border-radius: 18px !important;
 
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2) !important;
+        box-shadow:
+            0 25px 70px rgba(0, 0, 0, 0.25),
+            0 0 0 1px rgba(255, 255, 255, 0.1);
 
         color: #1e293b !important;
     }
@@ -558,12 +1099,54 @@
         cursor: pointer !important;
 
         line-height: 1 !important;
+
+        border-radius: 50%;
+
+        transition:
+            transform 0.25s ease,
+            background-color 0.25s ease,
+            color 0.25s ease;
     }
+
+    .close-modal-x:hover {
+        transform: rotate(90deg) scale(1.08);
+
+        background: #f1f5f9 !important;
+
+        color: #dc2626 !important;
+    }
+
+
+    /* =========================================================
+       FORMULAIRE
+       ========================================================= */
 
     .astra-form-group {
         width: 100% !important;
 
         margin-bottom: 14px !important;
+
+        animation: astraContentReveal 0.35s ease-out both;
+    }
+
+    .astra-form-group:nth-child(1) {
+        animation-delay: 0.05s;
+    }
+
+    .astra-form-group:nth-child(2) {
+        animation-delay: 0.09s;
+    }
+
+    .astra-form-group:nth-child(3) {
+        animation-delay: 0.13s;
+    }
+
+    .astra-form-group:nth-child(4) {
+        animation-delay: 0.17s;
+    }
+
+    .astra-form-group:nth-child(5) {
+        animation-delay: 0.21s;
     }
 
     .astra-form-group label {
@@ -594,12 +1177,20 @@
         font-size: 0.9rem !important;
 
         outline: none !important;
+
+        transition:
+            border-color 0.25s ease,
+            box-shadow 0.25s ease,
+            transform 0.25s ease;
     }
 
     .astra-form-group input:focus {
         border-color: #4338ca !important;
 
-        box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.12) !important;
+        box-shadow:
+            0 0 0 3px rgba(67, 56, 202, 0.12) !important;
+
+        transform: translateY(-1px);
     }
 
     .astra-modal-card form > div:last-child {
@@ -856,6 +1447,10 @@
         color: #f1f5f9 !important;
     }
 
+    html.dark .astra-title span {
+        color: #818cf8 !important;
+    }
+
     html.dark .astra-content-box {
         background-color: #1e293b !important;
 
@@ -863,7 +1458,12 @@
 
         color: #f1f5f9 !important;
 
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+        box-shadow:
+            0 4px 15px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    html.dark .astra-content-box > h2 {
+        color: #f1f5f9 !important;
     }
 
     html.dark .astra-table {
@@ -887,6 +1487,10 @@
         background-color: rgba(51, 65, 85, 0.4) !important;
     }
 
+    html.dark .astra-table tbody tr.client-row:hover td {
+        color: #f1f5f9 !important;
+    }
+
     html.dark .astra-search-input {
         background-color: #0f172a !important;
 
@@ -907,12 +1511,27 @@
         color: #cbd5e1 !important;
     }
 
+    html.dark .btn-filter:hover {
+        background-color: #273449 !important;
+        color: #a5b4fc !important;
+    }
+
     html.dark .btn-filter.active {
         background-color: #4338ca !important;
 
         color: white !important;
 
         border-color: #4338ca !important;
+    }
+
+    html.dark .client-access-link {
+        background: #312e81;
+        color: #e0e7ff !important;
+    }
+
+    html.dark .client-access-link:hover {
+        background: #4338ca;
+        color: white !important;
     }
 
     html.dark .astra-modal-card {
@@ -949,6 +1568,39 @@
         color: #cbd5e1 !important;
     }
 
+    html.dark .close-modal-x:hover {
+        background: #334155 !important;
+        color: #f87171 !important;
+    }
+
+
+    /* =========================================================
+       SCROLLBAR
+       ========================================================= */
+
+    .astra-table-container::-webkit-scrollbar,
+    .astra-modal-card::-webkit-scrollbar {
+        height: 7px;
+        width: 7px;
+    }
+
+    .astra-table-container::-webkit-scrollbar-track,
+    .astra-modal-card::-webkit-scrollbar-track {
+        background: #e2e8f0;
+        border-radius: 20px;
+    }
+
+    .astra-table-container::-webkit-scrollbar-thumb,
+    .astra-modal-card::-webkit-scrollbar-thumb {
+        background: #94a3b8;
+        border-radius: 20px;
+    }
+
+    .astra-table-container::-webkit-scrollbar-thumb:hover,
+    .astra-modal-card::-webkit-scrollbar-thumb:hover {
+        background: #4338ca;
+    }
+
 
     /* =========================================================
        RÉDUCTION DES ANIMATIONS
@@ -956,13 +1608,19 @@
 
     @media (prefers-reduced-motion: reduce) {
 
-        .btn-astra-orange,
-        .btn-filter,
-        .astra-search-input {
-            transition: none !important;
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
         }
 
-        .btn-astra-orange:hover {
+        .btn-astra-orange:hover,
+        .btn-filter:hover,
+        .astra-card:hover,
+        .astra-search-input:focus {
             transform: none !important;
         }
     }
@@ -970,6 +1628,7 @@
 </style>
 
 {% endblock %}
+
 
 {% block content %}
 
@@ -1123,9 +1782,11 @@
                     <th>Téléphone</th>
                     <th>Dernier Achat</th>
                     <th>Total dépensé</th>
+
                     <th style="text-align: center;">
                         Cahier Privé
                     </th>
+
                     <th style="text-align: center;">
                         Actions
                     </th>
@@ -1183,11 +1844,16 @@
                     </td>
 
                     <td style="text-align: center;">
-                <a href="{% url 'astra:espace_client' client.id %}"
-   style="...">
-    <i class="fa-solid fa-lock"></i>
-    Accès Cahier
-</a>
+
+                        <a href="{% url 'astra:espace_client' client.id %}"
+                           class="client-access-link">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            Accès Cahier
+
+                        </a>
+
                     </td>
 
                     <td style="text-align: center;
@@ -1276,6 +1942,7 @@
 
 </div>
 
+
 <!-- =========================================================
      MODALE AJOUT DE CLIENT
      ========================================================= -->
@@ -1283,126 +1950,128 @@
 <div id="add-client-modal"
      class="astra-modal hidden">
 
-<div class="astra-modal-card">
+    <div class="astra-modal-card">
 
-    <button type="button"
-            id="close-add-modal-btn"
-            class="close-modal-x">
+        <button type="button"
+                id="close-add-modal-btn"
+                class="close-modal-x">
 
-        &times;
+            &times;
 
-    </button>
-
-
-    <h2 style="font-size: 1.25rem;
-               font-weight: 700;
-               margin-bottom: 20px;
-               color: #1e1b4b;">
-
-        Ajouter un nouveau client
-
-    </h2>
+        </button>
 
 
-    <form method="POST"
-          action="">
+        <h2 style="font-size: 1.25rem;
+                   font-weight: 700;
+                   margin-bottom: 20px;
+                   color: #1e1b4b;">
 
-        {% csrf_token %}
+            Ajouter un nouveau client
 
-
-        <div class="astra-form-group">
-
-            <label for="id_nom">
-                Nom complet *
-            </label>
-
-            <input type="text"
-                   id="id_nom"
-                   name="nom"
-                   required
-                   placeholder="Ex: Jean Dupont">
-
-        </div>
+        </h2>
 
 
-        <div class="astra-form-group">
+        <form method="POST"
+              action="">
 
-            <label for="id_email">
-                Email
-            </label>
-
-            <input type="email"
-                   id="id_email"
-                   name="email"
-                   placeholder="Ex: jean@example.com">
-
-        </div>
+            {% csrf_token %}
 
 
-        <div class="astra-form-group">
+            <div class="astra-form-group">
 
-            <label for="id_telephone">
-                Téléphone *
-            </label>
+                <label for="id_nom">
+                    Nom complet *
+                </label>
 
-            <input type="text"
-                   id="id_telephone"
-                   name="telephone"
-                   required
-                   placeholder="Ex: +237 ...">
+                <input type="text"
+                       id="id_nom"
+                       name="nom"
+                       required
+                       placeholder="Ex: Jean Dupont">
 
-        </div>
-
-
-        <div class="astra-form-group">
-
-            <label for="id_adresse">
-                Adresse
-            </label>
-
-            <input type="text"
-                   id="id_adresse"
-                   name="adresse"
-                   placeholder="Ex: Akwa, Douala">
-
-        </div>
+            </div>
 
 
-        <div class="astra-form-group">
+            <div class="astra-form-group">
 
-            <label for="id_password">
-                Mot de passe privé *
-            </label>
+                <label for="id_email">
+                    Email
+                </label>
 
-            <input type="password"
-                   id="id_password"
-                   name="password"
-                   required
-                   placeholder="Mot de passe sécurisé du client">
+                <input type="email"
+                       id="id_email"
+                       name="email"
+                       placeholder="Ex: jean@example.com">
 
-        </div>
+            </div>
 
 
-        <div style="margin-top: 25px;
-                    text-align: right;">
+            <div class="astra-form-group">
 
-            <button type="submit"
-                    class="btn-astra-orange"
-                    style="width: 100%;
-                           justify-content: center;">
+                <label for="id_telephone">
+                    Téléphone *
+                </label>
 
-                Enregistrer le client
+                <input type="text"
+                       id="id_telephone"
+                       name="telephone"
+                       required
+                       placeholder="Ex: +237 ...">
 
-            </button>
+            </div>
 
-        </div>
 
-    </form>
+            <div class="astra-form-group">
+
+                <label for="id_adresse">
+                    Adresse
+                </label>
+
+                <input type="text"
+                       id="id_adresse"
+                       name="adresse"
+                       placeholder="Ex: Akwa, Douala">
+
+            </div>
+
+
+            <div class="astra-form-group">
+
+                <label for="id_password">
+                    Mot de passe privé *
+                </label>
+
+                <input type="password"
+                       id="id_password"
+                       name="password"
+                       required
+                       placeholder="Mot de passe sécurisé du client">
+
+            </div>
+
+
+            <div style="margin-top: 25px;
+                        text-align: right;">
+
+                <button type="submit"
+                        class="btn-astra-orange"
+                        style="width: 100%;
+                               justify-content: center;">
+
+                    <i class="fa-solid fa-user-plus"></i>
+
+                    Enregistrer le client
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
 
 </div>
 
-
-</div>
 
 <!-- =========================================================
      MODALE DÉTAILS DU CLIENT
@@ -1411,36 +2080,36 @@
 <div id="details-client-modal"
      class="astra-modal hidden">
 
+    <div class="astra-modal-card">
 
-<div class="astra-modal-card">
+        <button type="button"
+                id="close-details-modal-btn"
+                class="close-modal-x">
 
-    <button type="button"
-            id="close-details-modal-btn"
-            class="close-modal-x">
+            &times;
 
-        &times;
-
-    </button>
-
-
-    <h2 style="font-size: 1.25rem;
-               font-weight: 700;
-               margin-bottom: 20px;
-               color: #1e1b4b;">
-
-        Détails du Client
-
-    </h2>
+        </button>
 
 
-    <div id="client-details-content"
-         style="line-height: 1.6;">
+        <h2 style="font-size: 1.25rem;
+                   font-weight: 700;
+                   margin-bottom: 20px;
+                   color: #1e1b4b;">
+
+            Détails du Client
+
+        </h2>
+
+
+        <div id="client-details-content"
+             style="line-height: 1.6;">
+
+        </div>
+
     </div>
 
 </div>
 
-
-</div>
 
 <script>
 
@@ -1474,22 +2143,34 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('client-details-content');
 
 
+    /* =====================================================
+       OUVERTURE MODALE AJOUT
+       ===================================================== */
+
     if (addClientBtn) {
 
         addClientBtn.addEventListener('click', () => {
 
             addClientModal.classList.remove('hidden');
 
+            document.body.style.overflow = 'hidden';
+
         });
 
     }
 
+
+    /* =====================================================
+       FERMETURE MODALE AJOUT
+       ===================================================== */
 
     if (closeAddModalBtn) {
 
         closeAddModalBtn.addEventListener('click', () => {
 
             addClientModal.classList.add('hidden');
+
+            document.body.style.overflow = '';
 
         });
 
@@ -1568,7 +2249,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 `;
 
+
                 detailsClientModal.classList.remove('hidden');
+
+                document.body.style.overflow = 'hidden';
 
             });
 
@@ -1585,6 +2269,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             detailsClientModal.classList.add('hidden');
 
+            document.body.style.overflow = '';
+
         });
 
     }
@@ -1600,11 +2286,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
             addClientModal.classList.add('hidden');
 
+            document.body.style.overflow = '';
+
         }
 
         if (e.target === detailsClientModal) {
 
             detailsClientModal.classList.add('hidden');
+
+            document.body.style.overflow = '';
+
+        }
+
+    });
+
+
+    /* =====================================================
+       FERMETURE AVEC ESC
+       ===================================================== */
+
+    document.addEventListener('keydown', (e) => {
+
+        if (e.key === 'Escape') {
+
+            if (addClientModal) {
+                addClientModal.classList.add('hidden');
+            }
+
+            if (detailsClientModal) {
+                detailsClientModal.classList.add('hidden');
+            }
+
+            document.body.style.overflow = '';
 
         }
 
@@ -1635,7 +2348,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let visibleCount = 0;
 
 
-            clientRows.forEach(row => {
+            clientRows.forEach((row, index) => {
 
                 const searchData =
                     row.getAttribute('data-search') || '';
@@ -1646,6 +2359,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     row.style.display = '';
 
                     visibleCount++;
+
+                    row.style.animation = 'none';
+
+                    void row.offsetWidth;
+
+                    row.style.animation =
+                        `astraRowReveal 0.35s ease-out ${index * 0.025}s both`;
 
                 } else {
 
